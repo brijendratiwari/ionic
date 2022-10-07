@@ -1,0 +1,40 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/home/tabs/profile-menu"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Favourite Sitter</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card *ngIf="favSitters.length == 0" color="theme-sec">
+        <ion-card-content>
+            <h4>No Favourite sitters found</h4>
+        </ion-card-content>
+    </ion-card>
+    <ion-grid *ngIf="favSitters.length > 0">
+        <ion-row>
+            <ion-col>
+                <ion-list lines="full" class="petList">
+                    <ion-item class="petItem" *ngFor="let fs of favSitters">
+                        <ion-thumbnail slot="start" class="petProfile" [routerLink]="['/pet-sitter-detail',fs.id]">
+                            <ion-img src={{fs?.imagename}}></ion-img>
+                        </ion-thumbnail>
+                        <ion-label [routerLink]="['/pet-sitter-detail',fs.id]">
+                            <a class="petName">
+                                {{fs?.first_name}}
+                            </a>
+                        </ion-label>
+                        <ion-buttons>
+                            <ion-button type="button" (click)="updateFaviourateUnfaviourate(fs)">
+                                <ion-icon slot="end" src="assets/icon/trash.svg"></ion-icon>
+                            </ion-button>
+                        </ion-buttons>
+                        <!-- <ion-icon color="theme" slot="end" src="assets/icon/heartfill.svg"></ion-icon> -->
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

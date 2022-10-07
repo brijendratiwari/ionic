@@ -1,0 +1,107 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-button (click)="closeModal()">
+              <ion-icon name="close"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+      <ion-title>Notification Setting</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding animated fadeIn"> 
+    <ng-container>
+        <form padding [formGroup]="UsersForm" class="notification-form">
+            <ion-list>
+                <ion-item>
+                    <ion-label class="ion-text-wrap">Please Send me SMS Notifications</ion-label>
+                    <ion-toggle formControlName="sendMeSMS" color="theme"  (click)="updateNotificationSetting('sendMeSMS',UsersForm.value.sendMeSMS)" slot="end"></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.sendMeSMS">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.sendMeSMS">No</span> </div>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label class="ion-text-wrap">Please Send me Email Notifications</ion-label>
+                    <ion-toggle formControlName="sendMeEmail" color="theme"  (click)="updateNotificationSetting('sendMeEmail',UsersForm.value.sendMeEmail)" slot="end"></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.sendMeEmail">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.sendMeEmail">No</span> </div>
+                </ion-item>
+                
+    
+                <ion-item>
+                    <ion-label class="ion-text-wrap">Please Send me Push Notifications</ion-label>
+                    <ion-toggle formControlName="sendPush" color="theme"   (click)="updateNotificationSetting('sendPush',UsersForm.value.sendPush)" slot="end" ></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.sendPush">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.sendPush">No</span> </div>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label class="ion-text-wrap"> New Booking Inquiry</ion-label>
+                    <ion-toggle formControlName="new_booking_inquiry" color="theme"   (click)="updateNotificationSetting('new_booking_inquiry',UsersForm.value.new_booking_inquiry)" slot="end" ></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.new_booking_inquiry">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.new_booking_inquiry">No</span> </div>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label class="ion-text-wrap"> New Unread Message</ion-label>
+                    <ion-toggle formControlName="new_unread_message" color="theme"   (click)="updateNotificationSetting('new_unread_message',UsersForm.value.new_unread_message)" slot="end" ></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.new_unread_message">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.new_unread_message">No</span> </div> 
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label class="ion-text-wrap">  Booking Inquiry Accepted</ion-label>
+                    <ion-toggle formControlName="boking_inquiry_accept" color="theme"   (click)="updateNotificationSetting('boking_inquiry_accept',UsersForm.value.boking_inquiry_accept)" slot="end" ></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.boking_inquiry_accept">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.boking_inquiry_accept">No</span> </div>                   
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label class="ion-text-wrap"> Job Application Accepted</ion-label>
+                    <ion-toggle formControlName="job_application_accept" color="theme"   (click)="updateNotificationSetting('job_application_accept',UsersForm.value.job_application_accept)" slot="end" ></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.job_application_accept">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.job_application_accept">No</span> </div>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label class="ion-text-wrap">Booking Declined</ion-label>
+                    <ion-toggle formControlName="booking_declined" color="theme"   (click)="updateNotificationSetting('booking_declined',UsersForm.value.booking_declined)" slot="end" ></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.booking_declined">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.booking_declined">No</span> </div>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label class="ion-text-wrap">Booking Cancellation Request</ion-label>
+                    <ion-toggle formControlName="booking_cancel_request" color="theme"   (click)="updateNotificationSetting('booking_cancel_request',UsersForm.value.booking_cancel_request)" slot="end" ></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.booking_cancel_request">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.booking_cancel_request">No</span> </div>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label class="ion-text-wrap">Booking Awaiting Payment</ion-label>
+                    <ion-toggle formControlName="booking_awaiting_payment" color="theme"   (click)="updateNotificationSetting('booking_awaiting_payment',UsersForm.value.booking_awaiting_payment)" slot="end" ></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.booking_awaiting_payment">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.booking_awaiting_payment">No</span> </div>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label class="ion-text-wrap"> Booking Confirmed / Locked In</ion-label>
+                    <ion-toggle formControlName="booking_confirmed" color="theme"   (click)="updateNotificationSetting('booking_confirmed',UsersForm.value.booking_confirmed)" slot="end" ></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.booking_confirmed">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.booking_confirmed">No</span> </div>
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label class="ion-text-wrap">Sitter Review Request</ion-label>
+                    <ion-toggle formControlName="sitter_review_request" color="theme"   (click)="updateNotificationSetting('sitter_review_request',UsersForm.value.sitter_review_request)" slot="end" ></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.sitter_review_request">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.sitter_review_request">No</span> </div>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label class="ion-text-wrap"> Delay delivery of messages arriving after 9PM until the following morning at 7am</ion-label>
+                    <ion-toggle formControlName="delay_delivery" color="theme"   (click)="updateNotificationSetting('delay_delivery',UsersForm.value.delay_delivery)" slot="end" ></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.delay_delivery">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.delay_delivery">No</span> </div>
+        
+                </ion-item>
+    
+                <ion-item>
+                    <ion-label class="ion-text-wrap">Disable all Push Alerts</ion-label>
+                    <ion-toggle formControlName="disable_all_push" color="theme"   (click)="updateNotificationSetting('disable_all_push',UsersForm.value.disable_all_push)" slot="end" ></ion-toggle>
+                    <div> <span class="theme-text" *ngIf="UsersForm.value.disable_all_push">Yes</span>  <span class="theme-text-no" *ngIf="!UsersForm.value.disable_all_push">No</span> </div>
+                </ion-item>
+    
+            </ion-list>
+        </form>
+    </ng-container>
+   
+</ion-content>

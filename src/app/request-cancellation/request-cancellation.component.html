@@ -1,0 +1,86 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Cancellation</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="medium" (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="animated fadeIn">
+  <ion-card color="theme-sec">
+    <ion-card-header>
+      Request stay cancellation
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <ion-text>
+        We recommend you meet at the location of proposed care.
+        Location
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="ion-padding">
+    <form [formGroup]="cancelReasonForm">
+  
+      <h3 class="title-text">Please tell us why you want to cancel this booking</h3>
+      <ion-item>
+        <ion-label position="stacked">Location</ion-label>
+        <ion-select value="My Sitter/Walker cancelled" 
+          (ionChange)="location_onChange($event)"
+          formControlName="reasonList" okText="Okay"
+          interface="action-sheet" cancelText="Dismiss"
+          placeholder="Select Location"
+        >
+          <ion-select-option value="My Sitter/Walker cancelled">My Sitter/Walker cancelled</ion-select-option>
+          <ion-select-option value="Property unsuitable">Property unsuitable</ion-select-option>
+          <ion-select-option value="Sitter unsuitable">Sitter unsuitable</ion-select-option>
+          <ion-select-option value="Pets Incompatible">Pets Incompatible</ion-select-option>
+          <ion-select-option value="My plans changed">My plans changed</ion-select-option>
+          <ion-select-option value="I booked wrong date/time">I booked wrong date/time</ion-select-option>
+          <ion-select-option value="Other">Other</ion-select-option>
+        </ion-select>
+      </ion-item>  
+      <ion-text lines="none" class="animated fadeInUp error" 
+        *ngIf="cancelReasonForm.get('reasonList').hasError('required') && (cancelReasonForm.get('reasonList').touched || cancelReasonForm.get('reasonList').dirty)"
+      >
+        Please Enter Other Reason
+      </ion-text>
+  
+      <ion-item lines="none" *ngIf="isOtherReason">
+        <ion-label position="stacked">Please tell me other reason</ion-label>
+        <ion-textarea placeholder="Enter other reason" formControlName="reason" cols="3"></ion-textarea>
+      </ion-item>
+      <ion-text lines="none" class="animated fadeInUp error"
+        *ngIf="cancelReasonForm.get('oreason').hasError('required') && (cancelReasonForm.get('oreason').touched || cancelReasonForm.get('oreason').dirty)"
+      >
+        Please Enter Other Reason
+      </ion-text>
+  
+      <ion-item lines="none">
+        <ion-label position="stacked">Description</ion-label>
+        <ion-textarea placeholder="Enter description" formControlName="reason" cols="3"></ion-textarea>
+      </ion-item>
+      <ion-text lines="none" class="animated fadeInUp error" 
+        *ngIf="cancelReasonForm.get('reason').hasError('required') && (cancelReasonForm.get('reason').touched || cancelReasonForm.get('reason').dirty)"
+      >
+          Please select reason.
+      </ion-text>
+  
+      <div class="btn-wrapper">
+        <ion-button [disabled]="!cancelReasonForm.valid" class="text-capitalize first-btn"
+          color="theme" (click)="submitReason()">Submit Request
+        </ion-button>
+  
+        <ion-button class="text-capitalize second-btn" color="theme-sec" (click)="closeModal()">
+          Close
+        </ion-button>
+      </div>
+  
+    </form>
+  </div>
+</ion-content>

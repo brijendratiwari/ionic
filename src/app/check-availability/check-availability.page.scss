@@ -1,0 +1,125 @@
+.hori-input{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.danger{
+    color: red;
+}
+
+.sitter-services-container {
+    .sitter-card {
+        border-bottom: 1px solid #e0e0e0;
+        h4 {
+            font-size: 16px;
+            padding: 16px 8px;
+            margin: 0;
+            position: relative;
+            span {
+                color: var(--ion-color-theme-sec);
+            }
+            img{
+                position: absolute;
+                height: 30px;
+                width: 30px;
+                right: 10px;
+                top: 11px;
+                opacity: 0.5;
+            }
+        }
+        .content {
+            border-top: 1px solid #e0e0e0;
+            padding: 16px 16px 0;
+            display: flex;
+            background-color: #ededed;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            .error-msg{
+                width: 100%;
+            }
+            .sitter-checkboxs {
+                display: flex;
+                flex-wrap: wrap;
+                width: calc(100% - 126px);
+                .item {
+                    text-align: center;
+                    margin-right: 16px;
+                    margin-bottom: 16px;
+                    .sitter-checkbox {
+                        .pet-name {
+                            font-size: 12px;
+                            margin-top: 5px;
+                        }
+                        input {
+                            padding: 0;
+                            height: initial;
+                            width: initial;
+                            margin-bottom: 0;
+                            display: none;
+                            cursor: pointer;
+                        }
+
+                        label {
+                            position: relative;
+                            cursor: pointer;
+                        }
+                        label:before {
+                            content: '';
+                            -webkit-appearance: none;
+                            background-color: transparent;
+                            border: 2px solid #9e9e9e;
+                            padding: 20px;
+                            display: inline-block;
+                            position: relative;
+                            vertical-align: middle;
+                            cursor: pointer;
+                            border-radius: 100px;
+                        }
+                        input:checked + label:after {
+                            content: '';
+                            display: block;
+                            position: absolute;
+                            top: 2px;
+                            left: 17px;
+                            width: 8px;
+                            height: 16px;
+                            border: solid var(--ion-color-theme-sec);
+                            border-width: 0 2px 2px 0;
+                            transform: rotate(45deg);
+                        }
+                        input:checked + label:before {
+                            border: 2px solid var(--ion-color-theme-sec);
+                        }
+                    }
+                }
+            }
+            .input-numbers-container {
+                width: 110px;
+                h5{
+                    font-size: 16px;
+                    margin: 0;
+                    margin-bottom: 10px;
+                }
+                .input-numbers {
+                    display: flex;
+                    align-items: center;
+                    input {
+                        height: 35px;
+                        width: 35px;
+                        border: none;
+                        text-align: center;
+                        font-size: 12px;
+                    }
+                    ion-icon {
+                        height: 25px;
+                        width: 25px;
+                        background-color: #aeaeae;
+                        padding: 5px;
+
+                    }
+                }
+            }
+        }
+    }
+}

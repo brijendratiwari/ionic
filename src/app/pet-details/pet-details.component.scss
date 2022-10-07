@@ -1,0 +1,139 @@
+.head-title{
+  color: #FE4164;
+  font-weight: 600;
+  font-size: 16px;
+  background-color: #fde7eb;
+  border-radius: 8px;
+  text-align: left;
+  margin-top: 10px;
+  padding: 8px 10px;
+  // border: 1px solid #f1a1b0;
+}
+ion-grid{
+  width: 100%;
+}
+
+.avatar{
+  border-radius: 100%;
+  height: 200px;
+  width: 200px;
+  overflow: hidden;
+  margin: auto;
+  border: 4px solid #e0e0e0;
+  ion-img,img{
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+  }
+}
+
+.info-list{
+  .info-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px 0px;
+    border-bottom:1px solid #eeeeee;
+    .info-label {
+      h4{
+        font-size: 14px;
+        color: #4A4A4A;
+        letter-spacing: 0;
+        line-height: 16px;
+        margin: 5px auto;
+      }
+      .days{
+        font-size: 14px;
+        color: #4A4A4A;
+        letter-spacing: 0;
+        font-style: italic;
+        line-height: 16px;
+      }
+    }
+
+    span{
+      font-weight: 600;
+      font-size: 14px;
+      color: #4A4A4A;
+      letter-spacing: 0;
+      line-height: 16px;
+      margin: 0;
+    }
+    .info-desc p{
+      font-weight: 600;
+      font-size: 14px;
+      color: #4A4A4A;
+      letter-spacing: 0;
+      line-height: 16px;
+      margin: 0;
+    }
+   
+    &.info-column{
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+  }
+}
+
+ul{
+  padding: 5px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  margin-top: 10px;
+  >li{
+    font-size: 13px;
+    width: 50%;
+    padding-right: 10px;
+    padding-left: 25px;
+    &.green-mark{
+      &:before {
+        background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIC00NiA0MTcuODEzMzMgNDE3IiB3aWR0aD0iNTEycHgiIGNsYXNzPSIiPjxnPjxwYXRoIGQ9Im0xNTkuOTg4MjgxIDMxOC41ODIwMzFjLTMuOTg4MjgxIDQuMDExNzE5LTkuNDI5Njg3IDYuMjUtMTUuMDgyMDMxIDYuMjVzLTExLjA5Mzc1LTIuMjM4MjgxLTE1LjA4MjAzMS02LjI1bC0xMjAuNDQ5MjE5LTEyMC40Njg3NWMtMTIuNS0xMi41LTEyLjUtMzIuNzY5NTMxIDAtNDUuMjQ2MDkzbDE1LjA4MjAzMS0xNS4wODU5MzhjMTIuNTAzOTA3LTEyLjUgMzIuNzUtMTIuNSA0NS4yNSAwbDc1LjE5OTIxOSA3NS4yMDMxMjUgMjAzLjE5OTIxOS0yMDMuMjAzMTI1YzEyLjUwMzkwNi0xMi41IDMyLjc2OTUzMS0xMi41IDQ1LjI1IDBsMTUuMDgyMDMxIDE1LjA4NTkzOGMxMi41IDEyLjUgMTIuNSAzMi43NjU2MjQgMCA0NS4yNDYwOTN6bTAgMCIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgY2xhc3M9ImFjdGl2ZS1wYXRoIiBkYXRhLW9sZF9jb2xvcj0iIzAwMDAwMCIgZmlsbD0iIzAwQUY4MCIvPjwvZz4gPC9zdmc+Cg==");
+        left: 5px;
+      }
+    }
+    &.red-mark{
+      &:before {
+        background-image: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIj8+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBoZWlnaHQ9IjUxMnB4IiB2aWV3Qm94PSIwIDAgMzY1LjcxNzMzIDM2NSIgd2lkdGg9IjUxMnB4Ij48Zz48ZyBmaWxsPSIjZjQ0MzM2Ij48cGF0aCBkPSJtMzU2LjMzOTg0NCAyOTYuMzQ3NjU2LTI4Ni42MTMyODItMjg2LjYxMzI4MWMtMTIuNS0xMi41LTMyLjc2NTYyNC0xMi41LTQ1LjI0NjA5MyAwbC0xNS4xMDU0NjkgMTUuMDgyMDMxYy0xMi41IDEyLjUwMzkwNi0xMi41IDMyLjc2OTUzMiAwIDQ1LjI1bDI4Ni42MTMyODEgMjg2LjYxMzI4MmMxMi41MDM5MDcgMTIuNSAzMi43Njk1MzEgMTIuNSA0NS4yNSAwbDE1LjA4MjAzMS0xNS4wODIwMzJjMTIuNTIzNDM4LTEyLjQ4MDQ2OCAxMi41MjM0MzgtMzIuNzUuMDE5NTMyLTQ1LjI1em0wIDAiIGRhdGEtb3JpZ2luYWw9IiNGNDQzMzYiIGNsYXNzPSJhY3RpdmUtcGF0aCIgZGF0YS1vbGRfY29sb3I9IiNGNDQzMzYiIGZpbGw9IiNBREFEQUQiLz48cGF0aCBkPSJtMjk1Ljk4ODI4MSA5LjczNDM3NS0yODYuNjEzMjgxIDI4Ni42MTMyODFjLTEyLjUgMTIuNS0xMi41IDMyLjc2OTUzMiAwIDQ1LjI1bDE1LjA4MjAzMSAxNS4wODIwMzJjMTIuNTAzOTA3IDEyLjUgMzIuNzY5NTMxIDEyLjUgNDUuMjUgMGwyODYuNjMyODEzLTI4Ni41OTM3NWMxMi41MDM5MDYtMTIuNSAxMi41MDM5MDYtMzIuNzY1NjI2IDAtNDUuMjQ2MDk0bC0xNS4wODIwMzItMTUuMDgyMDMyYy0xMi41LTEyLjUyMzQzNy0zMi43NjU2MjQtMTIuNTIzNDM3LTQ1LjI2OTUzMS0uMDIzNDM3em0wIDAiIGRhdGEtb3JpZ2luYWw9IiNGNDQzMzYiIGNsYXNzPSJhY3RpdmUtcGF0aCIgZGF0YS1vbGRfY29sb3I9IiNGNDQzMzYiIGZpbGw9IiNBREFEQUQiLz48L2c+PC9nPiA8L3N2Zz4K");
+        left: 5px;
+      }
+    }
+  }
+}
+
+.info-aboutpet {
+  font-size: 14px;
+  font-weight: 400;
+  margin-bottom: 0px;
+}
+
+.info-aboutbreed{
+  font-size: 14px;
+  font-weight: 400;
+}
+
+ion-grid, ion-row, ion-col {
+  margin: 0px;
+  padding: 0px;
+}
+.info-wrapper {
+  border-bottom: none !important;
+  padding-top: 0px !important;
+  padding-bottom: calc(env(safe-area-inset-bottom) + 10px) !important;
+}
+
+
+.specification {
+  display: flex;
+  align-items: center;
+  padding: 8px 0px; 
+  text-transform: capitalize;
+  ion-icon {
+    margin-right: 5px;
+  }
+  ion-img {
+    width: 16px;
+    height: 16px;
+    margin-right: 10px;
+  }
+}

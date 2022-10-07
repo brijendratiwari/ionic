@@ -1,0 +1,71 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Contact Other Sitter</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          Don't stop now - contact other Sitters/Walkers!
+          Contacting more Sitters increases your chances of finding the perfect person for your pet.
+          View their profiles, or select the checkboxes to contact them at once.
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-card class="card-style-2">
+          <ion-card-header class="ion-no-padding">
+            <ion-img></ion-img>
+          </ion-card-header>
+          <ion-card-content class="ion-text-start">
+            <div class="top">
+              <h4 class="title">Home visits, walking, lots of love and cuddles to give!</h4>
+              <p class="amount"><span>$200</span>/night</p>
+            </div>
+            <div class="address">Stephanie Murarrie - 1.16kms</div>
+            <!-- <p class="name"></p> -->
+            <div class="badge">
+              <img src="https://via.placeholder.com/40" alt="" class="badge-icon">
+              <img src="https://via.placeholder.com/40" alt="" class="badge-icon">
+              <img src="https://via.placeholder.com/40" alt="" class="badge-icon">
+              <img src="https://via.placeholder.com/40" alt="" class="badge-icon">
+            </div>
+
+            <div class="service-list">
+              <a href=""><img src="" alt="" class="icons"> Lorem, ipsum dolor.</a>
+              <a href=""><img src="" alt="" class="icons"> Lorem, ipsum dolor.</a>
+              <a href=""><img src="" alt="" class="icons"> Lorem, ipsum dolor.</a>
+              <a href=""><img src="" alt="" class="icons"> Lorem, ipsum dolor.</a>
+              <a href=""><img src="" alt="" class="icons"> Lorem, ipsum dolor.</a>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+  <ion-toolbar class="ion-no-padding">
+    <ion-button class="text-capitalize fls-0 fs-18" size="large" expand="full" color="theme" type="button"
+      (click)="sendInquiry()">
+      Send Inquiry
+    </ion-button>
+
+    <ion-button class="text-capitalize fls-0 fs-18" size="large" expand="full" color="theme" type="button"
+      (click)="goToMessages()">
+      Go to Messages
+    </ion-button>
+  </ion-toolbar>
+</ion-footer>

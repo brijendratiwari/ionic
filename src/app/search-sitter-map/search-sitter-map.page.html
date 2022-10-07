@@ -1,0 +1,77 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>     
+                <ion-buttons slot="start">
+                    <ion-button (click)="dismissModal()">
+                        <ion-icon name="close"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+     
+             
+                    <input 
+                    type="search" 
+                    ngx-google-places-autocomplete
+                    #placesRef="ngx-places"
+                    class="search-input"
+                    clearInput
+                    [options]='options'
+                    [ngModel]="googleSearchPlaceName"
+                    placeholder="Search by suburb"
+                    class="search-input native-input sc-ion-input-md"
+                    (onAddressChange)="handleAddressChange($event)"
+                    id="suburb"/>
+
+                    
+                    <ion-buttons slot="end">
+                        <ion-button color="theme"  (click)="presendFilterModal()">
+                            <ion-icon style="height: 2rem;
+                            width: 2rem;" slot="icon-only" name="options"></ion-icon>
+                        </ion-button>
+                    </ion-buttons>
+
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="animated fadeInUp">
+    <ion-card class="nodata-msg" color="theme-sec" *ngIf="entries?.length <= 0">
+        <ion-card-content>
+            No near by Sitters available for this location
+        </ion-card-content>
+    </ion-card>
+    <div id="map" [style.visibility]="(entries?.length>0)? 'visible': 'hidden'" style="height:100%;"></div>
+
+</ion-content>
+
+<ion-footer class="ion-no-border footer-slides">
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-slides #sitterSlide pager="false" [options]="{zoom:{toggle:false},preloadImages:false,lazy:true}">
+                    <!-- for loop in ion-slide -->
+                    <ion-slide *ngFor="let ent of entries">
+                        <div  (click)="gotoSitterDetails(ent?.id)" class="card">
+                            <div class="profile-img">
+                                <img slot="start"
+                                     src="{{ent?.imagename != '' ? ent?.imagename : '../assets/img/sitter2.png'}}"
+                                     alt="sitter"/>
+                            </div>
+                            <div class="profile-caption">
+                                <p class="area"
+                                   (click)="gotoSitterDetails(ent?.id)">{{ent?.first_name + ' ' + ent?.last_name}}</p>
+                                <h3 class="title">{{ent?.title}}</h3>
+                                <p class="radings-custom">
+                                    <ion-img *ngFor="let s of convertNumberToArray(5); let i = index" [src]="(i <= ent?.rating - 1) ?
+                                   '../../assets/icon/star-rating.svg': '../../assets/icon/star-rating-blank.svg'">
+                                    </ion-img>
+                                    
+                                </p>
+                                
+                               <p class="amount">Starts from $ {{ent?.minPrice}}</p> 
+                            </div>
+                        </div>
+                    </ion-slide>
+                    <!-- ion end slide for loop -->
+                </ion-slides>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-footer>

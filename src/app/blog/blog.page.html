@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button  defaultHref="home/tabs/profile-menu"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Blog</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-card color="note" *ngIf="!isLoading && (!blogs || !(blogs && blogs.length>0))">
+    <ion-card-content class="fs-14"> No Blogs found</ion-card-content>
+  </ion-card>
+  <div class="blog-list" (click)="goToBlogDetails(blog)" *ngFor="let blog of blogs">
+    <div class="image-card" *ngIf="blog?.main_image">
+      <div class="img"><ion-img [src]="blog.main_image"></ion-img></div>
+      <div class="title-wrapper">
+        {{blog.title}}
+      </div>
+    </div>
+    <ion-item class="content-card" 
+      detail="true"
+      lines="none"
+      *ngIf="!blog?.main_image"
+    >
+      <ion-label>
+        {{blog.title}}
+      </ion-label>
+
+    </ion-item>
+    <!-- <div *ngIf="blog?.main_image"  class="img"><ion-img [src]="blog.main_image"></ion-img></div>
+    <h3 class="blog-title">{{blog.title}}</h3> -->
+  </div>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

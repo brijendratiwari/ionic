@@ -1,0 +1,19 @@
+<div class="custom-modal-container">
+  <div class="custom-modal">
+    <div class="header">
+      <div (click)="closeModal()"><ion-icon slot="icon-only" name="close"></ion-icon></div>
+    </div>
+    <div class="custom-modal-body">
+      <div class="content">
+        <h3>{{message}}</h3>
+        <div class="button-group">
+          <a  (click)="inquireanyway()" class="btn-verify">Inquire anyway</a>
+          <a  (click)="postjob()" class="btn-verify">Post a Job </a>
+          <a  (click)="sitterListing()" class="btn-verify">Search other Sitters</a>
+        </div>
+
+        
+      </div>
+    </div>
+  </div>
+</div>

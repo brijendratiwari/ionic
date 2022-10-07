@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Job Listing</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid>
+    <ion-row class="ion-padding-bottom">
+      <ion-col>
+
+        <ion-row>
+          <ion-col size="6" *ngFor="let recentJob of recentJobs?.jobs?.data">
+            <ion-card class="card-style-1">
+              <ion-card-header class="ion-no-padding">
+                <ion-img src="{{recentJob?.imagename}}">
+                </ion-img>
+                <!-- <div class="liked">
+                  <ion-img type="image/svg+xml"
+                    [src]="recentJob?.isFavourite_flag == 1 ? 'assets/icon/heartfill.svg': 'assets/icon/heartwhitebold.svg'"
+                    class="custom-icon"></ion-img>
+                </div> -->
+              </ion-card-header>
+              <ion-card-content class="ion-text-start" [routerLink]="['/pet-sitter-detail',recentJob?.id]">
+                <ion-card-subtitle>{{recentJob?.address}}</ion-card-subtitle>
+                <ion-card-title>{{recentJob?.title}}</ion-card-title>
+                <p class="date">{{recentJob?.start_date | date : 'dd-MMM'}} -
+                  {{recentJob?.end_date | date : 'dd-MMM'}}</p>
+                <p class="amount">{{recentJob?.minPrice | currency : 'USD' : 'symbol' : '1.2-2'}}</p>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+  </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+
+
+
+</ion-content>

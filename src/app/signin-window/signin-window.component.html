@@ -1,0 +1,16 @@
+<div class="custom-modal-container">
+  <div class="custom-modal">
+    <div class="custom-modal-body">
+      <div class="content">
+        <ion-button class="close-btn" fill="clear" (click)="closeModal()">
+          <ion-icon name="close"></ion-icon>
+        </ion-button>
+        <h3>This feature cannot be accessed without login, please Login or Sign up to continue</h3>
+      </div>
+      <div class="button-group">
+        <a  (click)="doSinIn()" class="btn-auth">Login</a>
+        <a  (click)="doSignUp()" class="btn-auth">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</div>

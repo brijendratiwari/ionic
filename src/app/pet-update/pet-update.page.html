@@ -1,0 +1,1277 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="pet"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Update Pet Details</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-segment scrollable [(ngModel)]="selectedSegment" color="theme" class="custom-segment">
+        <ion-segment-button value="details">Details</ion-segment-button>
+        <ion-segment-button value="identity">Identity</ion-segment-button>
+        <ion-segment-button value="careRoutine">Care Routine</ion-segment-button>
+        <ion-segment-button value="routineHabits">Routine & Habits</ion-segment-button>
+        <ion-segment-button value="health">Health</ion-segment-button>
+    </ion-segment>
+    <form [formGroup]="petForm">
+        <ion-grid>
+            <ion-row>
+                <ion-col [ngSwitch]="selectedSegment">
+                    <!-- 1. Details section start -->
+                    <div *ngSwitchCase="'details'">
+                        <div *ngIf="selectedPetImage" class="petprofile">
+                            <img [src]="selectedPetImage" />
+                            <div class="upload" (click)="showActionSheet('petprofile')">
+                                <ion-icon name="pencil"></ion-icon>
+                            </div>
+                        </div>
+                        <ion-list class="petupdate">
+                            <ion-text lines="none" class="animated fadeInUp error"
+                                *ngIf="petForm.get('petImage').hasError('required') && petForm.get('petImage').touched">
+                                <p> select your pet image!</p>
+                            </ion-text>
+                            <ion-item>
+                                <ion-label position="stacked">Your Pet Name</ion-label>
+                                <ion-input type="text" name="petName" id="petName" formControlName="name"></ion-input>
+                            </ion-item>
+                            <ion-text lines="none" class="animated fadeInUp error"
+                                *ngIf="petForm.get('name').hasError('required') && petForm.get('name').touched">
+                                <p> enter pet name!</p>
+                            </ion-text>
+                            <ion-item>
+                                <ion-label>Type Of Pet
+                                    <small class="error">*</small>
+                                </ion-label>
+                                <ion-select placeholder="select pet type" color="theme" formControlName="petType">
+                                    <ion-select-option value="1">Dog</ion-select-option>
+                                    <ion-select-option value="2">Cat</ion-select-option>
+                                    <ion-select-option value="3">Horse</ion-select-option>
+                                    <ion-select-option value="4">Other</ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                            <ion-text lines="none" class="animated fadeInUp error"
+                                *ngIf="petForm.get('petType').hasError('required') && petForm.get('petType').touched">
+                                <p> select pet type!</p>
+                            </ion-text>
+                            <ion-item>
+                                <ion-label position="stacked">Your Pets Breed
+                                    <small class="error">*</small>
+                                </ion-label>
+                                <ion-input type="text" name="petBreed" id="petBreed" formControlName="beed"></ion-input>
+                            </ion-item>
+                            <ion-text lines="none" class="animated fadeInUp error"
+                                *ngIf="petForm.get('beed').hasError('required') && petForm.get('beed').touched">
+                                <p> enter pet breed!</p>
+                            </ion-text>
+                            <ion-item>
+                                <ion-label class="ion-text-wrap">Has your dog been declared dangerous?</ion-label>
+                                <ion-toggle color="theme-sec" formControlName="dangerDog"></ion-toggle>
+                            </ion-item>
+                            <ion-card *ngIf="petForm.get('dangerDog').value == true" color="warning">
+                                <ion-card-content>
+                                    You cannot register your animal with PetCloud.
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-item>
+                                <ion-label>Gender
+                                    <small class="error">*</small>
+                                </ion-label>
+                                <ion-select placeholder="gender" name="gender" id="gender" formControlName="gender">
+                                    <ion-select-option value="M">Male</ion-select-option>
+                                    <ion-select-option value="F">Female</ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                            <ion-text lines="none" class="animated fadeInUp error"
+                                *ngIf="petForm.get('gender').hasError('required') && petForm.get('gender').touched">
+                                <p> select pet gender!</p>
+                            </ion-text>
+                            <ion-item *ngIf="petForm.get('petType').value == 1 || petForm.get('petType').value == 2">
+                                <ion-label>Desexed</ion-label>
+                                <ion-select name="desexed" id="desexed" formControlName="desexed">
+                                    <ion-select-option value="Y">Yes</ion-select-option>
+                                    <ion-select-option value="N">No</ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label position="stacked">Date Of Birth</ion-label>
+                                <ion-datetime display-format="DD/MM/YYYY" [max]="currnetDt" picker-format="DD/MM/YYYY"
+                                    formControlName="dob" placeholder="e.g 02/12/2019"></ion-datetime>
+                            </ion-item>
+                            <ion-text lines="none" class="animated fadeInUp error"
+                                *ngIf="petForm.get('dob').hasError('required') && petForm.get('dob').touched">
+                                <p> select pet date of birth!</p>
+                            </ion-text>
+                            <ion-item>
+                                <ion-label position="stacked">Weight
+                                    <small class="error">*</small>
+                                </ion-label>
+                                <ion-select formControlName="weight" placeholder="select weight">
+                                    <ion-select-option value="1">
+                                        < 10kg (small)</ion-select-option>
+                                            <ion-select-option value="2">11-25kg (medium)
+                                            </ion-select-option>
+                                            <ion-select-option value="3">26-40kg (large)</ion-select-option>
+                                            <ion-select-option value="4"> > 41kg (very large)</ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                            <ion-text lines="none" class="animated fadeInUp error"
+                                *ngIf="petForm.get('weight').hasError('required') && petForm.get('weight').touched">
+                                <p> select pet weight!</p>
+                            </ion-text>
+                            <ion-item>
+                                <ion-label position="stacked">Habits
+                                    <!--<small class="error">*</small>-->
+                                </ion-label>
+                                <ion-select placeholder="select pet habits" formControlName="habbits" multiple>
+                                    <ion-select-option value="1">Escapism</ion-select-option>
+                                    <ion-select-option value="2">Digging holes</ion-select-option>
+                                    <ion-select-option value="3">Destructive behaviour</ion-select-option>
+                                    <ion-select-option value="4">Barking/meowing/calling</ion-select-option>
+                                    <ion-select-option value="5">Growling</ion-select-option>
+                                    <ion-select-option value="6">Health Issues</ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                            <ion-text lines="none" class="animated fadeInUp error"
+                                *ngIf="petForm.get('habbits').hasError('required') && petForm.get('habbits').touched">
+                                <p> select pet habits!</p>
+                            </ion-text>
+                            <ion-card color="note" class="ion-no-margin">
+                                <ion-card-content>Dogs that have a history of destruction and fence jumping are not suited
+                                    to Pet Sitting & must be booked into a kennel
+                                </ion-card-content>
+                            </ion-card>
+                            <ion-item *ngIf="petForm.get('petType').value == 1 || petForm.get('petType').value == 2">
+                                <ion-label class="my-label" position="stacked">How often do you treat your pet for fleas?
+                                </ion-label>
+                                <ion-select name="petFleas" id="petFleas" formControlName="pet_fleas">
+                                    <ion-select-option value="1">Weekly</ion-select-option>
+                                    <ion-select-option value="2">Monthly</ion-select-option>
+                                    <ion-select-option value="3">Never</ion-select-option>
+                                    <ion-select-option value="4">No Problem</ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                            <ion-text lines="none" class="animated fadeInUp error"
+                                *ngIf="(petForm.get('petType').value == 1 || petForm.get('petType').value == 2) && (petForm.get('pet_fleas').hasError('required') && petForm.get('pet_fleas').touched)">
+                                <p> select treat your pet for fleas!</p>
+                            </ion-text>
+                        </ion-list>                        
+                    </div>
+                    <!-- 1. Details section end -->
+                    <ion-list *ngSwitchCase="'identity'" class="custom-list">
+                        <ion-card color="note" class="ion-no-margin">
+                            <ion-card-content>Part of responsible pet ownership is making sure your furry friends can be
+                                swiftly identified if they ever go missing and find themselves at the RSPCA, council
+                                pound or with a member of the public. The need for multiple and varied forms of ID is
+                                essential as no one type is completely fool proof.
+                            </ion-card-content>
+                        </ion-card>
+                        <ion-item>
+                            <ion-label class="ion-text-wrap">Does your pet have a Microchip?</ion-label>
+                            <ion-toggle color="theme-sec" formControlName="microchipYesNo"></ion-toggle>
+                            <div> <span class="theme-text" *ngIf="petForm.value.microchipYesNo">Yes</span> <span
+                                    class="theme-text-no" *ngIf="!petForm.value.microchipYesNo">No</span> </div>
+                        </ion-item>
+
+                        <ion-item *ngIf="petForm.get('microchipYesNo').value == true">
+                            <ion-label position="stacked">Microchip</ion-label>
+                            <ion-input type="number" formControlName="microchip" placeholder="e.g. 1122334455">
+                            </ion-input>
+                        </ion-item>
+                        <ion-card color="note" class="ion-margin-top"
+                            *ngIf="petForm.get('microchipYesNo').value == false">
+                            <ion-card-content>A microchip is a permanent method of electronic identification. The
+                                chip
+                                itself is very small - about the size of a grain of rice - and is implanted just
+                                under
+                                the skin between the shoulder blades at the back of your pet's neck by a Vet. Each
+                                chip
+                                has a unique number that is detected using a microchip scanner.
+                            </ion-card-content>
+                        </ion-card>
+                        <ion-item>
+                            <ion-label class="ion-text-wrap">Does your pet have a RSPCA VIP tag?</ion-label>
+                            <ion-toggle color="theme-sec" formControlName="rspcaTAG"></ion-toggle>
+                            <div> <span class="theme-text" *ngIf="petForm.value.rspcaTAG">Yes</span> <span
+                                    class="theme-text-no" *ngIf="!petForm.value.rspcaTAG">No</span> </div>
+                        </ion-item>
+                        <ion-card color="note" class="ion-margin-top" *ngIf="petForm.get('rspcaTAG').value == false">
+                            <ion-card-content>
+                                An RSPCA VIP tag is a coloured plastic tag with your pet's individual ID number and
+                                our 24 hour hotline. Should a member of the public, a vet or the council find your
+                                pet they will simply need to call our hotline, quote your pet's ID number and we
+                                will put them through to you. This means that at any time of the day or night you
+                                can be reunited with your loved one. RSPCA VIP tags never expire and are well worth
+                                a small contribution of $5 for the peace of mind they provide. To purchase a VIP tag
+                                for your cat or dog you can call us on (07) 3426 9999 or purchase one at your local
+                                RSPCA shelter.
+                            </ion-card-content>
+                        </ion-card>
+                        <ion-item>
+                            <ion-label class="ion-text-wrap">Is your pet currently registered with Council?
+                                <small class="error">*</small>
+                            </ion-label>
+                            <ion-select placeholder="select" formControlName="pet_rego">
+                                <ion-select-option value="Y">Yes</ion-select-option>
+                                <ion-select-option value="N">No</ion-select-option>
+                                <ion-select-option value="N/A">N/A</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-card *ngIf="petForm.get('pet_rego').value == 'N'" color="note" class="ion-no-margin">
+                            <ion-card-content>
+                                Pet registration is a legal requirement under the Domestic Animals Act 1994, please
+                                register your domestic pet with your Council as you will not be able to use PetCloud
+                                until you do
+                            </ion-card-content>
+                        </ion-card>
+                        <ion-item *ngIf="petForm.get('pet_rego').value == 'Y'">
+                            <ion-label position="stacked">Pet Council</ion-label>
+                            <ion-input type="text" placeholder="e.g. Brisbane City Council"
+                                formControlName="pet_council"></ion-input>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label class="ion-text-wrap">Does your pet have a council registration tag?</ion-label>
+                            <ion-toggle color="theme-sec" formControlName="councilTag"></ion-toggle>
+                            <div> <span class="theme-text" *ngIf="petForm.value.councilTag">Yes</span> <span
+                                    class="theme-text-no" *ngIf="!petForm.value.councilTag">No</span> </div>
+                        </ion-item>
+                        <ion-card color="note" class="ion-no-margin" *ngIf="petForm.get('councilTag').value == false">
+                            <ion-card-content>
+                                Your city council provides registration tags and you will need to contact them if
+                                you don't have one.
+                            </ion-card-content>
+                        </ion-card>
+                        <ion-item>
+                            <ion-label class="ion-text-wrap">Does your pet have a personal tag with your name and phone
+                                number?
+                            </ion-label>
+                            <ion-toggle color="theme-sec" formControlName="personalTag"></ion-toggle>
+                            <div> <span class="theme-text" *ngIf="petForm.value.personalTag">Yes</span> <span
+                                    class="theme-text-no" *ngIf="!petForm.value.personalTag">No</span> </div>
+                        </ion-item>
+                        <ion-card color="note" class="ion-no-margin" *ngIf="petForm.get('personalTag').value == false">
+                            <ion-card-content>
+                                A personally designed pet tag can usually be ordered online or from a key engraving
+                                shop.
+                            </ion-card-content>
+                        </ion-card>
+                    </ion-list>
+                    <!-- 2. Identity section end-->
+
+
+
+                    <!-- 3. Care Routine section start-->
+                    <ion-list *ngSwitchCase="'careRoutine'" class="custom-list careRoutine">
+                        <div class="form-section">
+                            <h3 class="title">Food & Water</h3>
+                            <p class="info">
+                                Normally fed what brand and type of food & how many times a day?
+                            </p>
+                            <div class="form-inner">
+                                <ion-item>
+                                    <ion-label position="stacked">Breakfast</ion-label>
+                                    <ion-textarea rows="3" formControlName="care_routine_breakfast_desc"
+                                        placeholder="Eg. Quarter cup of Farmer's Market dry kibble mixed with 2 tablespoons of raw mince. Bowl of fresh water on side."
+                                        maxlength="500"></ion-textarea>
+                                </ion-item>
+                                <ion-item>
+                                    <ion-label position="stacked">Next Due</ion-label>
+                                    <ion-datetime display-format="hh:mm A" picker-format="hh:mm A"
+                                        placeholder="11:20 AM" formControlName="care_routine_breakfast_time">
+                                    </ion-datetime>
+                                </ion-item>
+                            </div>
+                            <div class="form-inner">
+                                <ion-item>
+                                    <ion-label position="stacked">Dinner</ion-label>
+                                    <ion-textarea rows="3" formControlName="care_routine_dinner_desc"
+                                        placeholder="Eg. Quarter cup of dry food mixed with 2 tablespoons of raw mince. Bowl of fresh water on side."
+                                        maxlength="500"></ion-textarea>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="stacked">Next Due</ion-label>
+                                    <ion-datetime display-format="hh:mm A" picker-format="hh:mm A"
+                                        placeholder="11:20 AM" formControlName="care_routine_dinner_time">
+                                    </ion-datetime>
+                                </ion-item>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h3 class="title">Any Conditions that need food consideration?</h3>
+                            <div class="form-inner">
+                                <ion-item>
+                                    <ion-label position="stacked">Select food consideration?
+                                    </ion-label>
+
+                                    <ion-select color="theme" placeholder="Digestive sensitivity"
+                                        formControlName="food_considerations" multiple="true" interface="action-sheet">
+                                        <ion-select-option class="fs-14"
+                                            *ngFor="let food_consideration of food_considerations"
+                                            [value]="food_consideration.label">{{food_consideration?.label}}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h3 class="title">Do they take any supplements? </h3>
+                            <div class="form-inner">
+                                <ion-item>
+                                    <ion-label position="stacked">Select supplements </ion-label>
+
+
+                                    <ion-select color="theme" placeholder="Glucosamine - joints"
+                                        formControlName="supplement" multiple="true" interface="action-sheet">
+                                        <ion-select-option class="fs-14" *ngFor="let suppliment of suppliments"
+                                            [value]="suppliment.value">{{suppliment?.value}}
+                                        </ion-select-option>
+                                    </ion-select>
+
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="stacked">Provide more detail such as brand, quantity, and how
+                                        given.</ion-label>
+                                    <ion-textarea rows="3" formControlName="extra_details"
+                                        placeholder="x1 scoop of xyz every meal time on top of their food."
+                                        maxlength="500"></ion-textarea>
+                                </ion-item>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h3 class="title">Exercise </h3>
+                            <div class="form-inner">
+                                <ion-item>
+                                    <ion-label position="stacked">How Often is your pet usually walked?</ion-label>
+
+                                    <ion-select color="theme" placeholder="A couple of times in a week"
+                                        formControlName="exercise_freq" interface="action-sheet">
+                                        <ion-select-option class="fs-14" *ngFor="let exerFreq of exericeFreq"
+                                            [value]="exerFreq.label">{{exerFreq?.label}}
+                                        </ion-select-option>
+                                    </ion-select>
+
+
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="stacked">How far are they usually walked per session ?
+                                    </ion-label>
+
+                                    <ion-select color="theme" placeholder="2 km" formControlName="walkdistance"
+                                        interface="action-sheet">
+                                        <ion-select-option class="fs-14" *ngFor="let walk of walkKms" [value]="walk">
+                                            {{walk}} km
+                                        </ion-select-option>
+                                    </ion-select>
+
+
+                                </ion-item>
+
+
+                                <ion-item>
+                                    <ion-label position="stacked">Time of day
+                                    </ion-label>
+
+                                    <ion-select color="theme" placeholder="Early Morning"
+                                        formControlName="exercise_time" multiple="true" interface="action-sheet">
+                                        <ion-select-option class="fs-14" *ngFor="let exerciseTime of exerciseTime"
+                                            [value]="exerciseTime.value">{{exerciseTime?.value}}
+                                        </ion-select-option>
+                                    </ion-select>
+
+
+                                </ion-item>
+
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h3 class="title">Any bone or muscle problems walking? </h3>
+                            <div class="form-inner">
+
+
+                                <ion-item lines="full" *ngFor="let boneProblem of bone_problems">
+                                    <ion-label>{{boneProblem.label}}
+                                    </ion-label>
+                                    <ion-checkbox (ionChange)="onChangeBoneProblem($event,boneProblem)"
+                                        formControlName="bone_problem" [checked]="boneProblem?.isChecked" color="theme"
+                                        slot="end">
+                                    </ion-checkbox>
+                                </ion-item>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h3 class="title">Sleeping Time </h3>
+                            <div class="form-inner">
+                                <ion-item>
+                                    <ion-label position="stacked">Where does the pet sleep at night?
+                                    </ion-label>
+
+
+                                    <ion-select color="theme" placeholder="Laundry/Garage/Patio/Others"
+                                        formControlName="sleeping_location" interface="action-sheet">
+                                        <ion-select-option class="fs-14" *ngFor="let petSleepLoc of petSleepLocation"
+                                            [value]="petSleepLoc.value">{{petSleepLoc?.label}}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h3 class="title">Flea & Tick control </h3>
+                            <div class="form-inner">
+                                <ion-item>
+                                    <ion-label position="stacked">What brand & quantity of flea & tick control do you
+                                        give them?
+                                    </ion-label>
+
+                                    <ion-textarea rows="3" formControlName="parasite_flea_description"
+                                        placeholder="x1 Comfortis tablet once per month" maxlength="500"></ion-textarea>
+
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="stacked"> Frequency</ion-label>
+
+                                    <ion-select color="theme" placeholder="Weekly"
+                                        formControlName="parasite_flea_frequency" interface="action-sheet">
+                                        <ion-select-option class="fs-14" *ngFor="let freq of frequency"
+                                            [value]="freq.value">{{freq?.label}}
+                                        </ion-select-option>
+                                    </ion-select>
+
+
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="stacked">Next Due</ion-label>
+                                    <ion-datetime placeholder="DD/MM/YYYY" [min]="currnetDt" displayFormat="DD/MM/YYYY"
+                                        formControlName="parasite_flea_date" max="2030-12-09"></ion-datetime>
+                                </ion-item>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h3 class="title">Heartworm</h3>
+                            <div class="form-inner">
+                                <ion-item>
+                                    <ion-label position="stacked">What brand & quantity of heart worm do you give them?
+                                    </ion-label>
+
+                                    <ion-textarea rows="3" formControlName="parasite_heartworm_description"
+                                        placeholder="x1 Blah once per month." maxlength="500"></ion-textarea>
+
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="stacked"> Frequency</ion-label>
+
+                                    <ion-select color="theme" placeholder="Weekly"
+                                        formControlName="parasite_heartworm_frequency" interface="action-sheet">
+                                        <ion-select-option class="fs-14" *ngFor="let freq of frequency"
+                                            [value]="freq.value">{{freq?.label}}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="stacked">Next Due</ion-label>
+                                    <ion-datetime [min]="currnetDt" displayFormat="DD/MM/YYYY" placeholder="DD/MM/YYYY"
+                                        formControlName="parasite_heartworm_date" max="2030-12-09"></ion-datetime>
+                                </ion-item>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h3 class="title">Stomach Wormer</h3>
+                            <div class="form-inner">
+                                <ion-item>
+                                    <ion-label position="stacked">What brand & quantity of stomach wormer do you give
+                                        them?
+                                    </ion-label>
+
+                                    <ion-textarea rows="3" formControlName="parasite_stomach_wormer_description"
+                                        placeholder="x1 Blah All Wormer once per month" maxlength="500"></ion-textarea>
+
+
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="stacked"> Frequency</ion-label>
+
+                                    <ion-select color="theme" placeholder="Weekly"
+                                        formControlName="parasite_stomach_wormer_frequency" interface="action-sheet">
+                                        <ion-select-option class="fs-14" *ngFor="let freq of frequency"
+                                            [value]="freq.value">{{freq?.label}}
+                                        </ion-select-option>
+                                    </ion-select>
+
+
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="stacked">Next Due</ion-label>
+                                    <ion-datetime [min]="currnetDt" displayFormat="DD/MM/YYYY" placeholder="DD/MM/YYYY"
+                                        formControlName="parasite_stomach_wormer_date" max="2030-12-09"></ion-datetime>
+                                </ion-item>
+                            </div>
+                        </div>
+                        <div class="form-section">
+                            <h3 class="title">Grooming</h3>
+                            <div class="form-inner">
+                                <ion-item>
+                                    <ion-label position="stacked">Where do you take them for grooming?
+                                    </ion-label>
+                                    <ion-input placeholder="ABC Grooming" formControlName="grooming_location">
+                                    </ion-input>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="stacked">Reminder Frequency</ion-label>
+
+                                    <ion-select color="theme" placeholder="Frequency"
+                                        formControlName="grooming_frequency" interface="action-sheet">
+                                        <ion-select-option class="fs-14" *ngFor="let freq of frequency"
+                                            [value]="freq.value">{{freq?.label}}
+                                        </ion-select-option>
+                                    </ion-select>
+
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="stacked">Next Due Date</ion-label>
+                                    <ion-datetime [min]="currnetDt" displayFormat="DD/MM/YYYY" placeholder="DD/MM/YYYY"
+                                        formControlName="grooming_date" max="2030-12-09"></ion-datetime>
+                                </ion-item>
+                            </div>
+                        </div>
+                    </ion-list>
+
+                    <!-- 3. Care Routine section end-->
+
+                    <!-- 4. Routine & Habits section start-->
+                    <ion-list *ngSwitchCase="'routineHabits'" class="custom-list">
+
+                        <ion-item>
+                            <ion-label position="stacked">About My Breed:</ion-label>
+                            <ion-textarea rows="4" cols="5" formControlName="about_breed"
+                                placeholder="Cavoodles are a mixed of Cavilier King Charles Spaniel and a Toy Poodle. A love of people. Good with kids.">
+                            </ion-textarea>
+                        </ion-item>
+                        <ion-text slot="end" align-items-end>
+                            <small><i>{{500 - petForm.get('about_breed').value?.length}} char left</i></small>
+                        </ion-text>
+
+
+                        <ion-item>
+                            <ion-label class="ion-text-wrap">Fine to stay with minder's other friendly pets?</ion-label>
+                            <ion-toggle color="theme-sec" formControlName="friendly_pet"></ion-toggle>
+                            <div> <span class="theme-text" *ngIf="petForm.value.friendly_pet">Yes</span> <span
+                                    class="theme-text-no" *ngIf="!petForm.value.friendly_pet">No</span> </div>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position="stacked">Fine to stay with children
+                                <small class="error">*</small>
+                            </ion-label>
+                            <ion-select placeholder="select fine to stay" formControlName="children_stay"
+                                [interfaceOptions]="petChildrenStaySelectoption" interface="action-sheet"
+                                multiple="false">
+                                <ion-select-option value="6">Not ok with children</ion-select-option>
+                                <ion-select-option value="5">Fine with children all ages</ion-select-option>
+                                <ion-select-option value="1">Fine with children over age 2</ion-select-option>
+                                <ion-select-option value="2">Fine with children over age 5</ion-select-option>
+                                <ion-select-option value="3">Fine with children over age 8</ion-select-option>
+                                <ion-select-option value="4">Fine with children over age 10</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('children_stay').hasError('required') && petForm.get('children_stay').touched">
+                            <p> select your pet is fine to stay with children!</p>
+                        </ion-text>
+                        <ion-item>
+                            <ion-label>Loves men?</ion-label>
+                            <ion-toggle color="theme-sec" formControlName="love_men"></ion-toggle>
+                            <div> <span class="theme-text" *ngIf="petForm.value.love_men">Yes</span> <span
+                                    class="theme-text-no" *ngIf="!petForm.value.love_men">No</span> </div>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label>Loves women?</ion-label>
+                            <ion-toggle color="theme-sec" formControlName="love_women"></ion-toggle>
+                            <div> <span class="theme-text" *ngIf="petForm.value.love_women">Yes</span> <span
+                                    class="theme-text-no" *ngIf="!petForm.value.love_women">No</span> </div>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position="stacked" class="ion-text-wrap">When you're home where does your pet spend most of his/her
+                                time?
+                                <small class="error">*</small>
+                            </ion-label>
+                            <ion-select placeholder="select" formControlName="petspend_home">
+                                <ion-select-option value="I">Inside</ion-select-option>
+                                <ion-select-option value="O">Outside</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('petspend_home').hasError('required') && petForm.get('petspend_home').touched">
+                            <p> select your pet spend time!</p>
+                        </ion-text>
+                        <ion-item>
+                            <ion-label position="stacked" class="ion-text-wrap">When you're out where does your pet spend most of his/her
+                                time?
+                                <small class="error">*</small>
+                            </ion-label>
+                            <ion-select placeholder="select" formControlName="petspend_out">
+                                <ion-select-option value="I">Inside</ion-select-option>
+                                <ion-select-option value="O">Outside</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('petspend_out').hasError('required') && petForm.get('petspend_out').touched">
+                            <p> select your pet spend time!</p>
+                        </ion-text>
+                        <ion-item>
+                            <ion-label position="stacked" class="ion-text-wrap">Where does your pet sleep at night?</ion-label>
+
+
+                            <ion-select color="theme" placeholder="Pet Sleeping Location"
+                                formControlName="petsleep_night" interface="action-sheet">
+                                <ion-select-option class="fs-14" *ngFor="let petSleep of petSleepLocation"
+                                    [value]="petSleep.value">{{petSleep?.label}}
+                                </ion-select-option>
+                            </ion-select>
+
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position="stacked" class="ion-text-wrap">How long is your pet used to being left alone?</ion-label>
+                            <ion-select placeholder="select" formControlName="petalone_hour">
+                                <ion-select-option value="1">1 to 4 hours</ion-select-option>
+                                <ion-select-option value="2">4 to 8 hours</ion-select-option>
+                                <ion-select-option value="3">8 to 12 hours</ion-select-option>
+                                <ion-select-option value="4">Daily</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item>
+                            <ion-label position="stacked" class="ion-text-wrap">How does your dog react during thunderstorms or fireworks?
+                                <small class="error">*</small>
+                            </ion-label>
+                            <ion-select placeholder="select" formControlName="pet_react">
+                                <ion-select-option value="4">No Problem at all</ion-select-option>
+                                <ion-select-option value="1">Unsettled but Ok</ion-select-option>
+                                <ion-select-option value="2">Terrified</ion-select-option>
+                                <ion-select-option value="3">May try to escape</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('pet_react').hasError('required') && petForm.get('pet_react').touched">
+                            <p> select your pet reaction!</p>
+                        </ion-text>
+                        <ion-item>
+                            <ion-label position="stacked" class="ion-text-wrap">How often is your pet usually walked?
+                                <small class="error">*</small>
+                            </ion-label>
+                            <ion-select placeholder="select" formControlName="pet_walk">
+                                <ion-select-option value="5">Daily</ion-select-option>
+                                <ion-select-option value="1">A couple of times a week</ion-select-option>
+                                <ion-select-option value="2">Once a week</ion-select-option>
+                                <ion-select-option value="3">Occasionally</ion-select-option>
+                                <ion-select-option value="4">Never</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('pet_walk').hasError('required') && petForm.get('pet_walk').touched">
+                            <p> select your pet walk!</p>
+                        </ion-text>
+
+                        <ion-item lines="none">
+                            <ion-text style="font-weight: 700;">Training</ion-text>
+                        </ion-item>
+
+                        <ion-item>
+                            <ion-label position="stacked" class="ion-text-wrap">How does your pet behave when walked?
+                                <small class="error">*</small>
+                            </ion-label>
+                            <ion-select placeholder="select" formControlName="pet_behave">
+                                <ion-select-option value="1">Pulls at first and then settles down</ion-select-option>
+                                <ion-select-option value="2">Needs a strong person to walk him/her</ion-select-option>
+                                <ion-select-option value="3">Impossible to walk</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('pet_behave').hasError('required') && petForm.get('pet_behave').touched">
+                            <p> select your pet behave!</p>
+                        </ion-text>
+
+
+                        <ion-item>
+                            <ion-label class="ion-text-wrap">Have they attended a behavioural training school?</ion-label>
+                            <ion-toggle color="theme-sec" formControlName="attend_training"></ion-toggle>
+                            <div> <span class="theme-text" *ngIf="petForm.value.attend_training">Yes</span> <span
+                                    class="theme-text-no" *ngIf="!petForm.value.attend_training">No</span> </div>
+                        </ion-item>
+
+                        <ion-item>
+                            <ion-label position="stacked" class="ion-text-wrap">Are they toilet trained?</ion-label>
+                            <ion-select placeholder="Are they toilet trained?" formControlName="toilet_trained"
+                                interface="action-sheet" multiple="false">
+                                <ion-select-option value="0">No</ion-select-option>
+                                <ion-select-option value="1">Yes</ion-select-option>
+                                <ion-select-option value="2">Mostly, with the Occasional Accident</ion-select-option>
+
+                            </ion-select>
+
+                        </ion-item>
+
+
+                        <ion-item>
+                            <ion-label position="stacked" class="ion-text-wrap">What do they use for toileting?</ion-label>
+                            <ion-select formControlName="use_for_toilet" okText="Okay" cancelText="Dismiss">
+                                <ion-select-option value="Potty Grass">Potty Grass</ion-select-option>
+                                <ion-select-option value="Puppy Pads">Puppy Pads</ion-select-option>
+                                <ion-select-option value="Litter Box">Litter Box</ion-select-option>
+                                <ion-select-option value="Box/Outdoor">Outdoor Grass</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+
+                        <ion-item lines="none">
+                            <ion-text style="font-weight: 700;">Social Interaction</ion-text>
+                        </ion-item>
+
+                        <div>
+                            <ion-label>If the Minder owns other pets, do they get along with:</ion-label>
+                        </div>
+
+
+
+                        <ion-item>
+                            <ion-label>Other Cats?</ion-label>
+                            <ion-toggle color="theme-sec" formControlName="minder_cat"></ion-toggle>
+                            <div> <span class="theme-text" *ngIf="petForm.value.minder_cat">Yes</span> <span
+                                    class="theme-text-no" *ngIf="!petForm.value.minder_cat">No</span>
+                            </div>
+                        </ion-item>
+
+                        <ion-item>
+
+                            <ion-label>Other Dog?</ion-label>
+                            <ion-toggle color="theme-sec" formControlName="minder_dog"></ion-toggle>
+                            <div> <span class="theme-text" *ngIf="petForm.value.minder_dog">Yes</span> <span
+                                    class="theme-text-no" *ngIf="!petForm.value.minder_dog">No</span>
+                            </div>
+                        </ion-item>
+
+
+                        <ion-item>
+                            <ion-label position="stacked">Additional Care Instructions</ion-label>
+                            <ion-textarea rows="4" cols="5" formControlName="additional_care"
+                                placeholder="Eg. Is fussy with certain foods"></ion-textarea>
+                        </ion-item>
+                        <ion-text slot="end" align-items-end>
+                            <small><i>{{500 - petForm.get('additional_care').value?.length}} char left</i></small>
+                        </ion-text>
+                    </ion-list>
+                    <!-- 4. Routine & Habits section end -->
+                    <!-- 5. Health section start -->
+                    <ion-list *ngSwitchCase="'health'" class="custom-list health-form">
+
+
+                        <!-- Vaccination Alert -->
+                        <ion-card>
+                            <ion-card-header (click)="openActiveBlock('vaccinationalert')">
+                                <ion-text> Reminders </ion-text>
+                                <ion-icon [name]="activeCard?.indexOf('vaccinationalert') >= 0 ? 'chevron-up' : 'chevron-down'"></ion-icon>
+                            </ion-card-header>
+
+                            <ion-card-content *ngIf="activeCard?.indexOf('vaccinationalert') >= 0">
+                                <ion-list *ngIf="healthAlerts.length" class="details">
+                                    <ion-grid>
+                                        <ion-row>
+                                            <ion-col size="9">
+                                                <a> Reminder </a>
+                                            </ion-col>
+
+                                            <ion-col size="3" style="white-space: nowrap;">
+                                                <a> Frequency </a>
+                                            </ion-col>
+                                        </ion-row>
+
+                                        <ion-row *ngFor="let record of healthAlerts">
+
+                                            <ion-item-sliding>
+                                                <ion-item>
+                                                    <ion-label>
+                                                        <ion-row>
+                                                            <ion-col  size="9">
+                                                                <ion-text style="white-space: pre-wrap">
+                                                                    <p>{{getReminderType(record?.alertType)}}</p>
+                                                                    <p class="time">
+                                                                        {{record?.alertDate | date : "dd-MM-y"}} {{record?.startTime}}
+                                                                    </p>
+                                                                </ion-text>
+                                                            </ion-col>
+
+                                                            <ion-col class="ion-text-center" size="3">
+                                                                <ion-text> 
+                                                                    {{reminderFrequency(record?.alertFrequency)}}
+                                                                 </ion-text>
+                                                            </ion-col>
+                                                        </ion-row>
+                                                    </ion-label>
+                                                </ion-item>
+                                                <ion-item-options>
+
+
+                                                    <ion-item-option (click)="deleteVaccine(record.id)" color="danger">
+                                                        <ion-icon slot="start" name="trash"></ion-icon>
+                                                        Delete
+                                                    </ion-item-option>
+                                                </ion-item-options>
+                                            </ion-item-sliding>
+
+                                        </ion-row>
+
+                                    </ion-grid>
+
+                                </ion-list>
+
+
+                                <ng-container>
+                                    <ion-text color="theme">If you would like to create a alert to be reminded of
+                                        vaccination dates, click the button below.</ion-text>
+
+                                        <ion-button (click)="addVacination()" color="submit-btn">Add a Reminder
+                                        </ion-button>
+                                </ng-container>
+                            </ion-card-content>
+                        </ion-card>
+
+                        <!-- Insurance Cover -->
+                        <ion-card>
+                            <ion-card-header (click)="openActiveBlock('insurancecover')">
+                                <ion-text> Insurance Cover</ion-text>
+                                <ion-icon [name]="activeCard?.indexOf('insurancecover') >= 0 ? 'chevron-up' : 'chevron-down'" ></ion-icon>
+                            </ion-card-header>
+
+                            <ion-card-content *ngIf="activeCard?.indexOf('insurancecover') >= 0">
+                                <ion-item>
+                                    <ion-label position="stacked"> Insurer Name
+                                    </ion-label>
+                                    <ion-input type="text" formControlName="insurance_cover_insurance_name"
+                                        placeholder="Insurer Name"></ion-input>
+                                </ion-item>
+
+                                <ion-item>
+                                    <ion-label position="stacked"> Cover Amount
+                                    </ion-label>
+                                    <ion-input type="text" formControlName="insurance_cover_insurance_amount"
+                                        placeholder="$100"></ion-input>
+                                </ion-item>
+
+                                <div class="download-card" (click)="viewImageModel(vaccinationRecordImage)" *ngIf="vaccinationRecordImage != '' ">
+                                    <div class="icon">
+                                        <ion-icon name="document"></ion-icon>
+                                    </div>
+                                    <div class="label">
+                                        Insurance Record.jpg
+                                    </div>
+                                </div>
+                                <ion-button (click)="showActionSheet('insurancepolicy')" color="theme-sec">Upload Record</ion-button>
+                            </ion-card-content>
+                        </ion-card>
+
+                        <!-- Vaccination Certificate -->
+                        <ion-card>
+                            <ion-card-header (click)="openActiveBlock('vaccinationcertificate')">
+                                <ion-text>Vaccination Certificate</ion-text>
+                                <ion-icon [name]="activeCard?.indexOf('vaccinationcertificate') >= 0 ? 'chevron-up' : 'chevron-down'"></ion-icon>
+                            </ion-card-header>
+
+                            <ion-card-content *ngIf="activeCard?.indexOf('vaccinationcertificate') >= 0">
+                
+                                
+                                <div class="download-card" (click)="viewImageModel(fileURLVaccine)" *ngIf="fileURLVaccine != ''">
+                                    <div class="icon">
+                                        <ion-icon name="document"></ion-icon>
+                                    </div>
+                                    <div class="label">
+                                        Vaccination Record.jpg
+                                    </div>
+                                </div>
+                                
+                                <ion-button (click)="showActionSheet('vaccinerecord')"  color="theme-sec">Upload Vaccination Record</ion-button>
+
+                            </ion-card-content>
+                        </ion-card>
+
+                        <!-- Core Vaccination Complete -->
+                        <ion-card>
+                            <ion-card-header (click)="openActiveBlock('corevaccinationscomplete')">
+                                <ion-text>Core Vaccinations Complete</ion-text>
+                                <ion-icon [name]="activeCard?.indexOf('corevaccinationscomplete') >= 0 ? 'chevron-up' : 'chevron-down'"></ion-icon>
+                            </ion-card-header>
+
+                            <ion-card-content *ngIf="activeCard?.indexOf('corevaccinationscomplete') >= 0">
+                                <ion-text>
+                                    Core vaccines are vaccines for three life-threatening diseases that are extremely
+                                    dangerous to your pup:
+                                    canine distemper virus, canine parvovirus and canine adenovirus (or canine
+                                    hepatitis).
+                                    Your vet will give these vaccines in a single combination called the C3 vaccination
+                                    and your pup will need 2 or 3 rounds of the C3 between 6 and 16 weeks of age.
+                                    The C3 is necessary for all dogs no matter how they are raised or where they live in
+                                    the world.
+                                </ion-text>
+
+                                <ion-text>Core Vaccination Schedule</ion-text>
+
+                                <div class="repeat-list-item" *ngFor="let coreVacc of coreVaccination; let i = index">
+
+                                    <ion-item>
+                                        <ion-label position="stacked">Type
+                                        </ion-label>
+                                        <ion-input readonly>{{coreVacc?.vaccinationName}}</ion-input>
+                                    </ion-item>
+
+                                    <ion-item>
+                                        <ion-label position="stacked">Stage in time
+                                        </ion-label>
+                                        <ion-input readonly>{{coreVacc?.stage}}</ion-input>
+                                    </ion-item>
+
+    
+
+                                    <ion-item>
+                                        <ion-label >Due or Complete?</ion-label> 
+
+                                        <ion-datetime *ngIf="coreVacc?.dueOrComplete == null" min="2021" max="2035"
+                                            formControlName="vaccinationsbl_date{{i + 1}}"
+                                            [disabled]="coreVacc.disabled"
+                                            display-format="DD/MM/YYYY"
+                                            picker-format="DD/MM/YYYY" placeholder="01/02/2021"></ion-datetime>
+                                    </ion-item>
+
+                                     
+                                    <div>
+                                        <ion-item *ngIf="coreVacc.disabled" >
+                                          <ion-label>Completed</ion-label> 
+                                        </ion-item>
+
+                    
+                                        <ion-button (click)="addVacination()"  *ngIf="!coreVacc.disabled"
+                                            color="theme-sec">Set Reminder</ion-button> 
+                                    </div>
+
+                                </div>
+                                <ion-card-content>
+                                    <ng-container>
+                                        <ion-col size="6">
+                                            <ion-text>Core Vaccination Schedule</ion-text>
+                                        </ion-col>
+                                        <ion-col (click)="vaccinationExplaination()" size="6">Vaccinations Explanation
+                                        </ion-col>
+                                    </ng-container>
+
+                                    <ng-container>
+                                        <ion-item>
+                                            <div><ion-label > Type</ion-label></div> 
+                                            <div> <ion-label>Parainfluenza virus (PI)</ion-label></div>
+                                           
+                                        </ion-item>
+
+                                        <ion-item>
+                                            <ion-label position="stacked">Date</ion-label>
+                                            <ion-datetime min="2021" max="2035"
+                                                formControlName="non_core_vaccinationsbl_date1"
+                                                display-format="DD/MM/YYYY" picker-format="DD/MM/YYYY"
+                                                placeholder="01/02/2021"></ion-datetime>
+
+                                            <!-- <ion-label *ngIf="coreVacc?.dueOrComplete != null" position="stacked">
+                                            </ion-label> -->
+                                        </ion-item>
+
+                                        <ion-button (click)="addVacination()" 
+                                        color="theme-sec">Set Reminder</ion-button> 
+
+                                    </ng-container>
+                                </ion-card-content>
+
+                            </ion-card-content>
+                        </ion-card>
+
+                        <!-- Parasite control -->
+                        <ion-card>
+                            <ion-card-header (click)="openActiveBlock('parasitecontrol')">
+                                <ion-text>Parasite Control Up to Date:</ion-text>
+                                <ion-icon [name]="activeCard?.indexOf('parasitecontrol') >= 0 ? 'chevron-up' : 'chevron-down'"></ion-icon>
+                            </ion-card-header>
+
+                            <ion-card-content *ngIf="activeCard?.indexOf('parasitecontrol') >= 0">
+                                <ion-text>
+                                    Responsible pet parasite control can reduce the risks associated with transmission
+                                    of parasitic diseases from pets to people.
+                                    By following a few simple guidelines,pet owners can better protect their pets and
+                                    prevent diseases and parasites being spread to their family.
+                                </ion-text>
+
+                                <ng-container formArrayName="parasite_control">
+
+                                    <ng-container
+                                        *ngFor="let itemrow of petForm.controls.parasite_control['controls']; let i=index"
+                                        [formGroupName]="i">
+
+                                        <div  class="repeat-list-item" >
+
+                                            <ion-item>
+                                                <ion-label position="stacked">Type
+                                                </ion-label>
+                                                <ion-input type="text" formControlName="type" placeholder="Type"></ion-input>
+                                            </ion-item>
+    
+                                            <ion-item>
+                                                <ion-label position="stacked">Application
+                                                </ion-label>
+                                                <ion-input type="text" formControlName="application" placeholder="Application"></ion-input>
+                                            </ion-item>
+    
+                                            <ion-item>
+                                                <ion-label position="stacked">Brand
+                                                </ion-label>
+                                                <ion-input type="text" formControlName="brand" placeholder="Brand"></ion-input>
+                                            </ion-item>
+    
+                                            <ion-item>
+                                                <ion-label position="stacked">Product
+                                                </ion-label>
+                                                <ion-input type="text" formControlName="product" placeholder="Product"></ion-input>
+                                            </ion-item>
+    
+    
+                                            <ion-item>
+                                                <ion-label position="stacked"> Frequency</ion-label>
+                                                <ion-select color="theme" formControlName="frequency" placeholder="Weekly" interface="action-sheet">
+                                                    <ion-select-option class="fs-14" *ngFor="let freq of feaFrequency"
+                                                        [value]="freq.value">{{freq?.label}}
+                                                    </ion-select-option>
+                                                </ion-select>
+                                            </ion-item>
+                                        </div>
+
+                                    
+                                    </ng-container>
+
+                                </ng-container>
+
+
+                                <div>
+                                    <ion-button (click)="addParasiteControl()" color="theme-sec">Add New
+                                    </ion-button>
+                                </div>
+
+                            </ion-card-content>
+                        </ion-card>
+
+                        <!-- Other Medications -->
+                        <ion-card>
+                            <ion-card-header (click)="openActiveBlock('other-medications')">
+                                <ion-text>Other Medication</ion-text>
+                                <ion-icon [name]="activeCard?.indexOf('other-medications') >= 0 ? 'chevron-up' : 'chevron-down'"></ion-icon>
+                            </ion-card-header>
+
+                            <ion-card-content *ngIf="activeCard?.indexOf('other-medications') >= 0">
+
+                                <ng-container formArrayName="other_medications">
+
+                                    <ng-container
+                                        *ngFor="let itemrow of petForm.controls.other_medications['controls']; let i=index"
+                                        [formGroupName]="i">
+
+                                        <div class="repeat-list-item" >
+
+                                            <ion-item>
+                                                <ion-label position="stacked">Type
+                                                </ion-label>
+                                                <ion-input type="text" formControlName="type" placeholder="Type"></ion-input>
+                                            </ion-item>
+            
+                                            <ion-item>
+                                                <ion-label position="stacked">Application
+                                                </ion-label>
+                                                <ion-input type="text" formControlName="application" placeholder="Application"></ion-input>
+                                            </ion-item>
+            
+                                            <ion-item>
+                                                <ion-label position="stacked">Brand
+                                                </ion-label>
+                                                <ion-input type="text" formControlName="brand" placeholder="Brand"></ion-input>
+                                            </ion-item>
+            
+                                            <ion-item>
+                                                <ion-label position="stacked">Product
+                                                </ion-label>
+                                                <ion-input type="text" formControlName="product" placeholder="Product"></ion-input>
+                                            </ion-item>
+            
+            
+                                            <ion-item>
+                                                <ion-label position="stacked"> Frequency</ion-label>
+                                                <ion-select color="theme" formControlName="frequency" placeholder="Weekly" interface="action-sheet">
+                                                    <ion-select-option class="fs-14" *ngFor="let freq of feaFrequency"
+                                                        [value]="freq.value">{{freq?.label}}
+                                                    </ion-select-option>
+                                                </ion-select>
+                                            </ion-item>
+                                        </div>
+
+                             
+
+                                </ng-container>
+                            </ng-container>
+
+
+                                <div>
+                                    <ion-button (click)="addOtherMedicine()" color="theme-sec">Add New
+                                    </ion-button>
+                                </div>
+
+                            </ion-card-content>
+                        </ion-card>
+
+
+                        <!-- Emergency Contact -->
+                        <ion-card>
+                            <ion-card-header lines="none" (click)="openActiveBlock('emeregency-contact')">
+                                <ion-text>Emergency Contacts + Authorisation</ion-text>
+                                <ion-icon [name]="activeCard?.indexOf('emeregency-contact') >= 0 ? 'chevron-up' : 'chevron-down'"></ion-icon>
+                            </ion-card-header>
+
+                            <ion-card-content *ngIf="activeCard?.indexOf('emeregency-contact') >= 0">
+
+                                <div class="repeat-list-item">
+
+                                    <ion-item>
+                                        <ion-label position="stacked">Emergency Holiday Contact
+                                        </ion-label>
+                                    </ion-item>
+
+                                    <ion-item>
+                                        <ion-label position="stacked">Name
+                                        </ion-label>
+                                        <ion-input type="text" formControlName="emergency_contactsbl_contact_name"
+                                            placeholder="Name"></ion-input>
+                                    </ion-item>
+
+                                    <ion-item>
+                                        <ion-label position="stacked">Number
+                                        </ion-label>
+                                        <ion-input type="text" formControlName="emergency_contactsbl_contact_number"
+                                            placeholder="+61  77010 1111"></ion-input>
+                                    </ion-item>
+
+
+                                    <ion-item>
+                                        <ion-label position="stacked">Email
+                                        </ion-label>
+                                        <ion-input type="text" formControlName="emergency_contactsbl_contact_email"
+                                            placeholder="Email"></ion-input>
+                                    </ion-item>
+
+
+                                </div>
+
+                                <div class="repeat-list-item">
+                                    <ion-item *ngIf="petForm.get('on_medication').value == true">
+                                        <ion-label position="stacked">Medication Instructions</ion-label>
+                                        <ion-textarea rows="3" formControlName="medication_instructions"
+                                            placeholder="Any instructions for your pet's medication?" maxlength="500">
+                                        </ion-textarea>
+                                    </ion-item>
+
+                                    <ion-text slot="end" align-items-end
+                                        *ngIf="petForm.get('on_medication').value == true">
+                                        <small><i>{{500 - petForm.get('medication_instructions').value?.length}} char
+                                                left</i>
+                                        </small>
+                                    </ion-text>
+
+                                    <ion-item>
+                                        <ion-label position="stacked">Emergency Vet Name
+                                        </ion-label>
+                                        <ion-input type="text" placeholder="Vet Name"
+                                            formControlName="emergency_contactsbl_vet_name"></ion-input>
+                                    </ion-item>
+
+                                    <ion-item>
+                                        <ion-label position="stacked">Number
+                                        </ion-label>
+                                        <ion-input type="text" placeholder="Contact Number"
+                                        formControlName="emergency_contacts"></ion-input>
+                                    </ion-item>
+
+
+                                    <ion-item>
+                                        <ion-label class="ion-text-wrap" position="stacked">Authorised Spend Limit
+                                        </ion-label>
+                                        <ion-input type="text" formControlName="emergency_charge"></ion-input>
+                                    </ion-item>
+
+                                    <ion-item>
+                                        <ion-label class="ion-text-wrap" position="stacked">Email </ion-label>
+                                        <ion-input type="text" formControlName="emergency_contactsbl_vet_email"
+                                            placeholder="Email"></ion-input>
+                                    </ion-item>
+                                </div>
+                            </ion-card-content>
+                        </ion-card>
+
+                        <div class="decleration">
+                            <h3 class="text-theme">Declaration</h3>
+                            <div class="decleation-text">
+                                <ol>
+                                    <li>In the event of emergency, I agree for my pet to be taken to the Vet and to have the
+                                        above amount spent. 
+                                    </li>
+                                    <li>
+                                        I give my permission to my booked Pet Sitter to take my pet/s to the above-mentioned
+                                        veterinarian (or to the closest open facility if the primary vet is not available). 
+                                    </li>
+                                    <li>
+                                        I give permission for the veterinarian to administer any care or medications
+                                        necessary during an emergency. 
+                                    </li>
+                                    <li>
+                                        I will assume full responsibility for the payment for any and all veterinary services
+                                        provided. 
+                                    </li>
+                                    <li>
+                                        My booked Pet Sitter is authorised to transport my pet(s) to and from a veterinary
+                                        clinic for treatment or to request "on-site" treatment if deemed necessary. 
+                                    </li>
+                                    <li>
+                                        If I cannot be reached in case of an emergency, the Sitter shall act on my behalf to
+                                        authorise any treatment - excluding euthanasia.
+                                    </li>
+                                </ol>
+                            </div>
+
+                            <ion-item class="agree-term" lines="none">
+                                <ion-checkbox formControlName="agree" slot="start"></ion-checkbox>
+                                <span class="fs-14">I agree</span>
+                            </ion-item>
+
+                        </div>
+            
+                    </ion-list>
+                    <!-- 4. Health section end -->
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+</ion-content>
+<ion-footer>
+    <ion-button class="text-capitalize fls-0 fs-18 footer-btn"
+        expand="full"
+        color="theme"
+        [disabled]="!petForm.valid"
+        (click)="updatePetProfile()"
+    >
+        Save
+    </ion-button>
+</ion-footer>

@@ -1,0 +1,37 @@
+.google-input {
+    width: 100%;
+    border: 0;
+    margin: 0;
+    // padding: 1rem;
+    border-bottom: 1px solid #e0e0e0;
+    color: #000;
+    padding-left: 16px !important;
+    &:focus {
+        outline: none;
+    }
+
+    &::-webkit-input-placeholder {
+        /* Edge */
+        color: #000;
+    }
+
+    &:-ms-input-placeholder {
+        /* Internet Explorer 10-11 */
+        color: #000;
+    }
+    &::placeholder {
+        color: #000;
+    }
+}
+
+.a {
+    background-color: transparent;
+    color: black;
+}
+
+.theme-text{
+    color: #FE4164;
+  }
+  .theme-text-no{
+    color: grey;
+  }

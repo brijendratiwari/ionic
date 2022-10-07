@@ -1,0 +1,23 @@
+.label-floating.sc-ion-label-md-h, .label-stacked.sc-ion-label-md-h {
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+ion-textarea {
+    border: 1px solid #dedede;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+ion-grid, ion-row, ion-col {
+    margin: 0px;
+    padding: 0px;
+}
+.submit-btn {
+    margin: 0px;
+    margin-top: 16px;
+}
+.comment-item {
+    --inner-padding-end: 0px;
+}

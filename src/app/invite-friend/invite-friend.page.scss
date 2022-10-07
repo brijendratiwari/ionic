@@ -1,0 +1,137 @@
+h3{
+    &.title{
+        font-size: 24px;
+        color: #4A4A4A;
+        letter-spacing: 0;
+        font-weight: 600;
+    }
+    &.sub-heading{
+        font-weight: 600;
+        font-size: 14px;
+        color: #4a4a4a;
+        letter-spacing: 0;
+        line-height: 16px;
+        margin: 0 0 10px;
+    }
+}
+p.desc{
+    font-size: 16px;
+    color: #888888;
+    letter-spacing: 0;
+    margin:0.5em 0;
+}
+
+.title-container{
+    padding: 16px;
+    text-align: center;
+    h3{
+        margin-bottom: 10px;
+        margin-top: 20px;
+    }
+}
+.share-link{
+    padding: 16px;
+    .sub-heading{
+        text-align: center;
+    }
+    .share-link-input{
+        display: flex;
+        border: 1px dashed #e0e0e0;
+        .btn-share{
+            padding: 16px;
+        }
+    }
+}
+
+.social-sharing{
+    text-align: center;
+    h3.sub-heading{
+       color: #f04141; 
+        
+    }
+    .icons-btn{
+        display: flex;
+        justify-content: center;
+        button{
+            background-color: #f04141;
+            margin: 5px;
+            padding: 10px;
+            color: #fff;
+            &.facebook{
+             background-color: #4267B2;
+            }
+            &.messenger{
+                background-color: #006AFF;
+            }
+            &.twitter{
+                background-color: #1DA1F2;
+            }
+            ion-icon{
+                height: 1.5rem;
+                width: 1.5rem;
+            }
+            ion-img{
+                width: 1.5rem;
+            }
+            
+        }
+    }
+}
+
+.share-link{
+    text-align: center;
+}
+.share-link.share-coupon{
+    .sub-heading{
+        font-size: 18px;
+        margin-top: 20px;
+        line-height: 24px;
+    }
+    .share-link-input{
+        border-width: 3px !important;
+        border-color: #f04141 !important;
+    }
+}
+.share-via-email{
+    padding: 16px;
+    border-bottom: 1px dashed #e0e0e0;
+    h3.sub-heading{
+        color: #f04141;
+        text-align: center;
+        font-size: 18px;
+    }
+    ion-button {
+        --box-shadow: none;
+        --border-radius: 4px;
+        width: 100%;
+        height: 45px;
+    }
+}
+.fetures{
+    padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
+    .title{
+        text-align: center;
+        font-size: 22px;
+        color: #f04141;
+    }
+    .list{
+        .item{
+            padding: 16px;
+            text-align: center;
+            ion-img{
+                width: 50px;
+                margin: auto;
+                margin-bottom: 10px;
+            }
+            h3{
+                margin: 0;
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+            p{
+                margin: 0;
+                font-size: 12px;
+            }
+        }
+    }
+}

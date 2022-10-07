@@ -1,0 +1,105 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button ></ion-back-button>
+        </ion-buttons>
+        <ion-title>Verify Mobile</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-card color="note" class="ion-no-margin">
+                    <ion-card-header>
+                        <ion-card-title>
+                            At PetCloud, trust is paramount to our community
+                        </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        All members must undergo these verifications:
+                        <ul>
+                            <li>Mobile Phone Number</li>
+                            <li>Email Account</li>
+                        </ul>
+
+                        Linking your Facebook account is optional but if you choose to do so, you will get an additional
+                        verification tick icon
+                        on your listing.
+                        Pet Sitters who wish to mind pets in the home of the Owner - must undergo a National Criminal
+                        History Check.
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <form [formGroup]="verifyForm">
+                    <ion-list>
+                        <h5>Mobile Verification</h5>
+                        <ion-row class="ion-no-padding">
+                            <ion-col size="7">
+                                <ion-item>
+                                    <ion-input type="number" formControlName="mobileNumber"
+                                               placeholder="Enter Mobile Number"></ion-input>
+                                </ion-item>
+                                <ion-text lines="none" class="animated fadeInUp"
+                                          *ngIf="(verifyForm.get('mobileNumber').hasError('required') && verifyForm.get('mobileNumber').touched)">
+                                    <p class="error"
+                                       *ngIf="(verifyForm.get('mobileNumber').hasError('required') && verifyForm.get('mobileNumber').touched)">
+                                        Enter mobile number!
+                                    </p>
+                                </ion-text>
+                            </ion-col>
+                            <!-- <ion-col>
+                                <ion-button color="theme"
+                                            [disabled]="verifyForm.get('mobileNumber').hasError('required')"
+                                            (click)="sendVerificationCodeForMobile()">Send Code
+                                </ion-button>
+                            </ion-col> -->
+                        </ion-row>
+
+                        <ion-row class="ion-no-padding">
+                            <ion-col size="7">
+                                <ion-item>
+                                    <ion-input type="text" formControlName="verifyCode"
+                                               placeholder="Enter Verifiy Code"></ion-input>
+                                </ion-item>
+                                <ion-text lines="none" class="animated fadeInUp"
+                                          *ngIf="(verifyForm.get('verifyCode').hasError('required') && verifyForm.get('verifyCode').touched)">
+                                    <p class="error"
+                                       *ngIf="(verifyForm.get('verifyCode').hasError('required') && verifyForm.get('verifyCode').touched)">
+                                        Enter verification code!
+                                    </p>
+                            </ion-text>
+                            </ion-col>
+                            <ion-col>
+                                <ion-button color="theme" (click)="verifyCodeForMobile()">Verify
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-list>
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <!-- <ion-grid class="ion-no-padding">
+      <ion-row no-padding>
+        <ion-col>
+          <ion-button expand="full" color="theme" size="large" href="/profile-verify-mobile">Finish</ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid> -->
+</ion-content>
+
+<ion-footer>
+    <ion-button
+        class="text-capitalize fls-0 fs-18 footer-btn"
+        expand="full"
+        color="theme"
+        routerLink="/home/tabs/profile-menu"
+    >
+        Finish
+    </ion-button>
+</ion-footer>

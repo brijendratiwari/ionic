@@ -1,0 +1,132 @@
+<ion-header style="position: sticky;" class="ion-no-border">
+    <ion-toolbar>
+        <ion-title *ngIf="favSitters.length > 0"> Favourite Sitters </ion-title>
+        <ion-title *ngIf="favSitters.length == 0"> Messages </ion-title>
+        <ion-buttons slot="end">
+            <ion-button color="theme" (click)="showFilter($event)">
+                <ion-icon style="height: 2rem;
+                width: 2rem;" slot="icon-only" name="options"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <ng-container *ngIf="favSitters.length > 0">
+        <div class="sitters-list">
+            <div class="item" *ngFor="let sitterlist of favSitters" [routerLink]="['/pet-sitter-detail',sitterlist.id]">
+                <div class="avatar">
+                    <img [src]="sitterlist?.imagename" alt="">
+                </div>
+                <h4>{{sitterlist?.first_name}}</h4>
+            </div>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf="isDataAvailable == false && isAPILoaded == true">
+        <ion-grid *ngIf="isDataAvailable == false">
+            <ion-row class="ion-align-items-center h-80">
+
+                <ion-col size="8" offset="2" class="ion-text-center">
+                    <ion-img src="assets/img/nomessage.svg" class="ion-padding-bottom"></ion-img>
+                    <ion-text color="theme" class="msg">You have no messages.</ion-text>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ng-container>
+
+
+    <ng-container *ngIf="isDataAvailable == true  && isAPILoaded == true">
+
+        <ion-toolbar *ngIf="favSitters.length > 0">
+            <ion-title>Messages</ion-title>
+        </ion-toolbar>
+
+        <ion-list class="msg-list ion-no-padding">
+            <ion-item *ngFor="let message of listing" class="ion-no-padding">
+                <div class="msg-item">
+                    <div (click)="messageDetail(message)" class="profile">
+                        <ion-avatar *ngIf="userId == message?.ownerid" class="profile-pic" slot="start">
+                            <ion-img type="image/svg+xml" [src]="message?.minder?.imagename">
+                            </ion-img>
+                        </ion-avatar>
+
+                        <ion-avatar *ngIf="userId == message?.minderId" class="profile-pic" slot="start">
+                            <ion-img type="image/svg+xml" [src]="message?.owner?.imagename">
+                            </ion-img>
+                        </ion-avatar>
+
+
+                        <div  *ngIf="userId == message?.ownerid">
+                            <h4 class="user"> {{message?.minder?.first_name}}</h4>
+                        </div>
+
+                        <div *ngIf="userId == message?.minderId">
+                            <h4 class="user"> {{message?.owner?.first_name}}</h4>
+                        </div>
+                    </div>
+                    <div class="info">
+                        <h4 (click)="messageDetail(message)" 
+                            class="title"
+                        >
+                            {{message?.service?.serviceType?.serviceName}}
+                            <span class="fs-14">
+                                {{message?.startDate != "" ? message?.startDate : "" }} -
+                                {{message?.endDate != "" ? message?.endDate : "No End Date" }}
+                            </span>
+                        </h4>
+
+                        <p (click)="messageDetail(message)" 
+                            class="status" 
+                            [class.pending]="message?.booking_status == 'P'"
+                            [class.active]="message?.booking_status == 'A' || 
+                            message?.booking_status == 'C'  ||
+                            message?.booking_status == 'MD' ||
+                            message?.booking_status == 'M'"
+                        >
+                            {{api.getBookingStatusFullName(message?.booking_status)}}
+                            <ion-icon name="ellipse"
+                            *ngIf="message?.booking_status == 'A' || 
+                            message?.booking_status == 'C'  ||
+                            message?.booking_status == 'MD' ||
+                            message?.booking_status == 'M'"
+                            ></ion-icon>
+                        </p>
+                        <p (click)="messageDetail(message)" class="fs-12 text-theme cancel-msg"
+                            *ngIf="message?.cancel_request != null && message?.cancel_request_from != null">(Cancel
+                            Request is submitted)</p>
+                        <p (click)="messageDetail(message)" class="date">{{ message?.modifydate }}</p>
+                        
+                        <ion-button 
+                            shape="round" fill="outline"
+                            color="theme-sec"
+                            *ngIf="message?.booking_status == 'C' 
+                            && message?.bookingReview==false 
+                            && message?.ownerid == userId"
+                            class="text-capitalize fls-0 fs-12 review-btn" 
+                            (click)="navigateLeaveReview(message.id,message)"
+                        >
+                            Leave A Review
+                        </ion-button>
+
+                            
+                        <p class="fs-12 text-theme" *ngIf="message?.booking_status == 'C' && message?.bookingReview == true">
+                            Review Complete</p>
+                    </div>
+                    <div class="notif">
+                        <span class="notification-label"></span>
+                    </div>
+                </div>
+            </ion-item>
+        </ion-list>
+
+        <ion-infinite-scroll *ngIf="isMessagePaginationShown == true" threshold="100px"
+            (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+            </ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+
+    </ng-container>
+
+</ion-content>

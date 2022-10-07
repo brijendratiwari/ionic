@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar mode="ios">
+    <ion-buttons slot="start" color="theme">
+      <ion-back-button color="theme" ></ion-back-button>
+    </ion-buttons>
+    <ion-title color="c2">Confirm Reservation</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true">
+  <div>
+    <ion-grid class="ion-padding ion-margin-horizontal bg-white payment-info">
+      <ion-row class="border">
+        <ion-col size="12">
+          <div class="img">
+            <ion-img src="assets/img/sitter1.png"></ion-img>
+          </div>
+          <div class="heading text-center text-white">
+            <h3 class="title"><span class="text-bold">Laura</span>, Rosebay NSW</h3>
+          </div>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">Service Type</ion-col>
+        <ion-col size="6" class="ion-text-end">Overnight Care</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">Service Time</ion-col>
+        <ion-col size="6" class="ion-text-end">1 Night</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">Start Date</ion-col>
+        <ion-col size="6" class="ion-text-end">Tue, 15 Dec 2015</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">End Date</ion-col>
+        <ion-col size="6" class="ion-text-end">Wed, 16 Dec 2015</ion-col>
+      </ion-row>
+      <ion-row class="border ion-padding-bottom">
+        <ion-col size="6">Insurance</ion-col>
+        <ion-col size="6" class="ion-text-end">FREE</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6" class="ion-text-uppercase text-bold">TOTAL PRICE</ion-col>
+        <ion-col size="6" class="ion-text-end text-bold">$ 45,00</ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid class="ion-padding-horizontal">
+      <ion-row class="ion-align-items-center">
+        <ion-col size="4">Coupon Code</ion-col>
+        <ion-col>
+          <ion-input placeholder="Enter Code"></ion-input>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <ion-grid class="note ion-margin-bottom">
+      <ion-row>
+        <ion-col>
+          <p class="ion-no-margin">Almost there! Next you will be asked to provide your payment details to our secure 3rd party payment provider, <a href="" class="link">Paypal</a>.</p>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-button 
+    expand="full" 
+    class="footer-btn"
+    color="theme" 
+    href="/booking-thanks"
+  >
+    Proceed Payments
+  </ion-button>
+</ion-footer>

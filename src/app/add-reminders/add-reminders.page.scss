@@ -1,0 +1,45 @@
+ion-button.add-reminder {
+    margin: 0;
+}
+
+.form-title{
+    padding: 16px 0px;
+    margin: 0;
+    border-bottom: 1px solid #e0e0e0
+}
+.form-small-title{
+    padding: 16px 0px 5px;
+    margin: 0;
+}
+ion-item {
+    --padding-start: 0px;
+    --inner-padding-end: 0px;
+}
+
+// .chips{
+//     ion-chip{
+//         min-width: 80px;
+//         height: 30px;
+//         --border-radius: 8px;
+//         margin: 10px 8px 0px 0px;
+//         background: #e9ebed;
+//         color: #767d83;
+//         &.ion-color-theme{
+//             // border-color: #52C4BE;
+//             color: #ffffff;
+//             background: #fe4164;
+//         }
+//     }
+    
+// }
+
+.bg-white{
+    background-color: #fff;
+}
+
+ion-textarea {
+    border: 1px solid #dedede;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-top: 16px;
+}

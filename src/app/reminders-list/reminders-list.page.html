@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="//home/tabs/sitter-listing-page"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Reminders</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ng-container *ngIf="isAPILoaded && remindersList.length == 0">
+    <ion-card color="theme-sec">
+      <ion-card-content>
+        You don’t have any reminders.
+      </ion-card-content>
+    </ion-card>
+  </ng-container>
+  
+  <ng-container *ngIf="isAPILoaded && remindersList.length > 0">
+
+    <ion-list class="reminder-list">
+      <!-- <ion-item-sliding> -->
+      <ion-item *ngFor="let reminder of remindersList" class="reminder-items" lines="none">
+        <ion-avatar slot="start">
+          <img [src]="reminder.imageurl">
+        </ion-avatar>
+        <ion-label >
+        <h2>Reminder for :  {{getReminderType(reminder?.alertType)}}</h2> 
+          <p><b>Reminder Frequency :</b>  {{reminderFrequency(reminder?.alertFrequency)}}</p> 
+          <p>{{reminder?.Notes}}</p>
+          <p class="rm-date">{{reminder?.alertDate | date :  'dd-MMM-y'}} at {{reminder?.startTime}}</p>
+        </ion-label>
+        <!-- <ion-note>
+          {{reminder?.alertDate | date :  'dd-MMM-y'}} at {{reminder?.startTime}}
+        </ion-note> -->
+      </ion-item>
+
+    </ion-list>
+
+    <ion-infinite-scroll threshold="100px" *ngIf="isPaignation" (ionInfinite)="loadData($event)">
+      <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="Loading more data...">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+  </ng-container>
+
+
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button routerLink="/add-reminders" color="white">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> 
+
+</ion-content>

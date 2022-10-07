@@ -1,0 +1,546 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/post-a-spot"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Add Directory Listing</ion-title>
+  </ion-toolbar> 
+  <ion-segment scrollable mode="md" [(ngModel)]="selectedSegment" color="theme" class="custom-segment">
+    <ion-segment-button   value="basicInfo">Basic Info * </ion-segment-button>
+    <ion-segment-button [disabled]="isSegmentEnabled.isLocationEnabled"  value="location">Location  *</ion-segment-button>
+    <ion-segment-button [disabled]="isSegmentEnabled.isGalleryEnabled"   value="gallery">Gallery</ion-segment-button>
+    <ion-segment-button [disabled]="isSegmentEnabled.isDetailsEnabled"   value="details">Details *</ion-segment-button>
+    <ion-segment-button [disabled]="isSegmentEnabled.isSocialmediaEnabled" value="socialmedia">Social Media</ion-segment-button>
+    <ion-segment-button [disabled]="isSegmentEnabled.isEventdatesEnabled"  *ngIf="_listing_type == '56'" value="eventdates">Event Date</ion-segment-button> 
+     <ion-segment-button [disabled]="isSegmentEnabled.isOpeninghoursEnabled" *ngIf="_listing_type == '57'" value="openinghours">Opening Hours</ion-segment-button>
+  
+    <!-- <ion-segment-button [disabled]="isSegmentEnabled.isPricingEnabled" value="pricing">Pricing & Bookable Services</ion-segment-button> -->
+  </ion-segment>
+
+  <ng-container>
+    <ion-row>
+        <ion-col>
+            <div class="profile-setup">
+                <div class="progress-steps">
+                    <div [class]="(idx + 1) <= completedProfileStep ? 'block active' : 'block'"
+                        *ngFor="let ps of steps; let idx = index"></div>
+                </div>
+                <ion-label *ngIf="stepCount - completedProfileStep > 0"> {{stepCount - completedProfileStep}} Steps Left </ion-label>
+            </div>
+        </ion-col>
+    </ion-row>
+  </ng-container>
+
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="addDirectoryForm">
+    <ng-container [ngSwitch]="selectedSegment">
+
+      <!-- 1. Basic Info  -->
+      <ng-container *ngSwitchCase="'basicInfo'" class="custom-list">
+    
+        <ion-item>
+          <ion-label position="stacked">Listing Title <small class="error">*</small></ion-label>
+          <ion-input type="text" name="listing_title" formControlName="listing_title"></ion-input>
+        </ion-item>
+
+        <ion-item
+        *ngIf="addDirectoryForm.get('listing_title').hasError('required') && addDirectoryForm.get('listing_title').touched">
+        <ion-text lines="none" class="animated fadeInUp error">
+          Enter Listing Title
+        </ion-text>
+      </ion-item>
+      
+      
+        <ion-item>
+          <ion-label position="stacked">Keywords </ion-label>
+          <ion-input type="text" name="keywords" formControlName="keywords"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="stacked">What kind of listing is it? <small class="error">*</small>
+          </ion-label>
+
+          <ion-select formControlName="_what_kind_of_listing_is_it"
+          placeholder="Business" interface="action-sheet">
+            <ion-select-option class="fs-14" *ngFor="let buisness of typeofbuisness, let idx = index"
+              [value]="buisness.value">{{buisness?.label}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item
+        *ngIf="addDirectoryForm.get('_what_kind_of_listing_is_it').hasError('required') && addDirectoryForm.get('_what_kind_of_listing_is_it').touched">
+        <ion-text lines="none" class="animated fadeInUp error">
+          Select Listing
+        </ion-text>
+      </ion-item>
+
+        <ion-item *ngIf="amenities.length">
+          <ion-label position="stacked">Amenities
+          </ion-label>
+
+          <ion-select multiple="true" formControlName="listing_feature"
+          (ionChange)="onChangeAminities($event)"
+          placeholder="Accomodation"
+            interface="action-sheet">
+            <ion-select-option class="fs-14" *ngFor="let aminity of amenities, let idx = index" [value]="aminity.id">
+              {{aminity?.value}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+      </ng-container>
+
+
+
+      <!-- 2. Location  -->
+      <ng-container *ngSwitchCase="'location'" class="custom-list">
+
+    
+        <ion-item class="custom-input">
+          <ion-label position="stacked">Address <small class="error">*</small></ion-label>
+          <input class="native-input sc-ion-input-md" style="padding-top: 12px;" [options]='options' type="text"
+            ngx-google-places-autocomplete #placesRef="ngx-places" (onAddressChange)="handleAddressChange($event)"
+            id="address" placeholder="Cannon Hill" formControlName="address" />
+        </ion-item>
+
+        <ion-item
+        *ngIf="addDirectoryForm.get('address').hasError('required') && addDirectoryForm.get('address').touched">
+        <ion-text lines="none" class="animated fadeInUp error">
+          Enter Address
+        </ion-text>
+      </ion-item>
+
+
+        <ion-item>
+          <ion-label position="stacked">State <small class="error">*</small></ion-label>
+          <ion-select formControlName="state" placeholder="Queensland" interface="action-sheet">
+            <ion-select-option class="fs-14" *ngFor="let state of states, let idx = index" [value]="state.value">
+              {{state?.name}}
+            </ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item *ngIf="addDirectoryForm.get('state').hasError('required') && addDirectoryForm.get('state').touched">
+          <ion-text lines="none" class="animated fadeInUp error">
+            Select State
+          </ion-text>
+        </ion-item>
+
+
+        <ng-container>
+          <ion-item>
+            <ion-label position="stacked">Longitude </ion-label>
+            <ion-input type="text" readonly name="_geolocation_long" formControlName="_geolocation_long"></ion-input>
+          </ion-item>
+
+          <ion-item>
+            <ion-label position="stacked">Latitude </ion-label>
+            <ion-input type="text" readonly name="_geolocation_lat" formControlName="_geolocation_lat"></ion-input>
+          </ion-item>
+        </ng-container>
+
+
+      </ng-container>
+
+
+
+      <!-- 3. Gallery  -->
+      <ion-list *ngSwitchCase="'gallery'" class="custom-list">
+
+        <ion-card *ngIf="!myImageUrl"  color="note">
+          <ion-card-header>
+            By selecting (clicking on a photo) one of the uploaded photos you will set it as Featured Image
+            for this listing (marked by icon with star). Drag and drop thumbnails to re-order images in gallery.
+          </ion-card-header>
+        </ion-card>
+
+        <div (click)="showActionSheet()" class="feature-img">
+
+
+          
+          <img [src]="myImageUrl" />
+
+          <div *ngIf="!myImageUrl" class="ion-text-center">
+            <small>This must be a clear photo. <span class="error">*</span>
+            </small>
+          </div>
+
+        </div>
+
+      </ion-list>
+
+      <!-- 4. Details  -->
+      <ng-container *ngSwitchCase="'details'" class="custom-list">
+      
+        <ion-item>
+          <ion-label position="floating">Description <small class="error">*</small></ion-label>
+          <ion-textarea class="ion-text-wrap" rows="3" formControlName="description" placeholder="Description">
+          </ion-textarea>
+        </ion-item>
+
+        <ion-item
+        *ngIf="addDirectoryForm.get('description').hasError('required') && addDirectoryForm.get('description').touched">
+        <ion-text lines="none" class="animated fadeInUp error">
+          Enter Description
+        </ion-text>
+      </ion-item>
+
+
+
+      </ng-container>
+
+      <!-- 5. Social Media  -->
+      <ion-list *ngSwitchCase="'socialmedia'" class="custom-list">
+
+        <ion-item>
+          <ion-label style="padding-left:16px">Enable Contact Widget </ion-label>
+          <ion-toggle color="theme" formControlName="_email_contact_widget" slot="end"></ion-toggle>
+        </ion-item>
+
+        <ion-card *ngIf="addDirectoryForm.controls['_email_contact_widget'].value">
+            <ion-item>
+              <ion-label position="stacked">Video </ion-label>
+              <ion-input type="text" name="video" formControlName="video"></ion-input>
+              <ion-icon name="videocam" slot="start"></ion-icon>
+            </ion-item>
+  
+            <ion-item>
+              <ion-label position="stacked">Phone </ion-label>
+              <ion-input type="text" name="phone" formControlName="phone"></ion-input>
+              <ion-icon name="call" slot="start"></ion-icon>
+            </ion-item>
+  
+            <ion-item>
+              <ion-label position="stacked">Website </ion-label>
+              <ion-input type="text" name="website" formControlName="website"></ion-input>
+              <ion-icon name="logo-chrome" slot="start"></ion-icon>
+            </ion-item>
+        </ion-card>
+
+        <ng-container *ngIf="addDirectoryForm.controls['_email_contact_widget'].value">
+          <ion-item>
+            <ion-label position="stacked">Email </ion-label>
+            <ion-input type="text" placeholder="jane@gmail.com" name="email" formControlName="email"></ion-input>
+            <ion-icon name="mail" slot="start"></ion-icon>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Facebook </ion-label>
+            <ion-input type="text" placeholder="www.facebook.com/jane" name="facebook" formControlName="facebook">
+            </ion-input>
+            <ion-icon name="logo-facebook" slot="start"> </ion-icon>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Twitter </ion-label>
+            <ion-input type="text" placeholder="www.twitter.com/jane" name="twitter" formControlName="twitter">
+            </ion-input>
+            <ion-icon name="logo-twitter" slot="start"> </ion-icon>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Youtube</ion-label>
+            <ion-input type="text" placeholder="www.youtube.com/jane" name="youtube" formControlName="youtube">
+            </ion-input>
+            <ion-icon name="logo-youtube" slot="start"> </ion-icon>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Instagram </ion-label>
+            <ion-input type="text" name="instagram" placeholder="www.instagam.com/jane" formControlName="instagram">
+            </ion-input>
+            <ion-icon name="logo-instagram" slot="start"> </ion-icon>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Whatsapp</ion-label>
+            <ion-input type="text" name="whatsapp" placeholder="+61 XXXXXXXXX" formControlName="whatsapp"></ion-input>
+            <ion-icon name="logo-whatsapp" slot="start"> </ion-icon>
+          </ion-item>
+  
+          <ion-item>
+            <ion-label position="stacked">Skype</ion-label>
+            <ion-input type="text" name="skype" placeholder="Skype Id" formControlName="skype"></ion-input>
+            <ion-icon name="logo-skype" slot="start"> </ion-icon>
+          </ion-item>
+        </ng-container>
+       
+
+      </ion-list>
+
+      <!--Contact  -->
+      <ng-container *ngSwitchCase="'contact'" class="custom-list">
+      </ng-container>
+
+      <!-- Opening Hours  -->
+      <ng-container *ngSwitchCase="'openinghours'" class="custom-list">
+        <!-- Monday -->
+        <ion-card class="ion-text-wrap">
+          <ion-card-header class="week-header" >
+            <ion-col size="6"> <ion-text class="ion-text-center">Monday</ion-text></ion-col>
+           <ion-col size="6">
+            <ion-label>{{activeCard?.indexOf('card-monday') >= 0 ? 'Open' : 'Closed'}}</ion-label>
+             <ion-toggle
+             checked="activeCard?.indexOf('card-monday') >= 0 ? 'true' : 'false'"
+             (click)="openActiveBlock('card-monday')"></ion-toggle>
+           </ion-col>
+          </ion-card-header>
+
+          <ion-card-content  *ngIf="activeCard?.indexOf('card-monday') >= 0">
+            <ion-item class="ion-no-padding">
+              <ion-label>Start Time
+
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_monday_opening_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+
+            <ion-item class="ion-no-padding">
+              <ion-label>Close Time
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_monday_closing_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Tuesday -->
+        <ion-card class="ion-text-wrap">
+          <ion-card-header class="week-header">
+            <ion-col size="6"> <ion-text class="ion-text-center">Tuesday</ion-text></ion-col>
+           <ion-col size="6">
+            <ion-label>{{activeCard?.indexOf('card-tuesday') >= 0 ? 'Open' : 'Closed'}}</ion-label>
+             <ion-toggle
+              checked="activeCard?.indexOf('card-tuesday') >= 0 ? 'true' : 'false'" (click)="openActiveBlock('card-tuesday')"></ion-toggle>
+           </ion-col>
+          </ion-card-header>
+
+          <ion-card-content  *ngIf="activeCard?.indexOf('card-tuesday') >= 0">
+            <ion-item class="ion-no-padding">
+              <ion-label>Start Time
+
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_tuesday_opening_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+
+            <ion-item class="ion-no-padding">
+              <ion-label>Close Time
+
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_tuesday_closing_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Wednesday -->
+        <ion-card class="ion-text-wrap">
+          <ion-card-header class="week-header">
+            <ion-col size="6"> <ion-text class="ion-text-center">Wednesday</ion-text></ion-col>
+           <ion-col size="6">
+            <ion-label>{{activeCard?.indexOf('card-wednesday') >= 0 ? 'Open' : 'Closed'}}</ion-label>
+             <ion-toggle 
+             checked="activeCard?.indexOf('card-wednesday') >= 0 ? 'true' : 'false'"
+             (click)="openActiveBlock('card-wednesday')"></ion-toggle>
+           </ion-col>
+          </ion-card-header>
+
+          <ion-card-content *ngIf="activeCard?.indexOf('card-wednesday') >= 0">
+            <ion-item class="ion-no-padding">
+              <ion-label>Start Time
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_wednesday_opening_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+
+            <ion-item class="ion-no-padding">
+              <ion-label>Close Time
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_wednesday_closing_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Thurday -->
+        <ion-card class="ion-text-wrap">
+          <ion-card-header class="week-header">
+            <ion-col size="6"> <ion-text class="ion-text-center">Thursday</ion-text></ion-col>
+           <ion-col size="6">
+            <ion-label>{{activeCard?.indexOf('card-thursday') >= 0 ? 'Open' : 'Closed'}}</ion-label>
+             <ion-toggle
+             checked="activeCard?.indexOf('card-thursday') >= 0 ? 'true' : 'false'"
+             (click)="openActiveBlock('card-thursday')"></ion-toggle>
+           </ion-col>
+          </ion-card-header>
+
+          <ion-card-content  *ngIf="activeCard?.indexOf('card-thursday') >= 0">
+            <ion-item class="ion-no-padding">
+              <ion-label>Start Time
+
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_thursday_opening_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+
+            <ion-item class="ion-no-padding">
+              <ion-label>Close Time
+
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_thursday_closing_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Friday -->
+        <ion-card class="ion-text-wrap">
+          <ion-card-header class="week-header">
+            <ion-col size="6"> <ion-text class="ion-text-center">Friday</ion-text></ion-col>
+           <ion-col size="6">
+            <ion-label>{{activeCard?.indexOf('card-friday') >= 0 ? 'Open' : 'Closed'}}</ion-label>
+             <ion-toggle
+             checked="activeCard?.indexOf('card-friday') >= 0 ? 'true' : 'false'"
+             (click)="openActiveBlock('card-friday')"></ion-toggle>
+           </ion-col>
+          </ion-card-header>
+
+          <ion-card-content  *ngIf="activeCard?.indexOf('card-friday') >= 0">
+            <ion-item class="ion-no-padding">
+              <ion-label>Start Time
+
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_friday_opening_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+
+            <ion-item class="ion-no-padding">
+              <ion-label>Close Time
+
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_friday_closing_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Saturday -->
+        <ion-card class="ion-text-wrap">
+          <ion-card-header class="week-header">
+            <ion-col size="6"> <ion-text class="ion-text-center">Saturday</ion-text></ion-col>
+           <ion-col size="6">
+            <ion-label>{{activeCard?.indexOf('card-saturday') >= 0 ? 'Open' : 'Closed'}}</ion-label>
+             <ion-toggle
+             checked="activeCard?.indexOf('card-saturday') >= 0 ? 'true' : 'false'"
+             (click)="openActiveBlock('card-saturday')"></ion-toggle>
+           </ion-col>
+          </ion-card-header>
+
+          <ion-card-content *ngIf="activeCard?.indexOf('card-saturday') >= 0">
+            <ion-item class="ion-no-padding">
+              <ion-label>Start Time
+
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_saturday_opening_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+
+            <ion-item class="ion-no-padding">
+              <ion-label>Close Time
+
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_saturday_closing_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Sunday -->
+        <ion-card class="ion-text-wrap">
+          <ion-card-header class="week-header">
+            <ion-col size="6"> <ion-text class="ion-text-center">Sunday</ion-text></ion-col>
+           <ion-col size="6">
+            <ion-label>{{activeCard?.indexOf('card-sunday') >= 0 ? 'Open' : 'Closed'}}</ion-label>
+             <ion-toggle
+             checked="false"
+             (click)="openActiveBlock('card-sunday')"></ion-toggle>
+           </ion-col>
+          </ion-card-header>
+
+          <ion-card-content *ngIf="activeCard?.indexOf('card-sunday') >= 0">
+            <ion-item class="ion-no-padding">
+              <ion-label>Start Time
+
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_sunday_opening_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+
+            <ion-item class="ion-no-padding">
+              <ion-label>Close Time
+
+              </ion-label>
+              <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A" max="2024-12-31"
+                formControlName="_sunday_closing_hour" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+          </ion-card-content>
+        </ion-card>
+      </ng-container>
+
+      <!-- Events  -->
+      <ng-container *ngSwitchCase="'eventdates'" class="custom-list">
+
+        <ion-item>
+          <ion-label>Event Date
+           
+          </ion-label>
+          <ion-datetime display-format="DD/MM/YYYY hh:mm A" placeholder="{{currentDate}}" picker-format="DD/MM/YYYY h:mm A" max="2024-12-31"
+            max="2024-12-31"
+            [min]="minDate"
+            formControlName="_event_date" minuteValues="0,15,30,45">
+          </ion-datetime>
+        </ion-item>
+
+        <ion-item>
+          <ion-label>Event Date End
+          </ion-label>
+          <ion-datetime display-format="DD/MM/YYYY hh:mm A" placeholder="{{currentDate}}" 
+          picker-format="DD/MM/YYYY hh:mm A"
+          [min]="minDate"
+          max="2024-12-31"
+            formControlName="_event_date_end" minuteValues="0,15,30,45">
+          </ion-datetime>
+        </ion-item>
+
+      </ng-container>
+    </ng-container>
+  </form>
+</ion-content>
+
+<ion-footer>
+  <ion-button 
+    class="submit footer-btn" 
+    expand="full"
+    (click)="submitListing()"
+  >
+    Save & Continue</ion-button>
+</ion-footer>

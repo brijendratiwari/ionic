@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-toolbar>
+      <ion-buttons slot="start">
+        <ion-button (click)="closeModal()">
+          <ion-icon slot="icon-only" name="close"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+      <ion-title>
+          Alter Booking Costs
+      </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content class="ion-padding">
+  
+    <form [formGroup]="alterBookingFm">
+      <ion-grid>
+        <ion-row>
+          <ion-col size="8"><p class="fs-14">Original Booking cost is:</p></ion-col>
+          <ion-col><p class="fs-14 fw-600">{{cost}}</p></ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="8"><p class="fs-14">Current Booking cost is:</p></ion-col>
+          <ion-col><p class="fs-14 fw-600">{{cost}}</p></ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-label position="stacked">New booking cost is:</ion-label>
+            <ion-input type="text" class="custom-input" formControlName="newCost" placeholder="{{cost}}"></ion-input>
+            <ion-text lines="none" class="animated fadeInUp error" *ngIf="(alterBookingFm.get('newCost').hasError('required') && alterBookingFm.get('newCost').touched)">Please Enter Cost</ion-text>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-button expand="full" color="theme" class="text-capitalize fls-0" [disabled]="!alterBookingFm.valid" (click)="save()">Save</ion-button>
+          </ion-col>
+          <ion-col>
+            <ion-button expand="full" color="theme-sec" class="text-capitalize fls-0" (click)="closeModal()">Close</ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
+  </ion-content>

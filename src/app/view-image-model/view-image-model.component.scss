@@ -1,0 +1,33 @@
+.center{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    height: 100%;
+}
+.close-btn {
+    font-size: 25px;
+}
+.custom-modal-container{
+    .custom-modal{
+        .header{
+            text-align: right;
+            margin-top: 15px;
+            > div{
+                display: inline-block;
+                padding: 5px 10px;
+                padding-top: 10px;
+            }
+        }
+        .custom-modal-body{
+            text-align: center;
+            .content{
+                padding: 20px;
+                border-bottom: 1px solid #e0e0e0;
+                margin-bottom: 0px;
+                padding-top: 0px;
+             
+            }
+         
+        }
+    }
+}

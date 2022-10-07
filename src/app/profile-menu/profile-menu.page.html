@@ -1,0 +1,269 @@
+<ion-content class="ion-padding">
+    <ion-grid>
+        <ion-header no-shadow class="ion-no-border">
+        <ion-toolbar>
+            <ion-row class="ion-justify-content-start ion-align-items-center">
+                <ion-col>
+                    <div class="profile">
+                        <div routerLink="/profile-photo-upload" class="pic">
+                            <ion-avatar>
+                                <ion-img [src]="userImage == null ||userImage == '' ? 
+                            '../../assets/icon/user.png' 
+                            : userImage"></ion-img>
+                            </ion-avatar>
+                        </div>
+                        <div class="caption">
+                            <h2>{{userData?.first_name}}</h2>
+                            <p>{{ (userData?.user_type == '3') ? 'Both' : (userData?.user_type == '2') ? ' Offer Pet
+                                Care
+                                Services' : (userData?.user_type == '1') ? ' Find Pet Care Services' : '' }}
+                            </p>
+                        </div>
+                    </div>
+                </ion-col>
+                <ion-col class="ion-text-end">
+                    <div class="editprofile">
+                        <a routerLink="/basic-info">
+                            <ion-img type="image/svg+xml" src="assets/icon/edit.svg" class="theme-icon"></ion-img>
+                        </a>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ion-toolbar>
+    </ion-header>
+
+        <ng-container *ngIf="userData?.user_type == '1'">
+            <ion-row *ngIf="completedProfileStep >= 0 && 
+                completedProfileStep != 3">
+                <ion-col>
+                    <div class="profile-setup">
+                        <ion-label> {{3 - completedProfileStep}}
+                            Steps Left
+                        </ion-label>
+                        <div class="progress-steps" routerLink="/profile-setup">
+                            <div [class]="(idx + 1) <= completedProfileStep ? 'block active' : 'block'"
+                                *ngFor="let ps of steps; let idx = index"></div>
+                        </div>
+                        <ion-text routerLink="/profile-setup" style="text-decoration:underline;">Show me what's left?</ion-text>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ng-container>
+
+
+
+        <ng-container *ngIf="userData?.user_type == '2' || userData?.user_type == '3'">
+            <ion-row *ngIf="completedProfileStep >= 0 && 
+                completedProfileStep != 5">
+                <ion-col>
+                    <div class="profile-setup">
+                        <ion-label> {{5 - completedProfileStep}}
+                            Steps Left
+                        </ion-label>
+                        <div class="progress-steps" routerLink="/profile-setup">
+                            <div [class]="(idx + 1) <= completedProfileStep ? 'block active' : 'block'"
+                                *ngFor="let ps of steps; let idx = index"></div>
+                        </div>
+                        <ion-text routerLink="/profile-setup">  Show my what's left?</ion-text>
+                    </div>
+                </ion-col>
+            </ion-row>
+        </ng-container>
+
+
+        <ion-row>
+            <ion-col>
+                <ion-list class="links">
+
+                    <ion-button 
+                        class="account-switch-btn"
+                        *ngIf="userData?.user_type === '3'"
+                        (click)="switchMenu(menuType)"
+                        fill="outline"
+                        [color]="menuType == 'owner' ? 'theme':'note-alt'"
+                    >
+                        Switch To Pet {{ (menuType == 'owner') ? 'Sitter' : 'Owner' }}
+                    </ion-button>
+
+                    <!-- <ion-item lines="none" *ngIf="userData?.user_type === '3'" (click)="switchMenu(menuType)">
+                        <ion-label [color]="menuType == 'owner' ? 'theme':'note-alt'"> <b>Switch To
+                                Pet {{ (menuType == 'owner') ? 'Sitter' : 'Owner' }}</b></ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/switch.svg" class="theme-icon"></ion-img>
+                    </ion-item> -->
+                    
+                    <ion-item *ngIf="adminEmail" (click)="switchToPreviousAccount()" lines="none">
+                        <ion-label color="note-alt"> <b>Switch To Previous Account</b></ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/switch.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+
+                
+
+                    <!-- <ion-item *ngIf="role == 'admin' && !adminEmail" lines="inset" (click)="shadowLogin()">
+                        <ion-label>Shadow Login</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/shadow-login.svg" class="theme-icon"></ion-img>
+                    </ion-item> -->
+
+
+                    <ion-item lines="inset" routerLink="/profile-email-verify">
+                        <ion-label>Verifications</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/verified.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+
+                    <ion-item lines="inset" *ngIf="menuType === 'sitter'"
+                        (click)="openWebpage('https://www.petcloud.com.au/petsittercourse')">
+                        <ion-label class="ion-text-wrap"> Accredited Training</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/accredited.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+
+                    <ion-item lines="inset" routerLink="/notification">
+                        <ion-label>Notifications</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/notification.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+                    <ion-item lines="inset" (click)="notificationSettings()">
+                        <ion-label>Notification Settings</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/notifisettings.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+
+                    <ion-item lines="inset" routerLink="/wallet">
+                        <ion-label>Wallet</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/wallet.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+
+                    <ion-item lines="inset" routerLink="/wallet-detail-transaction">
+                        <ion-label>Wallet Transactions</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/bank.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+
+                    <ion-item lines="inset" routerLink="/addmoney">
+                        <ion-label>Add Money</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/add-money.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+
+                    <ion-item lines="inset" routerLink="/invite-friend">
+                        <ion-label color="theme-sec">Invite Friends (Earn $10)</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/invite.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+
+
+                    <div *ngIf="menuType == 'owner'">
+                        <ion-item lines="inset" routerLink="/pet">
+                            <ion-label>My Pets</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/mypet.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+
+                        <ion-item lines="inset" routerLink="/payment-method" *ngIf="completedProfileStep == 5">
+                            <ion-label>Payment Methods</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/payment.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+                        <ion-item lines="inset" routerLink="/transaction-history" *ngIf="completedProfileStep == 5">
+                            <ion-label>Transaction History</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/history.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+                        <ion-item lines="inset" routerLink="/favourite-sitter" *ngIf="completedProfileStep == 5">
+                            <ion-label>Favourite Sitters</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/heart.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+
+
+
+                        <ion-item lines="inset" *ngIf="completedProfileStep == 5" (click)="rspcaCMSPage()">
+                            <ion-label>RSPCA Property Checklist</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/checklist.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+
+
+                        <ion-item lines="inset" *ngIf="completedProfileStep == 5" routerLink="/blog">
+                            <ion-label>Blogs</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/help.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+                    </div>
+                    <!-- pet owner end -->
+                    <!-- Pet Sitters & Walkers start-->
+                    <div *ngIf="menuType == 'sitter'">
+                        <ion-item lines="inset" routerLink="/listing">
+                            <ion-label>My Listing</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/mylist.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+
+                        <ion-item lines="inset" routerLink="/sitter-performace">
+                            <ion-label>Performance Score</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/rocket.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+
+                        <ion-item lines="inset" routerLink="/payout-prefrence" *ngIf="completedProfileStep == 5">
+                            <ion-label>Payout Prefrences</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/payment.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+                        <ion-item lines="inset" routerLink="/availability" *ngIf="completedProfileStep == 5">
+                            <ion-label>Availability</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/calendar.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+                        <ion-item lines="inset" routerLink="/transaction-history" *ngIf="completedProfileStep == 5">
+                            <ion-label>Transaction History</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/history.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+
+                        <ion-item lines="inset" *ngIf="completedProfileStep == 5" (click)="rspcaCMSPage()">
+                            <ion-label>RSPCA Property Checklist</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/checklist.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+                        <ion-item lines="inset" *ngIf="completedProfileStep == 5"
+                            (click)="openWebpage('https://www.zazzle.com.au/collections/petcloud_starter_kit_for_pet_sitters_dog_walkers-119110094190399048')">
+                            <ion-label>Merchandise</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/merchandise.svg" class="theme-icon">
+                            </ion-img>
+                        </ion-item>
+
+                        <ion-item lines="inset" *ngIf="completedProfileStep == 5"
+                            (click)="openWebpage('https://petcloud.freshdesk.com/support/solutions/25000015956')">
+                            <ion-label>Pet Sitter FAQs</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/help.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+
+                        <ion-item lines="inset" routerLink="/about-us" *ngIf="completedProfileStep == 5">
+                            <ion-label>About Us</ion-label>
+                            <ion-img type="image/svg+xml" src="assets/icon/profile.svg" class="theme-icon"></ion-img>
+                        </ion-item>
+                    </div>
+
+
+                    <!-- Pet Sitters & Walkers end -->
+                    <ion-item lines="inset" routerLink="/reference"
+                        *ngIf="completedProfileStep === 5 && menuType == 'sitter' ">
+                        <ion-label>References</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/reference.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+
+
+                    <ion-item *ngIf="userData?.user_type === '1' || userData?.user_type === '3'" lines="inset"
+                        routerLink="/help">
+                        <ion-label>Help</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/info.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+                    <ion-item lines="inset" routerLink="/account-setting">
+                        <ion-label>Settings</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/settings.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+
+                    <ion-item lines="inset" *ngIf="userData?.user_type === '1' || userData?.user_type === '3'"
+                        routerLink="/guides">
+                        <ion-label>Guides for Pet Owners </ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/manual.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+
+                    <ion-item lines="inset" routerLink="/feedback">
+                        <ion-label>Report an Issue/Leave Feedback </ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/question.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+
+
+                    <ion-item *ngIf="!adminEmail" lines="inset" (click)="logoutUser()">
+                        <ion-label>Sign Out</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/signout.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

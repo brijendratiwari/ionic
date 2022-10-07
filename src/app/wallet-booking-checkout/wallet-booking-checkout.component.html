@@ -1,0 +1,161 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Add Credits</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding animated fadeIn">
+
+
+  <form>
+    <div class="add-money-card">
+
+      <div class="wallet-card-list">
+        <div class="item">
+          <h4>   Booking Amount</h4>
+          <h2>$  {{navParam?.amount  | number:'1.2-2'}}</h2>
+        </div>
+
+        <div class="item">
+          <h4> You will pay only when you release funds after service.
+            I'd like to add more funds to <span class="span-addMoney" (click)="goToAddMoney()">my wallet.</span> </h4> 
+        </div>
+      </div>
+
+  
+      <div class="select-list">
+        <div
+        [ngClass]="credit.css == true ? 'item active' : 'item'"
+          *ngFor="let credit of addCredit"
+          (click)="onSelectedCredit(credit)">
+          {{credit?.amount}}
+        </div>
+      </div>
+  
+
+      <div class="wallet-card-list">
+        <div class="item">
+          <h4>Pet Cloud Wallet Balance</h4>
+          <h2>$ {{navParam.availableWalletBalance | number:'1.2-2'}}</h2>
+        </div>
+        <div class="item">
+          <h4 style="white-space: nowrap;">Add Credit to wallet</h4> 
+          <form style="padding-left: 20px;" [formGroup]="addMoney">
+          <ion-input
+            style="border: 1px solid #e0e0e0;
+            border-radius: 5px;"
+            minLength="1"
+            maxLength="6"
+            formControlName="otherAmount"
+            type="tel"
+            (ionChange)="onOtherAmount($event.target.value)"
+          ></ion-input>        
+        </form>
+        </div>
+
+        <div class="right_wllt_box">
+          <div class="redeem_txt">
+            <div class="rdm_txt_gift">
+              <h3>Promo Code
+              </h3>
+            </div>
+            
+            <form [formGroup]="promoCodeForm">
+              <div class="redeem_input">
+                <input
+                  [attr.disabled]="isGiftCodeInput ? 'true' : null"
+                  type="text"
+                  formControlName="giftvoucher"
+                  placeholder="Enter your promo code"> 
+               
+                  <ng-container *ngIf="!isGiftCodeInput" >
+                      <button
+                      (click)="checkCoupon()"
+                      [disabled]="!promoCodeForm.valid"
+                      type="submit">
+                    <ion-icon name="chevron-forward"></ion-icon>
+                    </button>
+                  </ng-container>
+                
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="wallet-card-list">
+        <h3 class="new-title">Transaction Details</h3>
+        <div class="item">
+          <h4>Credit Amount </h4>
+          <h2>$ {{creditAmount | number:'1.2-2'}}</h2>
+        </div>
+        <div class="item">
+          <h4>Transaction Fee</h4>
+          <h2>+ $ {{transactionalFees | number:'1.2-2'}}</h2>
+        </div>
+
+        <div *ngIf="couponAmount != 0" class="item">
+          <h4>Coupon Applied:</h4>
+          <h2> $ {{couponAmount | number:'1.2-2'}}</h2>
+        </div>
+
+        
+
+        <div class="item">
+          <h4>Total Amount</h4>
+          <h2>$ {{payableAmount | number:'1.2-2'}}</h2>
+        </div>
+        <div class="item">
+          
+          <h4 class="recharge">Auto recharge my wallet with default card </h4>
+          <ion-checkbox
+          [checked]="auto_recharge"
+          (ionChange)="autoRechargeWallet($event)" slot="start"></ion-checkbox>
+        </div>
+      </div>
+
+      <div class="cards">
+        <h3 (click)="addCardModel()" class="add-card-btn">Add Card Details</h3>
+        <div class="card-list">
+          <div
+          class="item"
+          [ngStyle]="record?.css == true && {'background-color': '#faebd7'}"   
+          *ngFor="let record of cards; let id = index"
+          (click)="selectedCard(record)">
+
+            <div class="details">
+              <h4 class="description">{{record?.name | titlecase }}</h4>
+              <h6 (click)="makeDefaultCard(record.id)" class="make-default-card">
+                {{id == 0 ? 'Default Card' : 'Make Default' }} 
+              </h6>
+            </div>
+          
+          <div class="card-data">
+              <h4 class="card-no"> <h6>XXXX XXXX {{record?.last4}}</h6></h4>
+              <h6 (click)="removeCard(record.id,id)" class="remove-card"> Remove Card</h6>
+            </div>
+          </div>
+          
+        </div>
+      </div>
+      
+    </div>
+  </form>
+
+</ion-content>
+
+<!-- -->
+<ion-footer>
+  <ion-button
+  [disabled]="!addMoney.valid"
+    class="add-fund footer-btn"
+    expand="full"
+    (click)="addFunds()"
+   >
+    Add Funds</ion-button>
+</ion-footer>

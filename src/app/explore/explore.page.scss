@@ -1,0 +1,429 @@
+.headerName {
+
+    display: flex;
+
+
+}
+
+.home-tab-screen {
+    .title {
+        font-size: 30px;
+        font-weight: 700;
+        color: #5c5c5c;
+        padding: 16px 16px 0;
+        padding-top: 10px;
+    }
+
+    ion-segment {
+        padding: 0 16px;
+    }
+
+    .sitters-view,
+    .pet-jobs-view {
+
+        //   padding-top: 24px;
+        .title {
+            text-align: right;
+            padding: 0px 16px 0;
+            font-size: initial;
+            padding-bottom: 5px;
+        }
+
+        .see-all-link {
+            font-size: 12px;
+            font-weight: 400;
+            color: #5c5c5c;
+            text-align: right;
+        }
+    }
+}
+
+.search-input {
+    background: #ffffff;
+    color: #000000;
+    --placeholder-color: #888888;
+    // border-radius:4px;
+    border: none;
+    width: 100%;
+    height: auto;
+    padding: 0.5em;
+    border-radius: 3px;
+    font-size: 15px;
+    border: 1px solid #888;
+    -webkit-appearance: none;
+    
+    &:focus {
+        outline: 0;
+    }
+}
+
+.near-by-btn {
+    display: flex;
+    justify-content: space-between;
+    padding: 5px 16px;
+    align-items: center;
+}
+
+.add-location-btn {
+    padding: 5px 6px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 100px;
+    border: 2px solid #e0e0e0;
+    padding-left: 10px;
+    text-decoration: none;
+
+    ion-icon {
+        width: 20px;
+        height: 20px;
+        color: #5c5c5c;
+    }
+
+    p {
+        font-size: 12px;
+        font-weight: 400;
+        margin: 0;
+        color: #5c5c5c;
+    }
+}
+
+.dashboardicon {
+    width: 24px;
+    height: 24px;
+}
+
+
+.no-reminders-btn {
+    display: flex;
+    align-items: center;
+    margin: 16px;
+    padding: 8px;
+    border: 2px dotted #000000;
+    border-radius: 100px;
+    justify-content: space-between;
+
+    h4 {
+        font-size: 14px;
+        margin: 0;
+    }
+
+    .icon {
+        margin-left: 10px;
+
+        ion-img {
+            height: 23px;
+            width: 23px;
+        }
+    }
+}
+
+.reminders-list-container {
+    .title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #000;
+        margin: 0;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .reminders-list {
+        display: flex;
+        overflow-y: auto;
+        padding-bottom: 10px;
+
+        &:after {
+            content: '';
+            height: 16px;
+            width: 16px;
+            min-width: 16px;
+        }
+
+        .item {
+            padding: 8px 16px;
+            min-width: 200px;
+            border-radius: 12px;
+            margin-right: 0px;
+            margin-bottom: 0px;
+            margin-left: 12px;
+            flex: 1;
+            box-shadow: 0px 1px 6px rgb(0 0 0 / 10%);
+            margin-top: 8px;
+
+            .reminder-title {
+                font-size: 18px;
+                font-weight: 400;
+                color: #5c5c5c;
+                margin-bottom: 12px;
+            }
+
+            .details {
+                display: flex;
+                align-items: center;
+
+                h4 {
+                    font-size: 10px;
+                    text-align: center;
+                    font-weight: 400;
+                    margin: 0;
+                    margin-right: 0;
+                    margin-top: 5px;
+                }
+
+                .avatar-container {
+                    margin-right: 10px;
+
+                }
+
+                .avatar {
+                    height: 40px;
+                    width: 40px;
+                    border-radius: 100px;
+                    overflow: hidden;
+                    margin-right: 12px;
+                    margin: auto;
+
+                    img,
+                    ion-img {
+                        height: 100%;
+                        width: 100%;
+                        -o-object-fit: cover;
+                        object-fit: cover;
+                    }
+
+
+
+                }
+
+                .desc {
+                    width: 100%;
+
+                    h3 {
+                        font-size: 14px;
+                        font-weight: 700;
+                        color: #5c5c5c;
+                        margin: 0px;
+                    }
+
+                    p {
+                        font-size: 12px;
+                        font-weight: 400;
+                        color: #5c5c5c;
+                        margin: 0px;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.pet-places-container {
+    .title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #000;
+        margin: 0;
+        margin-bottom: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-top: 0;
+        .see-all-link {
+            font-size: 12px;
+            color: #000;
+            display: inline-block;
+            padding: 8px 12px;
+            border: 1px solid #000;
+            border-radius: 100px;
+            text-decoration: none !important;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+    }
+
+    
+
+    .pet-places-list {
+        display: flex;
+        overflow-y: auto;
+
+        &:after {
+            content: '';
+            height: 16px;
+            width: 16px;
+            min-width: 16px;
+        }
+
+        .item {
+            min-width: 200px;
+            border-radius: 8px;
+            margin-right: 0px;
+            overflow: hidden;
+            margin-bottom: 16px;
+            margin-left: 16px;
+            margin-top: 10px;
+            padding: 8px;
+            box-shadow: 0px 0px 4px 0px rgb(0 0 0 / 20%);
+            border-radius: 4px;
+
+            .place-image {
+                width: 100%;
+                height: 175px;
+
+                img,
+                ion-img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                }
+            }
+
+            .details {
+                padding: 8px 8px 0px;
+
+                // border: 1px solid #e0e0e0;
+                h4 {
+                    font-size: 12px;
+                    font-weight: 700;
+                    margin: 0;
+                    color: #5c5c5c;
+                    margin-bottom: 5px;
+                    line-height: 1.4;
+                }
+
+                p {
+                    font-size: 10px;
+                    font-weight: 400;
+                    margin: 0;
+                    color: #5c5c5c;
+                }
+
+                .radings-custom {
+                    display: inline-flex;
+                    justify-content: center;
+                    line-height: 12px;
+
+                    img,
+                    ion-img {
+                        width: 12px;
+                        padding: 1px;
+                    }
+                }
+
+                .star-ratings {
+                    margin-top: 5px;
+                    color: #feb30f;
+                }
+            }
+        }
+    }
+
+}
+
+.explore-header {
+    display: flex;
+    align-items: center;
+    padding-top: 10px;
+
+    h2 {
+        padding: 0 18px;
+        font-size: 30px;
+        font-weight: 700;
+    }
+
+    .icon {
+        margin-left: auto;
+        border: 1px solid #E1E1E1;
+        border-radius: 100px;
+        height: 50px;
+        width: 50px;
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        margin-right: 16px;
+
+        &.avatar {
+            overflow: hidden;
+            margin-right: 18px;
+            border: none;
+            margin-left: 0;
+
+            ion-img {
+                height: 100%;
+                width: 100%;
+            }
+        }
+
+        ion-img {
+            height: 24px;
+            width: 24px;
+        }
+    }
+}
+
+ion-segment-button {
+    min-height: 22px;
+    --min-height: 40px;
+
+    ion-label {
+        text-transform: capitalize;
+        letter-spacing: 0;
+        font-size: 12px;
+        margin-top: 8px;
+        margin-bottom: 8px;
+    }
+}
+
+.nearby-container .title {
+    margin-bottom: 0px !important;
+}
+.nearby-container .nearby-places-list {
+    padding-top: 20px !important;
+}
+.category-item {
+    padding: 0px;
+    box-shadow: 0px 0px 6px 0px rgb(0 0 0 / 20%) !important;
+    margin-left: 16px !important;
+    border-radius: 4px !important;
+    .details {
+        padding: 0px;
+        div {
+            width: 100%;
+            height: 58px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img {
+                margin-bottom: 0px;
+            }
+        }
+        p {
+            padding: 10px 8px;
+        }
+    }
+}
+
+.view-all-btn {
+    font-size: 12px;
+    color: #FE4164;
+    display: inline-block;
+    text-decoration: none !important;
+    font-weight: 600;
+    color: #FE4164;
+    letter-spacing: 0;
+    line-height: 16px;
+    margin: 0;
+    background: #fde7eb;
+    padding: 4px 10px;
+    width: fit-content;
+    border-radius: 8px;
+    border: 1px solid #FE4164;
+}
+.notify-btn {
+    --box-shadow: none;
+    --border-radius: 5px;
+    width: 100%;
+    font-weight: 600;
+}

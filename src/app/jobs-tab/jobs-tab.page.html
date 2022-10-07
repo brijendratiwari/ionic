@@ -1,0 +1,28 @@
+<ion-router-outlet>
+      <ion-tabs tabsHighlight="true" #jobsTabs>
+        <ion-header style="top: 0px;" class="ion-no-border" no-shadow>
+          <ion-toolbar class="rm-padding">
+            <div class="tab-wrapper">
+        <ion-tab-bar class="tab-bar" slot="top">
+
+          <ion-tab-button [ngClass]="post_job == true ? 'selected-tab' : 'unselected-tab'"
+            (click)="navigateTo('post-job')">
+            <ion-label class="tab-title">Post a Job</ion-label>
+          </ion-tab-button>
+
+          <ion-tab-button [ngClass]="view_jobs == true ? 'selected-tab' : 'unselected-tab'"
+            (click)="navigateTo('view-jobs')">
+            <ion-label class="tab-title">View Jobs</ion-label>
+          </ion-tab-button>
+
+          <ion-tab-button [ngClass]="jobs_posted == true ? 'selected-tab' : 'unselected-tab'"
+            (click)="navigateTo('jobs')">
+            <ion-label class="tab-title">Jobs Posted</ion-label>
+          </ion-tab-button>
+
+        </ion-tab-bar>
+           </div>
+        </ion-toolbar>
+        </ion-header>
+      </ion-tabs>
+</ion-router-outlet>

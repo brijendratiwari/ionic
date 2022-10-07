@@ -1,0 +1,68 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/tabs/profile-menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Bank Details</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="needSupport()" defaultHref="/home/tabs/profile-menu">
+        <img width="25px" src="./assets/icon/solutions.png" alt="" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="bank-transfer-title">
+    <h3>Our bank details for this transfer</h3>
+    <p>Go to your online banking and transfer to our account using the details below</p>
+    <a routerLink="/addmoney">Or, pay another way</a>
+  </div>
+  <ion-card class="bank-details">
+    <ion-card-content>
+      <ion-row>
+        <ion-col size="12">
+          <h4>Bank transfer details</h4>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+
+        <ion-col size="6">
+          <h5>Payee name</h5>
+          <h6>Pet Cloud</h6>
+        </ion-col>
+        <ion-col size="6">
+          <h5>Payment description</h5>
+          <h6>{{bankDetails?.payment_description}}</h6>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="6">
+          <h5>BSB code</h5>
+          <h6>{{bankDetails?.bsb}}</h6>
+        </ion-col>
+        <ion-col size="6">
+          <h5>Account number</h5>
+          <h6>{{bankDetails?.account_number}}</h6>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col size="12">
+          <h5>Petcloud never takes money automatically from your account.</h5>
+          <h5>You can use your bank's online banking or mobile app to make your bank transfer to Petcloud.</h5>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+</ion-content>
+
+<ion-footer>
+  <ion-button
+    class="payment-send footer-btn"
+    (click)="paymentSend()"
+    expand="full"
+  >
+    Payment Send
+  </ion-button>
+</ion-footer>

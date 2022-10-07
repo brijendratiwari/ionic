@@ -1,0 +1,62 @@
+ <ion-header class="ion-no-border" no-shadow>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Send Email</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form [formGroup]="feedbackForm" >
+  
+    <ion-item lines="full">
+      <ion-label position="floating">From</ion-label>
+      <ion-input [(ngModel)]="fromEmail" formControlName="email" [ngModelOptions]="{standalone: true}" 
+       type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">To</ion-label>
+      <ion-input [(ngModel)]="to" formControlName="to" [ngModelOptions]="{standalone: true}" 
+       type="text" readonly placeholder="jane@gmail.com" required></ion-input>
+    </ion-item>
+
+
+
+    <ion-item lines="full">
+      <ion-label position="floating">Subject</ion-label>
+      <ion-input formControlName="subject"  type="text" required></ion-input>
+    </ion-item>
+
+    <ion-item lines="full">
+      <ion-label position="floating">Description</ion-label>
+      <ion-textarea
+        
+        rows="6"
+        cols="20"
+        formControlName="description">
+      </ion-textarea>
+    </ion-item>
+  
+  </form>
+
+</ion-content>
+
+<ion-footer>
+
+  <ion-toolbar class="ion-no-padding">
+      <ion-button 
+      class="submit footer-btn"
+      expand="full"
+      color="theme"
+      (click)="sendEmail()"
+      [disabled]="!feedbackForm.valid">
+      Submit
+      </ion-button>
+  </ion-toolbar>
+
+</ion-footer>

@@ -1,0 +1,7 @@
+{
+  "name": "Petcloud",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

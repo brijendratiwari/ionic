@@ -1,0 +1,145 @@
+<ion-header class="ion-no-border" no-shadow>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+   
+    <ion-title>
+        <div>{{toName}} <span [ngClass]="isOnline == 'Online' ? 'status-symbol online' : 'status-symbol'"></span> <span  class="status-title"> {{isOnline == "Online" ? "Online" : "Offline"}}</span></div> 
+    </ion-title>
+  
+  </ion-toolbar>
+  <div class="chat-order-details" (click)="goToMessageDetails()">
+    <div class="avatar">
+      <img src="../../assets/icon/booking_calender.png" />
+    </div>
+    <div class="chat-details-info">
+      <h3>{{dropOff | date : 'EEE dd MMM'}} - {{pickUp | date : 'EEE dd MMM'}}</h3>
+      <p>{{serviceName}}</p>
+    </div>
+    <div class="price-details">
+      <h3>${{amount}} AUD</h3>
+      <div class="next-icon">
+        <img src="../../assets/icon/chevron-forward-outline.svg" /> 
+      </div>
+    </div>
+  </div> 
+</ion-header>
+
+<ion-content
+[scrollEvents]="true"
+#content class="animated fadeIn">
+  <div class="chat-container">
+    <div class="chat-list" #content>
+
+      <ul *ngFor="let chat of chats; let i = index;let last = last">
+       
+        <li *ngIf="chat.message != '' || chat.picture != ''" [id]="i"
+          [class.client]="chat.to == userId && (chat?.message != '' || chat?.picture != '')"
+          [class.user]="chat.from == userId && (chat?.message != '' || chat?.picture != '')">
+          <div class="chat-item">
+            <div class="chat-icon">
+              <ion-img *ngIf="chat.to == userId" [src]="otherUserImage == null ||otherUserImage == '' ? '' : otherUserImage">
+              </ion-img>
+              <ion-img *ngIf="chat.from == userId" [src]="currentUserImage == null ||currentUserImage == '' ? '' :  currentUserImage">
+              </ion-img>
+            </div>
+            <div *ngIf="chat?.message != ''"  class="chat-content">
+              {{chat?.message}}
+            </div>
+
+            <div *ngIf="chat?.picture != null" class="chat-content img-chat">
+              <ion-img
+              alt="https://dev.petcloud.com.au/img/pet_placeholder.png"
+              [src]="chat.picture == null ||chat.picture == '' ? 
+              'https://dev.petcloud.com.au/img/pet_placeholder.png' 
+              : chat?.picture"></ion-img>
+            </div>
+
+
+            <ion-chip (click)="viewPetReport(chat?.petReport)" *ngIf="chat?.petReport">
+              <ion-label color="theme">View Report</ion-label>
+            </ion-chip>
+
+            <div class="time-stamp">
+              {{chat?.dateTime | date: 'MMM dd yy, h:mm a'}}
+              <span *ngIf="chat?.isMessageScene == true  && chat.from ==  userId"><img src="assets/icon/read-g.svg" alt=""><img src="assets/icon/read-g.svg" alt=""> </span>
+              <span *ngIf="chat?.isMessageScene == false && chat.from == userId"><img src="assets/icon/read.svg" alt=""> </span>    
+            </div>
+          </div>
+        </li>
+
+         {{last == true && shouldScroll ? scrollToBottom() : ''}}
+      </ul>
+      <ul *ngIf="isTyping == true">
+        <li [class.client]="isTyping == true">
+          <div class="chat-item">
+            <div class="chat-icon">
+              <!-- <ion-img [src]="(clientImage == null ||clientImage == '') ? 
+            'https://dev.petcloud.com.au/img/pet_placeholder.png' : clientImage"></ion-img> -->
+            <ion-img [src]="(otherUserImage == null ||otherUserImage == '') ? 
+            'https://dev.petcloud.com.au/img/pet_placeholder.png' : otherUserImage"></ion-img>
+            </div>
+            <div class="chat-content typing-content">
+              <div class="typing">
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>
+          </div>
+        </li>
+        
+        
+      </ul>
+    </div>
+
+  
+    <div class="chat-footer">
+      <div class="chat-inner">
+          <div class="input-div">
+            <div class="input">
+              <ion-textarea rows="1"
+              (ionInput)="isMessageonChange(myInput)" autosize #myInput id="myInput"
+                [(ngModel)]="chatMessage" placeholder="Your Message" maxLength="500"></ion-textarea>
+            </div>
+
+
+            <div class="send-btn">
+              <ion-icon name="send" (click)="sendMessage()"></ion-icon>
+            </div>
+
+            <div class="send-btn" (click)="fileSharingPopOver($event)">
+              <ion-icon name="attach"></ion-icon>
+              <!-- <ion-text style="color: #52C4BE;">
+                Attach 
+                
+              </ion-text> -->
+            </div>
+          </div>
+      </div>
+     
+      <div class="policy">
+       
+        <div [hidden]="!isButtonVisible" class="btn-outer">
+          <ion-button [hidden]="!isMeetGreetButtonVisible"  (click)="meetandGreet()" class="btn-w50" shape="round" color="link-theme-sec"  fill="outline">
+            <ion-icon name="calendar"></ion-icon> Meet & Greet </ion-button>
+          <ion-button (click)="walletCheckBalance()" [ngClass]="!isMeetGreetButtonVisible ? 'btn-w100' : 'btn-w50'" shape="round" color="link-theme-sec" fill="outline">
+            <ion-icon name="logo-usd"></ion-icon>
+            Skip & confirm</ion-button>
+       </div>
+       
+        <span>
+          We scan messages to enforce policies. 
+              Booking through PetCloud protects your wallet from unexpected Vet Bills. Asking the other party to complete a transaction outside of PetCloud is not allowed.
+         </span> 
+      </div>
+
+    </div>
+  </div>
+
+  
+
+</ion-content>

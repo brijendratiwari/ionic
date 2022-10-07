@@ -1,0 +1,53 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <ion-grid>
+            <ion-row style="align-items: center;">
+                <ion-col class="back-arrow" size="1">
+                    <ion-back-button (click)="goTodirectory()" defaultHref="/home/tabs/sitter-listing"></ion-back-button>
+                </ion-col>
+                <ion-col class="search-wrapper" size="11">
+                    <div class="search-div">
+                        <input type="search" [options]='options' ngx-google-places-autocomplete #placesRef="ngx-places"
+                            clearInput [(ngModel)]="data.locationName" placeholder="Search by suburb"
+                            class="search-input native-input sc-ion-input-md" (onAddressChange)="handleAddressChange($event)"
+                            id="suburb" 
+                        />
+                    </div>
+                    <div class="filter-div">
+                        <ion-button class="filter-btn" fill="clear" color="theme" (click)="filter()">
+                            <ion-icon size="large" slot="icon-only" name="options"></ion-icon>
+                        </ion-button>
+                    </div>
+                   
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+     <!-- Request For GPS Permission -->
+     <ion-card *ngIf="requestForGPSPremission == false">
+        <ion-card-content>
+          <ion-text>{{api?.noLocationAccess}}</ion-text>
+         
+          <div style="padding-top: 10px;">
+            <ion-button expand="full" (click)="openDiagnosticSettings()" color="theme" > Turn on Location </ion-button>
+          </div>
+        
+        </ion-card-content>
+      </ion-card>
+      <ion-card class="nodata-msg" color="theme-sec" *ngIf="!isLoading && mapPinsData?.length <= 0">
+        <ion-card-content>
+            No service available for this location
+        </ion-card-content>
+    </ion-card>
+    <div id="map" [style.visibility]="(mapPinsData?.length>0)? 'visible': 'hidden'" style="height:100%;"></div>
+
+    <div style="position: absolute;
+    z-index: 999;">
+        <button class="map-button" (click)="goToMapView()">Grid View</button>
+    </div>
+</ion-content>

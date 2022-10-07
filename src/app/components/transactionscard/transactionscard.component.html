@@ -1,0 +1,17 @@
+<ion-slides [options]="slideOpts" >
+  <ion-slide>
+
+    <!-- Credit balance is total_balance
+       Petcloud Credits is available_balance -->
+    <div class="wallet-card">
+      <h4>Credit Balance</h4>
+      <h2>$ {{walletData?.total_balance}} AUD</h2>
+    </div>
+  </ion-slide>
+  <ion-slide>
+    <div class="wallet-card">
+      <h4>Petcloud Credits</h4>
+      <h2>$ {{walletData?.available_balance}} AUD</h2>
+    </div>
+  </ion-slide>
+</ion-slides>

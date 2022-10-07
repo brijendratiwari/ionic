@@ -1,0 +1,36 @@
+ion-button.job-posted {
+    margin: 0;
+}
+
+.job-success{
+    background-color: #1db358;
+    padding:16px;
+    .job-success-text{
+        color: #fff;
+        font-size:18px;
+        text-align: center;
+        line-height: 1.4;
+        margin: 0;
+    }
+}
+
+.what-happen-next{
+    font-size: 20px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.sides{
+    padding:16px;
+    ion-slides{
+        padding-bottom: 35px;
+        ion-img{
+            max-width: 280px;
+            margin: auto;
+        }
+    }
+    h4{
+        font-size: 16px;
+        line-height: 1.4;
+    }
+}

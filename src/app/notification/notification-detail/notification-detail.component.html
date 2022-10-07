@@ -1,0 +1,28 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button color="danger" (click)="closeModal()">
+                <ion-icon slot="icon-only" name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Details</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-card>
+        <ion-card-header>
+            <ion-card-title class="fs-18 ion-text-wrap" [innerHTML]="notificaionDetail?.subject"></ion-card-title>
+        </ion-card-header>
+        <ion-card-content [innerHTML]="notificaionDetail?.message">
+        </ion-card-content>
+        <ion-item lines="none">
+            <ion-avatar slot="start">
+                <img src="/assets/img/support.png" alt="support">
+            </ion-avatar>
+            <ion-label>
+                <h3>Petcloud Team</h3>
+            </ion-label>
+        </ion-item>
+    </ion-card>
+</ion-content>
+

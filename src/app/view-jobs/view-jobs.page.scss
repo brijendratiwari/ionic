@@ -1,0 +1,209 @@
+ion-header {
+  background-color: #fe4164;
+
+  .search-input {
+    background: #fff;
+    color: #000;
+    --placeholder-color: #888;
+    width: 100%;
+    height: auto;
+    padding: 0.5em;
+    border-radius: 3px;
+    font-size: 15px;
+    border: 1px solid #888;
+    -webkit-appearance: none;
+    margin-bottom: 5px;
+    &:focus{
+      outline:0;
+    }
+  }
+  ion-item{
+    --background:transparent;
+  }
+
+  .filter-btn {
+    margin: 0;
+    // width: 100%;
+    ion-icon {
+      width: 25px;
+      height: 25px;
+    }
+  }
+  // .counts{
+  //   color: #000000;
+  // }
+  .header-toolbar {
+    padding-top: 0px;
+  }
+}
+h3{
+    &.title{
+        font-size: 24px;
+        color: #4A4A4A;
+        letter-spacing: 0;
+        font-weight: 600;
+        text-align: center;
+    }
+    &.sub-heading{
+        font-weight: 600;
+        font-size: 14px;
+        color: #4a4a4a;
+        letter-spacing: 0;
+        line-height: 16px;
+        margin: 0 0 10px;
+    }
+}
+.theme-icon {
+  max-width: 36px;
+}
+
+.joblist {
+  .jobitem {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: flex-start;
+    border-bottom: 1px solid #EBEBEB;
+    padding: 10px 0;
+    position: relative;
+
+    .job-profile {
+      max-width: 70px;
+      padding-right: 10px;
+
+      img {
+        border-radius: 35px;
+      }
+    }
+
+    .job-info {
+      flex-grow: 2;
+      padding-right: 5px;
+
+      .location {
+        font-weight: 600;
+        font-size: 12px;
+        color: grey;
+        letter-spacing: 0;
+        margin-bottom: 2px;
+      }
+
+      .petname {
+        font-weight: 600;
+        font-size: 18px;
+        color: #FE4164;
+        letter-spacing: 0;
+        line-height: 22px;
+        margin: 0 0 5px;
+      }
+
+      .service {
+        font-size: 14px;
+        color: #4A4A4A;
+        letter-spacing: 0;
+        line-height: 16px;
+        margin: 0 0 5px;
+      }
+
+      .pet-count {
+        font-size: 12px;
+        color: #4A4A4A;
+        letter-spacing: 0;
+        line-height: 16px;
+        margin: 0 0 5px;
+      }
+
+      .date {
+        font-size: 12px;
+        color: #888888;
+        letter-spacing: 0;
+        margin: 0 0 5px;
+      }
+      .more-details {
+        font-size: 12px;
+        margin: 0 0 5px;
+        color: var(--spinner-color);
+      }
+    }
+
+    .job-actions {
+      justify-self: flex-end;
+      align-self: center;
+      text-align: center;
+      min-width: 75px;
+      .price {
+        .price-label {
+          font-size: 10px;
+          color: #888888;
+          letter-spacing: 0;
+        }
+
+        .base-price {
+          font-weight: 600;
+          font-size: 20px;
+          color: #4A4A4A;
+          letter-spacing: 0;
+          text-align: center;
+          line-height: 22px;
+          margin: 2px 0 5px;
+        }
+      }
+      .share-btn {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        height: 25px;
+        width: 25px;
+        color: #888888;
+      }
+      .job-status {
+        background: #52C4BE;
+        font-size: 12px;
+        color: #fff;
+        padding: 5px 8px;
+        border-radius: 6px;
+        font-weight: 600;
+        &.assigned {
+          background: #e6e6e6;
+          color: #565555;
+        }
+      }
+    }
+  }
+}
+
+.action{
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  ion-button {
+    --box-shadow: none;
+    font-size: 13px;
+  }
+  .liked{
+      margin: 0;
+      margin-left: 10px
+  }
+  .custom-icon{
+    width: 28px;
+    height: 50px;
+  }
+}
+.search-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: flex-start;
+  justify-content: flex-start;
+  .search-div {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 56px);
+  }
+  .filter-div {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-start;
+    width: 56px;
+  }
+}

@@ -1,0 +1,61 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home/tabs/profile-menu"></ion-back-button>
+        </ion-buttons>
+        <ion-title>
+          Notification 
+          <div>
+            <ion-badge [color]="unreadNotif > 0 ? 'theme' : 'light'">
+              {{ unreadNotif}} {{(unreadNotif > 1) ? 'New Messages' : 'New Message' }}
+            </ion-badge>
+          </div>
+          </ion-title>
+        <ion-buttons slot="end">
+            <ion-button (click)="notificationSettings()">
+                <ion-icon slot="icon-only" style="height: 2rem; width: 2rem;" color="theme" mod="ios" name="settings"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+
+        
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card color="theme-sec" *ngIf="noNotification">
+        <ion-card-content>
+           You don’t have any notifications
+        </ion-card-content>
+    </ion-card>    
+    <ion-list *ngIf="notificationsData.length > 0">
+      <ion-item-sliding *ngFor="let notif of notificationsData,let i=index">
+      
+
+        <ion-item lines="none" slot="top" class="notification-item"   [color]=" notif?.readTo == null ? 'light' : ''">
+          <ion-avatar slot="start">
+              <img src="/assets/img/support.png" alt="support">
+          </ion-avatar>
+          <ion-label (click)="showNotificaionDetails(notif)">
+              <h4 [innerHTML]="notif?.subject" class="ion-text-wrap desc"></h4>
+              <ion-text class="fs-12 date">Date : {{notif?.createdate}}</ion-text>
+          </ion-label>
+        </ion-item>
+
+        <ion-item-options slot="end">
+          <ion-item-option color="danger" (click)="deleteMessage(notif?.id,i)">
+            <ion-icon slot="icon-only" name="trash"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+    <div class="show-more-btn">
+      <ion-button *ngIf="showNotificationButton" 
+        (click)="loadData()" 
+        class="text-capitalize fls-0"
+        color="submit-btn"
+      >
+        Show more notifications
+      </ion-button>
+      <ion-spinner *ngIf="showLoadingBubbles"  name="bubbles"></ion-spinner>
+    </div>
+</ion-content>

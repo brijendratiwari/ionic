@@ -1,0 +1,19 @@
+<div class="custom-modal-container">
+  <div class="custom-modal">
+    <!-- <div class="header">
+      <div (click)="closeModal()"><ion-icon slot="icon-only" name="close"></ion-icon></div>
+    </div> -->
+    <div class="custom-modal-body">
+      <div class="content">
+        <h3>Social Sharing</h3>
+        <ion-icon (click)="closeModal()" class="close-icon" slot="icon-only" name="close"></ion-icon>
+      </div>
+      <div class="button-group">
+        <a (click)="share('fb')" class="btn-verify">  <ion-icon name="logo-facebook" class="ion-padding-end"></ion-icon> Facebook</a>
+        <a (click)="share('twitter')" class="btn-verify"><ion-icon name="logo-twitter" class="ion-padding-end"></ion-icon> Twitter</a>
+        <a (click)="share('email')" class="btn-verify"><ion-icon name="mail" class="ion-padding-end"></ion-icon> Email</a>
+        <a (click)="share('copy')" class="btn-verify"><ion-icon name="copy" class="ion-padding-end"></ion-icon>  Copy link</a>
+      </div>
+    </div>
+  </div>
+</div>

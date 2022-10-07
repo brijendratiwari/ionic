@@ -1,0 +1,85 @@
+.transaction-list{
+    color: white;
+    .transaction-item{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        padding: 5px 15px 0;
+        border-bottom:1px solid #EBEBEB;
+       
+        .name{
+            padding-right: 15px;
+            p{
+                font-weight: 500;
+                font-size: 14px;
+                color: #4A4A4A;
+                letter-spacing: 0;
+                text-align: center;
+                line-height: 18px;
+                margin: 5px;
+            }
+        }
+        .info{
+            .transid{
+                font-weight: 600;
+                font-size: 14px;
+                color: #4A4A4A;
+                letter-spacing: 0;
+                line-height: 22px;
+                margin: 5px;
+            }
+            .date{
+                font-size: 12px;
+                color: #888888;
+                letter-spacing: 0;
+                line-height: 14px;
+                margin: 5px;
+            }
+            .complete{
+                font-weight: 500;
+                font-size: 12px;
+                color: #52C4BE;
+                letter-spacing: 0;
+                line-height: 14px;
+                margin:5px;
+            }
+            .failed{
+                font-weight: 500;
+                font-size: 12px;
+                color: #FE4164;
+                letter-spacing: 0;
+                line-height: 14px;
+                margin:5px;
+            }
+        }
+        .amount{
+            margin-left: auto;
+            .base{
+                font-weight: 600;
+                font-size: 18px;
+                color: #4A4A4A;
+                letter-spacing: 0;
+                text-align: right;
+                line-height: 22px;
+                margin:5px;
+            }
+        }
+    }
+    .note{
+        padding: 5px;
+        font-size: 10px;
+        text-align: center;
+        margin: 10px;
+        border-radius: 10px;
+        background: #52C4BE;
+    }
+}
+
+.desc{
+    padding: 5px;
+    text-align: center;
+    font-size: 10px;
+    line-height: 12px;
+    color: #888888;
+    margin: 0px 10px 0px 10px;
+}

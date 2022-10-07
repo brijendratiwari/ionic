@@ -1,0 +1,26 @@
+export class stripeCard {
+    id:any;
+    object:any;
+    address_city:null;
+    address_country:null;
+    address_line1:null;
+    address_line1_check:null;
+    address_line2:null;
+    address_state:null;
+    address_zip:null;
+    address_zip_check:null;
+    brand:any;
+    country:any;
+    customer:any;
+    cvc_check:any;
+    dynamic_last4:null;
+    exp_month:any;
+    exp_year:any;
+    fingerprint:any;
+    funding:any;
+    last4:any;
+    metadata:[
+    ];
+    name:any;
+    tokenization_method:null
+}

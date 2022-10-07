@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="Symbols">
+        <g id="icon_line_explore">
+            <g id="Icon">
+                <path id="path-1" d="M671,645.39L890.58,864.94C907.01,881.37 882.37,906.01 865.94,889.58L646.39,670C630,653.6 654.6,629 671,645.39ZM439.16,713.47C591.21,713.47 714.47,590.21 714.47,438.16C714.47,286.11 591.21,162.85 439.16,162.85C287.11,162.85 163.85,286.11 163.85,438.16C163.85,590.21 287.11,713.47 439.16,713.47ZM439.16,748.32C267.86,748.32 129,609.46 129,438.16C129,266.86 267.86,128 439.16,128C610.46,128 749.32,266.86 749.32,438.16C749.32,609.46 610.46,748.32 439.16,748.32Z" style="fill:rgb(254,65,100);fill-rule:nonzero;stroke:rgb(254,65,100);stroke-width:1px;"/>
+            </g>
+        </g>
+    </g>
+</svg>

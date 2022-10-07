@@ -1,0 +1,181 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Pet Report</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content>
+  <form [formGroup]="petReportForm">
+    <div class="report-card">
+      <div (click)="showActionSheet()" class="pet-image">
+        <img [src]="petImageURL == '' ?  'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA=' : petImageURL" />
+        <div *ngIf="petImageURL == ''" class="camera-btn">
+          <ion-icon name="camera"></ion-icon>
+          <p>Upload an Image</p>
+        </div>
+      </div>
+
+      <ng-container>
+        <div class="report-inputs">
+          <ul>
+            <li *ngFor="let petrec of petReport  | keyvalue">
+              <div (click)="selectedRecord(petrec)"
+                [ngClass]="petrec?.value?.isSelected == true ? 'item sliders-selected' : 'item sliders-non-selected'">
+                <img src="../../assets/icon/pet-report-icons/{{petrec?.value?.icon}}" />
+                <p class="slider-title"> {{petrec.key}}</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+
+
+        <div class="inquiry">
+          <div class="item">
+            <div class="title-wraper">
+              <h3 class="title">{{selectedPetRecord?.value?.query}}</h3>
+
+              <div *ngIf="selectedPetRecord?.value?.unit == '1 km'" class="action">
+                <div class="counter">
+                  <span class="decrement" name="remove">-</span>
+                  <span class="value">1</span>
+                  <span class="increment" name="add">+</span>
+                </div>
+              </div>
+
+              <!-- CheckBox for food top up -->
+              <div *ngIf="selectedPetRecord?.value?.unit == 'Food'" class="action">
+                <ion-checkbox name="checkbox" formControlName="foodToppedUp" color="theme"></ion-checkbox>
+              </div>
+
+              <!-- CheckBox for water top up -->
+              <div *ngIf="selectedPetRecord?.value?.unit == 'Water'" class="action">
+                <ion-checkbox name="checkbox" formControlName="waterToppedUp" color="theme"></ion-checkbox>
+              </div>
+
+              <!-- CheckBox for Medication -->
+              <div *ngIf="selectedPetRecord?.value?.unit == 'Medication'" class="action">
+                <ion-checkbox name="checkbox" formControlName="medication" color="theme"></ion-checkbox>
+              </div>
+
+              <!-- Poo -->
+              <div *ngIf="selectedPetRecord?.value?.unit == 'Poo'" class="action">
+                <ion-checkbox name="checkbox" formControlName="pooChecked" color="theme"></ion-checkbox>
+              </div>
+
+              <!-- Wee -->
+              <div *ngIf="selectedPetRecord?.value?.unit == 'Wee'" class="action">
+                <ion-checkbox name="checkbox" formControlName="peeChecked" color="theme"></ion-checkbox>
+              </div>
+
+              <!-- Special Care -->
+              <div *ngIf="selectedPetRecord?.value?.unit == 'Special Care'" class="action">
+                <ion-checkbox name="checkbox" formControlName="specialCareChecked" color="theme"></ion-checkbox>
+              </div>
+
+
+              <!-- Property Secured -->
+              <div *ngIf="selectedPetRecord?.value?.unit == 'Property Secured'" class="action">
+                <ion-toggle formControlName="propertySecured" color="primary"></ion-toggle>
+              </div>
+
+            </div>
+            <div *ngIf="selectedPetRecord?.value?.isIcons" class="mood-select">
+              <div *ngFor="let moodData of selectedPetRecord?.value?.iconName" (click)="selectedMood(moodData)"
+                [ngClass]="moodData?.isSelected == true ? 'item active' : 'item'">
+
+                <span>{{moodData?.value?.isSelected}}</span>
+                <img src="../../assets/icon/pet-report-icons/{{moodData.icons}}" />
+
+                <span>{{moodData?.name}}</span>
+              </div>
+            </div>
+            <!-- Chip for duration -->
+            <ion-item *ngIf="selectedPetRecord?.value?.unit == 'Duration'">
+              <ion-chip (click)="selectedTimeForDuration(duration)"
+                *ngFor="let duration of selectedPetRecord?.value?.chips"
+                [ngClass]="duration?.isSelected == true ? 'active' : ''">
+                <ion-label>{{duration?.duration}}</ion-label>
+              </ion-chip>
+            </ion-item>
+
+
+            <!-- Walter Time  -->
+            <ion-item *ngIf="selectedPetRecord?.value?.unit == 'Water'">
+              <ion-label position="stacked"> Time </ion-label>
+              <ion-datetime name="time" formControlName="watertime" display-format="h:mm A" placeholder="9:15 AM"
+                picker-format="h:mm A" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+
+            <!-- Food Time -->
+            <ion-item *ngIf="selectedPetRecord?.value?.unit == 'Food'">
+              <ion-label position="stacked"> Time </ion-label>
+              <ion-datetime formControlName="foodtime" display-format="h:mm A" placeholder="9:15 AM"
+                picker-format="h:mm A" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+
+
+            <!-- Medication Time -->
+            <ion-item *ngIf="selectedPetRecord?.value?.unit == 'Medication'">
+              <ion-label position="stacked"> Time </ion-label>
+              <ion-datetime formControlName="medicationTime" display-format="h:mm A" placeholder="9:15 AM"
+                picker-format="h:mm A" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+
+
+            <!-- Food Time -->
+            <ion-item *ngIf="selectedPetRecord?.value?.unit == 'Walk'">
+              <ion-label position="stacked"> Time </ion-label>
+              <ion-datetime formControlName="kmsOfDogWalktime" display-format="h:mm A" placeholder="9:15 AM"
+                picker-format="h:mm A" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+
+            <!-- Special Care Time -->
+            <ion-item *ngIf="selectedPetRecord?.value?.unit == 'Special Care'">
+              <ion-label position="stacked"> Time </ion-label>
+              <ion-datetime formControlName="specialCareTime" display-format="h:mm A" placeholder="9:15 AM"
+                picker-format="h:mm A" minuteValues="0,15,30,45">
+              </ion-datetime>
+            </ion-item>
+
+
+          </div>
+        </div>
+
+
+      </ng-container>
+
+    </div>
+
+    <ion-item style="margin-bottom: 100px;">
+      <ion-label name="time" position="stacked">Notes</ion-label>
+      <ion-textarea formControlName="summary" rows="6" cols="20"
+        placeholder="Take a photo of the Pet, and tap to report on what activity you saw.  Did they eat their food? Did you top up their water? Did they do a poo? Did you give the pet their medicine?">
+      </ion-textarea>
+    </ion-item>
+
+  </form>
+</ion-content>
+
+
+
+<ion-footer style="height: 55px;" class="ion-no-border">
+  <ion-button class="submit-button footer-btn"
+    expand="full"
+    (click)="submitPetRecord()"
+    [disabled]="!isSubmitButtonEnabled"
+  >
+    Save and Continue
+  </ion-button>
+</ion-footer>

@@ -1,0 +1,81 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Add Reminder</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding animated fadeIn">
+
+
+
+     <form [formGroup]="addVaction">
+
+      <ion-item>
+        <ion-label>Select Reason</ion-label>
+        <ion-select okText="Okay" value="0" interface="action-sheet" formControlName="vactionationType" 
+          cancelText="Dismiss">
+          <ion-select-option value="0">Grooming</ion-select-option>
+          <ion-select-option value="1">Vaccination</ion-select-option>
+          <ion-select-option value="2">General Check Up</ion-select-option>
+          <ion-select-option value="3">(6-8 weeks age) C3 Vaccination</ion-select-option>
+          <ion-select-option value="4">(10-12 weeks age) C3 Vaccination</ion-select-option>
+          <ion-select-option value="5">(14-16 weeks age) C3 Vaccination</ion-select-option>
+          <ion-select-option value="6">Annual Vaccination Booster</ion-select-option>
+          <ion-select-option value="7">Socialisation</ion-select-option>
+          <ion-select-option value="8">Puppy School</ion-select-option>
+          <ion-select-option value="9">Desexing</ion-select-option>
+          <ion-select-option value="10">Microchip</ion-select-option>
+          <ion-select-option value="11">Council</ion-select-option>
+          <ion-select-option value="12">Teeth Descale</ion-select-option>
+          <ion-select-option value="13">Training</ion-select-option>
+          <ion-select-option value="14">Medication</ion-select-option>
+          <ion-select-option value="15">Flea Control</ion-select-option>
+          <ion-select-option value="16">Birthday Pawty!</ion-select-option>
+          <ion-select-option value="17">Exercise</ion-select-option>
+          <ion-select-option value="18">Gut Worming</ion-select-option>
+          <ion-select-option value="19">Heart Worm</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Reminder Frequency</ion-label>
+        <ion-select value="6" interface="action-sheet" okText="Okay" formControlName="alertFrequeny" 
+          cancelText="Dismiss">
+        
+          <ion-select-option  value="6">Once Off</ion-select-option>
+          <ion-select-option  value="0">Weekly</ion-select-option>
+          <ion-select-option value="1">Fortnightly</ion-select-option>
+          <ion-select-option value="2">Monthy</ion-select-option>
+          <ion-select-option value="3">Quarterly</ion-select-option>
+          <ion-select-option value="4">Half-yearly</ion-select-option>
+          <ion-select-option value="5">Yearly</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Start Date<small class="error"></small></ion-label>
+        <ion-datetime  display-format="DDD DD MMM YYYY" 
+        max="2024-12-31"
+       picker-format="DD/MMM/YYYY" placeholder="Thu 16 Jan 2019" formControlName="lastVactionation"></ion-datetime>
+      </ion-item>
+
+      <ion-item>
+      <ion-label position="stacked">Start Time<small class="error"></small></ion-label>
+      <ion-datetime 
+      max="2024-12-31"
+      display-format="HH:mm"  picker-format="HH:mm" placeholder="11:20" formControlName="startTime"></ion-datetime>
+     </ion-item> 
+
+
+
+      <ion-button [disabled]="!addVaction.valid" class="text-capitalize fls-0 fs-18" size="large" expand="full"
+        color="submit-btn" (click)="addAlert()">Save
+      </ion-button>
+    </form> 
+ 
+</ion-content>

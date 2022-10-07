@@ -1,0 +1,88 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="ion-no-padding">
+      <ion-buttons slot="start">
+          <ion-back-button  defaultHref="home/tabs/profile-menu"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Referrals</ion-title>    
+  </ion-toolbar>
+
+  <div class="desc">
+    Earn up to $240 per month with PetCloud if you bring on 10 new Pet Owners who book based on an average booking price of $300.
+  </div>
+
+  <ion-segment scrollable [(ngModel)]="selectedSegment" color="theme">
+    <ion-segment-button class="ion-text-capitalize" value="pending">Pending</ion-segment-button>
+    <ion-segment-button class="ion-text-capitalize" value="accepted">Accepted</ion-segment-button>
+</ion-segment>
+
+</ion-header>
+
+<ion-content>
+
+  <div class="main-content" [ngSwitch]="selectedSegment">
+    <div *ngSwitchCase="'pending'">
+
+      <ng-container *ngIf="!referrals?.invited_friend.length && isAPILoaded"> 
+          <ion-card>
+            <ion-card-header>
+                  You have no Pending Referrals
+            </ion-card-header>
+          </ion-card>
+      </ng-container>
+
+      <ng-container *ngIf="referrals?.invited_friend.length  && isAPILoaded">
+        <div class="referrals-item" *ngFor="let inviteFrnd of referrals?.invited_friend">
+          <div class="avatar">
+             <img src="../../assets/icon/user.png">
+          </div>
+          <div class="content">
+            <div class="titles">
+              <h2>{{inviteFrnd?.referred_email}}</h2>
+              <h3>Need to finish up signup</h3>
+            </div>
+            <div class="action-conatiner">
+              <h3>{{inviteFrnd?.referred_date}}</h3>
+              <div class="action">
+                <ion-button (click)="resendInvite(inviteFrnd.referred_email)">Resend</ion-button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    
+    </div>
+  
+    <div *ngSwitchCase="'accepted'">
+
+      <ng-container *ngIf="!referrals?.referred_earning.length  && isAPILoaded"> 
+        <ion-card>
+          <ion-card-header>
+                You have no Pending Referrals
+          </ion-card-header>
+        </ion-card>
+    </ng-container>
+
+      <ng-container *ngIf="referrals?.referred_earning.length  && isAPILoaded">
+        <div class="referrals-item" *ngFor="let referedEarning of referrals?.referred_earning">
+          <div class="avatar">
+             <img src="../../assets/icon/user.png">
+          </div>
+          <div class="content">
+            <div class="titles">
+              <h2>{{referedEarning?.email}}</h2>
+              <h3 class="accept-date">{{referedEarning?.date}}</h3>
+            </div>
+            <div class="action-conatiner">
+              <h3>$ {{referedEarning?.amount}} | {{referedEarning?.description}}</h3>
+            </div>
+          </div>
+        </div>
+
+      </ng-container>
+  
+    </div>
+  </div>
+ 
+
+
+</ion-content>

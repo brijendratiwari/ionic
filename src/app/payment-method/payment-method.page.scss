@@ -1,0 +1,29 @@
+.accountCard {
+  width: 46%;
+}
+
+ion-back-button{
+  --color: black;
+}
+
+ion-button {
+  ion-icon {
+    width: 150px;
+    height: 80px;
+  }
+}
+
+ion-item {
+  --padding-start: 0px;
+  --inner-padding-end: 0px;
+}
+
+.note-card {
+  box-shadow: none;
+  margin: 5px 0px 16px;
+}
+.paypal-card {
+  margin: 16px 0px 5px;
+  border: 1px solid #b5b5b5;
+  box-shadow: none;
+}

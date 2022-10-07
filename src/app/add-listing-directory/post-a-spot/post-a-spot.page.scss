@@ -1,0 +1,28 @@
+ion-button.add-spot {
+    margin: 0;
+}
+
+.post-place-container{
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 16px;
+    text-align: center;
+    .title{
+        h3{
+            font-size: 24px;
+            font-weight: 300;
+        }
+        p{
+            font-size: 14px;
+            opacity: 0.5;
+        }
+    }
+    .select-menu{
+        width: 100%;
+        border: 1px solid #e0e0e0;
+        overflow: hidden;
+    }
+}

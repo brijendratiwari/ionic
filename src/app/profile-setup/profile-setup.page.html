@@ -1,0 +1,128 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="gotoProfileMenu()">
+                <ion-icon slot="icon-only" color="theme" name="arrow-back"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Profile Setup</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+
+
+<ion-content>
+    <div class="box-wrapper">
+         <!-- Create Profile -->
+        <div class="box" 
+            [routerLink]="(stepList?.profile != '1') ? '/basic-info' : '/profile-setup'"
+            *ngIf="user_type == '1' || user_type == '2' || user_type == '3'"
+        >
+            <div class="box-icon">
+                <ion-icon name="people"></ion-icon>
+            </div>
+            <div class="box-info">
+                <div class="title">
+                    Profile
+                </div>
+                <div class="success-status" [class.complete]="stepList?.profile == '1'">
+                    <ion-icon [name]="stepList?.profile == '1'? 'checkmark-circle': 'close-circle'"></ion-icon>
+                    {{stepList?.profile == '1' ? 'Completed' : 'Incomplete'}}
+                </div>
+            </div>
+        </div>
+        <!-- Complete Verifications -->
+        <div class="box"
+            [routerLink]="(stepList?.email != '1') ? '/profile-email-verify' : '/profile-setup'"
+            *ngIf="user_type == '1' || user_type == '2' || user_type == '3'"
+        >
+            <div class="box-icon">
+                <ion-icon name="shield-checkmark"></ion-icon>
+            </div>
+            <div class="box-info">
+                <div class="title">
+                    Verifications
+                </div>
+                <div class="success-status" [class.complete]="stepList?.email == '1'">
+                    <ion-icon [name]="stepList?.email == '1'? 'checkmark-circle': 'close-circle'"></ion-icon>
+                    {{stepList?.email == '1' ? 'Completed' : 'Incomplete'}}
+                </div>
+            </div>
+        </div>
+        <!-- Create Pet Profile -->
+        <div class="box"
+            [routerLink]="(stepList?.pet != '1') ? '/pet-add' : '/profile-setup'"
+            *ngIf="user_type == '1'"
+        >
+            <div class="box-icon">
+                <ion-icon src="assets/icon/mypet.svg"></ion-icon>
+            </div>
+            <div class="box-info">
+                <div class="title">
+                    Pet's Profile
+                </div>
+                <div class="success-status" [class.complete]="stepList?.pet == '1'">
+                    <ion-icon [name]="stepList?.pet == '1'? 'checkmark-circle': 'close-circle'"></ion-icon>
+                    {{stepList?.pet == '1' ? 'Completed' : 'Incomplete'}}
+                </div>
+            </div>
+        </div>
+        <!-- Create Training -->
+        <div class="box"
+            (click)="goToTrainingCourse()"
+            *ngIf="user_type == '2' || user_type == '3'"
+        >
+            <div class="box-icon">
+                <ion-icon src="assets/icon/explore/pet-services.svg"></ion-icon>
+            </div>
+            <div class="box-info">
+                <div class="title">
+                    Training Course
+                </div>
+                <div class="success-status" [class.complete]="stepList?.training == '1'">
+                    <ion-icon [name]="stepList?.training == '1'? 'checkmark-circle': 'close-circle'"></ion-icon>
+                    {{stepList?.training == '1' ? 'Completed' : 'Incomplete'}}
+                </div>
+            </div>
+        </div>
+
+        <!-- Connect Payout Account -->
+        <div class="box"
+            [routerLink]="(stepList?.payOut != '1') ? '/payout-prefrence' : '/profile-setup'"
+            *ngIf="user_type == '2' || user_type == '3'"
+        >
+            <div class="box-icon">
+                <ion-icon src="assets/icon/bank.svg"></ion-icon>
+            </div>
+            <div class="box-info">
+                <div class="title">
+                    Connect Payout Account
+                </div>
+                <div class="success-status" [class.complete]="stepList?.payOut == '1'">
+                    <ion-icon [name]="stepList?.payOut == '1'? 'checkmark-circle': 'close-circle'"></ion-icon>
+                    {{stepList?.payOut == '1' ? 'Completed' : 'Incomplete'}}
+                </div>
+            </div>
+        </div>
+
+        <!-- Create listing -->
+        <div class="box"
+            [routerLink]="(stepList?.listing != '1') ? '/listing' : '/profile-setup'"
+            *ngIf="user_type == '2' || user_type == '3'"
+        >
+            <div class="box-icon">
+                <ion-icon  src="assets/icon/checklist.svg"></ion-icon>
+            </div>
+            <div class="box-info">
+                <div class="title">
+                    Listing
+                </div>
+                <div class="success-status" [class.complete]="stepList?.listing == '1'">
+                    <ion-icon [name]="stepList?.listing == '1'? 'checkmark-circle': 'close-circle'"></ion-icon>
+                    {{stepList?.listing == '1' ? 'Completed' : 'Incomplete'}}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</ion-content>

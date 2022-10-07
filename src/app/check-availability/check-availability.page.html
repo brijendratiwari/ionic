@@ -1,0 +1,348 @@
+
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button  defaultHref="/home/tabs/sitter-listing"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Check Availability</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+    
+    <ion-card color="theme" *ngIf="isPhVerifed == false || isEmailVerified == false " >
+        <ion-card-header>
+            <ion-card-title>To contact this sitter, you must do the following first:</ion-card-title>
+            <ion-card-subtitle *ngIf="isEmailVerified == false"
+            routerLink="/profile-email-verify" 
+             >Verify your email address</ion-card-subtitle>
+            <ion-card-subtitle *ngIf="isPhVerifed == false" 
+            routerLink="/profile-email-verify"  >Verify your mobile number</ion-card-subtitle>
+        </ion-card-header>
+    </ion-card>
+
+    <div *ngIf="isPhVerifed == true && isEmailVerified == true && isAPILoaded">
+        <ion-card color="note">
+            <ion-card-header>
+                <ion-card-title>Contact {{sitterName}} about their Availability</ion-card-title>
+                <ion-card-subtitle>This is just the start of the conversation and not a booking request yet
+                </ion-card-subtitle>
+            </ion-card-header>
+        </ion-card>
+        <form [formGroup]="availabilityFrm">
+            <ion-grid>
+                <ion-row>
+                    <ion-col>
+
+                        <ion-item>
+                            <ion-label position="stacked">Service
+                                <small class="error">*</small>
+                            </ion-label>
+                            
+                        <ion-select
+                            [compareWith]="compareWithDocument" 
+                            formControlName="service" 
+                            (ionChange)="primaryServiceChange($event)"
+                            placeholder="Please select a service"
+                            interface="action-sheet">
+                        
+                        <ion-select-option
+                            class="fs-14"
+                            *ngFor="let selectedService of primaryService,let i = index" 
+                            [value]="selectedService">
+                            {{selectedService?.serviceType?.serviceName}}
+                       </ion-select-option>
+                    </ion-select> 
+
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="availabilityFrm.get('service').hasError('required') && availabilityFrm.get('service').touched">
+                            Select proper service
+                        </ion-text>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+
+
+            <ion-row>
+                <ion-col>
+                    <ion-radio-group color="theme" formControlName="bookingType" (ionChange)="selectMode($event)">
+                        <ion-row class="ion-align-items-center">
+                            <ion-col  [hidden]="isOnceOff" size="6">
+                                <ion-item lines="none">
+                                    <ion-radio color="theme-sec"  value="0"></ion-radio>
+                                    <ion-label> &nbsp;One Off </ion-label>
+                                </ion-item>
+                            </ion-col>
+                            <ion-col size="6" [hidden]="!isRecurring">
+                                <ion-item lines="none">
+                                    <ion-radio color="theme-sec" value="1"></ion-radio>
+                                    <ion-label> &nbsp;Recurring</ion-label>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                    </ion-radio-group>
+                    <ion-text lines="none" class="animated fadeInUp" *ngIf="isbookingType">
+                        <p class="error"> Please Select Booking Type
+                        </p>
+                    </ion-text>
+                </ion-col>
+            </ion-row>
+
+
+
+            <div  *ngIf="serviceChargeType != '0'">
+
+                <ion-row *ngIf="isOneOffDateSelector">
+                    <ion-col>
+                        <ion-item>
+                            <ion-label
+                            
+                            position="stacked">Select Days <small class="error">*</small></ion-label>
+                            <ion-select color="theme" 
+                                [compareWith]="compareDays" 
+                                formControlName="recurring_type"
+                                (ionChange)="selectDays($event)"
+                                placeholder="Select Days" 
+                                interface="action-sheet">
+                                <ion-select-option class="fs-14" *ngFor="let recurring of recurringOptions?.oneoff"
+                                    [value]="recurring?.shortName">{{recurring?.LongName}}
+                                </ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-row *ngIf="isRecurringDateSelector">
+                    <ion-col>
+                        <ion-item>
+                            <ion-label position="stacked">Select Days <small class="error">*</small></ion-label>
+                            <ion-select color="theme" 
+                            formControlName="recurring_type"
+                             (ionChange)="selectDays($event)"
+                                placeholder="Select Days" interface="action-sheet">
+                                <ion-select-option class="fs-14"
+                                    *ngFor="let recurring of recurringOptions?.recurring_type"
+                                    [value]="recurring?.shortName">{{recurring?.LongName}}
+                                </ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-text lines="none" class="animated fadeInUp" *ngIf="is_recurringType==true">
+                    <p class="error"> Please Select Booking Days</p>
+                </ion-text>
+                <ion-row *ngIf="isCustomDays">
+                    <ion-col>
+                        <ion-item>
+                            <ion-label position="stacked">Custom Days</ion-label>
+                            <ion-select interface="action-sheet" color="theme" [multiple]="isMultipleDays == true ? true :
+                                false" formControlName="booking_days" (ionChange)="customDays($event)"
+                                placeholder="Custom Days">
+                                <ion-select-option value="0">Sunday</ion-select-option>
+                                <ion-select-option value="1">Monday</ion-select-option>
+                                <ion-select-option value="2">Tuesday</ion-select-option>
+                                <ion-select-option value="3">Wednesday</ion-select-option>
+                                <ion-select-option value="4">Thursday</ion-select-option>
+                                <ion-select-option value="5">Friday</ion-select-option>
+                                <ion-select-option value="6">Saturday</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                    </ion-col>
+                </ion-row>
+                <ion-text lines="none" class="animated fadeInUp" *ngIf="is_booking_days">
+                    <p class="error"> Please Select Days</p>
+                </ion-text>
+            </div>
+
+
+            <ion-row>
+                <ion-col>
+                    <ion-item (click)="openFromDateCalender('from_date')" class="hori-input ion-no-padding">
+                        <ion-label>Start Date
+                            <small class="error">*</small>
+                        </ion-label>
+                        <div class="look-input" >
+                            {{lbl_formatedStartDate | date: 'EEE  dd MMM yyyy'}}
+                        </div>
+                    </ion-item>
+                    <ion-text lines="none" class="animated fadeInUp error"
+                        *ngIf="availabilityFrm.get('start_date').hasError('required') && availabilityFrm.get('start_date').touched">
+                        Select start date
+                    </ion-text>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col>
+                    <ion-item class="ion-no-padding">
+                        <ion-label>Start Time
+                            <small class="error">*</small>
+                        </ion-label>
+                        <ion-datetime #startFromTimePicker display-format="h:mm A" [value]="startMinTime"
+                            placeholder="9:15 AM" picker-format="h:mm A" [min]="startMinTime"
+                            max="2024-12-31"
+                            formControlName="start_time" value="startMinTime"
+                            (ionChange)="fromTimeChange(startFromTimePicker)" minuteValues="0,15,30,45">
+                        </ion-datetime>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="availabilityFrm.get('start_time').hasError('required') && availabilityFrm.get('start_time').touched">
+                            Select start time
+                        </ion-text>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="isEndDateTime">
+                <ion-col>
+                    
+                    <ion-item  class="ion-no-padding" (click)="openToCalender('end_date')" >
+                        <div class="hori-input">
+                            <div class="look-label"> End Date <small class="error">*</small></div>
+                            <div class="look-input">
+                                {{lbl_formatedEndDate | date: 'EEE  dd MMM yyyy'}}
+                            </div>
+                        </div>
+                        
+                  
+                    </ion-item>
+
+                    <ion-text lines="none" class="animated fadeInUp error"
+                        *ngIf="availabilityFrm.get('end_date').hasError('required') && availabilityFrm.get('end_date').touched">
+                        Select end date
+                    </ion-text>
+                </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="isEndDateTime">
+                <ion-col>
+                    <ion-item class="ion-no-padding">
+                        <ion-label>End Time
+                            <small class="error">*</small>
+                        </ion-label>
+                        <ion-datetime display-format="h:mm A" picker-format="h:mm A" placeholder="11:15 AM"
+                        max="2024-12-31"
+                            hour-values="[1,2,3,4,5,6,7,8,9,10,11,12]" formControlName="end_time"
+                            minuteValues="0,15,30,45"></ion-datetime>
+                    </ion-item>
+                    <ion-text lines="none" class="animated fadeInUp error"
+                        *ngIf="availabilityFrm.get('end_time').hasError('required') && availabilityFrm.get('end_time').touched">
+                        Select end time
+                    </ion-text>
+                </ion-col>
+            </ion-row>
+
+
+            <ion-grid >
+                <ion-row>
+                    <ion-col>
+                        <h4 class="heading">Pets</h4>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <div *ngIf="isNoPets">
+                        <ion-text class="error" routerLink="/pet-add">No Pets Added. Please Add Pet (Click Here)*
+                        </ion-text>
+                    </div>
+
+                    <ion-col>
+                        <ion-item *ngFor="let pet of petList" class="ion-no-padding">
+                            <ion-avatar slot="start">
+                                <ion-img [src]="pet.imagename == null || pet.imagename == '' ? 
+                                'https://dev.petcloud.com.au/img/pet_placeholder.png' 
+                                : pet.imagename"></ion-img>
+                            </ion-avatar>
+
+                            <ion-label> {{pet?.name}}</ion-label>
+                            <ion-checkbox slot="end" color="theme-sec" checked (ionChange)="onPetSelectChange($event,pet?.id)">
+                            </ion-checkbox>
+                        </ion-item>
+                      
+                    </ion-col>
+                </ion-row>
+               
+            <ng-container *ngIf="sitterServices.secondary.length > 0">
+                <ion-row>
+                    <ion-col>
+                        <h4 class="heading">Why not add?</h4>
+                    </ion-col>
+                </ion-row>
+                <div class="sitter-services-container" *ngFor="let servs of sitterServices.secondary; let idx = index">
+                    <div class="sitter-card">
+                        <h4 class="title" (click)="openActiveBlock('extra-'+servs.serviceId)" size="9">
+                            {{servs?.serviceName}} <span class="danger">({{servs?.noOfPetSelected}}  Pets)</span>
+                            <img src="../../assets/icon/circle-down.svg" alt="">
+                        </h4>
+
+                     
+                        <div class="content" *ngIf="activeService?.indexOf('extra-'+servs.serviceId) >= 0">
+                          
+                                <div class="sitter-checkboxs">
+                                    <div class="item" *ngFor="let pet of servs?.petListing;let petIndex = index" >
+                                        <div class="sitter-checkbox">
+                                            <input type="checkbox" slot="end" color="theme" id="{{servs?.serviceId}}{{pet?.id}}"
+                                            (change)="changePetToSecondaryListing(this.pet,this.servs,this.idx,this.petIndex,$event)" />
+                                            <label for="{{servs?.serviceId}}{{pet?.id}}"></label>
+                                            <div class="pet-name">{{pet?.name}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+    
+                         
+                            <div class="input-numbers-container">
+                                <h5>Occasions</h5>
+                                <div class="input-numbers">
+                                    <ion-icon (click)="changeOccuranceValue('remove',servs)" name="remove"></ion-icon>
+                                   <input type="tel" [(ngModel)]="servs.occasions"
+                                    (ngModelChange)="changeOccuranceValue('textInput',this.servs)" [ngModelOptions]="{standalone: true}" />
+                                <ion-icon (click)="changeOccuranceValue('add',servs)" name="add"></ion-icon>
+                                </div>
+                            </div>
+
+                            <div class="error-msg"
+                             [ngStyle]="servs?.occasions != '0' && servs?.noOfPetSelected != '0' ? {'display': 'none'} : {'display': 'block'}"
+                              *ngIf="activeService?.indexOf('extra-'+servs.serviceId) >= 0">
+                            <div *ngIf="servs?.noOfPetSelected != '0' || servs?.occasions != '0'">
+                                <p class="danger" *ngIf="servs?.noOfPetSelected == 0 && servs?.occasions > 0">Please Select Pets*</p>
+                                <p class="danger text-right"*ngIf="servs?.occasions == 0 && servs?.noOfPetSelected > 0">Please select the number of Occasions*</p>
+                            </div>    
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+                
+
+            </ion-grid>
+            <ion-card color="note">
+                <ion-card-header>
+                    <ion-card-title>Hello {{sitterName | titlecase}}!</ion-card-title>
+                </ion-card-header>
+                <ion-card-content *ngIf="!isRebook">
+                    Are you available on these dates?
+                    If so, can we do an initial Meet & Greet with my pet/s?
+                    If it's a good fit, I will make a payment for the booking via PetCloud straight afterwards so that
+                    we
+                    are locked into your calendar before you get booked out & my pet will be covered by insurance.<br>
+                    Thank you.
+                </ion-card-content>
+
+                <ion-card-content *ngIf="isRebook">
+                    Are you available on these dates?
+                </ion-card-content>
+            </ion-card>
+        </form>
+    </div>
+
+</ion-content>
+
+<ion-footer *ngIf="isPhVerifed == true && isEmailVerified == true && isAPILoaded" class="ion-no-border">
+    <ion-button
+        class="text-capitalize fls-0 fs-18 footer-btn" 
+        expand="full"
+        color="submit-btn" 
+        [disabled]="!isFormValid"
+        (click)="calculatePrice()"
+    >
+        View Price
+    </ion-button>
+</ion-footer>

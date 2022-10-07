@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="27" height="25.164" viewBox="0 0 27 25.164">
+  <g id="Dog_Cafes_Pub" data-name="Dog Cafes &amp; Pub" transform="translate(-3.5 -2.5)">
+    <path id="Path_7" data-name="Path 7" d="M11,3V7" fill="none" stroke="#ff3763" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <path id="Path_8" data-name="Path 8" d="M15,3V7" fill="none" stroke="#ff3763" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <path id="Path_9" data-name="Path 9" d="M19,3V7" fill="none" stroke="#ff3763" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <path id="Path_10" data-name="Path 10" d="M10.412,27A11,11,0,0,1,4,17V11H26v6a11,11,0,0,1-6.412,10" fill="#fff"/>
+    <path id="Path_11" data-name="Path 11" d="M10.412,27A11,11,0,0,1,4,17V11H26v6a11,11,0,0,1-6.412,10" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <path id="Path_12" data-name="Path 12" d="M26,11a4,4,0,0,1,4,4v1a4,4,0,0,1-4,4h-.422" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+    <path id="Path_13" data-name="Path 13" d="M4,27H26" fill="none" stroke="#000" stroke-linecap="round" stroke-linejoin="round" stroke-width="1"/>
+  </g>
+</svg>

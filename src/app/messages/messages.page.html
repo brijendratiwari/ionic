@@ -1,0 +1,21 @@
+<ion-router-outlet>
+  <ion-tabs tabsHighlight="true" #messengingTabs>
+    <ion-header [hidden]="menuType == 'owner'" style="top: 0px;" class="ion-no-border" no-shadow>
+      <ion-toolbar>
+        <div class="tab-wrapper">
+          <ion-tab-bar [ngStyle]="{ 'display' : (menuType == 'sitter') ? 'flex' : 'none' }" slot="top">
+            <ion-tab-button [ngClass]="isMessageListingCss == true ? 'selected-tab' : 'unselected-tab'"
+              (click)="navigateTo('messages-list')">
+              <ion-label class="tab-title">Messages {{userType}}</ion-label>
+            </ion-tab-button>
+  
+            <ion-tab-button [ngClass]="isJobListingCss == true ? 'selected-tab' : 'unselected-tab'"
+              (click)="navigateTo('job-application-tab')">
+              <ion-label class="tab-title">Job Applications</ion-label>
+            </ion-tab-button>
+           </ion-tab-bar>
+        </div>
+      </ion-toolbar>
+    </ion-header>
+  </ion-tabs>
+</ion-router-outlet>

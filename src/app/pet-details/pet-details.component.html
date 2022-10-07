@@ -1,0 +1,265 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      {{name}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding animated fadeIn">
+  <div *ngFor="let pD of petDetail">
+
+    <ion-grid>
+    
+      <ion-row *ngIf="pD?.imagename">
+        <div class="avatar">
+          <ion-img [src]="pD?.imagename"></ion-img>
+        </div>
+      </ion-row>
+    </ion-grid>
+
+    <ion-grid *ngIf="pD?.about_pet">
+      <ion-row>
+        <ion-col class="head-title">About my Pet </ion-col>
+      </ion-row>
+
+      <div class="info-item info-column">
+        <div class="info-desc">
+          <p class="info-aboutpet">
+            {{pD?.about_pet}}
+          </p>
+        </div>
+      </div>
+
+    </ion-grid>
+
+  <div class="info-list">
+
+      <div class="info-item info-column info-wrapper" >
+        <ng-container>
+          <div class="info-item" *ngIf="years_old">
+              <div class="info-label">
+                <h4>Age: <b> {{years_old}}</b> </h4>
+              </div>
+          </div>
+          
+    
+        <div class="info-item">
+            <div class="info-label">
+              <h4>Type: <b>  {{pD?.petType== '1' ? "Dog" : pD?.petType == '2' ? "Cat" :
+                pD?.petType == '3' ? "Horse" : "Other"}}</b></h4>
+            </div>
+          </div>
+
+          <div *ngIf="pD?.weight" class="info-item">
+            <div class="info-label">
+              <h4>Size: <b>{{pD?.weight}}</b> </h4>
+            </div>
+
+          </div>
+  
+          <div *ngIf="pD?.beed" class="info-item">
+            <div class="info-label">
+              <h4>Breed: <b>{{pD?.beed}}</b></h4>
+            </div>
+          </div>
+
+          <div *ngIf="pD?.core_vaccine_complete" class="info-item">
+            <div class="info-label">
+              <h4>Vaccinated: <b>{{pD?.core_vaccine_complete}}</b></h4>
+            </div>
+          </div>
+       </ng-container>
+
+       <ng-container *ngIf="specification.length > 0">
+         <ng-container *ngFor="let spec of specification">
+          <div class="specification">
+            <ion-img src="assets/img/art-symbol-transparent-green-tick-icon.png"></ion-img>
+            <span>{{spec}}</span>
+          </div>
+          </ng-container>
+       </ng-container>
+
+      <ng-container>
+
+        <ion-grid>
+          <ion-row>
+            <ion-col class="head-title">Details</ion-col>
+          </ion-row>
+        </ion-grid>
+        <div class="info-item">
+          <div class="info-label">
+            <h4>Gender: <b>{{pD?.gender}}</b> </h4>
+          </div>
+        </div>
+
+        <div *ngIf="pD?.habbits" class="info-item ">
+          <div class="info-label">
+            <h4>Habits: <b>{{pD?.habbits}}</b></h4>
+          </div>
+         
+        </div>
+
+        <div *ngIf="pD?.microchip" class="info-item">
+          <div class="info-label">
+            <h4>Microchip Number <b>{{pD?.microchip}}</b></h4>
+          </div>
+
+        </div>
+       
+      </ng-container>
+
+      <ion-grid *ngIf="pD?.about_breed">
+        <ion-row>
+          <ion-col class="head-title">About my breed </ion-col>
+        </ion-row>
+
+        <div class="info-item info-column">
+          <div class="info-label">
+            <p class="info-aboutbreed">
+              {{pD?.about_breed}}
+            </p>
+          </div>
+        </div>
+
+      </ion-grid>
+
+
+      <ng-container>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="head-title">Routine & Habits</ion-col>
+          </ion-row>
+        </ion-grid>
+
+        <div  *ngIf="pD?.friendly_pet" class="info-item info-column">
+          <div class="info-label">
+            <h4>Fine to stay with minder's other friendly pets: <b>{{pD?.friendly_pet == 'Y' ? 'Yes' : 'No' }}</b></h4>
+          </div>
+        </div>
+
+        <div *ngIf="pD?.children_stay" class="info-item info-column">
+          <div class="info-label">
+            <h4>Fine to stay with children: <b>{{pD?.children_stay}}</b></h4>
+          </div>
+        </div>
+
+        <div *ngIf="pD?.love_men" class="info-item info-column">
+          <div class="info-label">
+            <h4>Loves men: <b>{{pD?.love_men == 'Y' ? "Yes" : "No"}}</b></h4>
+          </div>
+        </div>
+
+        <div *ngIf="pD?.love_women"class="info-item info-column">
+          <div class="info-label">
+            <h4>Loves women: <b>{{pD?.love_women == 'Y' ? "Yes" : "No"}}</b></h4>
+          </div>
+        
+        </div>
+        
+        <div  *ngIf="pD?.petspend_home" class="info-item info-column">
+          <div class="info-label">
+            <h4>When at home pet spends most time: <b>{{pD?.petspend_home}}</b></h4>
+          </div>
+       
+        </div>
+
+        <div  *ngIf="pD?.petspend_out" class="info-item info-column">
+          <div class="info-label">
+            <h4>When not at home pet spend most of time: <b>{{pD?.petspend_out}}</b></h4>
+          </div>
+        </div>
+
+        <div  *ngIf="pD?.petsleep_night" class="info-item info-column">
+          <div class="info-label">
+            <h4>Location pet sleeps at night: <b>{{pD?.petsleep_night}}</b></h4>
+          </div>
+         
+        </div>
+
+        <div *ngIf="pD?.petalone_hour" class="info-item info-column">
+          <div class="info-label">
+            <h4>Hours pet used to being left alone: <b>{{pD?.petalone_hour}}</b></h4>
+          </div>
+          
+       </div>
+
+       <div *ngIf="pD?.pet_react" class="info-item info-column">
+          <div class="info-label">
+            <h4>Pets reaction during thunderstorms or fireworks: <b>{{pD?.pet_react}}</b></h4>
+          </div>
+        </div>
+
+          <div  *ngIf="pD?.pet_walk" class="info-item info-column">
+            <div class="info-label">
+              <h4>Frequency pet is usually walked: <b>{{pD?.pet_walk}}</b> </h4>
+            </div>
+          </div>
+
+          <div *ngIf="pD?.pet_behave" class="info-item info-column">
+            <div class="info-label">
+              <h4>Behaviour when walked: <b>{{pD?.pet_behave}}</b></h4>
+            </div>
+          </div>
+
+       <div *ngIf="pD?.description" class="info-item info-column">
+        <div class="info-label">
+          <h4>Description</h4>
+        </div>
+        <div class="info-desc">
+          <p>{{pD?.description}}</p>
+        </div>
+      </div>
+      </ng-container>
+
+      <ng-container>
+        <ion-grid>
+          <ion-row>
+            <ion-col class="head-title">Health</ion-col>
+          </ion-row>
+        </ion-grid>
+  
+        <div *ngIf="pD?.pet_fleas" class="info-item info-column">
+          <div class="info-label">
+            <h4>Frequency pet treated for fleas: <b>{{pD?.pet_fleas}}</b></h4>
+          </div>
+        
+        </div>
+
+        <div  *ngIf="pD?.health_issue" class="info-item info-column">
+          <div class="info-label">
+            <h4>Health Issues: <b>{{pD?.health_issue}}</b></h4>
+          </div>
+      </div>
+
+
+      <div  *ngIf="pD?.medication_instructions" class="info-item info-column">
+        <div class="info-label">
+          <h4> Medication Instructions: <b>{{pD?.medication_instructions}}</b></h4>
+        </div>
+      </div>
+
+      <div *ngIf="pD?.usual_vet" class="info-item info-column">
+        <div class="info-label">
+          <h4>Usual Vet Details: <b>{{pD?.usual_vet}}</b>	</h4>
+        </div>
+       
+      </div>
+
+      <div *ngIf="pD?.emergency_charge" class="info-item info-column" >
+        <div class="info-label">
+          <h4> In emergency, the maximum spend authorisedon Vet Fees: <b>{{pD?.emergency_charge}}</b>	</h4>
+        </div>
+      </div>
+      </ng-container>
+
+     </div>
+  </div>
+
+  </div>
+</ion-content>

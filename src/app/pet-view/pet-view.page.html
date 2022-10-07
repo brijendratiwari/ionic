@@ -1,0 +1,509 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="pet"></ion-back-button>
+        </ion-buttons>
+        <ion-title>{{ petData?.name }}</ion-title>
+        <ion-buttons slot="end">
+            <ion-button slot="icon-only" [routerLink]="['/pet-update',selectedPetId]">
+                <ion-img type="image/svg+xml" src="assets/icon/edit.svg" class="custom-icon"></ion-img>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid class="ion-no-padding">
+        <ion-row>
+            <ion-col class="ion-no-padding">
+                <ion-img
+                    [src]="petData?.imagename == null || petData?.imagename == '' ? 'https://dev.petcloud.com.au/img/pet_placeholder.png' :
+                     'https://cdn.petcloud.com.au/uploads/pet/'+ petData?.imagename"
+                    class="pet-img"></ion-img>
+                <div class="caption">
+                    <h4 class="petName">{{petData?.name}}</h4>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-grid class="ion-no-padding">
+        <ion-row>
+            <ion-col class="ion-no-padding">
+                <ion-segment scrollable [(ngModel)]="selectedSegment" color="theme" class="custom-segment">
+                    <ion-segment-button value="identity">Identity</ion-segment-button>
+                    <ion-segment-button value="care">Care Routine</ion-segment-button>
+                    <ion-segment-button value="habits">Training & Habits</ion-segment-button>
+                    <ion-segment-button value="health">Health & Vets</ion-segment-button>
+                    <ion-segment-button value="references">References</ion-segment-button>
+                    <ion-segment-button value="resume">Pet Resume</ion-segment-button>
+                </ion-segment>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <div class="detail-wrapper" [ngSwitch]="selectedSegment">
+        <ion-grid class="petdetail animated fadeIn" *ngSwitchCase="'identity'">
+            <ion-row>
+                <ion-col class="identity-info">
+                    <p>DOB</p>
+                <!-- </ion-col>
+                <ion-col> -->
+                    <h4 class="ion-text-end">{{petData?.dob | date: 'dd MMM yyyy'}}</h4>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col class="identity-info">
+                    <p>Age in Human Years</p>
+                <!-- </ion-col>
+                <ion-col> -->
+                    <h4 class="ion-text-end">{{years_old}}</h4>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col class="identity-info">
+                    <p>Size</p>
+                <!-- </ion-col>
+                <ion-col> -->
+                    <h4 class="ion-text-end">{{getPetWeight(petData?.weight)}}</h4>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col class="identity-info">
+                    <p>Type </p>
+                <!-- </ion-col>
+                <ion-col> -->
+                    <h4 class="ion-text-end">
+                        {{ petData?.petType == 1 ? 'Dog' : petData?.petType == 2 ? 'Cat' : petData?.petType == 3 ? 'Horse' : petData?.petType == 4 ? 'Other' : ''}}
+                    </h4>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col class="identity-info">
+                    <p>Breed</p>
+                <!-- </ion-col>
+                <ion-col> -->
+                    <h4 class="ion-text-end">{{petData?.beed }}</h4>
+                </ion-col>
+            </ion-row>
+
+            <ion-row *ngIf="petData?.about_breed != ''">
+                <ion-col class="identity-info">
+                    <p>About my breed</p>
+                <!-- </ion-col>
+                <ion-col> -->
+                    <h4 class="ion-text-end">{{petData?.about_breed }}</h4>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col class="identity-info">
+                    <p> RSPCA VIP Tag</p>
+                <!-- </ion-col>
+                <ion-col> -->
+                    <h4 class="ion-text-end">
+                        {{ petData?.rspcaTAG == 1 ? 'Yes' : 'No' }}
+                    </h4>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col class="identity-info">
+                    <p> RSPCA VIP Tag Number</p>
+                <!-- </ion-col>
+                <ion-col> -->
+                    <h4 class="ion-text-end">
+                        N/A
+                    </h4>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col class="identity-info">
+                    <p>Microchip Number</p>
+                <!-- </ion-col>
+                <ion-col> -->
+                    <h4 class="ion-text-end">
+                        {{ petData?.microchip != '' ? petData?.microchip : 'No microchip' }}
+                    </h4>
+                </ion-col>
+            </ion-row>
+
+            <ion-row>
+                <ion-col class="identity-info">
+                    <p>Is your pet currently registered with Council?</p>
+                <!-- </ion-col>
+                <ion-col> -->
+                    <h4 class="ion-text-end">
+                        {{ petData?.pet_council != '' ? petData?.pet_council : 'Not Registered with pet council' }}
+                    </h4>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col class="identity-info">
+                    <p>Pet wearing Council Registration Tag: </p>
+                <!-- </ion-col>
+                <ion-col> -->
+                    <h4 class="ion-text-end">
+                        {{ petData?.councilTag == 1 ? 'Yes' : 'No' }}
+                    </h4>
+                </ion-col>
+            </ion-row>
+            <ion-row>
+                <ion-col class="identity-info">
+                    <p> Pet wearing a collar + engraved ID Tag with Owners Name and up to date contact number</p>
+                <!-- </ion-col>
+                <ion-col> -->
+                    <h4 class="ion-text-end">
+                        {{ petData?.personalTag == 1 ? 'Yes' : 'No' }}
+                    </h4>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+
+        <ion-grid class="petdetail animated fadeIn" *ngSwitchCase="'care'">
+            <div class="pet-details-list">
+                <h4>Food & Water</h4>
+                <ul>
+                    <li> <span>Breakfast</span> {{petData?.care_routine  ?  petData?.care_routine?.breakfast?.description : 'N/A'}}</li>
+                    <li> <span>Dinner</span> {{petData?.care_routine ?  petData?.care_routine?.dinner?.description : 'N/A'}}</li>
+                    <li> <span>Water</span> N/A</li>
+                </ul>
+            </div>
+            <div *ngIf="petData?.care_routine?.food_consideration.length > 0" class="pet-details-list">
+                <h4>Food Related Conditions</h4>
+                <ul *ngFor="let foodConsideration of petData?.care_routine?.food_consideration">
+                    <li> <span>{{foodConsideration}}</span></li>
+                </ul>
+            </div>
+
+
+            <div class="pet-details-list">
+                <h4> Exercise</h4>
+                <ul>
+                    <li> <span>Walk frequency</span> {{petData?.care_routine?.exercise?.frequency != '' ?  'A couple of times in a week' : 'N/A'}}</li>
+                    <li> <span>Time of day</span> 
+                        
+                        <ng-container *ngIf="petData?.care_routine?.exercise?.time.length">
+                            <ng-container *ngFor="let exersiseTime of petData?.care_routine?.exercise?.time" >
+                                {{exersiseTime}} 
+                            </ng-container>
+                            
+                        </ng-container>
+
+                        <ng-container *ngIf="petData?.care_routine?.exercise?.time.length == 0">
+                            <ng-container >
+                                <span>N/A</span> 
+                            </ng-container>
+                            
+                        </ng-container>
+                      
+                        
+                    </li>
+                </ul>
+            </div>
+
+            <div class="pet-details-list">
+                <h4> Sleeping Location</h4>
+                <ul>
+                    <li> <span> Sleeps in</span> {{petData["care_routine"] ? sleepLocation(petData["care_routine"]["sleeping_location"])  : 'N/A'}} </li>
+                </ul>
+            </div>
+
+            <div class="pet-details-list">
+                <h4>Parasite Control</h4>
+                <ul>
+                    <li> <span>Flea & Tick Control</span>
+                        {{petData["care_routine"] ?  petData["care_routine"]["parasite_control"]["flea_control"]["description"] : 'N/A' }} 
+                     <div class="due-date">
+                        <ion-icon name="notifications"></ion-icon> <span>Next Due Date :   {{petData["care_routine"] ? (petData["care_routine"]["parasite_control"]["flea_control"]["date"] | date : "dd-MMM-y") : 'N/A' }} </span>
+                     </div>
+                    </li>
+                    <li> <span> Heartworm</span>       {{petData["care_routine"] ? petData["care_routine"]["parasite_control"]["heartworm"]["description"] : 'N/A'}}
+                        <div class="due-date">
+                            <ion-icon name="notifications"></ion-icon> <span>Next Due Date :    {{petData["care_routine"] ? (petData["care_routine"]["parasite_control"]["heartworm"]["date"] | date : "dd-MMM-y") : 'N/A'}} </span>
+                         </div>
+                    </li> 
+                    <li> <span> Stomach Wormer</span>   {{petData["care_routine"] ? petData["care_routine"]["parasite_control"]["stomach_wormer"]["description"] : 'N/A'}}
+                        <div class="due-date">
+                            <ion-icon name="notifications"></ion-icon> <span>Next Due Date :    {{petData["care_routine"] ? (petData["care_routine"]["parasite_control"]["stomach_wormer"]["date"] | date : "dd-MMM-y") : 'N/A'}} </span>
+                         </div>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="pet-details-list">
+                <h4>Grooming</h4>
+                <ul>
+                    <li> <span>Frequency</span> {{petData?.care_routine != '' ? grommingFrequency(petData?.care_routine?.grooming?.frequency) : 'N/A'}} </li>
+                    <li> <span> Groomer</span>{{petData?.care_routine != '' ? petData?.care_routine?.grooming?.location : 'N/A'}}  </li>
+                  
+                </ul>
+            </div>
+
+
+        </ion-grid>
+
+        <ion-grid class="petdetail animated fadeIn" *ngSwitchCase="'habits'">
+
+            <div>
+                <div class="pet-details-list">
+                    <h4>{{petData?.about_breed}}</h4>
+                </div>
+                <div class="pet-details-list">
+                    <h4>Training</h4>
+                    <ul>
+                        <li> <span>Behaviour when walked?</span> {{petData?.pet_behave == "1" ? "Pulls at first and then settles down" : 
+                        petData?.pet_behave == "2" ? "Needs a strong person to walk him/her" : "Impossible to walk"
+                    }}</li>
+                        <li> <span> Attended a Training Behaviour School:</span> N/A </li>
+                        <li> <span> Training Behaviour School</span> N/A </li>
+                        <li> <span> Toilet Trained</span> {{petData?.toilet_trained == 1 ? 'Yes' : 'N/A'}} </li>
+                        <li> <span> Toilet type</span> N/A </li>
+                    </ul>
+                </div>
+                <div class="pet-details-list">
+                    <h4>Social Interaction</h4>
+                    <ul>
+
+                        <li> <span>Gets along with Cats</span> N/A </li>
+                        <li> <span> Gets along with dogs</span> N/A </li>
+                        <li> <span> Fine to stay with Children</span> {{getChildStay(petData?.children_stay)}} </li>
+                        <li> <span> Loves men</span> {{petData?.love_men == 'Y' ? "Yes" : "No"}} </li>
+                        <li> <span> Loves women</span> {{petData?.love_women == 'Y' ? "Yes" : "No"}} </li>
+                        <li> <span> Time mostly spent at home</span>
+                            {{petData?.petSpendOut == 'I' ? 'Inside' : 'Outside'}} </li>
+                    </ul>
+                </div>
+                <div class="pet-details-list">
+                    <h4>Coping with loud noises</h4>
+                    <ul>
+                        <li> <span>React during thunderstorms</span> {{getPetReact(petData?.pet_react)}} </li>
+                    </ul>
+                </div>
+                <div class="pet-details-list">
+                    <h4>Time alone</h4>
+                    <ul>
+                        <li> <span>When ower is out</span> {{petData?.petSpendHome == 'I' ? 'Inside' : 'Outside'}} </li>
+                        <li> <span>Time used to being alone</span> {{getPetalone(petData?.petalone_hour)}} </li>
+                    </ul>
+                </div>
+                <div class="pet-details-list">
+                    <h4>Habits</h4>
+                    <ul>
+                        <li> <span>Escapism</span> N/A </li>
+                        <li> <span>Digging holes</span> N/A</li>
+                        <li> <span>Destructive behaviour</span> N/A</li>
+                        <li> <span>Barking meowing calling howling</span> N/A</li>
+                        <li> <span>Nipping</span> N/A</li>
+                        <li> <span>Food guarding</span> N/A</li>
+                        <li> <span>Toy guarding</span> N/A</li>
+                        <li> <span>Humping</span> N/A</li>
+                    </ul>
+                </div>
+            </div>
+
+
+        </ion-grid>
+        <ion-grid class="petdetail animated fadeIn" *ngSwitchCase="'health'">
+
+            <div class="pet-details-list">
+                <h4>Vaccinations</h4>
+                <ul>
+                    <li> <span>Core Vaccinations complete</span> {{petData?.core_vaccine_complete != "" ? petData?.core_vaccine_complete : 'N/A'}} </li>
+                    <li> <span> Booster Vaccination up to date</span> {{petData?.booster_vaccine_uptodate != "" ? petData?.booster_vaccine_uptodate : 'N/A'}} </li>
+                    <li> <span> Date last Vaccinated</span> {{petData?.last_vaccine_date != "" ? petData?.last_vaccine_date : 'N/A'}} </li>
+
+                    <div class="download-card" (click)="viewImageModel(vaccinationRecordImage)" *ngIf="vaccinationRecordImage != '' ">
+                        <div class="icon">
+                            <ion-icon name="document"></ion-icon>
+                        </div>
+                        <div class="label">
+                           View Vaccination Record
+                        </div>
+                    </div>
+
+                </ul>
+            </div>
+
+            <div class="pet-details-list">
+                <h4> Vaccination Alerts</h4>
+                <ul>
+                    <li> <span>Vaccination Name</span>{{petData?.vaccination_alert.vaccine != "" ? petData?.vaccination_alert.vaccine : 'N/A'}}
+                    <div class="due-date">
+                        <ion-icon name="notifications"></ion-icon> <span>Next Due Date :    {{petData?.vaccination_alert.date != "" ? petData?.vaccination_alert.date : 'N/A'}} </span>
+                     </div>
+                    </li>
+                </ul>
+            </div>
+
+             <div class="pet-details-list">
+                <h4> Insurance Cover</h4>
+                <ul>
+
+
+                    <li> <span>Accident and Illness Policy</span> {{insurance_cover?.amount != "" ? "Yes" : 'N/A' }} </li>
+                     <li> <span>Insurer Name</span> {{insurance_cover?.name != "" ? insurance_cover?.name : 'N/A' }} </li>
+                    <li> <span>Cover amount</span>  {{insurance_cover?.amount != "" ? insurance_cover?.amount : 'N/A' }}  </li>
+                    <div class="download-card" (click)="viewImageModel(insuranceImage)" *ngIf="insuranceImage != '' ">
+                        <div class="icon">
+                            <ion-icon name="document"></ion-icon>
+                        </div>
+                        <div class="label">
+                           View Insurance Record
+                        </div>
+                    </div>
+                </ul>
+            </div> 
+          <div class="pet-details-list">
+                <h4> Medication</h4>
+                <ul>
+                    
+                    <li> <span>On Medication</span>  {{other_medications ? other_medications?.type != "" ? 'Yes' : 'N/A' : 'N/A'}} </li>
+                    <li> <span>Medication</span> {{other_medications ? other_medications?.type != "" ? other_medications?.type : 'N/A' : 'N/A'}} </li>
+                    <li> <span>Frequency</span> {{other_medications ? getMedicationFreq(other_medications.frequency) : 'N/A'}} </li>
+                </ul>
+            </div> 
+
+
+            <div class="pet-details-list">
+                <h4> Vet Details</h4>
+                <ul>
+                    <li> <span>Usual Vet Name</span> {{emergency_contactsblcontact?.name != "" ? emergency_contactsblcontact?.name : 'N/A'}} </li>
+                    <li> <span>Clinic Email</span>  {{emergency_contactsblcontact?.email != "" ? emergency_contactsblcontact?.email : 'N/A'}} </li> 
+                    <li> <span>Clinic Number</span> {{petData?.emergency_contacts  != "" ? petData?.emergency_contacts : 'N/A'}} </li>
+                </ul>
+            </div>
+
+            <div class="pet-details-list">
+                <h4> Emergency Next of kin who doesn't travel with you</h4>
+                <ul>
+                    <li> <span>Friend Name</span> {{emergency_contactsblcontact.name != "" ? emergency_contactsblcontact.name : 'N/A'}} </li>
+                    <li> <span>Mobile Number</span>{{emergency_contactsblcontact.number != "" ? emergency_contactsblcontact.number : 'N/A'}} </li>
+                </ul>
+            </div>
+
+            <div class="pet-details-list">
+                <h4> Emergency Authorisation & Spend LImit - <span>$</span> {{ petData?.emergency_charge }}</h4>
+            </div>
+
+        </ion-grid>
+
+        <ion-grid class="petdetail animated fadeIn" *ngSwitchCase="'references'">
+            <div *ngIf="petData?.references.length > 0" class="referances">
+                <div class="ref-list">
+                    <div *ngFor="let ref of petData?.references" class="item">
+                        <div class="user-name">
+                            <div class="user-image">
+                                <img [src]="ref?.imagename" alt="">
+                            </div>
+                            <div class="user-name-in">
+                                <h4>{{ref?.name}}</h4>
+                                <h5>{{ref?.relationship}}</h5>
+                                <h5>{{ref?.duration}}</h5>
+                                <div class="ratings">
+                                    <ion-img src="../../assets/icon/star.svg"></ion-img>
+                                    <ion-img src="../../assets/icon/star.svg"></ion-img>
+                                    <ion-img src="../../assets/icon/star.svg"></ion-img>
+                                    <ion-img src="../../assets/icon/star.svg"></ion-img>
+                                    <ion-img src="../../assets/icon/star.svg"></ion-img>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="details">
+                            {{ref?.testimonial}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="petData?.references.length == 0">
+                <a style="display: flex;justify-content: center;">There are no references</a>
+            </div>
+
+        </ion-grid>
+
+        <ion-grid class="petdetail animated fadeIn" *ngSwitchCase="'resume'">
+            
+            <div class="pet-details-list resume">
+                <ion-fab class="fab-share" style="position: fixed;" slot="fixed" vertical="bottom" horizontal="end">
+                    <ion-fab-button (click)="socialShare()" size="small">
+                        <ion-icon name="share-social"></ion-icon>
+                    </ion-fab-button>
+                </ion-fab>
+                <p *ngIf="petData.about_breed != ''" class="about-us">
+                   {{petData?.about_breed}}
+                </p>
+
+                <p *ngIf="petData.about_breed == '' || petData.about_breed == null" class="about-us">
+                  <a>  No Information available of pet</a>
+                 </p>
+                <ion-row>
+                    <ion-col size="6">
+                        <h4 class="wm-h4">Age <span>{{years_old}} Years old</span></h4>
+                    </ion-col>
+                    <ion-col size="6">
+                        <h4 class="wm-h4">Type <span>Dog</span></h4>
+                    </ion-col>
+                    <ion-col size="6">
+                        <h4 class="wm-h4">Size <span>{{getPetWeight(petData?.weight)}}</span></h4>
+                    </ion-col>
+                    <ion-col size="6">
+                        <h4 class="wm-h4">Breed <span>test breed</span></h4>
+                    </ion-col>
+                </ion-row>
+                <ul>
+
+                    <li [ngClass]="petData.pet_insured ? 'green-mark' : 'red-mark'"> Pet Insured </li>
+                    <li [ngClass]="petData.pet_rego ? 'green-mark' : 'red-mark'"> Council Registered </li>
+                    <li [ngClass]="petData.toilet_trained ? 'green-mark' : 'red-mark'"> Toilet Trained </li>
+                    <li [ngClass]="petData.microchip ? 'green-mark' : 'red-mark'"> Microchipped</li>
+                    <li [ngClass]="petData.obediance_trained ? 'green-mark' : 'red-mark'"> Obedience Trained</li>
+                    <li [ngClass]="petData.vaccinations_up_to_date ? 'green-mark' : 'red-mark'"> Vaccination up to date </li>
+                    <li [ngClass]="petData.parasite_controlled ? 'green-mark' : 'red-mark'"> Parasite control </li>
+                    <li class="red-mark"> Groomed every 3 Months </li>
+                    <li class="green-mark"> Health check every year </li>
+                </ul>
+                <h4 class="wm-h4 referances-bottom">References</h4>
+                <div *ngIf="petData?.references.length > 0" class="referances">
+                    
+                    <div class="ref-list">
+                        <div *ngFor="let ref of petData?.references" class="item">
+                            <div class="user-name">
+                                <div class="user-image">
+                                    <img [src]="ref?.imagename" alt="">
+                                </div>
+                                <div class="user-name-in">
+                                    <h4>{{ref?.name}}</h4>
+                                    <h5>{{ref?.relationship}}</h5>
+                                    <h5>{{ref?.duration}}</h5>
+                                    <div class="ratings">
+                                        <ion-img src="../../assets/icon/star.svg"></ion-img>
+                                        <ion-img src="../../assets/icon/star.svg"></ion-img>
+                                        <ion-img src="../../assets/icon/star.svg"></ion-img>
+                                        <ion-img src="../../assets/icon/star.svg"></ion-img>
+                                        <ion-img src="../../assets/icon/star.svg"></ion-img>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="details">
+                                {{ref?.testimonial}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="no-ref" *ngIf="petData?.references.length == 0">
+                    <a>There are no references</a>
+                </div>
+            </div>
+        </ion-grid>
+
+
+    </div>
+
+</ion-content>

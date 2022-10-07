@@ -1,0 +1,196 @@
+.heading{
+    .title {
+        display: flex;
+        justify-content: center;
+    }
+    .sub-title{
+        text-align: start;
+        font-size: 14px;
+        font-weight: 500;
+    }
+}
+
+.table{
+    .title {
+        color: var(--ion-color-primary, #3880ff);
+        background-color: white;
+        font-weight: 500;
+        font-size: 14;
+        font-size: 14px;
+    }
+}
+
+.cms-page {
+    font-size: 14px;
+    line-height: 140%;
+    letter-spacing: 0.2px;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 10px);
+    .main-heading {
+        .title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .sub-title {
+            margin: 0;
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+    }
+    .note{
+        background-color: #e0e0e0;
+        padding: 16px;
+        border-radius: 5px;
+        margin-top: 16px;
+        margin-bottom: 16px;
+        text-align: center;
+        p{
+            margin: 0;
+            font-size: 14px;
+        }
+    }
+    .list-table{
+        padding: 16px;
+        border: 1px solid #e0e0e0;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        &.form-table{
+            ul{
+                margin: 0;
+                padding-left: 0px;
+                list-style: none;
+                li{
+                    ul{
+                        margin-left: 9px;
+                        border-left: 2px solid #fe5675;
+                        padding-left: 20px;
+                        margin-top: 16px;
+                        margin-bottom: 20px;
+                    }
+                }
+            }
+        }
+        h5{
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 20px;
+            margin-top: 0;
+            margin-bottom: 10px;
+            display: block;
+           color: var(--ion-color-primary, #3880ff); 
+        }
+        .sub-title{
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 20px;
+            margin-top: 0;
+            margin-bottom: 10px;
+        }
+        ul{
+            margin: 0;
+            padding-left: 20px;
+            li{
+                margin-bottom: 8px;
+               
+                &:last-child{
+                  margin-bottom: 0px;  
+                }
+                .title{
+                    font-size: 14px;
+                    font-weight: 500;
+                     opacity: 0.8;
+                }
+                .message{
+                   font-size: 14px;
+                    font-weight: 500;
+                    opacity: 0.6;
+                    p{
+                        margin: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+.custiom-checkbox-box{
+    position: relative;
+    padding-left: 30px;
+    padding-bottom: 5px;
+    font-size:14px;
+    ion-checkbox{
+        position: absolute;
+        top: 0px;
+        left: 0;
+    }
+}
+
+.custom-radio-box{
+    position: relative;
+    padding-left: 30px;
+    padding-bottom: 5px;
+    ion-radio{
+        position: absolute;
+        top: 3px;
+        left: 0;
+    }
+}
+
+.ratings {
+    font-weight: 600;
+    font-size: 12px;
+    color: #888;
+    margin: 0;
+    padding-right: 10px;
+    ion-icon {
+      padding: 0;
+    }
+}
+.save-btn {
+    --box-shadow: none;
+    width: 100%;
+    margin: 0px;
+    --border-radius: 4px;
+    text-transform: capitalize;
+}
+
+ion-item {
+    --padding-start: 0px;
+}
+
+.custom-radio-box-container {
+    ion-radio-group {
+        display: flex;
+        align-items: center;
+        ion-radio {
+            margin-right: 10px;
+        }
+        // ion-item {
+        //     width: 50%;
+
+        // }
+    }
+}
+.review-item {
+    .title {
+        font-size: 14px;
+        color: #fe4164;
+        text-transform: capitalize;
+        font-weight: 600;
+    }
+    p {
+        font-weight: 400;
+        font-size: 12px;
+        color: #888;
+        margin: 0px;
+    }
+    .message {
+        color: #4a4a4a;
+    }
+    .rating-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+}

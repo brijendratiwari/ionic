@@ -1,0 +1,277 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Pet Report</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="pet-report-image">
+    <ion-img *ngIf="reportData?.image?.image != ''" [src]="reportData?.image?.image"> </ion-img>
+    <ion-img *ngIf="reportData?.image?.image == ''" src="https://cdn.petcloud.com.au/img/pet_placeholder.png"> </ion-img>
+  </div>
+  <div class="title">
+    <h3>Pet Report Card</h3>
+  </div>
+  <div class="report-list">
+    <ul>
+      <li>
+        <div class="report-info">
+          <div class="report-title">
+            <div class="icon">
+              <img class="icon" src="../../assets/icon/pet-report-icons/food.png"/>
+            </div>
+            <h3>Food</h3>
+          </div>
+          <div class="report-card-inner">
+            <ul>
+              <li>
+                <div class="info-title">
+                  Food Topped Up
+                </div>
+                <div class="info-value">
+                  {{reportData?.food?.foodToppedUp == true ? 'Yes' : ''}}
+                </div>
+              </li>
+              <li>
+                <div class="info-title">
+                  Food Topped Up Time 
+                </div>
+                <div class="info-value">
+                  {{reportData?.food?.time == null ? 'N/A' : reportData?.food?.time}}
+                </div>
+              </li>
+            
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="report-info">
+          <div class="report-title">
+            <div class="icon">
+              <img class="icon" src="../../assets/icon/pet-report-icons/water.png"/>
+            </div>
+            <h3>Water</h3>
+          </div>
+          <div class="report-card-inner">
+            <ul>
+              <li>
+                <div class="info-title">
+                  Water Topped Up
+                </div>
+                <div class="info-value">
+                  {{reportData?.water?.waterToppedUp == true ? 'Yes' : 'Bowl of water topped up daily'}}
+                </div>
+              </li>
+              <li>
+                <div class="info-title">
+                  Water Up Time
+                </div>
+                <div class="info-value">
+                  {{reportData?.water?.time == null ? 'N/A' : reportData?.water?.time}}
+                </div>
+              </li>
+             
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="report-info">
+          <div class="report-title">
+            <div class="icon">
+              <img class="icon" src="../../assets/icon/pet-report-icons/medication.png"/>
+            </div>
+            <h3>Medicines</h3>
+          </div>
+          <div class="report-card-inner">
+            <ul>
+              <li>
+                <div class="info-title">  
+                  Medicines Given Time
+                </div>
+                <div class="info-value">
+                  {{reportData?.medication?.medication == '' ? 'N/A' : reportData?.medication?.medication == true ? 'Yes' : 'No' }}  
+                </div>
+              </li>
+            
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="report-info">
+          <div class="report-title">
+            <div class="icon">
+              <img class="icon" src="../../assets/icon/pet-report-icons/poo.png"/>
+            </div>
+            <h3>Poo</h3>
+          </div>
+          <div class="report-card-inner">
+            <ul>
+              <li>
+                <div class="info-title">
+                  Poo     
+                </div>
+                <div class="info-value">
+                  {{reportData?.poo?.poo == '' ? 'N/A' : reportData?.poo?.poo == true ? 'Yes' : 'No' }} 
+                </div>
+              </li>
+
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="report-info">
+          <div class="report-title">
+            <div class="icon">
+              <img class="icon" src="../../assets/icon/pet-report-icons/wee.png"/>
+            </div>
+            <h3>Wee</h3>
+          </div>
+          <div class="report-card-inner">
+            <ul>
+              <li>
+                <div class="info-title">
+                  Wee 
+                </div>
+                <div class="info-value">
+                  {{reportData?.pee?.pee == '' ? 'N/A' : reportData?.pee?.pee == true ? 'Yes' : 'No' }} 
+                </div>
+              </li>
+  
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="report-info">
+          <div class="report-title">
+            <div class="icon">
+              <img class="icon" src="../../assets/icon/pet-report-icons/home.png"/>
+            </div>
+            <h3>Property Secured</h3>
+          </div>
+          <div class="report-card-inner">
+            <ul>
+              <li>
+                <div class="info-title">
+                  Locked up door after left
+                </div>
+                <div class="info-value">
+                  {{reportData?.propertySecured?.propertySecured == null ? 'N/A' : reportData?.propertySecured?.propertySecured == true ? 'Yes' : 'No'}} 
+                </div>
+              </li>
+             
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="report-info">
+          <div class="report-title">
+            <div class="icon">
+              <img class="icon" src="../../assets/icon/pet-report-icons/time.png"/>
+            </div>
+            <h3> Duration of Walk </h3>
+          </div>
+          <div class="report-card-inner">
+            <ul>
+              <li>
+                <div class="info-title">
+                  Duration of Walk 
+                </div>
+                <div class="info-value">
+                  {{reportData?.dogwalk?.time == null ? 'N/A' : reportData?.dogwalk?.time}} 
+                </div>
+              </li>
+            
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="report-info">
+          <div class="report-title">
+            <div class="icon">
+              <img class="icon" src="../../assets/icon/pet-report-icons/mood.png"/>
+            </div>
+            <h3>Mood</h3>
+          </div>
+          <div class="report-card-inner">
+            <ul>
+              <li>
+                <div class="info-title">
+                  Mood
+                </div>
+                <div class="info-value">
+                  {{reportData?.mood?.mood == null ? 'N/A' : reportData?.mood?.mood}} 
+                </div>
+              </li>
+             
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="report-info">
+          <div class="report-title">
+            <div class="icon">
+              <img class="icon" src="../../assets/icon/pet-report-icons/specialcare.png"/>
+            </div>
+            <h3>Special Care</h3>
+          </div>
+          <div class="report-card-inner">
+            <ul>
+              <li>
+                <div class="info-title">
+                  Special Care given
+                </div>
+                <div class="info-value">
+                    {{reportData?.specialCare?.specialCare == null ? 'N/A' : reportData?.specialCare?.specialCare == true ? 'Yes' : 'No'}}
+                </div>
+              </li>
+              <li>
+                <div class="info-title">
+                  Special Time
+                </div>
+                <div class="info-value">
+                  {{reportData?.specialCare?.specialCaretime == null ? 'N/A' : reportData?.specialCare?.specialCaretime }}
+                </div>
+              </li>
+            
+            </ul>
+          </div>
+        </div>
+      </li>
+      <li>
+        <div class="report-info">
+          <div class="report-title">
+            <div class="icon">
+              <img class="icon" src="../../assets/icon/sml_dogs.svg"/>
+            </div>
+            <h3>Notes</h3>
+          </div>
+          <div class="report-card-inner">
+            <ul>
+              <li>
+               
+                <div class="info-value">
+                  {{reportData?.summary?.summary == null ? 'N/A' : reportData?.summary?.summary}} 
+                </div>
+              </li>
+             
+            </ul>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+</ion-content>

@@ -1,0 +1,55 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-button (click)="closeModal()">
+				<ion-icon slot="icon-only" name="close"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+		<ion-title>Submit Review</ion-title>
+	</ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+	<form [formGroup]="Review">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none" class="ion-no-padding">
+            <ion-label position="stacked">Rating*</ion-label>
+            <rating class="rating-content" [readonly]="false" formControlName="rate"></rating>
+          </ion-item>
+          <ion-text
+            class="animated fadeInUp error"
+            *ngIf="Review.get('rate').hasError('required') && (Review.get('rate').touched || Review.get('rate').dirty)"
+          >           
+              Please select review
+          </ion-text>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-item lines="none" class="comment-item ion-no-padding">
+            <ion-label position="stacked">Comment*</ion-label>
+            <ion-textarea rows="4" formControlName="message"></ion-textarea>
+          </ion-item>
+          <ion-text lines="none" class="animated fadeInUp error"
+            *ngIf="Review.get('message').hasError('required') && (Review.get('message').touched || Review.get('message').dirty)" >            
+              Please Enter Commment
+          </ion-text>
+          <ion-text lines="none" class="animated fadeInUp error"
+            *ngIf="Review.get('message').hasError('minlength') && (Review.get('message').touched || Review.get('message').dirty)"
+          >            
+            Minimum 6 character is required
+        </ion-text>
+
+        </ion-col>
+      </ion-row> 
+    </ion-grid>
+		<ion-button expand="full" color="submit-btn" class="submit-btn text-capitalize fls-0" [disabled]="!Review.valid" (click)="submitLeaveReview()">Submit</ion-button>
+  </form>
+
+  <p>
+    Please note that all reviews will be made public.
+     Do not write sensitive information or comments
+      that would be inappropriate and against our <a (click)="tc()">Terms and conditons</a>
+  </p>
+</ion-content>

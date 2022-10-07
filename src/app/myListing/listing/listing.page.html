@@ -1,0 +1,126 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start" color="theme">
+            <ion-back-button defaultHref="home/tabs/profile-menu" ></ion-back-button>
+        </ion-buttons>
+        <ion-title>My Listing</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row *ngIf="progressShow == '1'">
+            <ion-card color="note" class="info-card ion-no-margin" style="width: 100%;"> 
+                <ion-card-header>
+                   <b>{{userData?.listingMessage?.messheader}}</b> 
+                </ion-card-header>
+                <ion-card-content>
+                    <p> {{userData?.listingMessage?.headmessage}} </p>
+                </ion-card-content>
+                <ng-container *ngIf="userData?.user_type == '1'">
+                    <div *ngIf="completedProfileStep >= 0 && 
+                        completedProfileStep != 5" class="profile-setup">
+
+                        <div class="progress-steps" routerLink="/profile-setup">
+                            <div [class]="(idx + 1) <= completedProfileStep ? 'block active' : 'block'"
+                                *ngFor="let ps of steps; let idx = index"></div>
+                        </div>
+                    </div>                       
+                </ng-container>
+                <ng-container *ngIf="userData?.user_type == '2' || userData?.user_type == '3'">                  
+                    <div *ngIf="completedProfileStep >= 0 && 
+                        completedProfileStep != 3"
+                        class="profile-setup">
+                        <div class="progress-steps" routerLink="/profile-setup">
+                            <div [class]="(idx + 1) <= completedProfileStep ? 'block active' : 'block'"
+                                *ngFor="let ps of steps; let idx = index"></div>
+                        </div>
+                    </div>                      
+                </ng-container>
+            </ion-card>
+        </ion-row>
+        <ion-row *ngIf="progressShow == '0'">
+            <ion-col>
+                <ion-card color="note" class="info-card ion-no-margin">
+                    <ion-card-header *ngIf="listingStatus== '0' || listingStatus== 0 || listingStatus == null">
+                        <ion-card-title>
+                            Your listing is not yet active
+                            <ion-button class="text-capitalize fls-0 fs-14" (click)="changeListingStatus('Activate')"
+                                expand="block" type="button" color="success">
+                            Activate
+                            </ion-button>
+                        </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content *ngIf="listingStatus == '1'  || listingStatus == 1">
+                        <p>To have your listing active on PetCloud we require our users to have some basic details
+                            provided and verifications completed. Once these steps are complete your listing will be
+                            active
+                        </p>
+                        <div class="act-btn-wrapper">
+                            <ion-button class="text-capitalize fls-0 fs-14" type="button"
+                                [routerLink]="['/pet-sitter-detail',userId]" color="theme">
+                                View Listing
+                            </ion-button>
+    
+                            <ion-button class="text-capitalize fls-0 fs-14" (click)="changeListingStatus('Deactivate')"
+                                type="button" color="danger">
+                                Deactivate
+                            </ion-button>
+                        </div>
+
+                        <ion-button class="text-capitalize fls-0 fs-14" color="facebook"
+                            (click)="shareFacebook()">
+                            <ion-icon slot="start" name="logo-facebook"></ion-icon>Share on facebook
+                        </ion-button>
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-list class="custom-list">
+                    <ion-item 
+                    (click)="navigateTo(1)">
+                        <label>Basic Information</label>
+                        <ion-icon slot="end" name="chevron-forward-circle-outline"></ion-icon>
+                    </ion-item>
+
+                    <ion-item [color]="isListing == false ? 'light' : ''"
+                    (click)="navigateTo(2)">
+                        <label> Photos</label>
+                        <ion-icon slot="end" [name]="isListing == true ? 'chevron-forward-circle-outline' : ''"></ion-icon>
+                    </ion-item>
+
+                    <ion-item [color]="isListing == false ? 'light' : ''"
+                    (click)="navigateTo(3)">
+                        <label>Services</label>
+                        <ion-icon slot="end" [name]="isListing == true ? 'chevron-forward-circle-outline' : ''"></ion-icon>
+                    </ion-item>
+
+                    <ion-item [color]="isListing == false ? 'light' : ''"
+                    (click)="navigateTo(4)">
+                        <label> Home Description</label>
+                        <ion-icon slot="end" [name]="isListing == true ? 'chevron-forward-circle-outline' : ''"></ion-icon>
+                    </ion-item>
+
+                    <ion-item [color]="isListing == false ? 'light' : ''"
+                    (click)="navigateTo(5)">
+                        <label> Skills</label>
+                        <ion-icon slot="end" [name]="isListing == true ? 'chevron-forward-circle-outline' : ''"></ion-icon>
+                    </ion-item>
+
+                    <ion-item routerLink="/payout-prefrence">
+                        <label> Payout Preferences</label>
+                        <ion-icon slot="end" name="chevron-forward-circle-outline" ></ion-icon>
+                    </ion-item>
+                    
+
+                    <ion-item routerLink="/availability">
+                        <label> Availability</label>
+                        <ion-icon slot="end" name="chevron-forward-circle-outline" ></ion-icon>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>

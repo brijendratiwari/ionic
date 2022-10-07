@@ -1,0 +1,115 @@
+<ion-header>
+    <ion-toolbar class="header-toolbar">
+    <ion-grid>
+        <ion-row>
+            <ion-col class="search-wrapper" size="12">
+                <div class="search-div">
+                    <input type="search" [options]='options' ngx-google-places-autocomplete #placesRef="ngx-places"
+                        clearInput [(ngModel)]="googleSearch" placeholder="Search by location"
+                        class="search-input native-input sc-ion-input-md" (onAddressChange)="handleAddressChange($event)"
+                        id="suburb" 
+                    />
+                    <i class="counts fs-12">{{jobsList.length}} Results</i>
+                </div>
+                <div class="filter-div">
+                    <ion-button class="filter-btn" fill="clear" color="theme" (click)="jobSearchFilter()">
+                        <ion-icon size="large" slot="icon-only" name="options"></ion-icon>
+                    </ion-button>
+                </div>
+               
+            </ion-col>
+            <!-- <ion-col size="2">
+                
+            </ion-col> -->
+        </ion-row>
+    </ion-grid>
+</ion-toolbar>
+
+</ion-header>
+
+<ion-content>
+
+            <ng-container *ngIf="isAPILoaded">
+                <ion-grid *ngIf="jobsList">
+                    <ion-row>
+                        <ion-col>
+                            <div class="joblist">
+                                <div class="jobitem" *ngFor="let job of jobsList">
+                                    <div class="job-profile">
+                                        <img src="{{job?.petImage}}" alt="{{job?.first_name}}">
+                                    </div>
+                                    <div class="job-info">
+                                        <h4 class="petname" (click)="petDetails(job?.pets)">{{job?.petName}}</h4>
+                                        <div class="location">{{job?.suburb}} • {{job?.distance}} kms</div>
+                                        <p class="service">{{job?.serviceName}}</p>
+                                        <p class="pet-count">{{job?.petsCount}} Pets</p>
+                                        <p class="date">{{job?.startDate}} <span *ngIf="job.endDate != '' ">- {{job?.endDate}}</span> </p>
+                                        <p class="date">{{job?.booking_days}}</p>
+                                        <!-- <p class="more-details" (click)="showJobDetails($event,job?.id,job?.earnUpTo)">View details</p> -->
+                                    </div>
+                                    <div class="job-actions">
+                                        <ion-icon 
+                                            (click)="socialShare(job.petImage,job.petName,job.share_url)" 
+                                            class="share-btn" name="share-social-outline"
+                                        ></ion-icon>
+                                        <div class="price">
+                                            <span class="price-label">Earn up to</span>
+                                            <h4 class="base-price">${{job?.earnUpTo}}</h4>
+                                            <div 
+                                                (click)="showJobDetails($event,job?.id,job?.earnUpTo)"
+                                                class="job-status" 
+                                                [class.assigned]="job?.active == 2 || job?.applied == 1"
+                                            >
+                                                {{
+                                                    job?.active == 2 ? 'Assigned': job?.applied == 1 ? 'Applied' : 'View'
+                                                  }} 
+                                            </div>
+                                            
+                                        </div>
+                                        <!-- <div class="action">
+                                            <ion-button [color]="(job?.applied == 0 && job.active != 2) ? 'theme-sec' : 'c3'"
+                                                class="fs-14 text-capitalize"
+                                                (click)="showJobDetails($event,job?.id,job?.earnUpTo)">
+                                                 {{
+                                                    job.active == 2 ? 'Assigned': '' || 
+                                                    job?.applied == 1 ? 'Applied' : '' ||
+                                                    job?.applied == 0 ? 'View'  : ''  
+                                                  }} 
+
+
+
+                                            </ion-button>
+                                            <div (click)="socialShare(job.petImage,job.petName,job.share_url)"
+                                                class="liked">
+                                                <ion-img type="image/png" src="../../assets/icon/network.png"
+                                                    class="custom-icon"></ion-img>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+
+
+                <ion-infinite-scroll *ngIf="!isHidePagination" threshold="100px" (ionInfinite)="loadData($event)">
+                    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more Pet Jobs">
+                    </ion-infinite-scroll-content>
+                </ion-infinite-scroll>
+
+                <ion-grid *ngIf="jobsList == 0">
+                    <ion-row>
+                        <ion-col>
+                            <ion-img type="image/svg+xml" src="assets/icon/nodata.svg"></ion-img>
+                        </ion-col>
+                    </ion-row>
+                    <ion-row>
+                        <ion-col>
+                            <h3 class="title">No Jobs Posted in your area.</h3>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ng-container>
+   
+</ion-content>

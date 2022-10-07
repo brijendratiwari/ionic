@@ -1,0 +1,214 @@
+<ion-header class="ion-no-border" no-shadow>
+  <ion-toolbar>
+    <div class="explore-header">
+      <h2 class="title">Hi <span *ngIf="userName">{{userName}}</span> </h2>
+      <div (click)="showHideIcon()" class="icon">
+        <ion-img type="image/png" src="../../assets/icon/explore/location.svg" class="custom-icon"></ion-img>
+      </div>
+      <div [hidden]="!userImage" class="icon avatar">
+        <ion-img type="image/png" src={{userImage}} class="custom-icon"></ion-img>
+      </div>
+    </div>
+    <ion-row *ngIf="isLocationSearchHeader">
+      <ion-col size="12">
+        <input type="search" ngx-google-places-autocomplete #placesRef="ngx-places" clearInput [options]='options'
+          placeholder="Search by suburb" class="search-input native-input sc-ion-input-md"
+          (onAddressChange)="handleAddressChange($event)" id="suburb" [(ngModel)]="googleSearch" />
+      </ion-col>
+    </ion-row>
+
+    <ion-segment color="primary" [(ngModel)]="type" (ionChange)="segmentChanged($event)" scrollable>
+      <ion-segment-button value="sitters" checked>
+        <ion-label>👩 My Favourite Providers</ion-label>
+      </ion-segment-button>
+      <ion-segment-button value="petJobs">
+        <ion-label>😺 Pet Jobs Near You</ion-label>
+      </ion-segment-button>
+    </ion-segment>
+
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [ngStyle]="isDrawerVisible == true && {'opacity': '0.3'}">
+  <div class="home-tab-screen">
+
+
+    <div [ngSwitch]="type">
+      <!-- Request For GPS Permission -->
+
+      <ion-card *ngIf="type == 'sitters' && exploreData?.owner?.sitterlist.length == 0">
+        <ion-card-content>
+          <ion-text>
+            <p class="ion-text-center"> <b>There are no Pet Sitters nearby.</b> <br> </p>
+            <p class="ion-text-center" style="margin-bottom: 20px;"> <b> Notify PetCloud to recruit some in the {{suburbName}}
+                area.</b> </p>
+          </ion-text>
+          <ion-button class="text-capitalize notify-btn" (click)="sendNotifyEmail()" color="theme">
+            Notify PetCloud
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+
+      <ng-container *ngIf="exploreData?.owner?.sitterlist.length > 0">
+        <div class="sitters-view" *ngSwitchCase="'sitters'">
+          <ng-container>
+
+
+            <ion-slides pager={true} class="sitters-list" [options]="sliderOpts">
+              <ion-slide *ngFor="let sitterlist of exploreData?.owner?.sitterlist">
+                <div
+              
+                class="slide item"
+                [routerLink]="['/pet-sitter-detail',sitterlist.userId]">
+                <div class="avatar">
+                  <img [src]="sitterlist?.imagename" alt="">
+                </div>
+                <h4>{{sitterlist?.first_name}}</h4>
+                <p>{{sitterlist?.address}}</p>
+                <div class="ratings">
+                  <div class="radings-custom">
+
+
+                    <ion-img *ngFor="let s of convertNumberToArray(5); let i = index" [src]="(i <= sitterlist?.rating - 1) ?
+                    '../../assets/icon/star-rating.svg': '../../assets/icon/star-rating-blank.svg'"> </ion-img>
+                  </div>
+                </div>
+              </div>
+              </ion-slide>
+            </ion-slides>
+          </ng-container>
+        </div>
+      </ng-container>
+
+      <div class="sitters-view" *ngSwitchCase="'petJobs'">
+
+        <ion-card *ngIf="type == 'petJobs' &&
+          exploreData?.sitter?.joblist.length == 0">
+          <ion-card-content>
+            <ion-text>
+              No Jobs nearby... yet. Check back again soon 😊
+            </ion-text>
+          </ion-card-content>
+        </ion-card>
+
+
+        <ion-slides class="sitters-list" pager [options]="sliderOpts">
+          <ion-slide *ngFor="let petData of exploreData?.sitter?.joblist">
+            <div (click)="showJobDetails(petData)" class="item" >
+              <div class="avatar">
+                <img [src]="petData?.imagename" alt="">
+              </div>
+              <h4>{{petData?.title}}</h4>
+              <h4>{{petData?.serviceName}}</h4>
+              <div> <h5>Earn up to </h5> </div> 
+              <div><h5 style="white-space: nowrap;">${{petData?.earnUpTo}}</h5> </div> 
+            </div>
+          </ion-slide>
+        </ion-slides>
+      </div>
+    </div>
+
+    <div class="no-reminders-btn" *ngIf="type == 'sitters' && exploreData?.reminders.length == 0 ">
+      <div class="icon">
+        <ion-img type="image/png" src="../../assets/icon/explore/bell.svg" class="custom-icon"></ion-img>
+      </div>
+      <h4>
+        No Upcoming Reminders
+      </h4>
+      <div class="add-btn" (click)="reminders('add')">
+        <ion-img type="image/png" src="../../assets/icon/explore/add-reminder.svg" class="custom-icon"></ion-img>
+      </div>
+    </div>
+
+    <div class="reminders-list-container" *ngIf="exploreData?.reminders.length > 0">
+      <h4 class="title">
+        Reminders <a (click)="reminders('view')" class="view-all-btn" style="text-decoration: underline;">See All</a>
+      </h4>
+      <div class="reminders-list">
+        <div class="item" *ngFor="let reminder of exploreData?.reminders">
+          <div (click)="goToMessageDetails(reminder)" class="details">
+            <div class="avatar-container">
+              <div class="avatar">
+                <img [src]="reminder?.image" alt="">
+              </div>
+              <h4>{{reminder?.name}}</h4>
+            </div>
+            <div class="desc">
+              <h3>{{reminder?.title}}</h3>
+              <p>{{reminder?.date}}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nearby-container" *ngIf="categories.length > 0">
+      <div class="title">
+        <div class="content">
+          <h4>Pet Friendly Guide</h4>
+          <p>Select what you want to search for</p>
+        </div>
+        <div (click)="viewCategories()" class="action">
+          <div class="view-all-btn">
+            View All
+          </div>
+        </div>
+      </div>
+
+      <ion-slides pager [options]="sliderOpts" class="nearby-places-list">
+        <ion-slide  *ngFor="let category of categories" >
+          <div class="item category-item" >
+            <div class="details" (click)="goToDashboardCategory(category)">
+              <div>
+                <img class="dashboardicon" src="{{category?.icons}}" alt="">
+              </div>
+              <p>{{category?.name}}</p>
+            </div>
+          </div>
+        </ion-slide>
+      </ion-slides>
+
+    </div>
+
+    <ion-card *ngIf="type == 'sitters' && exploreData?.listings.length == 0">
+      <ion-card-content>
+        <ion-text style="margin-bottom: 20px;">
+          <p class="ion-text-center"> <b>There are no Pet Friendly places nearby.</b> </p>
+
+          <ion-button class="text-capitalize notify-btn" (click)="addPetFriendlyLocation()" color="theme">
+            Add a Pet Friendly Location
+          </ion-button>
+          <p class="ion-text-center"> or </p>
+          <ion-button class="text-capitalize notify-btn" (click)="goToDashboard()" color="theme-sec">
+            Browse Pet Friendly Directory
+          </ion-button>
+
+        </ion-text>
+      </ion-card-content>
+    </ion-card>
+
+    <div class="pet-places-container" *ngIf="exploreData?.listings.length > 0">
+      <h4 class="title">
+        Pet Friendly Places around you
+        <a class="view-all-btn" (click)="goToDirectoryListingMap()">See All</a>
+      </h4>
+      <div class="pet-places-list">
+        <div class="item" *ngFor="let listing of exploreData?.listings" (click)="goToListingDetail(listing)">
+          <div class="place-image">
+            <img [src]="listing?.image">
+          </div>
+          <div class="details">
+            <h4>{{listing?.listing_title}}</h4>
+            <p>{{listing?.category}}</p>
+            <p>{{listing?._address}}</p>
+            <div class="radings-custom">
+              <ion-img *ngFor="let s of convertNumberToArray(5); let i = index" [src]="(i <= listing?.rating - 1) ?
+               '../../assets/icon/star-rating.svg': '../../assets/icon/star-rating-blank.svg'"> </ion-img>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

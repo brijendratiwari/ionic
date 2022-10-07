@@ -1,0 +1,112 @@
+[_nghost-c7] .dark[_ngcontent-c7] .days[_ngcontent-c7] .on-selected[_ngcontent-c7], 
+[_nghost-c7] .dark[_ngcontent-c7] .startSelection[_ngcontent-c7] button.days-btn[_ngcontent-c7],
+ [_nghost-c7] .dark[_ngcontent-c7] .endSelection[_ngcontent-c7] button.days-btn[_ngcontent-c7] {
+    background-color: #eeeeee;
+    color: #fff;
+    border-radius:0;
+}
+
+.days-btn on-selected{
+  background-color: red;
+    color: #fff;
+}
+
+.calendar-info{
+  display: flex;
+  flex-direction: row;
+  padding:10px 20px;
+  align-items: center;
+  .symbol{
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+    margin-right: 10px;
+    border:1px solid black;
+  }
+  .unavialble-symbol{
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-color: lightgrey;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .today-symbol{
+    display: block;
+    width: 30px;
+    height: 30px;
+    background-color: #52c3be;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  .msg{
+    font-size: 14px;
+    color: #4A4A4A;
+    letter-spacing: 0;
+    line-height: 18px;
+  }
+
+  .days-btn.today {
+    background-color: red !important;
+}
+
+[_nghost-c3] .dark[_ngcontent-c3] .days[_ngcontent-c3] .on-selected[_ngcontent-c3], [_nghost-c3] .dark[_ngcontent-c3] .startSelection[_ngcontent-c3] button.days-btn[_ngcontent-c3], [_nghost-c3] .dark[_ngcontent-c3] .endSelection[_ngcontent-c3] button.days-btn[_ngcontent-c3] {
+  background-color: #D3D3D3 !important;
+  color: #fff;
+}
+}
+
+
+:host ::ng-deep .days-btn.today{
+  background-color: #52c3be !important; 
+  p{ 
+    color: white !important; 
+  } 
+}
+
+:host ::ng-deep .days-btn.limitedDays {
+  background-color: #fcf9e2 !important; 
+  p{ 
+    color: black !important; 
+  } 
+}
+
+
+:host ::ng-deep .days-btn.limitedDays.on-selected {
+  background-color:  #fcf9e2 !important; 
+  p{ 
+    color: black !important; 
+  }
+}
+
+
+:host ::ng-deep .days-btn.unavailableDays.on-selected{
+  background-color: transparent !important; 
+  p{ 
+    color: black !important; 
+  }
+}
+
+:host ::ng-deep .days-btn.unavailableDays{ 
+  background-color: #D3D3D3 !important; 
+  p{ 
+    color: white !important; 
+  } 
+}
+
+
+:host ::ng-deep .on-selected{
+  background-color: #D3D3D3 !important; 
+  p{ 
+    color: white !important; 
+  } 
+}
+
+.setting-icon{
+  zoom: 2;
+}
+
+
+  

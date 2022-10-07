@@ -1,0 +1,368 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="guides"></ion-back-button>
+    </ion-buttons>
+    <p>{{title}}</p>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div *ngIf="isRSPAProperty" class="cms-page">
+    <div class="main-heading">
+      <a class="title">RSPCA Property Checklist</a>
+      <p class="sub-title">
+        Both Sitters and Pet Owners must take joint responsibility in ensuring the entire property is
+        safe,
+        secure, hazard-free, and escape proof. Every property and every pet is different. Be alert for other
+        hazards that are not listed.</p>
+    </div>
+    <div class="note">
+      <p>Your number 1 priority is ensuring visiting pets cannot escape.</p>
+    </div>
+    <div class="list-table">
+      <h5 class="title">
+        Outside Checks for Dogs and Puppies - (Cats and Kittens should never be outside).
+      </h5>
+      <div class="list">
+        <ul>
+          <li *ngFor="let outside of rspa_property_check?.outSideCheck">
+            <div class="title">{{outside.title}}</div>
+            <div class="message">{{outside.message}}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="list-table">
+      <h5 class="title">
+        Indoor Checks for Pets - (Cats & Kittens must be kept indoors 100% of the time).
+      </h5>
+      <div class="list">
+        <ul>
+          <li *ngFor="let inside of rspa_property_check?.insideCheck">
+            <div class="title">{{inside.title}}</div>
+            <div class="message">{{inside.message}}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="list-table">
+      <h5 class="title">
+        Questions Pet Owners typically ask during a Meet Greet
+      </h5>
+      <h6 class="sub-title">
+        Both Sitters and Pet Owners must take joint responsibility in ensuring the entire property is
+        safe,
+        secure, hazard-free, and escape proof. Every property and every pet is different. Be alert for other
+        hazards that are not listed.
+      </h6>
+      <div class="list">
+        <ul>
+          <li *ngFor="let question of rspa_property_check?.questions">
+            <div class="message">{{question.title}}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="list-table">
+      <div class="list" *ngFor="let observation of rspa_property_check?.observations">
+        <div class="main-heading">
+          <a class="title">{{observation.title}}</a>
+          <p class="sub-title">{{observation.message}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isPreparationBeforeStay" class="cms-page">
+    <div class="list-table">
+      <h5 class="title">
+        Pet Preparation List for Pet Owners
+      </h5>
+      <h6 class="sub-title">
+        Please fill out this form with ✓ ✘. The following is a list of things Pet Owners need to DO
+        before
+        the pet stay begins.
+      </h6>
+      <div class="list">
+        <ul>
+          <li *ngFor="let preparation of preparationList">
+            <div class="title">{{preparation.title}}</div>
+            <div class="message">
+              <p>{{preparation.message1}}</p>
+              <p *ngIf="preparation.message2">{{preparation.message2}}</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+
+  <div *ngIf="ispackingList" class="cms-page">
+    <div class="list-table">
+      <h5 class="title">
+        Pet Preparation List for Pet Owners
+      </h5>
+      <h6 class="sub-title">
+        Please fill out this form with ✓ ✘. The following is a list of items you need to supply your house or
+        pet sitter in a big tote bag when you drop your pet off on the date the stay begins.
+      </h6>
+      <div class="list">
+        <ul>
+          <li *ngFor="let packList of packingList">
+            <div class="title">{{packList?.title}}</div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="isHouseSitting" class="cms-page">
+    <div class="list-table">
+      <h5 class="title">
+        House Sitter / House Visits Form
+      </h5>
+      <h6 class="sub-title">
+        Pet Owners: Please fill out this form with ✓ ✘ and provide instructions for your house sitters
+        before your booking begins so they understand your expectations. When you go away, it is a
+        helpful document to leave for your sitter.
+      </h6>
+    </div>
+    <div class="list-table form-table">
+      <h5 class="title">
+        I have made sure that
+      </h5>
+      <div class="list">
+        <ul *ngFor="let houseSittingData of houseSitting">
+          <li *ngFor="let madeSureData of houseSittingData.madeSure">
+            <div class="custiom-checkbox-box">
+              <ion-label>{{madeSureData?.title}} </ion-label>
+              <ion-checkbox [(ngModel)]="madeSureData.value"></ion-checkbox>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="list-table form-table">
+      <h5 class="title">
+        Access
+      </h5>
+      <div clfss="list">
+        <ul *ngFor="let houseSittingData of houseSitting">
+          <li *ngFor="let access of houseSittingData.access">
+            <div class="title"> {{access?.title}} </div>
+
+              
+            <ion-item [hidden]="access?.placeholder == ''" class="title">
+              <ion-input [(ngModel)]="access.value" [type]="access?.type"
+                placeholder={{access?.placeholder}}></ion-input>
+            </ion-item>
+
+
+            <ion-item [hidden]="access?.placeholder1 == ''" class="title">
+              <ion-input 
+              [(ngModel)]="access.value2" [type]="access?.type2"
+                placeholder={{access?.placeholder1}}></ion-input>
+            </ion-item> 
+
+
+            <div class="custom-radio-box-container"  [hidden]="access?.radioBt == false">
+
+              <ion-radio-group value="yes">
+               
+                <ion-item lines="none">
+                  <ion-label>Yes</ion-label>
+                  <ion-radio slot="start" value="yes"></ion-radio>
+                </ion-item>
+
+                <ion-item lines="none">
+                  <ion-label>No</ion-label>
+                  <ion-radio slot="start" value="np"></ion-radio>
+                </ion-item>
+            
+              </ion-radio-group>
+              <!-- <div class="custom-radio-box" *ngFor="let radioBt of access?.radioBtn" (ionSelect)="radioBtnChange($event)" >
+                <label>{{radioBt.name}}</label>
+                <ion-radio></ion-radio>
+              </div> -->
+            </div>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="list-table form-table">
+      <h5 class="title">
+        Could you please?
+      </h5>
+      <div class="list">
+        <ul *ngFor="let houseSittingData of houseSitting">
+          <li *ngFor="let request of houseSittingData.request">
+            <div class="custiom-checkbox-box">
+              <ion-label>{{request?.title}}</ion-label>
+              <ion-checkbox [(ngModel)]="request.value"></ion-checkbox>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="list-table form-table">
+      <h5 class="title">
+        You are welcome to
+      </h5>
+      <div class="list">
+        <ul *ngFor="let houseSittingData of houseSitting">
+          <li *ngFor="let welcomeTo of houseSittingData.welcomeTo">
+            <div class="title"> {{welcomeTo?.title}} </div>
+
+            <ion-item *ngIf="welcomeTo.placeholder1 != ''">
+              <ion-input [(ngModel)]="welcomeTo.value" *ngIf="welcomeTo?.placeholder1 != ''"
+                placeholder={{welcomeTo?.placeholder1}}></ion-input>
+            </ion-item>
+
+            <ion-item *ngIf="welcomeTo.placeholder2  != ''">
+              <ion-input [(ngModel)]="welcomeTo.value1" *ngIf="welcomeTo?.placeholder2"
+                placeholder={{welcomeTo?.placeholder2}}></ion-input>
+            </ion-item>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="list-table form-table">
+      <h5 class="title">
+        Before you go could you please
+      </h5>
+      <div class="list">
+        <ul *ngFor="let houseSittingData of houseSitting">
+
+          <li *ngFor="let beforeYouGo of houseSittingData.BeforeYouGo">
+            <div class="custiom-checkbox-box">
+              <ion-label>{{beforeYouGo?.title}}</ion-label>
+              <ion-checkbox *ngFor="let cb of beforeYouGo.checkbox" 
+              [(ngModel)]="cb.value"></ion-checkbox>
+            </div>
+            <ul>
+              <li>
+                <ion-item class="title" *ngIf="beforeYouGo?.placeHolder  == 'Contact Name'">
+                  <ion-input [(ngModel)]="beforeYouGo.value" *ngIf="beforeYouGo?.placeHolder != ''"
+                    placeholder={{beforeYouGo?.placeHolder}}></ion-input>
+                </ion-item>
+              </li>
+              <li><ion-item *ngIf="beforeYouGo.placeHolder1  == 'Mobile Number'">
+                <ion-input [(ngModel)]="beforeYouGo.value1" *ngIf="beforeYouGo?.placeHolder1 != ''"
+                  placeholder={{beforeYouGo?.placeHolder1}}></ion-input>
+              </ion-item> </li>
+            </ul>
+             <ul *ngIf="beforeYouGo?.additional">
+              <li>
+                <div class="title">{{beforeYouGo?.additional}}</div>
+                <ion-item  [hidden]="beforeYouGo?.placeHolder == ''">
+                  <ion-input [(ngModel)]="beforeYouGo.value" *ngIf="beforeYouGo?.placeHolder != ''"
+                  placeholder={{beforeYouGo?.placeHolder}}></ion-input>
+                </ion-item>
+              </li>
+
+              <li>
+                <div class="title">{{beforeYouGo?.additional1}}</div>
+                <ion-item  [hidden]="beforeYouGo?.placeHolder1 == ''">
+                  <ion-input [(ngModel)]="beforeYouGo.value1" *ngIf="beforeYouGo?.placeHolder1 != ''"
+                  placeholder={{beforeYouGo?.placeHolder1}}></ion-input>
+                </ion-item>
+              </li>
+
+              <li>
+                <div class="title">{{beforeYouGo?.additional2}}</div>
+                <ion-item  [hidden]="beforeYouGo?.placeHolder2 == ''">
+                  <ion-input [(ngModel)]="beforeYouGo.value2" *ngIf="beforeYouGo?.placeHolder2 != ''"
+                  placeholder={{beforeYouGo?.placeHolder2}}></ion-input>
+                </ion-item>
+              </li>
+              
+            </ul> 
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="list-table form-table">
+      <h5 class="title">
+        Special Requirements
+      </h5>
+      <div class="list">
+        <ul *ngFor="let houseSittingData of houseSitting">
+          <li *ngFor="let specialRequirement of houseSittingData.specialRequirement">
+            <div class="title"> {{specialRequirement?.title}}
+            </div>
+            <ion-item *ngIf="specialRequirement?.placeholder1 != '' ">
+            <ion-input [(ngModel)]="specialRequirement.value" 
+            *ngIf="specialRequirement?.placeholder1 != '' "
+              placeholder={{specialRequirement?.placeholder1}}></ion-input>
+            </ion-item>
+            <div class="message"> {{specialRequirement?.title2}} </div>
+         
+            <ion-item *ngIf="specialRequirement?.placeholder2 != ''">
+              <ion-input [(ngModel)]="specialRequirement.value" [type]="specialRequirement?.type"
+              *ngIf="specialRequirement?.placeholder2 != '' " placeholder={{specialRequirement?.placeholder2}}></ion-input>
+            </ion-item>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <ion-button class="save-btn" (click)="save()" color="primary">Save</ion-button>
+  </div>
+
+  <div *ngIf="isRSPAPartnerShip" class="cms-page" [innerHTML]="pageContentHTML?.content">
+  </div>
+
+  <div *ngIf="isSocialImpact" class="cms-page" [innerHTML]="pageContentHTML?.content">
+  </div>
+
+  <div *ngIf="isHowItWorks" class="cms-page" [innerHTML]="pageContentHTML?.content">
+  </div>
+
+  <div *ngIf="isTermsofService" class="cms-page" [innerHTML]="pageContentHTML?.content">
+  </div>
+
+  <div *ngIf="isPircesandService" class="cms-page" [innerHTML]="pageContentHTML?.content">
+  </div>
+
+  <div *ngIf="isPrivercy" class="cms-page" [innerHTML]="pageContentHTML?.content">
+  </div>
+
+  <div *ngIf="isNewMedia" [innerHTML]="pageContentHTML?.content" >
+  </div>
+
+  <div *ngIf="isPetOwnerReview" class="cms-page">
+    <ion-item class="review-item" lines="full" [routerLink]="['/pet-sitter-detail',data.minderId]"  *ngFor="let data of reviewList">
+      <ion-avatar slot="start">
+        <ion-img [src]="data?.imagename == '' || data?.imagename == null ?  
+                 '../../assets/icon/user.png' : data?.imagename"></ion-img>
+      </ion-avatar>
+      <ion-label class="ion-text-wrap">
+        <h2 class="title">{{data?.title  | titlecase}}</h2>
+        <p class="message">{{data?.message  | titlecase}}</p>
+        <div class="rating-info">
+          <p class="radings-custom">
+            <ion-img *ngFor="let s of convertNumberToArray(5); let i = index" 
+              [src]="(i <= data?.rate - 1) ?
+              '../../assets/icon/star-rating.svg': '../../assets/icon/star-rating-blank.svg'"
+            ></ion-img>
+          </p>
+          <p class="date">{{data?.create_date }}</p>
+        </div>
+      </ion-label>
+    </ion-item>
+
+      <ion-infinite-scroll *ngIf="!isHidePagination" threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </div>
+ 
+
+  
+</ion-content>

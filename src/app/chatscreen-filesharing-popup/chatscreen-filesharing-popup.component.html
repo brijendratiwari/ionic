@@ -1,0 +1,8 @@
+<ion-list>
+  <ion-item *ngFor="let item of items"  [hidden]="item.isVisible == false" no-lines>
+    <div (click)="selectedItem(item.name)">
+      <ion-icon name="item.image"></ion-icon>
+      <span>{{item.name}}</span>
+    </div>
+  </ion-item>
+</ion-list>

@@ -1,0 +1,50 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/tabs/explore"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content> 
+
+  <div class="post-place-container">
+    <div class="title">
+      <h3>Post a Spot</h3>
+      <p>Know of a great spot? Post your favorite place to stay, play, or eat with your dog.</p>
+    </div>
+    <div class="select-menu">
+      <ion-item>
+        <ion-label position="stacked">
+          What kind of place is it?
+        </ion-label>
+    
+        <ion-select
+        (ionChange)="onChangeSpot($event)"
+        placeholder="Please select a place" interface="action-sheet">
+          <ion-select-option class="fs-14"
+          placeholder="Accomodation"
+          *ngFor="let spot of spots, let idx = index"
+            [value]="spot.value">{{spot?.label}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </div>
+  </div> 
+</ion-content>
+
+
+<ion-footer>
+  <ion-button
+    class="text-capitalize fls-0 fs-18 add-spot footer-btn"
+    [disabled]="!selectedSpot" 
+    expand="full"
+    color="theme"
+    (click)="submit()"
+  >
+    Continue
+  </ion-button>
+
+</ion-footer>

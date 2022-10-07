@@ -1,0 +1,166 @@
+<ion-header>
+    <ion-toolbar>
+    <div  class="sitter-header">
+        <!-- <h2>Pet Sitting & Home Dog Boarding in  {{googleSearch}}</h2>
+        <p>Find Local, Police checked & Insured Pet Sitters</p> -->
+        <ion-row>
+            <ion-col *ngIf="previousUrl != '/home/tabs/sitter-listing'" defaultHref="/home/tabs/sitter-listing"
+            class="back-arrow" (click)="goToDashboard()" size="1">
+            <ion-icon class="fs-14 text-capitalize filter-btn" name="arrow-back"></ion-icon>
+            </ion-col>
+            <ion-col [size]="previousUrl == '/explore' ? '11' : '12'">
+                <ion-item class="looking-for">
+                    <ion-label position="stacked">I'm Looking for </ion-label>
+                    <ion-select 
+                    (ionChange)="selectService($event)"
+                    color="theme" placeholder="Select Service" interface="action-sheet">
+                        <ion-select-option class="fs-14" *ngFor="let service of listingServices"
+                            [value]="service?.value">
+                               {{service?.LongName}}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="address-wrapper" size="12">
+                <div class="add-title">
+                    <ion-label><span class="link-theme">Near</span>  {{googleSearch}}  </ion-label>
+                </div>
+                <div class="map-change-btn" (click)="changeLocation()">
+                    Change
+                </div>
+            </ion-col>            
+        </ion-row>
+
+        <ion-row  *ngIf="isLocationSearchHeader">
+            <ion-col size="12">
+                <input type="search" ngx-google-places-autocomplete #placesRef="ngx-places" clearInput
+                    [options]='options' placeholder="Search by suburb"
+                    class="search-input native-input sc-ion-input-md"
+                    (onAddressChange)="handleAddressChange($event)" id="suburb" [(ngModel)]="googleSearch" />
+            </ion-col>
+        </ion-row>
+
+        <div class="filter-row">
+            <div (click)="goToSearchSitterMap()" class="show-map">
+                <ion-icon name="map"></ion-icon> <span>Map</span>
+            </div>
+            <div class="sort-by-select">
+                <!-- <ion-label>Sort by</ion-label> -->
+                <ion-select placeholder="Sort by" mode="ios" (ionChange)="shortByFilter($event)" interface="popover">
+                    <ion-select-option selected value="rating">Performance</ion-select-option>
+                    <ion-select-option value="distance">Location</ion-select-option>
+                </ion-select>
+            </div>
+            <div (click)="filter()" class="more-fliter">
+                <ion-icon name="filter-circle"></ion-icon> <span> More Filters</span>
+            </div>
+        </div>
+      
+    </div>
+</ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+    <!-- <ion-grid>
+        <ion-row *ngFor="let sitter of sittersList; let i = index">
+            <ion-col> -->
+            <div class="main-content" *ngFor="let sitter of sittersList; let i = index">
+                <ion-card class="card-style-2"  >
+                    <ion-card-header [routerLink]="['/pet-sitter-detail',sitter.id]" class="ion-no-padding">
+                        <ion-img [src]='sitter?.imagename'></ion-img>
+                    </ion-card-header>
+                    <ion-card-content class="ion-text-start">
+                        <div [routerLink]="['/pet-sitter-detail',sitter.id]" class="top">
+                            <h4 class="name">{{sitter?.first_name}} {{sitter?.last_name | slice:0:1}} </h4>
+                            <p class="amount">
+                                <span>{{sitter?.minPrice | currency : 'USD' : 'symbol' : '1.2-2'}}</span>/night
+                            </p>
+                        </div>
+                        <div [routerLink]="['/pet-sitter-detail',sitter.id]" class="address">
+                            <!-- <img src="./assets/icon/pin.svg" alt="">  -->
+                            <ion-icon name="location-outline"></ion-icon>
+                            <span>
+                                {{sitter?.suburb}}, {{sitter?.state}} {{sitter?.distance}}
+                            </span>
+                        </div>
+
+
+                        <div class="action">
+                            <p  class="clients">Repeat Bookings: 
+                                <span *ngIf="sitter?.totalBookings == 0 ">{{sitter?.totalBookings}}</span>
+                                <span  *ngIf="sitter?.totalBookings > 0 &&  sitter?.totalBookings <= 4">Medium</span>
+                                <span  *ngIf="sitter?.totalBookings >= 5">High</span>
+                            
+                            </p>
+                            <!-- <div class="action-btn">
+                                <div (click)="socialShare(sitter.socialListingLink)" class="liked share">
+                                    <ion-img type="image/png" src="../../assets/icon/network.png" class="custom-icon">
+                                    </ion-img>
+                                </div>
+                                <div (click)="sitter?.isFavourite == true ? updateFaviourateUnfaviourate(sitter) : updateFaviourateUnfaviourate(sitter)"
+                                    class="liked">
+                                    <ion-img type="image/svg+xml"
+                                        [src]="sitter?.isFavourite == true ? '../../assets/icon/heartfill.svg': '../../assets/icon/heartpinkbold.svg'"
+                                        class="custom-icon"></ion-img>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="stats">
+                            <p [routerLink]="['/pet-sitter-detail',sitter.id]" class="radings-custom">
+                                <ion-img *ngFor="let s of convertNumberToArray(5); let i = index" [src]="(i <= sitter?.rating - 1) ?
+                               '../../assets/icon/star-rating.svg': '../../assets/icon/star-rating-blank.svg'">
+                                </ion-img>
+                            </p>
+                            <!-- <ion-button color="theme" *ngIf="sitter?.id != userDetails?.id" (click)="sendEnquiry(sitter)" class="enquiry-btn">Enquiry</ion-button> -->
+                            <!-- <p class="clients">{{sitter?.reviewCount}} Reviews</p>     --> 
+                        </div>
+                    </ion-card-content>                    
+                </ion-card>
+                <div class="card-btn-wrapper">
+                    <div class="btn-box" *ngIf="sitter?.id != userDetails?.id" 
+                    (click)="sendEnquiry(sitter)" >
+                        <ion-icon name="chatbox-ellipses-outline"></ion-icon>
+                        Enquiry
+                    </div>
+                    <div class="btn-box liked" (click)="sitter?.isFavourite == true ? updateFaviourateUnfaviourate(sitter) : updateFaviourateUnfaviourate(sitter)">
+                        <!-- <ion-img type="image/svg+xml"
+                            [src]="sitter?.isFavourite == true ? '../../assets/icon/heartfill.svg': '../../assets/icon/heartpinkbold.svg'"
+                            class="custom-icon"
+                        ></ion-img> -->
+                        <ion-icon [color]="sitter?.isFavourite == true ? 'theme':''" [name]="sitter?.isFavourite == true ? 'heart': 'heart-outline'"></ion-icon>
+                        Like
+                    </div>
+                    <div class="btn-box" (click)="socialShare(sitter.socialListingLink)">
+                        <ion-img slot="start" type="image/png" src="../../assets/icon/network.png" class="custom-icon">
+                        </ion-img>
+                            Share
+                    </div>
+                </div>
+            </div>
+            <!-- </ion-col>
+        </ion-row>
+    </ion-grid> -->
+
+
+    <!-- <ion-grid *ngIf="isNoSitterFound"> -->
+        <ion-card  *ngIf="isNoSitterFound">
+            <ion-card-content>
+                No Listings Found
+                There are no listings found near your selected location.
+                Create your own Pet Services Listing Advertisement today on PetCloud and get the word out by sharing the
+                URL on
+                Facebook, Twitter & Gumtree and tell people you offer Pet Services through PetCloud!
+            </ion-card-content>
+        </ion-card>
+    <!-- </ion-grid> -->
+    
+
+    <ion-infinite-scroll *ngIf="!isHidePagination" threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more sitters">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+
+</ion-content>

@@ -1,0 +1,24 @@
+<div class="custom-modal-container">
+  <div class="custom-modal">
+    <div class="header">
+      <div (click)="closeModal()"><ion-icon slot="icon-only" name="close"></ion-icon></div>
+    </div>
+
+    <div class="custom-modal-body">
+      <div class="content">
+        <h3>Why do i need to provide this?</h3>
+      </div>
+      <div *ngIf="type == 'address'">
+        <p class="fs-14">Sitters exact street address will never be displayed on our maps.Owners addresses are never displayed on our maps.</p>
+      </div>
+
+      <div *ngIf="type == 'dob' || type == 'gender'">
+          <p class="fs-14">1. Stripe Connect requires us to collect your <span *ngIf="type == 'dob'"> DOB </span>
+            <span *ngIf="type == 'gender'"> gender </span>
+            for them to approve your account 
+            <br> <br>2. Care booked via PetCloud takes place in private homes. We have a duty of care to collect this information from Parties who interact with Sitters to make our Community safe.
+          </p>
+      </div>
+    </div>
+  </div>
+</div>

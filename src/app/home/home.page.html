@@ -1,0 +1,35 @@
+<ion-router-outlet>
+    <ion-tabs  #myTabs tabsHighlight="true" (ionTabsDidChange)="getSelectedTab($event)">
+        <ion-tab-bar slot="bottom">
+          
+    
+            <ion-tab-button tab="explore">
+                <ion-img type="image/svg+xml"  [src]= "tabSelected.isExploreScreen == true  ? 'assets/icon/explore/explore-c.svg' : 'assets/icon/explore/explore.svg' " class="menu-icon"></ion-img>
+                <ion-label class="tab-title">Explore</ion-label>
+            </ion-tab-button>
+    
+            <ion-tab-button tab="jobs-tab">
+                <ion-img type="image/svg+xml"  [src]= "tabSelected.isViewJobSelected == true  ? 'assets/icon/explore/jobs-c.svg' : 'assets/icon/explore/jobs.svg'" class="menu-icon"></ion-img>
+                <ion-label class="tab-title">Jobs</ion-label>
+            </ion-tab-button>
+    
+            <ion-tab-button tab="sitter-listing">
+                <ion-img type="image/svg+xml" [src]= "tabSelected.isSitterScreen == true  ? 'assets/icon/explore/sitters-c.svg' : 'assets/icon/explore/sitters.svg'" class="menu-icon"></ion-img>
+                <ion-label class="tab-title">Sitters</ion-label>
+            </ion-tab-button>
+    
+            <!-- *ngIf="userType == 'sitter'" -->
+            <ion-tab-button tab="messages">
+                <ion-img type="image/svg+xml" [src]= "tabSelected.isMessageSelected == true  ? 'assets/icon/explore/messages-c.svg' : 'assets/icon/explore/messages.svg'" class="menu-icon"></ion-img>
+                <ion-label class="tab-title">Messages</ion-label>
+            </ion-tab-button>    
+        
+                
+            <ion-tab-button tab="profile-menu">
+                <ion-img type="image/svg+xml"  [src]= "tabSelected.isProfileSelected == true  ? 'assets/icon/explore/profile-c.svg' : 'assets/icon/explore/profile.svg'" class="menu-icon"></ion-img>
+                <ion-label class="tab-title">Profile</ion-label>
+            </ion-tab-button>
+        </ion-tab-bar>
+    </ion-tabs>
+</ion-router-outlet>
+

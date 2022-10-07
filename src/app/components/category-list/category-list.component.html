@@ -1,0 +1,23 @@
+<ion-header>
+    <ion-toolbar mode="md">
+        <ion-title><div>Select what you want to search for</div></ion-title>
+        <ion-buttons slot="end">
+            <ion-button fill="clear" color="theme" (click)="dismissModal()">
+                <ion-icon slot="icon-only" name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="category-list">
+        <div class="item" *ngFor="let category of categories">
+            <div class="details" (click)="goToDashboardCategory(category)">
+                <div>
+                    <img class="dashboardicon" src="{{category?.icons}}" alt="">
+                </div>
+              <p>{{category?.name}}</p>
+            </div>
+        </div>
+    </div>   
+</ion-content>

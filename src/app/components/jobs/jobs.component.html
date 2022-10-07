@@ -1,0 +1,132 @@
+  <div *ngIf="jobsListing.length != 0">
+      <ion-card class="service-card" *ngFor="let job of jobsListing">
+          <ion-card-header lines="none">
+              <div (click)="openActiveBlock('card-'+job?.id)">
+                  <ion-card-title>{{job?.jobDetails?.serviceName}}</ion-card-title>
+                  <ion-card-subtitle color="c2">{{job?.start_date}} - {{job?.end_date}}
+                  </ion-card-subtitle>
+                  <p
+                      [className]="job?.active == 1 || job?.active == 2 ? 'status active': job?.active == 0 || job?.active == 3 || job?.active == 4 ? 'status deactive' : 'status'">
+                      {{ getJobStatus(job?.active)}}
+                      {{ (job.hasOwnProperty('applicants')) ?
+                      ((job?.applicants.length > 0 && job?.applicants.length > 1) ?
+                          job?.applicants.length + ' Applicants' : job?.applicants.length + ' Applicant') : ''}}
+                </p>
+              </div>
+              <div *ngIf="job?.booking_status != 'D'">
+                  <ion-button class="ion-text-capitalize" size="small" color="theme-sec" *ngIf="job?.active == 1"
+                      (click)="pauseJob(job?.id)">Pause
+                  </ion-button>
+
+              
+                      <ion-button class="ion-text-capitalize" size="small" color="theme-sec" *ngIf="job?.active == 1"
+                          (click)="deleteJob(job?.id)">Delete
+                      </ion-button>
+              
+                  <ion-button class="ion-text-capitalize" size="small" color="theme" *ngIf="job?.active == 4"
+                      (click)="resumeJob(job?.id)">Resume
+                  </ion-button>
+              </div>
+          </ion-card-header>
+          <ion-card-content class="animated fadeInOut delay-2s" *ngIf="activeCard?.indexOf('card-'+job?.id) >= 0">
+              <ion-row class="ion-justify-content-start">
+                  <ion-col>
+                      <h4 class="sub-heading">Info</h4>
+                  </ion-col>
+              </ion-row>
+              <ion-row class="ion-justify-content-between">
+                  <ion-col>
+                      <div class="detail-list">
+                          <div class="detail-item">
+                              <div class="detail-label">Posted</div>
+                              <div class="content">{{job?.created}}</div>
+                          </div>
+                          <div class="detail-item">
+                              <div class="detail-label">Service</div>
+                              <div class="content">{{job?.jobDetails?.serviceName}}</div>
+                          </div>
+                          <div class="detail-item">
+                              <div class="detail-label">Start Date</div>
+                              <div class="content">{{job?.start_date}}</div>
+                          </div>
+                          <div class="detail-item">
+                              <div class="detail-label">End Date</div>
+                              <div class="content">{{job?.end_date}}</div>
+                          </div>
+                      </div>
+                  </ion-col>
+              </ion-row>
+              <ion-row class="ion-justify-content-start">
+                  <ion-col>
+                      <h4 class="sub-heading">Pets</h4>
+                  </ion-col>
+              </ion-row>
+              <ion-row class="ion-justify-content-start">
+                  <ion-col size="4" class="petgrid">
+                      <ion-avatar>
+                          <img src="{{job?.jobDetails?.petImage}}" alt="{{job?.jobDetails?.petName}}">
+                      </ion-avatar>
+                      <ion-label>{{job?.jobDetails?.petName}}</ion-label>
+                  </ion-col>
+              </ion-row>
+              <ion-row>
+                  <ion-col>
+                     
+                      <div class="joblist">
+                          <div class="jobitem" *ngFor="let appli of job?.applicants">
+                              <div class="job-profile">
+                                  <img src="https://cdn.petcloud.com.au/uploads/user/thumb/{{appli?.image}}"
+                                      alt="{{appli?.firstname}}">
+                              </div>
+                              <div class="job-info">
+                                  <div class="location">{{appli?.suburb}}</div>
+                                  <h4 class="petname">{{appli?.firstname}}</h4>
+                                  <p class="service">{{appli?.title}}</p>
+                                  <p class="service location">{{getBookingStatus(appli?.booking_status)}}</p>
+                                  <p class="pet-count">$ {{appli?.price}}</p>
+
+                                  <p class="radings-custom" *ngIf="appli?.stars > 0">
+                                    <ion-img *ngFor="let s of convertNumberToArray(5); let i = index" 
+                                    [src]="(i <= appli?.stars - 1) ?
+                                   '../../assets/icon/star-rating.svg': '../../assets/icon/star-rating-blank.svg'" > </ion-img>
+                                   </p>
+
+                                  <div class="job-actions" *ngIf="appli?.booking_status == 'J'; else textBlock">
+                                      <div class="action">
+                                          <ion-button color="theme" size="small" (click)="meetAndGreet(job?.id,job)">
+                                              Lets Meet
+                                          </ion-button>
+                                      </div>
+                                      <div class="action">
+                                          <ion-button color="theme-sec" size="small"
+                                              (click)="declineJob(job?.id,appli?.applicant_id)">Unsuitable
+                                          </ion-button>
+                                      </div>
+                                  </div>
+                                  <ng-template #textBlock>
+                                      <p class="location">{{getBookingStatus(appli?.booking_status)}}</p>
+                                  </ng-template>
+                              </div>
+                          </div>
+                      </div>
+                  </ion-col>
+              </ion-row>
+
+          </ion-card-content>
+      </ion-card>
+
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+          <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+          </ion-infinite-scroll-content>
+      </ion-infinite-scroll>
+
+  </div>
+
+  <div *ngIf="hideNoJobs">
+      <ion-card color="theme-sec">
+          <ion-card-content class="ion-text-center">
+              No Jobs Found
+          </ion-card-content>
+      </ion-card>
+  </div>
+

@@ -1,0 +1,200 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+        <ion-back-button defaultHref="home/tabs/profile-menu" ></ion-back-button> 
+        </ion-buttons>
+        <ion-title>Add New Family Member</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-segment [(ngModel)]="selectedSegment" color="theme" class="custom-segment">
+        <ion-segment-button  value="image">1.Image</ion-segment-button>
+        <!-- [disabled]="disablePetInfo" [disabled]="disableContactSegment" -->
+        <ion-segment-button [disabled]="disablePetInfo" value="petInfo">2.Pet Info</ion-segment-button>
+        <ion-segment-button [disabled]="disableContactSegment" value="contact" >3.Contact</ion-segment-button>
+        <ion-segment-button *ngIf="isPetAddedSuccess" value="response" >4.Success</ion-segment-button>
+
+    </ion-segment>
+    <form [formGroup]="petForm">
+        <ion-grid>
+            <ion-row>
+                <ion-col [ngSwitch]="selectedSegment">
+
+                    <!-- 1. upload image section start-->
+                    <ion-list *ngSwitchCase="'image'" class="custom-list">
+                        <!-- <ion-item lines="none">                            
+                            <ion-button slot="end" type="button" (click)="showActionSheet()" color="theme">Select Photo</ion-button>
+                        </ion-item> -->
+                        <div class="img-content">
+                            <div class="img-wrapper" (click)="showActionSheet()">
+                                <img [class.place-image]="!myImageUrl" [class.img-data]="myImageUrl" src="{{myImageUrl? myImageUrl : 'assets/icon/pet-cloud-logo.png'}}">
+                                <div class="select-text" *ngIf="!myImageUrl">Select Photo</div>
+                            </div>
+                            <!-- <ion-button type="button" (click)="showActionSheet()" color="theme">Select Photo</ion-button> -->
+                        </div>
+                    </ion-list>
+                    <!-- 1. upload image section end-->
+
+                    <!-- 2. Basic Pet Information section start -->
+                    <ion-list *ngSwitchCase="'petInfo'" class="custom-list">
+                        <ion-item>
+                            <ion-label>Type Of Pet <small class="error">*</small></ion-label>
+                            <ion-select placeholder="select pet type" color="theme" [(ngModel)]="typePet"
+                                formControlName="petType">
+                                <ion-select-option value="1">Dog</ion-select-option>
+                                <ion-select-option value="2">Cat</ion-select-option>
+                                <ion-select-option value="3">Horse</ion-select-option>
+                                <ion-select-option value="4">Other</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('petType').hasError('required') && petForm.get('petType').touched">
+                            Select pet type!
+                        </ion-text>
+                        <ion-item>
+                            <ion-label position="stacked">Your Pet's Name <small class="error">*</small></ion-label>
+                            <ion-input type="text" name="petName" id="petName" formControlName="name"></ion-input>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('name').hasError('required') && petForm.get('name').touched">
+                            Enter pet name!
+                        </ion-text>
+                        <ion-item>
+                            <ion-label>Gender <small class="error">*</small></ion-label>
+                            <ion-select placeholder="Select gender" name="gender" id="gender" formControlName="gender">
+                                <ion-select-option value="M">Male</ion-select-option>
+                                <ion-select-option value="F">Female</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('gender').hasError('required') && petForm.get('gender').touched">
+                            Select pet gender!
+                        </ion-text>
+                        <ion-item>
+                            <ion-label position="stacked">Date Of Birth <small class="error">*</small></ion-label>
+                            <ion-datetime display-format="DD/MM/YYYY" picker-format="DD/MM/YYYY" name="petDob"
+                                id="petDob" formControlName="dob" [max]="currnetDt" placeholder="e.g 12/02/2019"></ion-datetime>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('dob').hasError('required') && petForm.get('dob').touched">
+                            Select pet date of birth!
+                        </ion-text>
+                        <ion-item>
+                            <ion-label position="stacked">Your Pets Breed <small class="error">*</small></ion-label>
+                            <ion-input type="text" name="petBreed" id="petBreed" formControlName="beed"></ion-input>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('beed').hasError('required') && petForm.get('beed').touched">
+                            Enter pet breed!
+                        </ion-text>
+                        <ion-item *ngIf="typePet == 1 || typePet == 2">
+                            <ion-label>Desexed</ion-label>
+                            <ion-select name="desexed" id="desexed" formControlName="desexed">
+                                <ion-select-option value="Y">Yes</ion-select-option>
+                                <ion-select-option value="N">No</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-item *ngIf="typePet == 1 || typePet == 2">How often do you treat your pet for fleas?
+                            <ion-label position="stacked">How often do you treat your pet for fleas?</ion-label>
+                            <ion-select name="petFleas" id="petFleas" formControlName="pet_fleas">
+                                <ion-select-option value="1">Weekly</ion-select-option>
+                                <ion-select-option value="2">Monthly</ion-select-option>
+                                <ion-select-option value="3">Never</ion-select-option>
+                                <ion-select-option value="4">No Problem</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="(typePet == 1 || typePet == 2) && (petForm.get('pet_fleas').hasError('required') && petForm.get('pet_fleas').touched)">
+                            Select treat your pet for fleas!
+                        </ion-text>
+                        <ion-item>
+                            <ion-label position="stacked">Fine to stay with children <small class="error">*</small>
+                            </ion-label>
+                            <ion-select placeholder="select fine to stay" formControlName="children_stay"
+                                (ionChange)="onChangeFineToStay($event)"
+                                [interfaceOptions]="petChildrenStaySelectoption" interface="action-sheet"
+                                multiple="false">
+                                <ion-select-option value="6">Not ok with children</ion-select-option>
+                                <ion-select-option value="5">Fine with children all ages</ion-select-option>
+                                <ion-select-option value="1">Fine with children over age 2</ion-select-option>
+                                <ion-select-option value="2">Fine with children over age 5</ion-select-option>
+                                <ion-select-option value="3">Fine with children over age 8</ion-select-option>
+                                <ion-select-option value="4">Fine with children over age 10</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('children_stay').hasError('required') && petForm.get('children_stay').touched">
+                            Select your pet is fine to stay with children!
+                        </ion-text>
+                    </ion-list>
+                    <!-- 2. emergency contact section end -->
+
+                    <!-- 3. emergency contact section start -->
+                    <ion-list *ngSwitchCase="'contact'" class="custom-list">
+                        <ion-item>
+                            <ion-label position="stacked">Emergency Contact details <small class="error">*</small>
+                            </ion-label>
+                            <ion-input type="text" name="contactDetails" formControlName="vet_contact"></ion-input>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('vet_contact').hasError('required') && petForm.get('vet_contact').touched">
+                            Enter emergency contact details!
+                        </ion-text>
+                        <ion-item>
+                            <ion-label position="stacked">Emergency Vet Spend <small class="error">*</small></ion-label>
+                            <ion-input type="text" name="vetSpend" formControlName="vet_amount"></ion-input>
+                        </ion-item>
+                        <ion-text lines="none" class="animated fadeInUp error"
+                            *ngIf="petForm.get('vet_amount').hasError('required') && petForm.get('vet_amount').touched">
+                            Enter emergency vet spend!
+                        </ion-text>
+
+                        <ion-card class="note-card" color="note">
+                            <ion-card-header>
+                                Please specify vet spend limit in case your pet needs emergency care and the sitter cannot contact you.
+                            </ion-card-header>
+                        </ion-card>
+
+                        <ion-button expand="full" color="theme" [disabled]="!petForm.valid" (click)="saveNewPet()">Save
+                            & Next
+                        </ion-button>
+                    </ion-list>
+                    <!-- 3. Basic Pet Information section end -->
+
+                    <!-- Success or Faliure  -->
+                <ion-list *ngSwitchCase="'response'" class="custom-list">
+                 
+                    <ng-container *ngIf="isPetAddedSuccess">
+                        <div style="display: flex;
+                        justify-content: center;">
+                          <ion-img 
+                          class="success-img"
+                          type="image/svg+xml" src="../../assets/icon/check-mark.svg" ></ion-img>
+                        </div>
+                      
+                        <div>
+                          <h3 style="text-align: center">Success.</h3>
+                          <div  style="text-align: center;">
+                            Your Pet has been added successfully.
+                          </div>
+                        </div>
+                       
+                        <div  class="highlight" style="padding: 10px;">
+                             You have completed enough information for a Meet & Greet. You are able to complete the rest of your pet’s profile at a later date.
+                        </div>
+
+                        <ion-button  shape="block" (click)="goToPetListing()" color="theme">
+                            Continue
+                        </ion-button>
+                    </ng-container>
+
+                       
+                    </ion-list>
+                      
+
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </form>
+</ion-content>

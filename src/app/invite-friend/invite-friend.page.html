@@ -1,0 +1,91 @@
+<ion-header class="ion-no-border"> 
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home/tabs/profile-menu"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Invite Friends</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div class="title-container">
+        <div class="banner">
+            <ion-img type="image/svg+xml" src="assets/icon/invite-img.svg"></ion-img>
+        </div>
+        <h3>Invite Friends & Get $10</h3>
+        <p class="desc">Earn $10 for every friend who books on PetCloud</p>
+    </div>
+    <div class="share-link">
+        <h3 class="sub-heading">Share Link</h3>
+        <div class="share-link-input">
+            <ion-input value="{{referLink}}" readonly></ion-input>
+            <button class="btn-share" (click)="copyUrl(referLink)">
+                Copy
+            </button>
+        </div>
+    </div>
+    <div class="social-sharing">
+        <h3 class="sub-heading">Social Sharing</h3>
+        <div class="icons-btn">
+            <button (click)="shareFacebook()"  class="facebook"><ion-icon name="logo-facebook"></ion-icon></button>
+            <button (click)="shareTwitter()" class="twitter"><ion-icon name="logo-twitter"></ion-icon></button>
+            <button (click)="shareMessenger()" class="messenger"><ion-img type="image/svg+xml" src="assets/icon/messenger.svg"></ion-img></button>
+        </div>
+    </div>
+    <div class="share-link share-coupon">
+        <h3 class="sub-heading">Share your Coupon</h3>
+        <div class="share-link-input">
+            <ion-input value="{{shareCoupon}}" readonly></ion-input>
+            <button class="btn-share" (click)="copyUrl(shareCoupon)">
+                Copy
+            </button>
+        </div>
+        <p class="desc">Potential earnings could look like $240 per month if you bring on 10 new Pet Owners who book based on an average booking price of $300.</p>
+        <h3 class="sub-heading"> For a 1st time Pet Owner who books a $1000 booking, you'll earn:-$80</h3>
+    </div>
+    <div class="share-via-email">
+        <h3 class="sub-heading">Share via Email </h3>
+                <form [formGroup]="referredFriends">
+        
+                <div>
+                    <ion-label position="stacked" class="ion-text-uppercase text-grey-1">Email address</ion-label>
+                    <ion-input type="email" class="custom-input" formControlName="referred_email" placeholder="Enter Email"></ion-input>
+                </div>
+                <ion-text lines="none" class="animated fadeInUp" *ngIf="referredFriends.get('referred_email').hasError('required') && referredFriends.get('referred_email').touched || referredFriends.get('referred_email').hasError('email')">
+                    <p class="error" *ngIf="referredFriends.get('referred_email').hasError('required') && referredFriends.get('referred_email').touched || referredFriends.get('referred_email').hasError('email')">
+                        Enter correct email address format.
+                    </p>
+                </ion-text>
+                <ion-button 
+                    color="theme" 
+                    class="text-capitalize fls-0 fs-18" 
+                    [disabled]="!referredFriends.valid" 
+                    (click)="refferInviteFriend()"
+                >
+                    Send
+                </ion-button>
+            </form>
+    </div>
+    <div class="fetures">
+        <h2 class="title">
+            It's easy to get started
+        </h2>
+        <div class="list">
+            <div class="item">
+                <ion-img src="assets/icon/joinhand.png" ></ion-img>
+                <h3>Join</h3>
+                <p>Add your name & paypal account you want to get paid into.</p>
+            </div>
+            <div class="item">
+                <ion-img src="assets/icon/promote.png" ></ion-img>
+                <h3>Promote</h3>
+                <p>With your unique tracking link in social media groups, emails, newsletters, websites, YouTube, linkedin, forums, Gumtree, Reddit, and blog articles.</p>
+            </div>
+            <div class="item">
+                <ion-img src="assets/icon/earn.png" ></ion-img>
+                <h3>Earn!</h3>
+                <p>If someone clicks on your link and books their 1st qualified booking.</p>
+            </div>
+        </div>
+    </div>
+</ion-content> 

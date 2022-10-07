@@ -1,0 +1,268 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="listing" ></ion-back-button>
+        </ion-buttons>
+        <ion-title>Home Description</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row class="ion-margin-vertical custom-list">
+            <ion-col>
+                <form [formGroup]="homeDescriptionFrm">
+                    <ion-item>
+                        <ion-label position="stacked">Description
+                            <small class="error">*</small>
+                        </ion-label>
+                        <ion-textarea formControlName="description" rows="3"
+                                      placeholder="Tell us why your place is great for pets"
+                                      maxlength="500">
+                        </ion-textarea>
+                    </ion-item>
+                    <ion-text slot="end" align-items-end>
+                        <small><i>{{500 - homeDescriptionFrm.get('description').value.length}} char left</i></small>
+                    </ion-text>
+                    <ion-text lines="none" class="animated fadeInUp error"
+                              *ngIf="homeDescriptionFrm.get('description').hasError('required') && homeDescriptionFrm.get('description').touched">
+                        Enter explainatory description
+                    </ion-text>
+                    <ion-item>
+                        <ion-label position="stacked">Property Type
+                            <small class="error">*</small>
+                        </ion-label>
+                        <ion-select formControlName="property_type" interface="action-sheet"
+                                    placeholder="choose property type" multiple="false">
+                            <ion-select-option value="2" selected="">House</ion-select-option>
+                            <ion-select-option value="3">Apartment &amp; Unit</ion-select-option>
+                            <ion-select-option value="4">Apartment</ion-select-option>
+                            <ion-select-option value="5">Unit</ion-select-option>
+                            <ion-select-option value="6">Townhouse</ion-select-option>
+                            <ion-select-option value="7">Villa</ion-select-option>
+                            <ion-select-option value="8">Land</ion-select-option>
+                            <ion-select-option value="9">Acreage</ion-select-option>
+                            <ion-select-option value="10">Rural</ion-select-option>
+                            <ion-select-option value="11">Block of Units</ion-select-option>
+                            <ion-select-option value="12">Retirement Living</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-text lines="none" class="animated fadeInUp error"
+                              *ngIf="homeDescriptionFrm.get('property_type').hasError('required') && homeDescriptionFrm.get('property_type').touched">
+                        Select relevant property option
+                    </ion-text>
+                    <ion-item>
+                        <ion-label position="stacked">Backyard Type
+                            <small class="error">*</small>
+                        </ion-label>
+                        <ion-select formControlName="backyard_type" interface="action-sheet"
+                                    placeholder="choose backyard type" multiple="false">
+                            <ion-select-option value="1">Inside available only</ion-select-option>
+                            <ion-select-option value="2">Balcony or deck</ion-select-option>
+                            <ion-select-option value="3">Small fenced yard</ion-select-option>
+                            <ion-select-option value="4">Medium fenced yard</ion-select-option>
+                            <ion-select-option value="5" selected="">Large fenced yard</ion-select-option>
+                            <ion-select-option value="6">Fenced Acreage</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-text lines="none" class="animated fadeInUp error"
+                              *ngIf="homeDescriptionFrm.get('backyard_type').hasError('required') && homeDescriptionFrm.get('backyard_type').touched">
+                        Select relevant backyard option
+                    </ion-text>
+                    <ion-item>
+                        <ion-label position="stacked">Backyard Size
+                            <small class="error">*</small>
+                        </ion-label>
+                        <ion-select formControlName="backyard_size" interface="action-sheet" multiple="false"
+                                    placeholder="select Backyard size">
+                            <ion-select-option value="S">Small</ion-select-option>
+                            <ion-select-option value="M">Medium</ion-select-option>
+                            <ion-select-option value="L" selected="">Large</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-text lines="none" class="animated fadeInUp error"
+                              *ngIf="homeDescriptionFrm.get('backyard_size').hasError('required') && homeDescriptionFrm.get('backyard_size').touched">
+                        Select estimated backyard size
+                    </ion-text>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">Is your property secure? (ie. is it escape-proof)</ion-label>
+                        <ion-toggle color="theme" slot="end" formControlName="secure"></ion-toggle>
+                        <div>
+                            <span class="theme-text"
+                                *ngIf="homeDescriptionFrm.value.secure"
+                            >
+                                Yes
+                            </span>
+                            <span class="theme-text-no"
+                                *ngIf="!homeDescriptionFrm.value.secure"
+                            >
+                                No
+                            </span>
+                        </div>
+                    </ion-item>
+                    <ion-card color="note animated fadeIn" text-justify
+                              *ngIf="homeDescriptionFrm.get('secure').value == false">
+                        <ion-card-content>
+                            Your backyard and home MUST be escape-proof. Please make your home escape-proof before
+                            continuing
+                        </ion-card-content>
+                    </ion-card>
+                    <ion-item>
+                        <ion-label position="stacked">Fence Size
+                            <small class="error">*</small>
+                        </ion-label>
+                        <ion-select multiple="false" interface="action-sheet" formControlName="fence_size"
+                                    placeholder="select fence size">
+                            <ion-select-option value="">Choose Size</ion-select-option>
+                            <ion-select-option value="0">0 m</ion-select-option>
+                            <ion-select-option value="0.5">0.5 m</ion-select-option>
+                            <ion-select-option value="1">1 m</ion-select-option>
+                            <ion-select-option value="1.5">1.5 m</ion-select-option>
+                            <ion-select-option value="2">2 m</ion-select-option>
+                            <ion-select-option value="2.5">2.5 m</ion-select-option>
+                            <ion-select-option value="3">3 m</ion-select-option>
+                            <ion-select-option value="3.5">3.5 m</ion-select-option>
+                            <ion-select-option value="4">4 m</ion-select-option>
+                            <ion-select-option value="4.5">4.5 m</ion-select-option>
+                            <ion-select-option value="5">5 m</ion-select-option>
+                            <ion-select-option value="5.5" selected="">5.5 m</ion-select-option>
+                            <ion-select-option value="6">6 m</ion-select-option>
+                            <ion-select-option value="6+">6+ m</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-text lines="none" class="animated fadeInUp error"
+                              *ngIf="homeDescriptionFrm.get('fence_size').hasError('required') && homeDescriptionFrm.get('fence_size').touched">
+                        Select estimated fence size
+                    </ion-text>
+                    <ion-item>
+                        <ion-label position="stacked">Vet Distance
+                            <small class="error">*</small>
+                        </ion-label>
+                        <ion-select multiple="false" placeholder="select vet distance"
+                        
+                        
+                      
+                                    formControlName="vet_distance">
+                            <ion-select-option value="1">1-2 kms</ion-select-option>
+                            <ion-select-option value="2">3-5 kms</ion-select-option>
+                            <ion-select-option value="3">6-15 kms</ion-select-option>
+                            <ion-select-option value="4">16+ kms</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-text lines="none" class="animated fadeInUp error"
+                              *ngIf="homeDescriptionFrm.get('vet_distance').hasError('required') && homeDescriptionFrm.get('vet_distance').touched">
+                        Select closest vet clinic distance option
+                    </ion-text>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">Are there young children (under 12) at your home or who visit often?
+                        </ion-label>
+                        <ion-toggle color="theme" slot="end" formControlName="children_location"></ion-toggle>
+                        <div>
+                            <span class="theme-text" 
+                                *ngIf="homeDescriptionFrm.value.children_location"
+                            >
+                                Yes
+                            </span>
+                            <span class="theme-text-no" 
+                                *ngIf="!homeDescriptionFrm.value.children_location"
+                            >
+                                No
+                            </span>
+                        </div>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">Are there allergies in the household?</ion-label>
+                        <ion-toggle color="theme" slot="end" formControlName="allergies"></ion-toggle>
+                        <div> 
+                            <span class="theme-text"
+                                *ngIf="homeDescriptionFrm.value.allergies"
+                            >
+                                Yes
+                            </span>
+                            <span class="theme-text-no" 
+                                *ngIf="!homeDescriptionFrm.value.allergies"
+                            >
+                                No
+                            </span>
+                        </div>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">Have you ever had any dogs with Parvo staying on the property?</ion-label>
+                        <ion-toggle color="theme" slot="end" formControlName="parvo"></ion-toggle>
+                        <div>
+                            <span class="theme-text"
+                                *ngIf="homeDescriptionFrm.value.parvo"
+                            >
+                                Yes
+                            </span>
+                            <span class="theme-text-no"
+                                *ngIf="!homeDescriptionFrm.value.parvo"
+                            >
+                                No
+                            </span>
+                        </div>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">
+                            Do you know what limits your local council regulations specify for minding additional animals?
+                        </ion-label>
+                        <ion-toggle color="theme" slot="end" formControlName="council_regulations"></ion-toggle>
+                        <div>
+                            <span class="theme-text"
+                                *ngIf="homeDescriptionFrm.value.council_regulations"
+                            >
+                                Yes
+                            </span>
+                            <span class="theme-text-no"
+                                *ngIf="!homeDescriptionFrm.value.council_regulations"
+                            >
+                                No
+                            </span>
+                        </div>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">Are there are other animals in the home including livestock?</ion-label>
+                        <ion-toggle color="theme" slot="end" formControlName="other_animals"></ion-toggle>
+                        <div>
+                            <span class="theme-text"
+                                *ngIf="homeDescriptionFrm.value.other_animals"
+                            >
+                                Yes
+                            </span>
+                            <span class="theme-text-no"
+                                *ngIf="!homeDescriptionFrm.value.other_animals"
+                            >
+                                No
+                            </span>
+                        </div>
+                    </ion-item>
+                    <ion-item *ngIf="homeDescriptionFrm.get('other_animals').value == true">
+                        <ion-label position="stacked">What Animals?
+                            <small class="error">*</small>
+                        </ion-label>
+                        <ion-input formControlName="other_animals_desc"></ion-input>
+                    </ion-item>
+                    <ion-text lines="none"
+                        class="animated fadeInUp error"
+                        *ngIf="homeDescriptionFrm.get('other_animals').value == true 
+                        && homeDescriptionFrm.get('other_animals_desc').hasError('required')
+                        && homeDescriptionFrm.get('other_animals_desc').touched"
+                    >
+                        Enter animal description
+                    </ion-text>
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ion-footer>
+    <ion-button 
+        [disabled]="!homeDescriptionFrm.valid" 
+        class="text-capitalize fls-0 fs-18 footer-btn" 
+        expand="full"
+        color="theme" 
+        (click)="saveListingHomeDescription()"
+    > 
+        Save
+    </ion-button>
+</ion-footer>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>icon/line/merchandise</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M23.833625,6 L20.91725,6 C20.91725,7.60857813 19.6081406,8.9168125 18,8.9168125 C16.3918594,8.9168125 15.083625,7.60857813 15.083625,6 L12.1668125,6 L4,10.6668125 L6.333625,17.083625 L9.833625,15.9168125 L9.833625,29.3340625 L26.16725,29.3340625 L26.16725,15.9168125 L29.66725,17.083625 L32,10.6668125 L23.833625,6 Z M28.9580078,15.6177266 L26.5355156,14.8102109 L25,14.2980078 L25,15.9168672 L25,28.1668672 L11,28.1668672 L11,15.9168672 L11,14.2980078 L9.46448438,14.8102656 L7.04199219,15.6177812 L5.43253906,11.1919219 L12.4765625,7.1668125 L14.0860156,7.1668125 C14.5880469,8.85359375 16.1504688,10.083625 18,10.083625 C19.8499687,10.083625 21.4120078,8.85359375 21.9135469,7.1668125 L23.5234375,7.1668125 L30.5678438,11.1919219 L28.9580078,15.6177266 Z" id="path-1"></path>
+    </defs>
+    <g id="icon/line/merchandise" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Shape" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+    </g>
+</svg>

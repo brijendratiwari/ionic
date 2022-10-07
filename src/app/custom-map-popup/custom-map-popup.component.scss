@@ -1,0 +1,42 @@
+.map-popup-container {
+    .event-details{
+        padding: 16px;
+        a{
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 5px;
+            display: block;
+            color: #fe4164;
+        }
+        h4{
+            font-size: 14px;
+            margin: 0;
+        }
+        .action-btn{
+            ul{
+                margin: 0;
+                padding: 0;
+                list-style: none;
+                display: flex;
+                justify-content: space-between;
+                padding: 16px 0 0;
+                li{
+                    opacity: 0.7;
+                }
+            }
+        }
+    }
+}
+
+.header{
+    text-align: right;
+    > div{
+        display: inline-block;
+        padding: 5px 10px;
+        padding-top: 10px;
+    }
+}
+
+.modalCss .modal-wrapper.sc-ion-modal-md .ion-page .custom-modal-container {
+    max-width: 220px;
+}

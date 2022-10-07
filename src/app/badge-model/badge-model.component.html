@@ -1,0 +1,18 @@
+<div class="custom-modal-container">
+  <div class="custom-modal">
+    <div class="header">
+      <div (click)="closeModal()"><ion-icon slot="icon-only" name="close"></ion-icon></div>
+    </div>
+    <div class="custom-modal-body">
+      <div class="content">
+        <h3>{{badgeName}}</h3>   
+        
+        <div class="badge-icon" >
+          <ion-thumbnail slot="center"><img
+              src="https://cdn.petcloud.com.au{{imageName}}" />
+          </ion-thumbnail>
+      </div>
+      </div>
+    </div>
+  </div>
+</div>

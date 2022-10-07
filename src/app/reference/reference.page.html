@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home/tabs/profile-menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Reference</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-card color="note">
+    <ion-card-header>
+      <ion-card-title>Add Credibility to your profile.</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>References from friends, family,
+      & former clients builds up a positive online reputation.
+      Not only that, it will increase you chances of Pet Owners (who have never met you),
+      wanting to book you (instead of other Sitters) after reading positive experiences.
+
+    <!-- <ion-item lines="none"> -->
+      <p class="req-text">
+        Request references from anyone you have previously done pet sitting for:
+      </p>
+    <!-- </ion-item> -->
+  </ion-card-content>
+  </ion-card>
+
+  
+</ion-content>
+<ion-footer class="ion-no-border">
+  <ion-button  
+    class="text-capitalize fls-0 fs-18 footer-btn"
+    expand="full"
+    color="theme"
+    (click)="openModal()"
+  >
+    Request Reference
+  </ion-button>
+</ion-footer>

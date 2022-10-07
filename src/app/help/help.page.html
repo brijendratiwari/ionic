@@ -1,0 +1,64 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar color="white">
+    <ion-buttons slot="start" >
+        <ion-back-button defaultHref="home/tabs/profile-menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title mode="ios">
+      Help
+    </ion-title>
+  </ion-toolbar>
+  <ion-row>
+    <ion-col size="12">
+      <div class="header-info">
+        <div class="header-icon">
+          <ion-img src="assets/img/customer-service.png"></ion-img>
+        </div>
+        <p class="header-note">Have questions? We’re here to help!</p>
+        <div class="detail-text">
+          <ion-icon name="mail-outline"></ion-icon>
+          <a href="mailto:service@petcloud.com.au">service@petcloud.com.au</a>
+        </div>
+        <div class="detail-text">
+          <ion-icon name="mail-outline"></ion-icon>
+          <a href="mailto:accounts@petcloud.com.au">accounts@petcloud.com.au</a>
+        </div>
+        <div class="detail-text">
+          <ion-icon name="call-outline"></ion-icon>
+          <a href="tel:1300667785">1300 66 77 85</a>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-header>
+<ion-content>
+  <div class="list-div">
+    <ion-item lines="none" button
+      (click)="openWebpage('https://community.petcloud.com.au/portal/en/kb/articles/rspca-property-checklist-during-the-meet-greet')"
+      detail="true"
+    >
+      <ion-icon slot="start" name="clipboard-outline"></ion-icon>
+      <ion-label>Backyard checklist</ion-label>
+    </ion-item>
+    <ion-item lines="none" button 
+      (click)="openWebpage('https://community.petcloud.com.au/portal/en/kb/petcloud/faqs-for-pet-sitters-dog-walkers-drivers/emergencies')"
+      detail="true"
+    >
+      <ion-icon slot="start" name="medkit-outline"></ion-icon>
+      <ion-label>Emergencies</ion-label>
+    </ion-item>
+    <ion-item lines="none" button
+      (click)="openWebpage('https://community.petcloud.com.au/portal/en/kb/articles/a-dog-doesn-t-seem-to-settle-down-during-a-stay-what-should-i-do-')"
+      detail="true"
+    >
+      <ion-icon slot="start" name="bulb-outline"></ion-icon>
+      <ion-label>Tips to assist Separation Anxiety</ion-label>
+    </ion-item>
+    <ion-item lines="none" button
+      (click)="openWebpage('https://community.petcloud.com.au/portal/en/kb/articles/how-do-i-make-an-insurance-claim')"
+      detail="true"
+    >
+      <ion-icon slot="start" name="pulse-outline"></ion-icon>
+      <ion-label>Insurance</ion-label>
+    </ion-item>
+  </div>
+</ion-content>

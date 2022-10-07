@@ -1,0 +1,63 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Request Reference</ion-title>
+      <ion-buttons slot="end">
+          <ion-button (click)="dismissModal()">
+              <ion-icon name="close"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+      <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="RequestTestimonialForm" class="reqrefform">
+    <ion-grid class="form-content">
+      <ion-row>
+        <ion-col>
+          <ion-list>
+           <ion-item>
+              <ion-label position="stacked" class="ion-text-uppercase text-grey-1">Email To</ion-label>
+              <ion-input type="email" formControlName="emails" placeholder="name@domain.com"></ion-input>
+            </ion-item>
+            <ion-text
+              lines="none"
+              class="animated fadeInUp error"
+              *ngIf="(RequestTestimonialForm.get('emails').hasError('required') && RequestTestimonialForm.get('emails').touched && submitted  || RequestTestimonialForm.get('emails').hasError('email'))"
+            >
+              Enter correct email address format.
+            </ion-text>          
+            <ion-item lines="none">
+              <ion-label position="stacked">Request Text*</ion-label>
+              <ion-textarea rows="4" 
+                formControlName="emailbody" 
+                value="Thanks a lot for completing a reference for me on petcloud.com.au. This will improve my profile!"
+              >
+              </ion-textarea>
+            </ion-item>
+            <ion-text lines="none" class="animated fadeInUp error"
+              *ngIf="RequestTestimonialForm.get('emailbody').hasError('required') && (RequestTestimonialForm.get('emailbody').touched || RequestTestimonialForm.get('emailbody').dirty)" >            
+                Please Enter Message
+            </ion-text>
+            <ion-text lines="none" class="animated fadeInUp error"
+              *ngIf="RequestTestimonialForm.get('emailbody').hasError('minlength') && (RequestTestimonialForm.get('emailbody').touched || RequestTestimonialForm.get('emailbody').dirty)"
+            >
+              Minimum 6 character is required
+            </ion-text>
+          </ion-list>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+    <div class="btn-wrapper">
+      <ion-button class="text-capitalize sbt-btn" 
+        (click)="sendRequestReference()" color="theme"
+      >Submit</ion-button>
+      <ion-button class="text-capitalize sbt-btn" 
+        color="facebook" (click)="shareFacebook()"
+      >
+        <ion-icon slot="start" name="logo-facebook"></ion-icon>
+        Request Via Facebook
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

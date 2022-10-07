@@ -1,0 +1,333 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/tabs/sitter-listing"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title class="ion-text-capitalize">
+      {{serviceName}}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollEvents]="true" (ionScroll)="scrollContent($event)" #content>
+  <ion-row [class.map-indx]="isFixed" class="isFixed">
+    <ion-col>
+      <ion-segment [(ngModel)]="listingTabs" scrollable color="theme" class="custom-segment"
+        (ionChange)="segmentChanged($event)">
+        <ion-segment-button value="overview">
+          <ion-label>Overview</ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="location">
+          <ion-label>Location</ion-label>
+        </ion-segment-button>
+
+        <ion-segment-button value="review">
+          <ion-label>Reviews</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+    </ion-col>
+  </ion-row>
+  <ng-container *ngIf="isAPILoaded">
+
+    <ion-grid class="ion-no-padding">
+      <ion-row>
+        <ion-col class="ion-no-padding listing-header">
+          <ion-slides *ngIf="listingDetails.hasOwnProperty('cover_image') &&  listingDetails?.cover_image.length > 0" #slides pager="true" [options]="slideOpts"
+            class="slider ">
+            <ion-slide *ngFor="let cover of listingDetails?.cover_image">
+              <div class="slider-image">
+                <ion-img alt="slideimage" [src]="cover.img"></ion-img>
+                <div class="header-content-container">
+                  <div class="header-content">
+                    <h5>{{listingDetails?.title}}</h5>
+                    <p class="address">{{listingDetails?.address}}</p>
+                    <p class="radings-custom">
+                      <ion-img *ngFor="let s of convertNumberToArray(5); let i = index" [src]="(i <= listingDetails?.rating - 1) ?
+                     '../../assets/icon/star-rating.svg': '../../assets/icon/star-rating-blank.svg'"> </ion-img>
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <ng-container *ngIf="listingDetails?.cover_image.length > 1">
+                <button type="submit" ion-button color="light" class="swiper-button-prev swiper-button-black" style="height: 30px;
+                  background-color: transparent" (click)="prevSlide()"></button>
+                <button type="submit" ion-button color="light" class="swiper-button-next swiper-button-black" style="height: 30px;
+                  background-color: transparent" (click)="nextSlide()"></button>
+              </ng-container>
+
+            </ion-slide>
+          </ion-slides>
+
+
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div class="select-btns">
+      <div class="btn-card" (click)="goToReviews()">
+        <div class="icon">
+          <ion-img src="../../assets/icon/star-rating.svg" ></ion-img>
+        </div>
+        <h4>Reviews</h4>
+      </div>
+      <div class="btn-card" *ngIf="listingDetails?.phone && listingDetails?.verified == 'on'" (click)="makeCall()">
+        <div class="icon">
+          <ion-icon name="call"></ion-icon>
+        </div>
+        <h4>Call</h4>
+      </div>
+      <div class="btn-card" *ngIf="listingDetails?.latitude"  (click)="goToGoogleMap()">
+        <div class="icon">
+          <ion-img src="../../assets/icon/navigation.svg" class="rounded-circle"></ion-img>
+        </div>
+        <h4>Directions</h4>
+      </div>
+      <div class="btn-card" *ngIf="listingDetails?.website && listingDetails?.verified == 'on'"  (click)="goToWebiste()">
+        <div class="icon">
+          <ion-img src="../../assets/icon/website.svg" class="rounded-circle"></ion-img>
+        </div>
+        <h4>Website</h4>
+      </div>
+    </div>
+    <ion-grid [ngStyle]="{'opacity' : isFixed? 0 : 1}">
+      <ion-row>
+        <ion-col class="ion-no-padding">
+          <ion-segment [(ngModel)]="listingTabs" scrollable color="theme" class="custom-segment"
+            (ionChange)="segmentChanged($event)">
+            <ion-segment-button value="overview">
+              <ion-label>Overview</ion-label>
+            </ion-segment-button>
+
+            <ion-segment-button value="location">
+              <ion-label>Location</ion-label>
+            </ion-segment-button>
+
+            <ion-segment-button value="review">
+              <ion-label>Reviews</ion-label>
+            </ion-segment-button>
+          </ion-segment>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <div [ngSwitch]="listingTabs" style="height: 100%;">
+      <div *ngSwitchCase="'overview'" class="over-view-tab">
+
+
+        <ng-container *ngIf="listingDetails?.description == '' || listingDetails?.description == null">
+          Have you been to this location? Help other Pet Owners know whether you would recommend this location by
+          leaving a review and uploading a photo
+        </ng-container>
+
+        <ng-container *ngIf="listingDetails?.description != ''">
+          <div class="html-content" [innerHTML]="listingDetails?.description">
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="listingDetails?.verified == 'on'">
+          <div class="social-sharing">
+            <div *ngIf="listingDetails?.facebook" (click)="openSocialSharing(listingDetails.facebook)"  class="item" >
+              <div class="details">
+                <ion-icon name="logo-facebook" class="social-icon" style="color: #4267B2;"></ion-icon>
+                <p style="padding-left: 10px;">Facebook</p>
+              </div>
+            </div>
+           
+              <div  *ngIf="listingDetails?.youtube" class="item" (click)="openSocialSharing(listingDetails.youtube)" >
+                <div class="details">
+                  <ion-icon name="logo-youtube" class="social-icon" color="primary"></ion-icon>
+                  <p style="padding-left: 10px;">YouTube</p>
+                </div>            
+               </div>
+
+               <div  *ngIf="listingDetails?.instagram" class="item" (click)="openSocialSharing(listingDetails.instagram)">
+                <div class="details">
+                  <ion-icon name="logo-instagram" class="social-icon" style="color:#fb3958;"></ion-icon>
+                  <p style="padding-left: 10px;">Instagram</p>
+                </div>            
+               </div>
+
+               <div  *ngIf="listingDetails?.twitter" class="item" (click)="openSocialSharing(listingDetails.twitter)">
+                <div class="details">
+                  <ion-icon name="logo-twitter" class="social-icon" style="color: #1DA1F2;"></ion-icon>
+                  <p style="padding-left: 10px;">Twitter</p>
+                </div>            
+               </div>
+
+               <div  *ngIf="listingDetails?.skype" class="item" (click)="openSocialSharing(listingDetails.skype)">
+                <div class="details">
+                  <ion-icon name="logo-skype" class="social-icon" style="color:#00aff0;"></ion-icon>
+                  <p style="padding-left: 10px;">Skype</p>
+                </div>            
+               </div>
+
+               <div  *ngIf="listingDetails?.whatsapp" class="item" (click)="openSocialSharing(listingDetails.whatsapp)">
+                <div class="details">
+                  <ion-icon name="logo-whatsapp" class="social-icon" style="color:#25D366"></ion-icon>
+                  <p style="padding-left: 10px;">WhatsApp</p>
+                </div>            
+               </div>
+
+
+            </div>
+
+        </ng-container>
+        <div class="pet-details-list">
+          <h4>Features</h4>
+
+          <h4 *ngIf="isFeatureArrayExists == false">No Featured Categories Shown</h4>
+
+          <ul *ngIf="listingDetails?.feature_categories?.length > 0">
+            <li *ngFor="let feature of listingDetails?.feature_categories | keyvalue">
+              {{feature?.value}}
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div [hidden]="listingTabs != 'location'" style="height: 100%; width: 100%;">
+
+        <div *ngIf="isMapLoaded == false" class="loading-map">
+          <p> Loading Map</p>
+        </div>
+
+        <div id="mapdiv" [class.fixed-margin]="isFixed" style="height:100%;"></div>
+      </div>
+
+      <div *ngSwitchCase="'review'" class="over-view-tab">
+
+        <ng-container *ngIf="reviewsList.length > 0">
+          <ion-item *ngFor="let reviews of reviewsList">
+            <ion-avatar slot="start">
+
+              <ng-container *ngIf="reviews?.user_image != ''">
+                <ion-img [src]="reviews?.user_image"></ion-img>
+              </ng-container>
+
+              <ng-container *ngIf="reviews?.user_image == ''">
+                <ion-img src="../../assets/icon/user.png"></ion-img>
+              </ng-container>
+
+            </ion-avatar>
+            <ion-label class="ion-text-wrap">
+              <p>{{reviews?.user_name}}</p>
+              <p>{{reviews?.comment}}</p>
+              <h6>{{reviews?.date | date : "dd-MM-y"}}</h6>
+
+              <p class="radings-custom">
+                <ion-img *ngFor="let s of convertNumberToArray(5); let i = index" [src]="(i <= reviews?.rating - 1) ?
+               '../../assets/icon/star-rating.svg': '../../assets/icon/star-rating-blank.svg'"> </ion-img>
+              </p>
+
+
+
+            </ion-label>
+          </ion-item>
+        </ng-container>
+
+        <div>
+          <p>Have you been to this location? Help other Pet Owners know whether you would recommend this location by
+            leaving a review and uploading a photo.</p>
+        </div>
+
+        <p class="highlight">
+          Your email address will not be published. Required fields are marked *
+        </p>
+
+        <form [formGroup]="reviewForm" class="reqrefform">
+          <ion-row class="rating-row">
+            <ion-col size="6">
+              <p>Service</p>
+              <div class="ratings">
+                <rating [readonly]="false" formControlName="serviceRating" small="false"></rating>
+              </div>
+            </ion-col>
+
+            <ion-col size="6">
+              <p>Value for Money</p>
+              <div class="ratings">
+                <rating [readonly]="false" formControlName="valueofMoneyRating" small="false"></rating>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <ion-row class="rating-row">
+            <ion-col size="6">
+              <p>Location</p>
+              <div class="ratings">
+                <rating [readonly]="false" formControlName="locationRating" small="false"></rating>
+              </div>
+            </ion-col>
+
+            <ion-col size="6">
+              <p>Cleanliness</p>
+              <div class="ratings">
+                <rating [readonly]="false" formControlName="cleanRating" small="false"></rating>
+              </div>
+            </ion-col>
+          </ion-row>
+
+          <!-- <ion-row>
+            <ion-col size="5">
+              <ion-button class="add-img-btn" (click)="showActionSheet()"> Add Image</ion-button>
+            </ion-col>
+
+            <ion-col *ngIf="myImageUrl != null" size="7">
+              <ion-label> Image Added</ion-label>
+            </ion-col>
+          </ion-row> -->
+
+          <ion-row class="review-Inputs">
+            <ion-col size="12">
+              <p class="add-img-title">Add Image</p>
+              <div class="upload-div" (click)="showActionSheet()" *ngIf="myImageUrl == null">
+                <ion-icon name="cloud-upload-outline"></ion-icon>
+                <ion-label>Choose Image</ion-label>
+              </div>
+              <div class="upload-div-img" *ngIf="myImageUrl != null">
+                <ion-thumbnail>
+                  <img [src]="myImageUrl">
+                </ion-thumbnail>
+                <ion-button class="add-img-btn" (click)="showActionSheet()"> Change Image</ion-button>
+              </div>
+            </ion-col>
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">Name *</ion-label>
+                <ion-input formControlName="name"></ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">Email *</ion-label>
+                <ion-input formControlName="email"></ion-input>
+              </ion-item>
+            </ion-col>
+
+            <ion-col size="12">
+              <ion-item>
+                <ion-label position="stacked">Comments *</ion-label>
+                <ion-textarea formControlName="comment"></ion-textarea>
+              </ion-item>
+            </ion-col>
+          </ion-row>
+        </form>
+      </div>
+    </div>
+  </ng-container>
+
+
+</ion-content>
+<ion-footer *ngIf="reviewSegment">
+  <ion-button
+    [disabled]="!reviewForm.valid"
+    class="add-review footer-btn"
+    expand="full"
+    (click)="addReview()"
+  >
+    Submit
+  </ion-button>
+</ion-footer>

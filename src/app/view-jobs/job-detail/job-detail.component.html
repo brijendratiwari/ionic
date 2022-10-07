@@ -1,0 +1,306 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="closeModal()">
+                <ion-icon slot="icon-only" name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>
+            Job Application
+        </ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" *ngIf="showContent == true">
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-item lines="none" class="ion-no-padding">
+                    <ion-avatar slot="start">
+                        <img src="https://cdn.petcloud.com.au/uploads/user/thumb/thumb_{{jobDetail?.job?.appliedUser?.imagename}}"
+                            alt="{{jobDetail?.job?.appliedUser?.first_name}}">
+                    </ion-avatar>
+                    <ion-label>{{jobDetail?.job?.appliedUser?.first_name}}</ion-label>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-start">
+            <ion-col>
+                <h4 class="sub-heading">Info</h4>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-between">
+            <ion-col>
+                <div class="detail-list">
+                    <div class="detail-item">
+                        <div class="detail-label">Location</div>
+                        <div class="content">
+                            {{jobDetail?.job?.appliedUser?.address}}
+                        </div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Service</div>
+                        <div class="content">{{jobDetail?.job?.serviceType?.serviceName}}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Start Date</div>
+                        <div class="content">{{jobDetail?.job?.start_date}}</div>
+                    </div>
+                    <div *ngIf="jobDetail?.job?.pickup_suburb == null" class="detail-item">
+                        <div class="detail-label">End Date</div>
+                        <div class="content">{{jobDetail?.job?.end_date}}</div>
+                    </div>
+
+                    <div *ngIf="jobDetail?.job?.pickup_suburb !== null"   class="detail-item">
+                        <div class="detail-label">Pickup <br>  Address  </div>
+                        <div class="content">  {{jobDetail?.job?.pickup_suburb}}</div>
+                    </div>
+                    <div *ngIf="jobDetail?.job?.destination_suburb !== null" class="detail-item">
+                        <div class="detail-label">Destination &nbsp;  </div>
+                        <div class="content">  {{jobDetail?.job?.destination_suburb}}</div>
+                    </div>
+                    <div *ngIf="jobDetail?.job?.description !== null" class="detail-item">
+                        <div class="detail-label">Extra Details &nbsp;  </div>
+                        <div class="content">  {{jobDetail?.job?.description}}</div>
+                    </div>
+                </div>
+            </ion-col>
+        </ion-row>
+        <!-- <ion-row class="ion-justify-content-start" *ngIf="jobDetail?.job?.description">
+            <ion-col>
+                <h4 class="sub-heading">Extra Details</h4>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-between" *ngIf="jobDetail?.job?.description"    >
+            <ion-col>
+                <p class="fs-14 ion-text-left">{{jobDetail?.job?.description}}</p>
+            </ion-col>
+        </ion-row> -->
+        <ion-row class="ion-justify-content-start">
+            <ion-col>
+                <h4 class="sub-heading">Pets</h4>
+            </ion-col>
+        </ion-row>
+        <ion-row class="ion-justify-content-start">
+            <ion-col size="4" class="petgrid" *ngFor="let pet of jobDetail?.job?.pets">
+                <ion-avatar (click)="petDetail(pet)">
+                    <img src="{{pet?.imagename}}" alt="{{pet?.name}}">
+                </ion-avatar>
+                <ion-label>{{pet?.name}}</ion-label>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+
+                <ion-card color="note"  *ngIf="jobDetail?.servicemessage.flag == 'missingservice'" >
+                    <ion-card-header>
+                        <ion-card-title>Missing Service</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p class="ion-text-left">
+                            You currently don't offer this service as part of your listing. Go to your services and
+                            ensure you have set this <a (click)="goToListingService()" >service</a>  and it is active</p>
+                    </ion-card-content>
+                </ion-card>
+
+
+                <!--  when applied:0 then "Apply now"
+                    applied:1 then "Applied"
+                    active:2 then "Assigned" -->
+
+
+                <ion-card color="note" 
+                *ngIf="jobDetail?.servicemessage.flag == 'noactivelisting'">
+                    <ion-card-header>
+                        <ion-card-title>No Active Listing</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p class="ion-text-left">
+                            You currently don't have an active listing. Go to your Listing page and ensure your listing
+                            and <a (click)="goToListing()"> services are active </a> </p>
+                    </ion-card-content>
+                </ion-card>
+
+
+                
+              <ion-card color="note"
+                 *ngIf="jobDetail?.servicemessage.flag == 'noenddate'">
+                    <ion-card-header>
+                        <ion-card-title>
+                            You could earn up to ${{jobDetail?.servicemessage?.weeklyCost}} per week
+                             if you apply for this job!</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p class="ion-text-left">
+                        By clicking 'Apply' below, we will notify the owner that you are happy with the dates/times of the job. 
+                        If the owner would like to accept your
+                        application they will make a payment and a booking will be confirmed.
+                        </p>
+                    </ion-card-content>
+                </ion-card> 
+
+
+                <ion-card color="note" 
+                *ngIf="jobDetail?.servicemessage.flag == 'endate'">
+                    <ion-card-header>
+                        <ion-card-title> You could earn up to ${{jobDetail?.servicemessage?.weeklyCost}} per week(Total  {{jobDetail?.servicemessage.totalCost}}) 
+                            if you apply for this job!</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p class="ion-text-left">
+                            By clicking 'Apply' below, we will notify the owner that you are happy 
+                            with the dates/times of the job. If the owner would like to accept your 
+                            application they will make a payment and a booking will be confirmed.
+                        </p>
+                    </ion-card-content>
+                </ion-card>
+
+
+                
+                <ion-card color="note" 
+                *ngIf="jobDetail?.servicemessage.flag == 'onetime'">
+                    <ion-card-header>
+                        <ion-card-title> You could earn up to ${{jobDetail?.servicemessage.totalCost}} if you apply for this job!</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p class="ion-text-left">
+                            By clicking 'Apply' below, 
+                            we will notify the owner that you are happy 
+                            with the dates/times of the job. 
+                            If the owner would like to accept your application
+                             they will make a payment and a booking will be confirmed.
+                        </p>
+                    </ion-card-content>
+                </ion-card>
+
+
+
+                <ion-card color="note"  
+                *ngIf="jobDetail?.servicemessage?.flag == 'assigned'">
+                    <ion-card-header>
+                        <ion-card-title>Job Assigned</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p class="ion-text-left">
+                            This job has already been assigned to a user. Apply for other jobs now so you don't miss
+                            out!</p>
+                    </ion-card-content>
+                </ion-card>
+
+                <ion-card color="note" *ngIf="jobDetail?.servicemessage?.flag == 'alreadyapplied'">
+                    <ion-card-header>
+                        <ion-card-title>Application Submitted</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p class="ion-text-left">
+                            You have already applied for this job. The owner will review the applications and if you are
+                            selected you will receive a booking notification.</p>
+                    </ion-card-content>
+                </ion-card>
+
+                <ion-card color="note" *ngIf="jobDetail?.servicemessage.flag == 'ownjob'">
+                    <ion-card-header>
+                        <ion-card-title>Job Application</ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        <p class="ion-text-left">
+                            You cannot apply for your own job. Go to your My Jobs page to view your applications</p>
+                    </ion-card-content>
+                </ion-card>
+
+                <ion-card color="note" *ngIf="jobDetail?.servicemessage.flag == 'jobEmpty'">
+                    <ion-card-content>
+                        <p class="ion-text-left">
+                            Uh Oh! There has been an error loading</p>
+                    </ion-card-content>
+                </ion-card>
+
+            </ion-col>
+        </ion-row>
+       
+        <!-- when job bookingtype=1 and minder paypal_email not null, minder stripeConnectId null, minder
+        stripeConnectEnabled=0 then this message will show. -->
+
+        <ion-card color="note" *ngIf="jobDetail?.servicemessage?.flag == 'StripeAccount'">
+          
+            <ion-card-content>
+                <p class="ion-text-left">
+                    Recurring booking jobs are currently only able to be applied for 
+                    if you <a (click)="payoutReference()"> Payout Reference </a>
+                    add your bank details with Stripe. 
+                    This functionality will be available through Paypal soon, 
+                    thanks for your patience.
+                </p>
+            </ion-card-content>
+        </ion-card>
+
+        <ion-card color="note"
+        *ngIf="jobDetail?.servicemessage?.flag == 'nosupport'">
+
+        <ion-card-header>
+            <ion-card-title> Missing Service Pet Type</ion-card-title>
+        </ion-card-header>
+       
+            <ion-card-content>
+                <p class="ion-text-left">
+                    You don't offer this service for the following pet type/s 
+                    {{noSupportPet}} </p>
+                    
+                    Go to your <a (click)="goToListing()"> services</a>
+                    and ensure you have set a price for the pet type for this
+                    service"; 
+            </ion-card-content>
+        </ion-card>
+
+
+
+            <!-- POLICE CHECK -->
+        <ion-card color="note" *ngIf="jobDetail?.servicemessage.flag == 'policecheck'">
+            <ion-card-header>
+                <ion-card-title>Looks like you don't have a Police Check yet.</ion-card-title>
+            </ion-card-header>
+            <ion-card-content>
+                <p class="ion-text-left">
+                    You are unable to apply for jobs on PetCloud until you have obtained a clear Police check.
+                </p>
+
+                <div>
+                    Need one? Go to: <a href=" https://petcloud.nationalcrimecheck.com.au/ " > https://petcloud.nationalcrimecheck.com.au/ </a> to get one, it costs only $49.
+                    They will email you & us the results, and if they come back clear, 
+                    a police checked badge will be assigned to your PetCloud profile by our team.
+                    
+                    Got one?
+                    If you have obtained one within the last 12 months, please upload it to your <a (click)="doVerification()">Verifications screen</a>  for manual reviewing by our team                        
+                </div>
+
+            </ion-card-content>
+        </ion-card>
+
+        <ion-row
+            *ngIf="jobDetail?.servicemessage.jobapply == 1 && isOwner==false && jobDetail?.job?.is_taxi != 1">
+            <ion-col>
+                <ion-item class="earn-input">
+                    <ion-label position="stacked" class="ion-text-wrap">Do you want to offer a competitive price for this job?
+                    </ion-label>
+                    <ion-input
+                     (ionChange)="inputValue($event)"
+                     [(ngModel)]="override"
+                     [placeholder]="earnUpto"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+
+
+    </ion-grid>
+</ion-content>
+
+<ion-footer class="ion-no-border"
+    *ngIf="jobDetail?.servicemessage.jobapply == 1 && isOwner==false">
+    <ion-button class="text-capitalize fls-0 fs-18 footer-btn" 
+        expand="full"
+        color="theme"
+        (click)="applyJob(jobDetail?.job?.id,override)"
+    >
+        Apply
+    </ion-button>
+</ion-footer>

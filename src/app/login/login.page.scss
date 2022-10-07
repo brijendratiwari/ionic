@@ -1,0 +1,181 @@
+// ion-content,
+// ion-toolbar {
+//   --background: #eeeeee;
+// }
+
+ion-toolbar {
+  --color: #4A4A4A;
+  --border-color: transparent;
+  --border-width: 0;
+}
+
+  ion-label{
+    margin-left: 10px;
+  }
+
+.ion-color-primary {
+  --ion-color-base: #272324 !important;
+}
+
+.passwordIcon {
+  zoom: 2;
+}
+
+.forgot-password {
+  position: relative;
+
+  ion-icon {
+    position: absolute;
+    right: 5px;
+    bottom: 5px;
+    z-index: 999;
+  }
+}
+
+.login {
+  max-width: 420px;
+  margin: auto;
+
+  .login-header {
+    text-align: center;
+    margin-bottom: 45px;
+    margin-top: 25px;
+    @media (max-width: 350px){
+      margin-bottom: 20px;
+      margin-top: 0px;
+    }
+    .logo {
+      img {
+        max-height: 60px;
+      }
+    }
+    @media (max-width: 350px){
+      .title h2{
+        margin: 0px;
+      }
+    }
+    
+  }
+
+  .custom-card {
+    box-shadow: none;
+    background-color: transparent;
+    border: 1px solid #e0e0e0;
+    margin: 16px;
+    border: 0px;
+
+    ion-card-content {
+      background-color: #fff;
+      padding-top: 16px;
+    }
+
+    ion-card-header {
+      position: relative;
+      padding: 0px;
+      border-radius: 100px;
+
+      ion-label {
+        font-weight: 400;
+        font-size: 22px;
+        margin-left: 60px;
+        line-height: 56px;
+        color: #fff;
+        @media (max-width: 375px){
+          font-size: 18px;
+          margin-left: 55px;
+        }
+        @media (max-width: 300px){
+          font-size: 16px;
+          margin-left: 53px;
+        }
+      }
+
+      >.icon {
+        position: absolute;
+        color: #fff;
+        top: 14px;
+        left: 20px;
+        ion-icon {
+          font-size: 30px;
+          width: 1.6rem;
+          height: 1.6rem;
+        }
+      }
+      &.ioncardemail{
+        // background-color: #fff;  
+        background-color: #f5f5f5;
+        margin-bottom: 20px;
+
+        color: #000;
+        >.icon {
+          color: #FE4164;
+        }
+
+        ion-label {
+          color: #000;
+        }
+      }
+
+      &.ioncardperson{
+        // background-color: #fff;  
+        background-color: #f5f5f5;
+       
+        color: #000;
+        >.icon {
+          color: #FE4164;
+        }
+
+        ion-label {
+          color: #000;
+        }
+      }
+      &.ioncardapple{
+        background-color: #000;  
+      }&.ioncardfacebook{
+        // background-color: #fff;  
+        background-color: #f5f5f5;
+        color: #000;
+        >.icon {
+          color: #4267B2;
+        }
+        ion-label {
+          color: #000;
+        }
+      }&.ioncardgoogle{
+        // background-color: #fff;  
+        background-color: #f5f5f5;
+        color: #000;
+        >.icon {
+          color: #4285F4;
+        }
+        ion-label {
+          color: #000;
+        }
+      }
+    }
+  }
+}
+
+.borderBox {
+  border: 1px solid #e0e0e0 !important;
+}
+.back-icon {
+  width: 20px;
+  height: 20px;
+  margin: 10px 14px -6px;
+}
+.login-btn {
+  --box-shadow: none;
+  --border-radius: 4px;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.custom-input {
+  margin-bottom: 5px;
+}
+
+.terms {
+  display: flex;
+  margin: 10px 0px;
+}

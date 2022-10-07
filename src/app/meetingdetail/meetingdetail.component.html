@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Meeting Details
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ng-container *ngIf="isAPILoaded">
+
+    <div class="meeting-details">
+      <div class="list-meeting">
+        <div class="item">
+          <ion-icon name="calendar"></ion-icon> <span class="dot"></span> <span class="name">{{eventName}}</span>
+        </div>
+        <div class="item">
+          <ion-icon name="time"></ion-icon> <span
+            class="name">{{meetingDetails?.startDate |date:'EEEE, MMMM d, y, h:mm a' }}</span>
+        </div>
+        <div class="item">
+          <ion-icon name="notifications"></ion-icon> <span class="name">1 hour before</span>
+        </div>
+      </div>
+
+      
+      <ng-container class="map">
+        <div id="map" style="height: 300px;; pointer-events: none;"></div>
+      </ng-container>
+    
+
+      <div>
+        <div  class="map-details">
+          <img src="../../assets//img/map-nav.png" alt="">
+          {{locationData == 'petsittershouse' ? meetingDetails.minder.address : 
+           locationData== 'petownershouse' ? meetingDetails.owner.address :
+           locationData == 'mutuallocation' ? "At a Mutal Location" :  meetingDetails?.minder?.address
+          }}
+        </div>
+      </div>
+  
+      <div *ngIf="meetingDetails?.pets.length" class="user-details">
+        <div  class="user-name">
+          <span *ngFor="let pet of meetingDetails?.pets; let last = last" >{{pet?.name}} 
+            <span *ngIf="!last"> ,&nbsp;</span> 
+          </span>
+        </div>
+  
+        <div class="images">
+          <img
+          *ngFor="let pet of meetingDetails?.pets; let last = last"
+          [src]="pet?.imagename == null ? 'https://dev.petcloud.com.au/img/pet_placeholder.png' : pet?.imagename"
+            alt="">
+        </div>
+      </div>
+    </div>
+  </ng-container>
+ 
+</ion-content>

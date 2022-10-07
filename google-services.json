@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "689365265587",
+    "firebase_url": "https://petcloud2020.firebaseio.com",
+    "project_id": "petcloud2020",
+    "storage_bucket": "petcloud2020.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:689365265587:android:2df7fc08de2b6f4729d4c6",
+        "android_client_info": {
+          "package_name": "com.petcloud.petcloud"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "689365265587-5su0u52pi4f780hhbb19bbli17maa6sc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNSJYL8hsAAq-1bWMLwijzGf0pDqCG4iQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "689365265587-5su0u52pi4f780hhbb19bbli17maa6sc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "689365265587-dnh8935gi72tp3lf16fs74lsbuvp1qpd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.petcloud.petcloud"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,12 @@
+ion-card {
+    border: 1px solid #ddd;
+    box-shadow: none;
+    color: #484848;
+    ion-card-header {
+        padding-bottom: 5px;
+        color: #484848;
+    }
+    &:last-of-type {
+        margin-bottom: calc(env(safe-area-inset-bottom) + 20px);
+    }
+}

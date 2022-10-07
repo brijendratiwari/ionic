@@ -1,0 +1,42 @@
+.card-list{
+    .item{
+        padding: 16px;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        display: flex;
+        .card-data{
+            margin-left: auto;
+            text-align: right;
+            .card-no{
+                margin: 0;
+                font-size: 14px;
+                margin-bottom: 5px;
+                white-space: nowrap;
+            }
+            .remove-card{
+                margin: 0;
+                font-size: 12px;
+                font-weight: 400;
+                opacity: 0.5;
+            }
+        }
+        .details{
+            .description{
+                margin: 0;
+                font-size: 14px;
+                margin-bottom: 5px;
+                color: #fe4164;
+            }
+            .make-default-card{
+                margin: 0;
+                font-size: 12px;
+                font-weight: 400;
+                opacity: 0.5;
+            }
+        }
+    }
+}
+
+.update-bank-container{
+    margin-top: 10px;
+}

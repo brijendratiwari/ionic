@@ -1,0 +1,51 @@
+.header-md:after {
+  background: none;
+}
+
+ion-header {
+  position: absolute;
+  background: transparent;
+}
+.verification {
+  .form-slide {
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    .slide {
+      margin-bottom: 8em;
+      .form {
+        padding-right: 2em;
+        padding-left: 1em;
+        .label {
+          font-size: 24px;
+          font-weight: 300;
+          text-transform: capitalize;
+        }
+        .desc {
+          color: #747474;
+          font-size: 16px;
+        }
+        ion-input {
+          border-bottom: 1px solid #b9bbbd;
+        }
+      }
+    }
+  }
+}
+.resendotp {
+  margin-top: 1em;
+  text-align: center;
+  .link {
+    font-size: 16px;
+    color: #fe4164;
+    text-decoration: none;
+  }
+}
+.fix-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 100vw;
+}

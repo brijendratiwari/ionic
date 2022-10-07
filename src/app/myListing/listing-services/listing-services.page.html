@@ -1,0 +1,304 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="listing" ></ion-back-button>
+        </ion-buttons>
+        <ion-title>Main Services</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <div>
+        <ion-card class="note-info animated fadeIn" color="note">
+            <ion-card-content>
+                These are the main services that you offer. In addition to these you can also offer extra
+                services below.
+            </ion-card-content>
+        </ion-card>
+        <ion-segment scrollable [(ngModel)]="selectedSegment" color="segment-theme" class="custom-segment">
+            <ion-segment-button class="ion-text-capitalize" value="mainService">Main Service
+            </ion-segment-button>
+            <ion-segment-button class="ion-text-capitalize" value="extraService">Extra Service
+            </ion-segment-button>
+        </ion-segment>
+
+        <div class="data-div" [ngSwitch]="selectedSegment">
+            <!-- main service -->
+            <div *ngSwitchCase="'mainService'">
+                <ion-card>
+                    <ion-card-header  (click)="toggleRange('1')" class="distance-header ion-text-left">
+                        <ion-row>
+                            <ion-col>
+                                <ion-text class="fs-14 fw-700"> Distance willing to Travel</ion-text>
+                                <ion-icon
+                                    [name]="(isRangeValueShown('1'))? 'chevron-up-outline' : 'chevron-down-outline'"
+                                ></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                    </ion-card-header>        
+                    <ion-card-content class="card-content ion-text-left" *ngIf="isRangeValueShown('1')">        
+                        <ion-row>
+                            <ion-col size="12">
+                                <ion-text>
+                                    Please indicate the max distance you are willing to travel for out of home services
+                                    such as dog walking,
+                                    Pet Taxi, House Sitting, and Home Visits.
+                                </ion-text>
+                                <ion-text>
+                                    <ion-label style="top: 10px;"> Radius {{travel_distance}} - kms </ion-label>
+                                </ion-text>
+                            </ion-col>
+                            <ion-col size="12">
+                                <ion-range  class="ion-text-capitalize" min="0" max="9" step="1" value={{rangeVal}} 
+                                (ionChange)="rangeChange($event)"
+                                snaps >
+                                    <ion-label slot="start">0</ion-label>
+                                    <ion-label slot="end">500</ion-label>
+                                </ion-range>
+                            </ion-col>
+                            <ion-col size="12">
+                                <ion-button 
+                                (click)="updateDistance()"
+                                class="ion-text-capitalize" color="submit-btn">Save</ion-button>
+                            </ion-col>                           
+                       </ion-row>    
+                    </ion-card-content>
+                </ion-card>
+                <ion-card *ngFor="let p of listingService?.primaryServices; let idx = index" class="service-card">
+                    <ion-card-header lines="none">
+                        <div>
+                    
+                        <!-- <ion-card-title *ngIf="p.notification_message.noti_flag == 'spacecheck'">
+                            To offer this service you must first complete a
+                        <a [routerLink]="['/profile-email-verify']">background check</a>
+                        </ion-card-title> -->
+
+                            <ion-card-title
+                                *ngIf="p?.notification_message?.noti_flag == 'spacecheck'"
+                            >
+                                Before this service is active you must first complete your
+                                <a [routerLink]="['/home-description']">home desciption</a>
+                            </ion-card-title>
+                            
+                            <ion-card-title
+                                *ngIf="p.notification_message.noti_flag == 'setpricefirst'"
+                            >
+                                Before this service is active you must first set prices
+                            </ion-card-title>
+                            
+                            <ion-card-title 
+                                *ngIf="p.notification_message.noti_flag == 'notactive'"
+                            >
+                                There is an issue with this service and it cannot be activated. 
+                                Please contact PetCloud for assistance.
+                            </ion-card-title>
+                            
+                            <ion-card-title  (click)="openActiveBlock('primary-'+p.idx)" >{{p.serviceType.serviceName}}</ion-card-title>
+
+                            <ion-card-subtitle  (click)="openActiveBlock('primary-'+p.idx)" *ngIf="p?.notification_message?.panel_status == 'Pending'" color="theme">
+                                Pending
+                            </ion-card-subtitle>
+                            <ion-card-subtitle  (click)="openActiveBlock('primary-'+p.idx)" *ngIf="p?.notification_message?.panel_status != 'Pending'" color="theme">
+                                {{ (p?.notification_message?.panel_status == 'Active') ? 'Active' : 'Inactive'}}
+                            </ion-card-subtitle>
+                        </div>
+                        <div>
+                            <ion-button *ngIf="p?.notification_message?.panel_status == 'Pending'"
+                                class="ion-text-capitalize" size="small" [color]="'theme'"
+                            >
+                                Pending
+                            </ion-button>
+                            <ion-button *ngIf="p?.notification_message?.panel_status != 'Pending'"
+                                class="ion-text-capitalize" size="small"
+                                [color]="(p?.notification_message?.panel_status != 'Active') ? 'theme-sec' : 'theme'"
+                                (click)="changeStatusService(p)"
+                            >
+                                {{ (p?.notification_message?.panel_status != 'Active') ? 'Activate' : 'Deactivate'}}
+                            </ion-button>
+                        </div>
+                        <ion-icon 
+                            (click)="openActiveBlock('primary-'+p.idx)"
+                            [name]="(activeService?.indexOf('primary-'+p.idx) >= 0)? 'chevron-up-outline' : 'chevron-down-outline'"
+                        ></ion-icon>
+                    </ion-card-header>
+                    <ion-card-content class="animated fadeIn delay-2s"
+                        *ngIf="activeService?.indexOf('primary-'+p.idx) >= 0">
+                        
+                        <ion-text *ngIf="p?.serviceType?.serviceChargeType == '0'" class="fs-12">This service is charged on a per night basis.</ion-text>
+
+                        <ion-text *ngIf="p?.serviceType?.serviceChargeType == '1'" class="fs-12">This service is charged on a per day basis.</ion-text>
+
+                        <ion-text *ngIf="p?.serviceType?.serviceChargeType == '3'" class="fs-12">This service is charged on a one off basis.</ion-text>
+
+                        <ion-text  *ngIf="p?.serviceType?.serviceChargeType == '4'" class="fs-12">This service is charged per KM traveled.</ion-text>
+
+
+                        <div *ngIf="p?.serviceType?.perPet == '0'">
+                            <ion-item>
+                                <ion-icon slot="start" class="usd-icon ion-align-self-end" name="logo-usd" size="small"></ion-icon>
+                                <ion-label position="stacked"> Price </ion-label>
+                                <ion-input type="number" inputmode="decimal" [(ngModel)]="p.getPrice" min="30" max="999"></ion-input>
+                            </ion-item>
+                        </div>
+
+
+                        <!-- If Price is null show block of dog, cat , horse , misc. 
+                        IF Price is not null show  -->
+                        <div *ngIf="p?.price == null && p?.serviceType?.perPet =='1' ">
+
+                            <ion-item *ngIf="pets?.sits_dogs == 1">
+                                <ion-icon slot="start" class="usd-icon ion-align-self-end" name="logo-usd" size="small"></ion-icon>
+                                <ion-label position="stacked"> Dog </ion-label>
+                                <ion-input type="number" inputmode="decimal" [(ngModel)]="p.getDogPrice" min="{30}" max="999"></ion-input>
+                            </ion-item>
+
+
+                            <ion-item *ngIf="pets?.sits_cat == 1">
+                                <ion-icon slot="start" class="usd-icon ion-align-self-end" name="logo-usd" size="small"></ion-icon>
+                                <ion-label position="stacked"> Cat </ion-label>
+                                <ion-input type="number" inputmode="decimal" [(ngModel)]="p.getCatPrice" min="30" max="999"></ion-input>
+                            </ion-item>
+
+                            <ion-item *ngIf="pets?.sits_horse == 1">
+                                <ion-icon slot="start" class="usd-icon ion-align-self-end" name="logo-usd" size="small"></ion-icon>
+                                <ion-label position="stacked"> Horse </ion-label>
+                                <ion-input type="number" inputmode="decimal" [(ngModel)]="p.getHorsePrice" min="30" max="999"></ion-input>
+                            </ion-item>
+
+
+                            <ion-item *ngIf="pets?.sits_others == 1">
+                                <ion-icon slot="start" class="usd-icon ion-align-self-end" name="logo-usd" size="small"></ion-icon>
+                                <ion-label position="stacked"> Others </ion-label>
+                                <ion-input type="number" inputmode="decimal" [(ngModel)]="p.getOtherPrice" min="30" max="999"></ion-input>
+                            </ion-item>
+
+                        </div>
+
+                        <ion-button class="text-capitalize fls-0 fs-14" type="button" color="theme"
+                            (click)="saveService(p.id,p.serviceTypeId,
+                            p.getDogPrice,
+                            p.getCatPrice,
+                            p.getHorsePrice,
+                            p.getOtherPrice,
+                            p.getPrice,
+                            p.isPrimaryService,p.priceRuleByName,1, p.pricingRules,p.serviceType.perPet,p)">
+                            
+                            <label *ngIf="p?.notification_message?.save_text == 'Save'">Save</label>
+                            <label *ngIf="p?.notification_message?.save_text == 'Save & Activate'">Save & Activate</label>
+                        </ion-button>
+                    </ion-card-content>
+                </ion-card>
+            </div>
+
+            <div *ngSwitchCase="'extraService'">
+                <!-- Extra services -->
+                <ion-card color="note">
+                    <ion-card-header class="fs-18">Extra Services</ion-card-header>
+                    <ion-card-content class="fs-14">These services are offered in addition to the main services above.
+                        For example if you getting a booking to mind in your home you might also offer to pick up and
+                        drop off their pet.</ion-card-content>
+                </ion-card>
+
+                <!-- daily walking 2 -->
+                <ion-card *ngFor="let s of listingService.secondaryServices; let idx = index;" class="service-card">
+                    <ion-card-header lines="none">
+                        <div (click)="openActiveBlock('extra-'+s.idx)">
+                            <ion-card-title>{{s?.serviceType?.serviceName}}</ion-card-title>
+                            <ion-card-subtitle *ngIf="s?.notification_message?.panel_status != 'Pending'" color="theme">
+                                {{ (s?.notification_message?.panel_status == 'Active') ? 'Active' : 'Inactive'}}
+                            </ion-card-subtitle>
+
+                            <ion-card-subtitle *ngIf="s?.notification_message?.panel_status == 'Pending'" color="theme">
+                                Pending</ion-card-subtitle>
+
+                        </div>
+                        <div>
+
+                            <ion-button *ngIf="s?.notification_message?.panel_status == 'Pending'"
+                                class="ion-text-capitalize" size="small" [color]="'theme'">Pending</ion-button>
+
+                            <ion-button *ngIf="s?.notification_message?.panel_status != 'Pending'"
+                                class="ion-text-capitalize" (click)="changeStatusService(s)" size="small"
+                                [color]="(s?.notification_message?.panel_status != 'Active') ? 'theme-sec' : 'theme'">
+                                {{ (s?.notification_message != 'Active') ? 'Activate' : 'Deactivate'}}</ion-button>
+                        </div>
+                        <ion-icon 
+                            (click)="openActiveBlock('extra-'+s.idx)"
+                            [name]="(activeService?.indexOf('extra-'+s.idx) >= 0)? 'chevron-up-outline' : 'chevron-down-outline'"
+                        ></ion-icon>
+                    </ion-card-header>
+
+                    <ion-card-content class="animated fadeIn delay-2s"
+                        *ngIf="activeService?.indexOf('extra-'+s.idx) >= 0">
+                        <ion-text *ngIf="s?.serviceType?.serviceChargeType == '0'" class="fs-12">This service is charged on a per night basis.</ion-text>
+
+                        <ion-text *ngIf="s?.serviceType?.serviceChargeType == '1'" class="fs-12">This service is charged on a per day basis.</ion-text>
+
+                        <ion-text *ngIf="s?.serviceType?.serviceChargeType == '3'" class="fs-12">This service is charged on a one off basis.</ion-text>
+
+                        <ion-text  *ngIf="s?.serviceType?.serviceChargeType == '4'" class="fs-12">This service is charged per KM traveled.</ion-text>
+
+
+                        <div *ngIf="s?.serviceType?.perPet == '0'">
+                            <ion-item>
+                                <ion-icon slot="start" class="usd-icon ion-align-self-end" name="logo-usd" size="small"></ion-icon>
+                                <ion-label position="stacked"> Price </ion-label>
+                                <ion-input [(ngModel)]="s.getPrice" type="number" min="30" max="999"></ion-input>
+                            </ion-item>
+                        </div>
+
+
+                        <!-- If Price is null show block of dog, cat , horse , misc. 
+                    IF Price is not null show  -->
+                        <div *ngIf="s?.serviceType?.perPet =='1' ">
+
+                            <ion-item *ngIf="this.pets.sits_dogs == 1">
+                                <ion-icon slot="start" class="usd-icon ion-align-self-end" name="logo-usd" size="small"></ion-icon>
+                                <ion-label position="stacked"> Dog </ion-label>
+                                <ion-input type="number" [(ngModel)]="s.getDogPrice" min="30" max="999"></ion-input>
+                            </ion-item>
+
+
+                            <ion-item *ngIf="this.pets.sits_cat == 1">
+                                <ion-icon slot="start" class="usd-icon ion-align-self-end" name="logo-usd" size="small"></ion-icon>
+                                <ion-label position="stacked"> Cat </ion-label>
+                                <ion-input type="number" [(ngModel)]="s.getCatPrice" min="30" max="999"></ion-input>
+                            </ion-item>
+
+                            <ion-item *ngIf="this.pets.sits_horse == 1">
+                                <ion-icon slot="start" class="usd-icon ion-align-self-end" name="logo-usd" size="small"></ion-icon>
+                                <ion-label position="stacked"> Horse </ion-label>
+                                <ion-input type="number" [(ngModel)]="s.getHorsePrice" min="30" max="999"></ion-input>
+                            </ion-item>
+
+
+                            <ion-item *ngIf="this.pets.sits_others == 1">
+                                <ion-icon slot="start" class="usd-icon ion-align-self-end" name="logo-usd" size="small"></ion-icon>
+                                <ion-label position="stacked"> Others </ion-label>
+                                <ion-input [(ngModel)]="s.getOtherPrice" type="number" min="30" max="999"></ion-input>
+                            </ion-item>
+
+                        </div>
+
+                        <ion-button class="text-capitalize fls-0 fs-14" type="button" color="theme"
+                            (click)="saveService(s.id,s.serviceTypeId,
+                    s.getDogPrice,
+                            s.getCatPrice,
+                            s.getHorsePrice,
+                            s.getOtherPrice,
+                            s.getPrice,
+                    s.isPrimaryService,s.priceRuleByName,0, s.pricingRules,s.serviceType.perPet,s)">
+                    <label *ngIf="s?.notification_message?.save_text == 'Save'">Save</label>
+                    <label *ngIf="s?.notification_message?.save_text == 'Save & Activate'">Save & Activate</label>
+                        </ion-button>
+
+                        <!-- <ion-button class="text-capitalize fls-0 fs-14" expand="block" type="button" color="theme"
+                            (click)="saveService(s.id,s.serviceTypeId,s.isPrimaryService,s.priceRuleByName)">
+                            Save
+                        </ion-button> -->
+                    </ion-card-content>
+                </ion-card>
+            </div>
+        </div>
+    </div>
+</ion-content>

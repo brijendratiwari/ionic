@@ -1,0 +1,484 @@
+<ion-header class="ion-no-border">
+    <ion-toolbar class="ion-no-padding ion-no-marging" color="theme-sec">
+        <div class="job-modal-toolbar">
+            <div *ngIf="activeSlideIndex ==0">
+                <h3>
+                    Contact {{sitter?.first_name}} {{sitter?.last_name | slice:0:1}} about their Availability
+                </h3>
+                <p>This is just the start of the conversation and not a booking request yet</p>
+            </div>
+            <div *ngIf="activeSlideIndex ==1">
+                <h3>
+                    What additional services can we help with?
+                </h3>
+                <p>This is just the start of the conversation and not a booking request yet</p>
+            </div>
+            <div *ngIf="activeSlideIndex ==2">
+                <h3>
+                    Booking Estimate
+                </h3>
+                <p>Your wallet is only charged after the Meet & Greet if you're happy to proceed.</p>
+            </div>
+            <ion-icon (click)="closeModal()" color="icon-c1" name="close"></ion-icon>
+        </div>        
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-slides 
+        #jobSlides
+        (ionSlideDidChange)="slideChange($event)"
+        pager="false" 
+        [options]="slideOpts"
+    >
+        <ion-slide>
+            <form class="form-tag" [formGroup]="jobPostingForm">
+                <ion-grid>
+                    <ion-row>
+                        <ion-col>
+                            <ion-item>
+                                <ion-label position="stacked">What service do you need?
+                                    <small class="error">*</small>
+                                </ion-label>
+        
+                                <ion-select [compareWith]="compareWith" formControlName="service_id"
+                                    (ionChange)="selectService($event)" placeholder="Please select a service"
+                                    interface="action-sheet">
+        
+                                    <ion-select-option class="fs-14"
+                                        *ngFor="let service of primaryServices, let idx = index"
+                                        [hidden]="service?.serviceType?.enabled != '1'" [value]="service">
+                                        {{service?.serviceType?.serviceName}}
+                                    </ion-select-option>
+                                </ion-select>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+        
+                    <ion-text lines="none" class="animated fadeInUp" *ngIf="is_service_type_id==true">
+                        <p class="error"> Please Select Service</p>
+                    </ion-text>
+        
+                    <ion-row class="radio-btns-row">
+                        <ion-col>
+                            <ion-radio-group color="theme" formControlName="bookingType" (ionChange)="selectMode($event)">
+                                <ion-row class="ion-align-items-center">
+                                    <ion-col [hidden]="isOnceOff" size="6">
+                                        <ion-item lines="none">
+                                            <ion-radio color="theme" value="0"></ion-radio>
+                                            <ion-label> &nbsp;One Off</ion-label>
+                                        </ion-item>
+                                    </ion-col>
+                                    <ion-col size="6" [hidden]="!isRecurring">
+                                        <ion-item lines="none">
+                                            <ion-radio color="theme" value="1"></ion-radio>
+                                            <ion-label> &nbsp;Recurring</ion-label>
+                                        </ion-item>
+                                    </ion-col>
+                                </ion-row>
+                            </ion-radio-group>
+                            <ion-text lines="none" class="animated fadeInUp" *ngIf="isbookingType">
+                                <p class="error"> Please Select Booking Type
+                                </p>
+                            </ion-text>
+                        </ion-col>
+                    </ion-row>
+        
+                    <ion-row>
+                        <ion-col class="date-col" (click)="openFromDateCalender('from_date')" size="6">
+                            <ion-item class="look-input-item">
+                                <ion-label position="stacked">Start Date<small class="error">*</small></ion-label>
+                                <div class="look-input">
+                                    {{lbl_formatedStartDate | date: 'EEE dd MMM yyyy'}}
+                                </div>
+                            </ion-item>
+                            <ion-text class="animated fadeInUp error"
+                                *ngIf="jobPostingForm.get('start_date').hasError('required')">
+                                Select start date.
+                            </ion-text>
+                        </ion-col>
+                        <ion-col class="time-col" size="6">
+                            <ion-item>
+                                <ion-label position="stacked">Start Time <small class="error">*</small></ion-label>
+                                <ion-datetime #startFromTimePicker display-format="h:mm A" [value]="startMinTime"
+                                    placeholder="9:15 AM" picker-format="h:mm A"                            
+                                    formControlName="start_time" 
+                                    (ionChange)="fromTimeChange(startFromTimePicker)" minuteValues="0,15,30,45">
+                                </ion-datetime>
+                            </ion-item>
+                            <ion-text class="animated fadeInUp error"
+                                *ngIf="jobPostingForm.get('start_time').hasError('required') && jobPostingForm.get('start_time').touched">
+                                Select start time.
+                            </ion-text>
+                            <ion-text class="animated fadeInUp error"
+                                *ngIf="!isValidFromTime().isValidStart && jobPostingForm.get('start_time').touched">
+                                The start time must be more than 1 hour from now.
+                            </ion-text>
+                        </ion-col>
+                    </ion-row>
+        
+                    <ion-row *ngIf="isEndDateTime">
+                        <ion-col class="date-col" (click)="openToCalender('end_date')" size="6">
+                            <ion-item class="look-input-item">
+                                <ion-label position="stacked"> End Date <small class="error">*</small></ion-label>
+                                <div class="look-input">
+                                    {{lbl_formatedEndDate | date: 'EEE dd MMM yyyy'}}
+                                </div>
+                            </ion-item>
+        
+                            <ion-text class="animated fadeInUp error"
+                                *ngIf="jobPostingForm.get('end_date').hasError('required')">
+                                Select end time.</ion-text>
+                            <ion-text class="animated fadeInUp error"
+                                *ngIf="!isValidFromTime().isValidEndDate">
+                                The end date must be greater than start date.
+                            </ion-text>
+                        </ion-col>
+        
+                        <ion-col class="time-col" size="6">
+                            <ion-item>
+                                <ion-label position="stacked"> End Time<small class="error">*</small></ion-label>
+                                <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A"
+                                    formControlName="end_time" [value]="startTotime" minuteValues="0,15,30,45"></ion-datetime>
+                            </ion-item>
+        
+                            <ion-text class="animated fadeInUp error"
+                                *ngIf="jobPostingForm.get('end_time').hasError('required') && jobPostingForm.get('end_time').touched">
+                                Select end time.</ion-text>
+                            <ion-text class="animated fadeInUp error"
+                                *ngIf="!isValidFromTime().isValidEndTime && jobPostingForm.get('end_time').touched">
+                                The end time must be more than 1 hour from start time.
+                            </ion-text>
+                        </ion-col>
+                    </ion-row>
+        
+                    <ion-grid *ngIf="isPetTaxi">
+                        <ion-row>
+                            <ion-col size="12">
+                                <input type="search" [options]='options' ngx-google-places-autocomplete #placesRef="ngx-places"
+                                    clearInput [ngModelOptions]="{standalone: true}" [(ngModel)]="pickupLocation"
+                                    (focus)="isFooterShown()"
+                                    placeholder="Enter Pick up Address" class="search-input native-input sc-ion-input-md"
+                                    (onAddressChange)="handleAddressChange('start_location',$event)" id="suburb" />
+                                <i class="counts fs-12"></i>
+                            </ion-col>
+                        </ion-row>
+        
+                        <ion-row>
+                            <ion-col size="12">
+                                <input type="search" [options]='options' ngx-google-places-autocomplete #placesRef="ngx-places"
+                                    clearInput [ngModelOptions]="{standalone: true}" [(ngModel)]="destinationLocation"
+                                    (focus)="isFooterShown()"
+                                    placeholder="Enter Destination Address" class="search-input native-input sc-ion-input-md"
+                                    (onAddressChange)="handleAddressChange('end_location',$event)" id="suburb" />
+                                <i class="counts fs-12"></i>
+                            </ion-col>
+                        </ion-row>
+        
+                        <div [hidden]="!googleMapShown">
+                            <div #mapElement class="map"></div>
+                            <ion-row>
+                                <ion-col size="12">
+                                    <ion-label position="stacked"> Distance: {{distanceForPetTaxi}}</ion-label>
+                                </ion-col>
+                                <ion-col size="12">
+                                    <ion-label position="stacked"> Trip time: {{travelTime}}</ion-label>
+                                </ion-col>
+                            </ion-row>
+                        </div>
+                    </ion-grid>
+        
+        
+        
+                    <div *ngIf="ServiceChargeType != '0'">
+        
+                        <ion-row *ngIf="selectedMode == 0  && !isPetTaxi">
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label position="stacked">Select Days <small class="error">*</small></ion-label>
+                                    <ion-select color="theme" formControlName="recurring_type" (ionChange)="selectDays($event)"
+                                        placeholder="Select Days" interface="action-sheet">
+                                        <ion-select-option class="fs-14" *ngFor="let recurring of recurringOptions?.oneoff"
+                                            [value]="recurring?.shortName">{{recurring?.LongName}}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                        <ion-row *ngIf="selectedMode == 1 && !isPetTaxi">
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label position="stacked">Select Days <small class="error">*</small></ion-label>
+                                    <ion-select color="theme" formControlName="recurring_type" (ionChange)="selectDays($event)"
+                                        placeholder="Select Days" interface="action-sheet">
+                                        <ion-select-option class="fs-14"
+                                            *ngFor="let recurring of recurringOptions?.recurring_type"
+                                            [value]="recurring?.shortName">{{recurring?.LongName}}
+                                        </ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                        <ion-text lines="none" class="animated fadeInUp" *ngIf="is_recurringType==true">
+                            <p class="error"> Please Select Booking Days</p>
+                        </ion-text>
+        
+                        <ion-row *ngIf="isCustomDays && !isPetTaxi">
+                            <ion-col>
+                                <ion-item>
+                                    <ion-label position="stacked">Custom Days</ion-label>
+                                    <ion-select interface="action-sheet" color="theme" [multiple]="isMultipleDays == true ? true :
+                                        false" formControlName="booking_days" (ionChange)="customDays($event)"
+                                        placeholder="Custom Days">
+                                        <ion-select-option value="0">Sunday</ion-select-option>
+                                        <ion-select-option value="1">Monday</ion-select-option>
+                                        <ion-select-option value="2">Tuesday</ion-select-option>
+                                        <ion-select-option value="3">Wednesday</ion-select-option>
+                                        <ion-select-option value="4">Thursday</ion-select-option>
+                                        <ion-select-option value="5">Friday</ion-select-option>
+                                        <ion-select-option value="6">Saturday</ion-select-option>
+                                    </ion-select>
+                                </ion-item>
+                            </ion-col>
+                        </ion-row>
+                        <ion-text lines="none" class="animated fadeInUp" *ngIf="is_booking_days">
+                            <p class="error"> Please Select Days</p>
+                        </ion-text>
+                    </div>
+        
+                    <ion-row>
+                        <ion-col>
+                            <ion-item lines="none" class="pet-item-title">
+                                <ion-label *ngIf="isPetTaxi"> Pets Travelling <small class="error">*</small></ion-label>
+                                <ion-label *ngIf="!isPetTaxi">Pets <small class="error">*</small></ion-label>
+                            </ion-item>
+        
+                            <div [hidden]="!isNoPets">
+                                <ion-text class="error" routerLink="/pet-add">No Pets Added. Please Add Pet <span
+                                        class="link-contrast"> (Click Here)*</span></ion-text>
+                            </div>
+                            <div class="petList">
+                                <ion-item lines="full" *ngFor="let pet of petList" class="petItem">
+                                    <ion-thumbnail slot="start" class="petProfile">
+        
+                                        <ion-img [src]="pet.imagename == '' || pet.imagename == null  ? 
+                                        'https://dev.petcloud.com.au/img/pet_placeholder.png' 
+                                        : pet?.imagename"></ion-img>
+        
+                                    </ion-thumbnail>
+                                    <ion-label>{{pet?.name}}</ion-label>
+                                    <ion-checkbox slot="end" checked color="theme" (ionChange)="onPetSelectChange($event,pet)">
+                                    </ion-checkbox>
+                                </ion-item>
+                                <ion-text [hidden]="selectedPetIds.length > 0" lines="none" class="animated fadeInUp">
+                                    <p class="error">Please select Pets </p>
+                                </ion-text>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+        
+        
+        
+                    <div *ngIf="isPetTaxi" style="display: flex;margin-left: 15px;">
+                        <ion-checkbox style="margin-top: 10px;" color="primary" (ionChange)="onPetTaxiAgreement($event)" checked slot="start">
+                        </ion-checkbox>
+                        <ion-label style="padding-left: 10px;font-size: 14px;" >I agree to the <span (click)="petTaxiAgreement()"
+                                class="text-theme ">Pet Safety & Cleaning <br> Terms & Conditions</span>
+                        </ion-label>
+                    </div>
+        
+        
+                    <ion-row *ngIf="googleMapShown && isPetTaxi">
+                        <ion-col>
+                            <p style="color: #52C4BE;"> Fare Estimation : ${{estimationTaxiPrice | number:'1.2-2' }} </p>
+                        </ion-col>
+                </ion-row>
+                </ion-grid>
+                <div class="btn-wrapper ion-text-center">
+                    <ion-button class="text-capitalize fls-0 fs-16" color="theme"
+                        [disabled]="!isFormValid 
+                        || !isValidFromTime().isValidStart 
+                        || !isValidFromTime().isValidEndDate 
+                        || !isValidFromTime().isValidEndTime"
+                        (click)="next()"
+                    >
+                       Next
+                    </ion-button>
+                </div>
+                <div class="extra-space"></div>
+            </form>
+        </ion-slide>
+        <ion-slide class="list-slide">
+            <div class="extra-service-options" *ngFor="let extraService of secondaryServices">
+                <ion-item lines="none" class="detail-item" >
+                    <ion-thumbnail slot="start">
+                        <img [src]= "'https://www.petcloud.com.au/img/services/' + extraService?.serviceType?.image">
+                    </ion-thumbnail>
+                    <ion-label>
+                        <h3>{{extraService?.serviceType?.serviceName}} ${{extraService?.minPrice}}
+                            <ion-text>({{getTotalPets(extraService)}}) pets</ion-text></h3>
+                        <p>{{extraService?.serviceType?.sec_description}}</p>                                      
+                    </ion-label>
+                </ion-item>
+                <div class="pet-option">
+                    <div class="pet-wrapper">
+                        <div class="check-item" *ngFor="let pet of extraService.petList" (click)="selectPet(pet)">
+                            <div class="icon-wrapper">
+                                <ion-icon [color]="pet?.isSelected? 'theme-sec' : ''" [name]="pet?.isSelected? 'checkmark-circle-outline': 'add-circle-outline'"></ion-icon>
+                            </div>
+                            <ion-text class="pet-name">{{pet?.name}}</ion-text>
+                        </div>                        
+                    </div>
+                    <div class="occasions-wrapper">
+                        <div class="occasions-info">
+                            <div (click)="changeOccuranceValue('remove',extraService)">-</div>
+                            <div class="input-div">
+                                <input type="number" [(ngModel)]="extraService.occasions"
+                                    (ngModelChange)="changeOccuranceValue('textInput',extraService)" />
+                                </div>
+                            <div (click)="changeOccuranceValue('add',extraService)">+</div>
+                        </div>
+                        <ion-text class="pet-name">Occasions</ion-text>
+                    </div>                    
+                </div>                 
+            </div>
+            <div class="estimate-btn-wrapper ion-text-center">
+                <ion-button
+                    class="back-btn text-capitalize fls-0 fs-16"
+                    (click)="back()"
+                >
+                back
+                </ion-button>
+                <ion-button 
+                    class="text-capitalize fls-0 fs-16"
+                    (click)="next()"
+                >
+                    View Price
+                </ion-button>
+            </div>
+            <div class="amt-note">
+                <p>Funds are held securely in escrow until you approve and have met the Sitter.</p>
+                <p class="link-contrast">Price estimate $ {{estimatedPrice}}</p>
+            </div>
+        </ion-slide>
+        <ion-slide>
+            <ion-grid class="booking-estimate-grid">
+                <ion-row class="header-row">
+                    <ion-col size="5" class="ion-text-left">
+                        Service
+                    </ion-col>
+                    <ion-col size="2" class="ion-text-center">
+                        Price
+                    </ion-col>
+                    <ion-col size="3" class="ion-text-center">
+                        Quantity
+                    </ion-col>
+                    <ion-col size="2" class="ion-text-center">
+                        Total
+                    </ion-col>
+                </ion-row>
+                <ion-row class="detail-row" *ngFor="let cost of costData?.primary">
+                    <ion-col size="5" class="ion-text-left">
+                        {{cost?.name}} for {{cost?.petname}}
+                    </ion-col>
+                    <ion-col size="2" class="ion-text-center">
+                        ${{ cost?.price }}
+                    </ion-col>
+                    <ion-col size="3" class="ion-text-center">
+                        {{cost?.quantity}}
+                    </ion-col>
+                    <ion-col size="2" class="ion-text-center">
+                        ${{ cost?.cost }}
+                    </ion-col>
+                </ion-row>
+
+                <ion-row class="detail-row" *ngFor="let cost of costData?.secondary">
+                    <ion-col size="5" class="ion-text-left">
+                        {{cost?.name}}  for {{cost?.petname}}
+                    </ion-col>
+                    <ion-col size="2" class="ion-text-center">
+                        ${{ cost?.price }}
+                    </ion-col>
+                    <ion-col size="3" class="ion-text-center">
+                        {{cost?.quantity}}
+                    </ion-col>
+                    <ion-col size="2" class="ion-text-center">
+                        ${{ cost?.cost }}
+                    </ion-col>
+                </ion-row>
+
+                <ion-row class="donation-row">
+                    <ion-col size="10" class="checkbox-col ion-text-left">
+                        <ion-checkbox checked={{isRSPCADonationChecked}} (ionChange)="isRSPCADonation($event)"></ion-checkbox>
+                        RSPCA Donation
+                    </ion-col>
+                    <ion-col size="2" class="ion-text-center">
+                        $ 1.00
+                    </ion-col>
+                </ion-row>
+                
+                <ion-row class="total-row">
+                    <ion-col size="10" class="title-text ion-text-right">
+                        Booking Fee
+                    </ion-col>
+                    <ion-col size="2" class="ion-text-center">
+                        $ {{bookingCost | number:'1.2-2'}} 
+                    </ion-col>
+                </ion-row>
+                <ion-row class="total-row final-total">
+                    <ion-col size="10" class="title-text ion-text-right">
+                        Total
+                    </ion-col>
+                    <ion-col size="2" class="ion-text-center">
+                        $ {{totalCost | number:'1.2-2'}}
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="terms-col" size="12">
+                        <div>
+                            <ion-checkbox [(ngModel)]="shareNumber"></ion-checkbox>
+                        </div>
+                        Share my number with {{ sitterInfo?.first_name }}: {{ userData?.mobile }}
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="terms-col second-term" size="12">
+                        <div>
+                            <ion-checkbox [(ngModel)]="termsAccpted"></ion-checkbox>
+                        </div>
+                        Non Solicitation: I agree that all current & future services with this party are to remain booked via PetCloud.
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="ion-text-center" size="3">
+                        <img src="assets/img/insurance.png">
+                    </ion-col>
+                    <ion-col class="terms-col" size="9">
+                        A percentage of each transaction goes towards insuring your pets in the event of accident or illness.
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="ion-text-center" size="3">
+                        <img src="assets/img/rspca_heart_support.jpg">
+                    </ion-col>
+                    <ion-col class="terms-col" size="9">
+                        Thanks for your support.
+                    </ion-col>
+                </ion-row>
+                <div class="estimate-btn-wrapper last-slide ion-text-center">
+                    <ion-button
+                        class="back-btn text-capitalize fls-0 fs-16"
+                        (click)="back()"
+                    >
+                    back
+                    </ion-button>
+                    <ion-button 
+                        class="text-capitalize fls-0 fs-16"
+                        (click)="sendBookingRequest()"
+                    >
+                        Send an instant SMS to Sitter
+                    </ion-button>
+                </div>
+            </ion-grid>            
+        </ion-slide>
+      </ion-slides>  
+</ion-content>

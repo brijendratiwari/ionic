@@ -1,0 +1,31 @@
+.custom-list{
+    ion-item{
+        --padding-start:0;
+    }
+}
+
+.theme-text{
+    color: #FE4164;
+  }
+  .theme-text-no{
+    color: grey;
+  }
+
+  ion-grid {
+    padding: 10px;
+  }
+  ion-item {
+    font-size: 15px;
+    --min-height: 40px;
+    ion-label {
+      padding-right: 10px;
+    }
+    ion-select {
+      padding-top: 16px;
+    }
+  }
+
+  .note-info {
+    box-shadow: none;
+    margin: 5px 0px;
+  }

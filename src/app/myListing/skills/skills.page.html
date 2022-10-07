@@ -1,0 +1,169 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="/listing" ></ion-back-button>
+        </ion-buttons>
+        <ion-title>Skills</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row class="ion-margin-vertical custom-list">
+            <ion-col>
+                <form [formGroup]="skillFrm">
+                    <ion-item [lines]="(skillFrm.get('experiencePets').value == false)? 'none': ''">
+                        <ion-label class="ion-text-wrap">Do you have experience looking after pets?</ion-label>
+                        <ion-toggle formControlName="experiencePets" slot="end" color="theme"></ion-toggle>
+                        <div>
+                            <span class="theme-text"
+                                *ngIf="skillFrm.value.experiencePets"
+                            >
+                                Yes
+                            </span>
+                            <span class="theme-text-no"
+                                *ngIf="!skillFrm.value.experiencePets"
+                            >
+                                No
+                            </span>
+                        </div>
+                    </ion-item>
+                    <ion-card color="note animated fadeIn" *ngIf="skillFrm.get('experiencePets').value == false"
+                              class="note-info ion-no-margin">
+                        <ion-card-content>
+                            <a href="https://www.petcloud.com.au/learning/minding" target="_blank">
+                                The RSPCA Qld Accredited Pet Sitting course</a> will help give you the confidence you need when
+                            looking after pets. This course is located in your Learning Centre.
+                        </ion-card-content>
+                    </ion-card>
+                    <ion-item *ngIf="skillFrm.get('experiencePets').value == true">
+                        <ion-label position="stacked">How many years experience?
+                            <small class="error">*</small>
+                        </ion-label>
+                        <ion-select placeholder="select experience" formControlName="experienceYears">
+                            <ion-select-option value="1">1</ion-select-option>
+                            <ion-select-option value="2" selected="">2</ion-select-option>
+                            <ion-select-option value="3">3</ion-select-option>
+                            <ion-select-option value="4">4</ion-select-option>
+                            <ion-select-option value="5">5</ion-select-option>
+                            <ion-select-option value="6">6</ion-select-option>
+                            <ion-select-option value="7">7</ion-select-option>
+                            <ion-select-option value="8">8</ion-select-option>
+                            <ion-select-option value="9">9</ion-select-option>
+                            <ion-select-option value="10">10</ion-select-option>
+                            <ion-select-option value="11">10+</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-text lines="none"
+                        class="animated fadeInUp error"
+                        *ngIf="skillFrm.get('experiencePets').value == true 
+                        && skillFrm.get('experienceYears').value == true 
+                        && skillFrm.get('experienceYears').hasError('required') 
+                        && skillFrm.get('experienceYears').touched"
+                    >
+                        select experience!
+                    </ion-text>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">Do you have any qualifications regarding pets?</ion-label>
+                        <ion-toggle slot="end" formControlName="hasQualifications" color="theme"></ion-toggle>
+                        <div>
+                            <span class="theme-text"
+                                *ngIf="skillFrm.value.hasQualifications"
+                            >
+                                Yes
+                            </span>
+                            <span class="theme-text-no"
+                                *ngIf="!skillFrm.value.hasQualifications"
+                            >
+                                No
+                            </span>
+                        </div>
+                    </ion-item>
+                    <ion-item *ngIf="skillFrm.get('hasQualifications').value == true">
+                        <ion-label position="stacked">
+                            Please list your qualifications?
+                            <small class="error">*</small>
+                        </ion-label>
+                        <ion-textarea formControlName="qualifications" rows="3" maxlength="500">
+                        </ion-textarea>
+                    </ion-item>
+                    <ion-text *ngIf="skillFrm.get('hasQualifications').value == true">
+                        <small>
+                            <i>
+                                {{ 500 - skillFrm.get('qualifications').value?.length }} char left
+                            </i>
+                        </small>
+                    </ion-text>
+                    <ion-text lines="none" class="animated fadeInUp error"
+                        *ngIf="skillFrm.get('hasQualifications').value == true 
+                        && skillFrm.get('qualifications').value == true 
+                        && skillFrm.get('qualifications').hasError('required')
+                        && skillFrm.get('qualifications').touched"
+                    >
+                        enter qualification!
+                    </ion-text>
+                    <ion-item>
+                        <ion-label position="stacked" class="ion-text-wrap">
+                            What specific breeds (of Dogs and Cats) do you have experience with?
+                        </ion-label>
+                        <ion-select 
+                            formControlName="specific_breeds"
+                            placeholder="Select specific breed"
+                            multiple="true" cancelText="cancel"
+                            okText="ok"
+                        >
+                            <ion-select-option *ngFor="let p of petBreeds" [value]="p.id">{{p.name}}</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label position="stacked" class="ion-text-wrap">Do you have special skills in any of the following?
+                        </ion-label>
+                        <ion-select 
+                            formControlName="SpecialSkills"
+                            placeholder="Select Special Skills"
+                            multiple="true"
+                            cancelText="cancel"
+                            okText="ok"
+                        >
+                            <ion-select-option value="1">Epilepsy</ion-select-option>
+                            <ion-select-option value="2">Senior Dogs</ion-select-option>
+                            <ion-select-option value="3">Puppies</ion-select-option>
+                            <ion-select-option value="4">Senior Cats</ion-select-option>
+                            <ion-select-option value="5">Kittens</ion-select-option>
+                            <ion-select-option value="6">Medication</ion-select-option>
+                            <ion-select-option value="7">Injections</ion-select-option>
+                            <ion-select-option value="8">Special Needs</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label position="stacked" class="ion-text-wrap">
+                            Anything else about your skills that you would like to mention?
+                        </ion-label>
+                        <ion-textarea 
+                            formControlName="specific_skills" 
+                            rows="3" maxlength="500"
+                            placeholder="If you are a student or have a specific degree in animal care or other relevant skills, please add them here"
+                        ></ion-textarea>
+                    </ion-item>
+                    <ion-text>
+                        <small>
+                            <i>
+                                {{ 500 - skillFrm.get('specific_skills').value.length }} char left
+                            </i>
+                        </small>
+                    </ion-text>
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ion-footer>
+    <ion-button
+        class="text-capitalize fls-0 fs-18 footer-btn" 
+        expand="full" 
+        color="theme"
+        (click)="saveListingSkill()"
+    >
+        Save
+    </ion-button>
+</ion-footer>

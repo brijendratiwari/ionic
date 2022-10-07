@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-card *ngFor="let policy of policyDetail">
+    <ion-card-header>
+      <b class="ion-text-capitalize">{{policy.PolicyName}} : </b>
+    </ion-card-header>
+    <ion-card-content>
+      <p class="ion-text-capitalize">{{policy.content}}</p>  
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

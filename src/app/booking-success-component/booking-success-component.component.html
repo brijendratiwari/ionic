@@ -1,0 +1,42 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-button (click)="closeModal()">
+              <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+    <ion-title>
+         Booking Success
+      </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="animated fadeIn">
+
+  <div style="display: flex;
+  justify-content: center;">
+
+    <ion-img 
+    class="success-img"
+    type="image/svg+xml" src="../../assets/icon/check-mark.svg" ></ion-img>
+  </div>
+
+  <div>
+    <h3 style="text-align: center">Success</h3>
+    <div style="text-align: center;">
+      Your Booking {{bookingId}} is confirmed now.
+    </div>
+  </div>
+ 
+  <div style="padding: 10px;">
+    <ion-button (click)="goToMessageDetails()" class="custom-long-text-button text-capitalize fls-0" color="theme"  expand="block">
+          View Booking
+  </ion-button>
+  </div>
+
+  <div style="padding: 10px;">
+    Clicking on this link will take you to Your Booking. For any help,
+     email <span (click)="sendFollowUpEmail()" class="highlight">service@petcloud.com.au</span> 
+  </div>
+
+</ion-content>

@@ -1,0 +1,150 @@
+.services{
+    .text{
+        float: left;
+        text-align: center;
+    }
+}
+.dashboard-section{
+    background-color: #f9f9f9;
+    min-height: 100%;
+}
+.header-img {
+    position: relative;
+    .background-image {
+        img {
+            width: 100%;
+        }
+    }
+    &:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.2);
+        top: 0;
+        background: rgba(226,226,226,0);
+        background: -moz-linear-gradient(top, rgba(226,226,226,0) 55%, rgba(226,226,226,0.04) 56%, rgba(249,249,249,0.89) 78%, rgba(249,249,249,1) 100%);
+        background: -webkit-gradient(left top, left bottom, color-stop(55%, rgba(226,226,226,0)), color-stop(56%, rgba(226,226,226,0.04)), color-stop(78%, rgba(249,249,249,0.89)), color-stop(100%, rgba(249,249,249,1)));
+        background: -webkit-linear-gradient(top, rgba(226,226,226,0) 55%, rgba(226,226,226,0.04) 56%, rgba(249,249,249,0.89) 78%, rgba(249,249,249,1) 100%);
+        background: -o-linear-gradient(top, rgba(226,226,226,0) 55%, rgba(226,226,226,0.04) 56%, rgba(249,249,249,0.89) 78%, rgba(249,249,249,1) 100%);
+        background: -ms-linear-gradient(top, rgba(226,226,226,0) 55%, rgba(226,226,226,0.04) 56%, rgba(249,249,249,0.89) 78%, rgba(249,249,249,1) 100%);
+        background: linear-gradient(to bottom, rgba(226,226,226,0) 55%, rgba(226,226,226,0.04) 56%, rgba(249,249,249,0.89) 78%, rgba(249,249,249,1) 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e2e2e2', endColorstr='#f9f9f9', GradientType=0 );
+    }
+    .logo {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        z-index: 999;
+        img {
+            width: 120px;
+        }
+    }
+    .title {
+        position: absolute;
+        bottom: 60px;
+        left: 0;
+        width: 100%;
+        text-align: center;
+        z-index: 999;
+        font-size: 30px;
+        font-weight: 700;
+        color: #fff;
+        text-shadow: 1px 1px 20px rgba(0, 0, 0, 0.2);
+    }
+}
+
+.services-list-container {
+    display: flex;
+    flex-wrap: wrap;
+    padding: 16px;
+    overflow: hidden;
+    position: relative;
+    &:after {
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 3px;
+        background-color: #f9f9f9;
+        bottom: 15px;
+        left: 0;
+    }
+    .item {
+        width: calc(100% / 3);
+        border-right: 1px solid #e0e0e0;
+        border-bottom: 1px solid #e0e0e0;
+        text-align: center;
+        padding: 16px;
+        margin-bottom: -1px;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        &:nth-child(3n+3) {
+            border-right: 0 solid #e0e0e0;
+        }
+        .check-mark {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            img {
+                width: 15px;
+            }
+        }
+        .title{
+            font-size: 12px;
+            line-height: 14px;
+        }
+        .icon {
+            img {
+                width: 40px;
+            }
+        }
+    }
+}
+.search-btn{
+    margin: 16px;
+    display: flex;
+    flex-direction: column;
+    margin-top: -20px;
+    z-index: 999;
+    position: relative;
+    button{
+        padding: 8px 15px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #fe4164;
+        color: #fff;
+        margin: auto;
+        border-radius: 50px;
+        span{
+            margin-left: 5px;
+        }
+    }
+    .google-input{
+        width: 100%;
+        margin-top: 18px;
+        padding: 10px 15px;
+        border: 1px solid #e0e0e0;
+        font-size: 14px;
+        border-radius: 5px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        background-repeat: no-repeat;
+        background-size: 30px;
+        padding-left: 40px;
+        background-position: 6px;
+    }
+}
+
+.google-input{
+    width: 100%;
+    margin-top: 10px;
+}
+
+ion-back-button{
+    position: absolute;    
+    z-index: 999;
+}

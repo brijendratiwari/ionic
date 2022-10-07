@@ -1,0 +1,70 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+      <ion-title class="ion-text-capitalize">{{serviceName}}
+      </ion-title>
+
+      <ion-buttons slot="start">
+          <ion-back-button (click)="goBack()" defaultHref="/home/tabs/sitter-listing"></ion-back-button>
+      </ion-buttons>
+
+      <ion-buttons  slot="secondary">
+        <ion-button fill="clear" class="filter-btn" color="theme" (click)="showFilter()">
+            <ion-icon size="large" slot="icon-only" name="options"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+     
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+      <ng-container *ngIf="categories.length > 0">
+          <div class="list-item-container">
+              <div *ngFor="let data of categories" (click)="navigateDetails(data)" class="list-item">
+                  <div class="img">                  
+                      <div class="fav">
+                          <ion-icon name="heart"></ion-icon>
+                      </div>
+                      <ion-img [src]="data?.image == '' || data?.image == null ?
+                      '../../assets/icon/dashboard/single-listing.jpg' : data?.image">
+                      </ion-img>
+                  </div>
+                  <div class="content">
+                      <div class="categories" [ngStyle]="{'background-color':data.color}">
+                          <p class="ion-text-capitalize">{{data?.category}} </p>
+                      </div>
+                      <h5>
+                          <span>{{data?.listing_title}}</span>
+                      </h5>
+                      <h6>{{data?.address}}</h6>
+
+                      <div class="radings-custom">
+                          <ion-img *ngFor="let s of convertNumberToArray(5); let i = index" 
+                               [src]="(i <= data?.rating - 1) ?
+                         '../../assets/icon/star-rating.svg': '../../assets/icon/star-rating-blank.svg'" > </ion-img>
+
+                          <div class="counts">
+                              ({{data?.total_review}} Reviews)
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+          <button  class="map-button" (click)="goToGridView()">Map View</button>
+          <ion-infinite-scroll *ngIf="isPaginationShown" threshold="100px" (ionInfinite)="loadData($event)">
+              <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
+              </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+      </ng-container>
+
+  <ng-container *ngIf="categories.length == 0 && isAPILoaded == true">
+      <ion-card>
+          <ion-card-content>
+            {{noListingMessage}} 
+          </ion-card-content>
+      </ion-card>
+  </ng-container>
+
+
+  
+</ion-content>

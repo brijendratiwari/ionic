@@ -1,0 +1,260 @@
+.service-card{
+  border: 1px solid #CCCCCC;
+  box-shadow: 0 2px 4px 0 rgba(136,136,136,0.30);
+  ion-card-header{
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+    justify-content: space-between;
+    align-items: flex-start;
+    div:first-child{
+      width: calc(100% - 75px);
+    }
+    div:last-child{
+      width: 70px;
+      text-align: right;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-end;
+      ion-icon {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    ion-card-title {
+      font-size: 14px;
+      color: #4A4A4A;
+      letter-spacing: 0;
+      margin-bottom: 8px;
+    }
+    ion-card-subtitle {
+      font-size: 12px;
+      color: #888888;
+      letter-spacing: 0;
+    }
+    .status{
+      font-size: 12px;
+      letter-spacing: 0;
+      text-align: left;
+      margin:0;
+      &.active{
+        color:#fe4164;
+      }
+      &.deactive{
+        color:#52C4BE;
+      }
+    }
+    ion-button{
+      font-size: 12px;
+      letter-spacing: 0;
+      --box-shadow:none;
+    }
+  }
+  ion-card-content{
+    padding: 10px;
+
+  }
+
+}
+.sub-heading {
+  font-weight: 600;
+  font-size: 14px;
+  color: #FE4164;
+  letter-spacing: 0;
+  line-height: 16px;
+  margin: 0;
+  background: #fde7eb;
+  padding: 4px 10px;
+  width: fit-content;
+  border-radius: 8px;
+}
+.detail-list{
+  .detail-item{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 5px 0;
+    .detail-label{
+      font-size: 14px;
+      color: #4A4A4A;
+      letter-spacing: 0;
+      line-height: 16px;
+      min-width:100px;
+    }
+    .content{
+      font-weight: 600;
+      font-size: 14px;
+      color: #4A4A4A;
+      letter-spacing: 0;
+      text-align: left;
+      line-height: 16px;
+    }
+  }
+}
+.petgrid{
+  text-align: center;
+  ion-avatar{
+    margin:0 auto;
+  }
+  ion-label{
+    font-weight: 500;
+    font-size: 14px;
+    color: #4A4A4A;
+    letter-spacing: 0;
+    text-align: center;
+    line-height: 18px;
+  }
+}
+
+// .joblist{
+//   .jobitem{
+//     display: flex;
+//     flex-direction: row;
+//     width: 100%;
+//     justify-content: flex-start;
+//     border-bottom: 1px solid #EBEBEB;
+//     padding: 10px 0;
+//     .job-profile{
+//       max-width: 70px;
+//       padding-right: 10px;
+//       img{
+//         border-radius: 35px;
+//       }
+//     }
+//     .job-info{
+//       flex-grow: 2;
+//       .location{
+//         font-weight: 600;
+//         font-size: 12px;
+//         color: #FE4164;
+//         letter-spacing: 0;
+//         margin-bottom: 2px;
+//       }
+//       .petname{
+//         font-weight: 600;
+//         font-size: 18px;
+//         color: #4A4A4A;
+//         letter-spacing: 0;
+//         line-height: 22px;
+//         margin:0 0 5px;
+//       }
+//       .service{
+//         font-size: 14px;
+//         color: #4A4A4A;
+//         letter-spacing: 0;
+//         line-height: 16px;
+//         margin:0 0 5px;
+//       }
+//       .pet-count{
+//         font-size: 12px;
+//         color: #4A4A4A;
+//         letter-spacing: 0;
+//         line-height: 16px;
+//         margin:0 0 5px;
+//       }
+//       .date{
+//         font-size: 12px;
+//         color: #888888;
+//         letter-spacing: 0;
+//         margin:0 0 5px;
+//       }
+//       .ratings{
+//         display: flex;
+//         font-size: 12px;
+//         color: #888888;
+//         letter-spacing: 0;
+//         line-height: 14px;
+//         margin-top:0;
+//         margin-bottom: 5px;
+//       }
+//     }
+//   }
+// }
+
+.joblist{
+    .jobitem{
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        justify-content: flex-start;
+        border-bottom: 1px solid #EBEBEB;
+        padding: 10px 0;
+        .job-profile{
+            max-width: 70px;
+            padding-right: 10px;
+            img{
+                border-radius: 35px;
+            }
+        }
+        .job-info{
+            flex-grow: 2;
+            .location{
+                font-weight: 600;
+                font-size: 12px;
+                color: #FE4164;
+                letter-spacing: 0;
+                margin-bottom: 2px;
+            }
+            .petname{
+                font-weight: 600;
+                font-size: 18px;
+                color: #4A4A4A;
+                letter-spacing: 0;
+                line-height: 22px;
+                margin:0 0 5px;
+            }
+            .service{
+                font-size: 14px;
+                color: #4A4A4A;
+                letter-spacing: 0;
+                line-height: 16px;
+                margin:0 0 5px;
+            }
+            .pet-count{
+                font-size: 12px;
+                color: #4A4A4A;
+                letter-spacing: 0;
+                line-height: 16px;
+                margin:0 0 5px;
+            }
+            .date{
+                font-size: 12px;
+                color: #888888;
+                letter-spacing: 0;
+                margin:0 0 5px;
+            }
+            .ratings{
+                display: flex;
+                font-size: 12px;
+                color: #888888;
+                letter-spacing: 0;
+                line-height: 14px;
+                margin-top:0;
+                margin-bottom: 5px;
+            }
+        }
+        .job-actions{
+            justify-self: flex-end;
+            align-self: center;
+            text-align: center;
+            display: flex;
+            .price{
+                .price-label{
+                    font-size: 10px;
+                    color: #888888;
+                    letter-spacing: 0;
+                }
+                .base-price{
+                    font-weight: 600;
+                    font-size: 20px;
+                    color: #4A4A4A;
+                    letter-spacing: 0;
+                    text-align: center;
+                    line-height: 22px;
+                    margin:2px 0 5px;
+                }
+            }
+        }
+    }
+}

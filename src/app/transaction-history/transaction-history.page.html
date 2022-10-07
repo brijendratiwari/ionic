@@ -1,0 +1,129 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title>Transaction History</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid class="ion-no-padding">
+        <ion-row>
+            <ion-col class="ion-no-padding">
+                <ion-segment scrollable [(ngModel)]="selectedSegment" color="segment-theme" class="custom-segment">
+                    <ion-segment-button class="ion-text-capitalize" value="fromPetcloud">From PetCloud</ion-segment-button>
+                    <ion-segment-button class="ion-text-capitalize" value="toPetcloud">To PetCloud</ion-segment-button>
+                    <ion-segment-button class="ion-text-capitalize" value="fromReferrals">From Referrals</ion-segment-button>
+                </ion-segment>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <div [ngSwitch]="selectedSegment" class="transaction-list">
+        <div *ngSwitchCase="'fromPetcloud'">
+            
+            <div class="note">
+                We will send payments within 2 to 7 business days after end date. 
+                Timing depends on factors such as public holidays, accuracy of bank account number, and other bank's processing times.
+              </div>
+
+              <ng-container *ngIf="!paymentsHistory.length">
+                <ion-card>
+                    <ion-card-header class="ion-text-center">No Transaction Records</ion-card-header>
+                </ion-card>
+              </ng-container>
+            <ng-container *ngIf="paymentsHistory.length">
+                <div class="transaction-item" *ngFor="let payHistory of paymentsHistory">
+                    <div class="name">
+                        <ion-avatar>
+                            <ion-img type="image/svg+xml" src="assets/icon/tobepaid.svg" class="theme-icon"></ion-img>
+                        </ion-avatar>
+                        <p>{{payHistory?.payer}}</p>
+                    </div>
+                    <div class="info">
+                        <h4 class="transid">Booking Id : {{payHistory?.booking_id}}</h4>
+                        <p class="date">{{payHistory?.created}}</p>
+                        <p class="complete">{{payHistory?.status}}</p>
+                    </div>
+                    <div class="amount">
+                        <h4 class="base"> {{payHistory?.amount  | currency : 'USD' : 'symbol' : '1.2-2'}}</h4>
+                    </div>
+                </div>
+            </ng-container>
+         
+        </div>
+        <div *ngSwitchCase="'toPetcloud'">
+            <div class="note">
+                Please note that Paypal Transactions will not be shown until 48 hours prior to booking commencement.
+            </div>
+            <ng-container *ngIf="!expenseHistory.length">
+                <ion-card>
+                    <ion-card-header class="ion-text-center">No Transaction Records</ion-card-header>
+                </ion-card>
+              </ng-container>
+            <ng-container *ngIf="expenseHistory.length">
+                <div class="transaction-item" *ngFor="let expenseHistory of expenseHistory">
+                    <div class="name">
+                        <ion-avatar>
+                            <ion-img type="image/svg+xml" src="assets/icon/paidto.svg" class="theme-icon"></ion-img>
+                        </ion-avatar>
+                        <p>{{expenseHistory?.sitter}}</p>
+                    </div>
+                    <div class="info">
+                        <h4 class="transid">Booking Id : {{expenseHistory?.booking_id}}</h4>
+                        <p class="date">{{ (expenseHistory?.startDate === "") ? '-' : expenseHistory?.startDate}} - {{(expenseHistory?.endDate === "") ? '-' : expenseHistory?.endDate}}</p>
+                        <p class="complete">{{expenseHistory?.payment_status}}</p>
+                    </div>
+                    <div class="amount">
+                        <h4 class="base"> {{expenseHistory?.amount | currency : 'USD' : 'symbol' : '1.2-2'}}</h4>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+        <div *ngSwitchCase="'fromReferrals'">    
+            
+            <div class="note">
+                We will send payments within 2 to 7 business days after end date. 
+                Timing depends on factors such as public holidays, accuracy of bank account number, and other bank's processing times.
+              </div>
+
+              <ng-container *ngIf="!referral.length">
+                <ion-card>
+                    <ion-card-header class="ion-text-center">No Transaction Records</ion-card-header>
+                </ion-card>
+              </ng-container>
+            
+            <ng-container *ngIf="referral.length">
+                <div class="transaction-item" *ngFor="let ref of referral">
+                    <div class="name">
+                        <ion-avatar>
+                            <ion-img type="image/svg+xml" src="assets/icon/paidto.svg" class="theme-icon"></ion-img>
+                        </ion-avatar>
+                        <p>REFERRAL</p>
+                    </div>
+                    <div class="info">
+                        <h4 class="transid">Referral Id : {{ref?.referral_id}}</h4>
+                        <p class="date">{{ (ref?.date === "") ? '-' : (ref?.date)}} </p>
+                        <p class="complete">{{ref?.status  | titlecase}}</p>
+                    </div>
+                    <div class="amount">
+                        <h4 class="base"> {{ref?.amount | currency : 'USD' : 'symbol' : '1.2-2'}}</h4>
+                    </div>
+                </div>
+            </ng-container>
+           
+        </div>
+    </div>
+</ion-content>
+
+<ion-footer>
+    <ion-toolbar class="ion-no-padding">
+        <div class="desc">
+           <span> Showing all transaction records from the 11/01/2017 onward. For transaction history prior to this date please see the booking page
+            <br> <b>Disclaimer</b>: While the information contained in this section is believed to be true and accurate, 
+                PetCloud gives no undertaking to that effect and no responsibility can be accepted for reliance on this information. 
+                PetCloud accepts no responsibility for the information contained on services maintained by third parties over whom PetCloud has no control.
+            </span>
+        </div>
+    </ion-toolbar>
+</ion-footer>

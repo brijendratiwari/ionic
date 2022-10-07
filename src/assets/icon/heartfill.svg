@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="36px" height="36px" viewBox="0 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 54.1 (76490) - https://sketchapp.com -->
+    <title>icon/filled/heart</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <path d="M30.3059514,8.11357872 C34.9515057,14.7068057 29.7574973,25.2371334 18.213739,30.9500645 C18.0792065,31.0166437 17.9213538,31.0166452 17.7868201,30.9500685 C6.24260543,25.237183 1.04842429,14.7068796 5.69404286,8.11356143 C9.22074013,3.1095799 16.1224541,4.60438963 18.0005208,9.28763885 C19.878486,4.60450233 26.7796929,3.10975333 30.3059514,8.11357872 Z" id="path-1"></path>
+    </defs>
+    <g id="icon/filled/heart" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <mask id="mask-2" fill="white">
+            <use xlink:href="#path-1"></use>
+        </mask>
+        <use id="Icon" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+        <g id="color/primary" mask="url(#mask-2)" fill="#FE4164">
+            <polygon id="Shape" points="0 0 36 0 36 36 0 36"></polygon>
+        </g>
+    </g>
+</svg>

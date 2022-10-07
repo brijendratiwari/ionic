@@ -1,0 +1,121 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal('no')">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>
+      Filter
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="isAPILoaded">
+  <ion-item>
+    <ion-label position="stacked">Categories <small class="error">*</small></ion-label>
+    <ion-select
+    [compareWith]="compareWithFn" 
+    interface="action-sheet" 
+    placeholder="select service"
+   
+    (ionChange)="selectedCategory($event)">
+      <ion-select-option
+       *ngFor="let category of categories , let idx = index" 
+       [value]="category"
+      >{{category?.name}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+  <input type="search" [options]="options" ngx-google-places-autocomplete #placesRef="ngx-places" clearInput
+    placeholder="Enter Location" [(ngModel)]="selectedFilter.locationName" class="google-input"
+    (onAddressChange)="handleAddressChange($event)" id="suburb">
+  <ion-item>
+    <div style="width: 100%;">
+      <ion-row class="ion-align-items-center">
+        <ion-col class="ion-no-padding">
+          <ion-label>Price Filter <a *ngIf="isPriceShown">$ {{selectedFilter.price}}</a> </ion-label>
+        </ion-col>
+        <ion-col class="ion-no-padding ion-text-right">
+          <ion-toggle [(ngModel)]="isPriceShown" (ionChange)="enablePriceFilter($event)"></ion-toggle>
+          <div> <span class="theme-text" *ngIf="isPriceShown">Yes</span>  <span class="theme-text-no" *ngIf="!isPriceShown">No</span> </div>
+        </ion-col>
+      </ion-row>
+
+      <ion-range disabled={{!isPriceShown}} pin min="5" max="500" color="theme" [(ngModel)]="selectedFilter.price"
+        [ngClass]="isPriceShown == false ? 'disableRange' : ''" style="padding-top: 0;">
+        <ion-label slot="start">5</ion-label>
+        <ion-label slot="end">500</ion-label>
+      </ion-range>
+    </div>
+  </ion-item>
+
+  <ng-container *ngIf="isDatePickerShown">
+    <ion-item>
+      <ion-label position="stacked">From Date<small class="error">*</small></ion-label>
+      <ion-datetime #startDatePicker
+          max="2024-12-31"
+          display-format="DDD DD MMM YYYY"
+          picker-format="DD/MMM/YYYY"
+          placeholder="Thu 16 Jan 2019" 
+          [min]="startMinDate"
+          [(ngModel)]="selectedFilter.start_date"
+          (ionChange)="fromDate(startDatePicker)"></ion-datetime>
+    </ion-item>
+  
+    <ion-item >
+      <ion-label position="stacked"> To Date <small class="error">*</small></ion-label>
+      <ion-datetime #endDate 
+          max="2024-12-31"
+          display-format="DDD DD MMM YYYY"
+          picker-format="DD/MMM/YYYY"
+          placeholder="Thu 16 Jan 2019"
+          [(ngModel)]="selectedFilter.minEdDate"
+          [min]="minEdDate"
+          (ionChange)="endDateChange(endDate)" >
+      </ion-datetime>
+  </ion-item>
+  </ng-container>
+ 
+
+  <ion-item>
+    <ion-label class="my-label" position="stacked">Shorting</ion-label>
+    <ion-select>
+      <ion-select-option value="1">Default Order</ion-select-option>
+      <ion-select-option value="2">Highest Rated</ion-select-option>
+      <ion-select-option value="3">Most Reviewed</ion-select-option>
+      <ion-select-option value="4">Newest Listing</ion-select-option>
+      <ion-select-option value="5">Oldest Listing</ion-select-option>
+      <ion-select-option value="6">Featured</ion-select-option>
+      <ion-select-option value="7">Most Views</ion-select-option>
+      <ion-select-option value="8">Ramdom</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <div style="width:100%">
+      <ion-row class="ion-align-items-center">
+        <ion-col class="ion-no-padding">
+          <ion-label> Radius <a *ngIf="isDistanceShown">{{selectedFilter.distance}} kms</a> </ion-label>
+        </ion-col>
+        <ion-col class="ion-no-padding ion-text-right">
+          <ion-toggle [(ngModel)]="isDistanceShown" (ionChange)="enableDistanceFilter($event)"></ion-toggle>
+          <div> <span class="theme-text" *ngIf="enableDistanceFilter">Yes</span>  <span class="theme-text-no" *ngIf="!enableDistanceFilter">No</span> </div>
+        </ion-col>
+      </ion-row>
+      <ion-range pin min="0" max="100" color="theme" [ngClass]="isDistanceShown == true ? '' : 'disableRange'"
+        [(ngModel)]="selectedFilter.distance" style="padding-top: 0;">
+        <ion-label slot="start">0</ion-label>
+        <ion-label slot="end">100</ion-label>
+      </ion-range>
+    </div>
+  </ion-item>
+</ion-content>
+<ion-footer class="ion-no-border"  *ngIf="isAPILoaded">
+    <ion-button 
+      class="text-capitalize fls-0 fs-18 footer-btn ion-no-margin"
+      expand="full" color="theme"
+      (click)="closeModal('yes')"
+    >
+      Apply
+    </ion-button>
+</ion-footer>

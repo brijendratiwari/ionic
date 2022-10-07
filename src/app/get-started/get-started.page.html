@@ -1,0 +1,98 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar mode="md">
+
+    <!-- <ion-buttons slot="start">
+      <ion-back-button (click)="goBack()" defaultHref="/login"   ></ion-back-button>
+  </ion-buttons> -->
+    <ion-title class="ion-text-end">
+      <a routerLink="/login" class="text-underline-none fs-18">Log In</a>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-grid class="login">
+    <div class="login-header">
+      <div class="logo">
+        <img class="logo-image" src="./../assets/img/petCloud_logo_fushia.png" alt="">
+      </div>
+      <div class="title">
+        <h2 class="ion-text-center text-theme fw-400">Welcome to PetCloud.</h2>
+      </div>
+    </div>
+
+        <!-- *ngIf="platformName == 'ios'" -->
+        <ion-card *ngIf="platformName == 'ios'"  class="custom-card" (click)="appleSignup()">
+          <ion-card-header class="ioncardapple">
+            <div class="icon">
+              <ion-icon name="logo-apple"></ion-icon>
+            </div>
+            <ion-label class="text-grey-1">Sign up with Apple</ion-label>
+          </ion-card-header>
+        </ion-card>
+    
+    
+        <ion-card class="custom-card" (click)="facebookSignup()">
+          <ion-card-header class="ioncardfacebook">
+            <div class="icon">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </div>
+            <ion-label class="text-grey-1"> Sign up with Facebook</ion-label>
+          </ion-card-header>
+        </ion-card>
+
+        <ion-card class="custom-card" (click)="googleSignUp()">
+          <ion-card-header class="ioncardgoogle">
+            <div class="icon"> 
+              <ion-icon name="logo-google"></ion-icon>
+            </div>
+            <ion-label class="text-grey-1"> Sign up with Google </ion-label>
+          </ion-card-header>
+        </ion-card>
+
+        <ion-card class="custom-card" (click)="continueGuest()">
+          <ion-card-header class="ioncardperson">
+            <div class="icon"> 
+              <ion-icon name="person"></ion-icon>
+            </div>
+            <ion-label class="text-grey-1"> Continue as Guest </ion-label>
+          </ion-card-header>
+        </ion-card>
+
+
+  
+        <ion-card (click)="gotoSignup()" class="custom-card">
+          <ion-card-header class="ioncardemail">
+            <div class="icon">
+              <ion-icon size="large" name="mail"></ion-icon>
+            </div>
+            <ion-label class="text-grey-1">  Sign up with Email</ion-label>
+          </ion-card-header>
+          </ion-card>
+
+          <div class="terms-text">
+            <p class="text-black">
+              <ion-checkbox [(ngModel)]="isAccepted" mode="md"></ion-checkbox> By signing in or signing up, I agree to PetCloud's
+              <a class="link-black" routerLink="/terms-and-condition">
+                <u>Terms of Service</u>
+              </a> and 
+              <a class="link-black" routerLink="/privacy-policy">
+                <u>Privacy Policy</u>
+              </a>, confirm that I am 18 years of age or older, and consent to receiving email communication.
+            </p>
+            <p class="text-black">
+              As a Pet Professional I also agree to Pet Professional 
+              <a class="link-black" (click)="openAgreement()">
+                <u>Agreement</u>
+              </a>
+            </p>
+          </div>
+        
+
+    <div>
+    </div>
+
+  </ion-grid>
+
+</ion-content>

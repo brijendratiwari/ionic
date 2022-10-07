@@ -1,0 +1,101 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="closeModal()">
+                <ion-icon slot="icon-only" name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>
+            <ion-text class="fs-18">Filter Your Messages</ion-text>
+        </ion-title>
+        <ion-buttons slot="end">
+            <ion-button class="" color="theme" (click)="clearFilter()">
+                clear
+            </ion-button>
+        </ion-buttons>
+    </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+    <ion-list>
+        <ion-radio-group [(ngModel)]="viewAs">
+            <ion-list-header class="ion-no-padding">
+                <ion-text color="theme">View As</ion-text>
+        </ion-list-header>
+            <!--<ion-item (change)="applyFilter(1)">-->
+            <ion-item class="ion-no-padding">
+                <ion-label>Show All</ion-label>
+                <ion-radio value= "all" color="theme"></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+                <ion-label>Host</ion-label>
+                <ion-radio value="sitter" color="theme"></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+                <ion-label>Pet Owner</ion-label>
+                <ion-radio value="owner" color="theme"></ion-radio>
+            </ion-item>
+        </ion-radio-group>
+    </ion-list>
+    <ion-list>
+        
+        <ion-radio-group [(ngModel)]="filterByStage">
+            <ion-list-header class="ion-no-padding">
+                <ion-text color="theme">Filter By Stage</ion-text>
+            </ion-list-header>
+            <ion-item class="ion-no-padding">
+                <ion-label>Show All</ion-label>
+                <ion-radio color="theme" value="0"></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+                <ion-label>Pending</ion-label>
+                <ion-radio color="theme" value="P"></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+                <ion-label>Authorized</ion-label>
+                <ion-radio color="theme" value="A"></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+                <ion-label>Occurring Now</ion-label>
+                <ion-radio color="theme" value="CURR"></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+                <ion-label>Complete</ion-label>
+                <ion-radio color="theme" value="C"></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+                <ion-label>Expired</ion-label>
+                <ion-radio color="theme" value="E"></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+                <ion-label>Job Application</ion-label>
+                <ion-radio color="theme" value="J"></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+                <ion-label>Meet and Greet</ion-label>
+                <ion-radio color="theme" value="M"></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+                <ion-label>Meet and Greet Complete</ion-label>
+                <ion-radio color="theme" value="MD"></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+                <ion-label>Refunded</ion-label>
+                <ion-radio color="theme" value="R"></ion-radio>
+            </ion-item>
+            <ion-item class="ion-no-padding">
+                <ion-label>Cancelled</ion-label>
+                <ion-radio color="theme" value="CAN"></ion-radio>
+            </ion-item>
+        </ion-radio-group>
+    </ion-list>
+</ion-content>
+<ion-footer class="ion-no-border">
+        <ion-button 
+        class="text-capitalize fls-0 fs-18 footer-btn"
+        expand="full"
+        color="theme"
+        (click)="applyFilter()"
+    >
+        Apply
+    </ion-button>
+</ion-footer>

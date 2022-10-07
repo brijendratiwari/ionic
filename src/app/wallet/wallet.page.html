@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/tabs/profile-menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Wallet</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="needSupport()" defaultHref="/home/tabs/profile-menu">
+        <img width="25px" src="./assets/icon/solutions.png" alt="">
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <app-wallet-transaction> </app-wallet-transaction>
+
+
+  <div class="right_wllt_box ">
+    <div class="redeem_txt">
+      <div class="rdm_txt_gift">
+        <h3>Redeem a Gift Card
+        </h3>
+      </div>
+      <p>Please enter the coupon code to start using your Gift Card.</p>
+      <form [formGroup]="giftCard" style="margin-top: 16px;">
+        <div class="redeem_input">
+          <input type="text" formControlName="coupon"
+            placeholder="Please enter your coupon code to get the Promo Credit">
+          <button [disabled]="!giftCard.valid" (click)="addCouponCode()" type="submit">
+            <ion-icon name="chevron-forward"></ion-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div>
+    <ion-card class="refer-ern-card">
+      <ion-card-header>
+       <span class="refer-header">Refer and Earn</span> <br>
+       <span class="refer-sub-header">Create a new income stream & earn upto 8% in commission.</span>
+      </ion-card-header>
+
+      <ion-card-content>
+     
+        <ion-button routerLink="/invite-friend" color="theme">Invite Friend</ion-button>
+        <h4 style="font-size: 14px;
+        color: #000;" class="ion-text-center">OR</h4>
+        <ion-button color="theme-sec" routerLink="/referrals-history">My Referrals Dashboard</ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+
+
+
+</ion-content>
+
+
+<ion-footer class="ion-no-border">
+  <ion-button class="text-capitalize fls-0 fs-18 footer-btn" 
+    expand="full" color="theme"
+    routerLink="/withdrawal"
+  >
+    Withdraw Money
+  </ion-button>
+</ion-footer>

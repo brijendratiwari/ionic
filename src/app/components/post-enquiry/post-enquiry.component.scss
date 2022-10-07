@@ -1,0 +1,498 @@
+.job-modal-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 10px;
+  h3 {
+    margin: 0px;
+    font-size: 16px;
+  }
+  p {
+    margin: 0px;
+    font-size: 12px;
+  }
+  div {
+    width: calc(100% - 28px);
+  }
+  ion-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+}
+
+.form-tag {
+  width: 100%;
+  text-align: left;
+}
+
+
+.petList {
+  .petItem {
+    .petProfile {
+      --border-radius: 50%;
+    }
+
+    .petName {
+      font-weight: 600;
+      font-size: 16px;
+      color: #4A4A4A;
+      letter-spacing: 0;
+      text-decoration: none;
+    }
+  }
+}
+@media (min-width:320px) and (max-width:375px){
+  ion-datetime{
+    font-size:14px;
+  }
+}
+.look-input-item {
+  --padding-start: 0;
+}
+.search-input {
+  background: #ffffff;
+  color: #000000;
+  --placeholder-color: #888888;
+  // border-radius:4px;
+  border: none;
+  width: 100%;
+  height: auto;
+  padding: 0.5em;
+  border-radius: 3px;
+  font-size: 15px;
+  border: 1px solid #888;
+  -webkit-appearance: none;
+
+  &:focus {
+      outline: 0;
+  }
+}
+
+.map{
+  height: 300px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.rm-padding {
+  padding: 0px !important;
+}
+.pet-item-title {
+  --padding-start: 0px;
+}
+
+ion-item {
+  --padding-start: 0px;
+  --inner-padding-end: 0px;
+}
+.radio-btns-row {
+  .error {
+    padding: 0px 5px;
+    margin: 0px;
+  }
+}
+ion-textarea {
+  border: 1px solid #dedede;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 16px;
+}
+.time-col {
+  padding-left: 5px;
+}
+.date-col {
+  padding-right: 5px;
+}
+.look-input-item .look-input {
+  padding: 10px 0 11px;
+}
+
+.btn-wrapper {
+  width: 100%;
+  ion-button {
+    width: 95%;
+    --border-radius: 8px;
+    font-weight: 400;
+    --box-shadow: none;
+    height: 45px;
+    white-space: normal;
+  };
+}
+
+.booking-estimate-grid {
+  width: 100%;
+  ion-col {
+    font-size: 14px;
+  }
+  .header-row {
+    font-weight: 600;
+    border-bottom: 2px solid #ddd;
+    background-color: #f9f9f9;
+  }
+  .detail-row {
+    border-bottom: 1px solid #ddd;
+  }
+  .donation-row {
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
+    .checkbox-col {
+      display: flex;
+      align-items: center;
+      ion-checkbox {
+        margin-right: 8px;
+      }      
+    }
+  }
+  .final-total {
+    background-color: #f9f9f9;
+  }
+  .total-row {
+    .title-text {
+      font-weight: 600;
+    }
+  }
+  .terms-col {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    .div {
+      width: 20px;
+    }
+    ion-checkbox {
+      margin-right: 8px;
+    }
+  }
+  .second-term {
+    align-items: flex-start;
+  }
+}
+.estimate-btn-wrapper {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  ion-button {
+    --border-radius: 8px;
+    font-weight: 400;
+    --box-shadow: none;
+    height: 40px;
+    width: 45%;
+    white-space: normal;
+  };
+  .back-btn {
+    border-radius: 8px;
+    --color: #333;
+    --background: #fff;
+    border:1px solid #ccc;
+  }  
+}
+.last-slide {
+  ion-button {
+    width: calc(100% - 100px);
+  }
+  .back-btn {
+    width: 60px;
+  }
+}
+.extra-space {
+  width: 100%;
+  height: 50px;
+}
+.extra-space2 {
+  width: 100%;
+  height: 30px;
+}
+.job-modal-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 10px;
+  h3 {
+    margin: 0px;
+    font-size: 16px;
+  }
+  p {
+    margin: 0px;
+    font-size: 12px;
+  }
+  div {
+    width: calc(100% - 28px);
+  }
+  ion-icon {
+    width: 26px;
+    height: 26px;
+  }
+
+}
+
+.form-tag {
+  width: 100%;
+  text-align: left;
+}
+
+
+.petList {
+  .petItem {
+    .petProfile {
+      --border-radius: 50%;
+    }
+
+    .petName {
+      font-weight: 600;
+      font-size: 16px;
+      color: #4A4A4A;
+      letter-spacing: 0;
+      text-decoration: none;
+    }
+  }
+}
+@media (min-width:320px) and (max-width:375px){
+  ion-datetime{
+    font-size:14px;
+  }
+}
+.look-input-item {
+  --padding-start: 0;
+}
+.search-input {
+  background: #ffffff;
+  color: #000000;
+  --placeholder-color: #888888;
+  // border-radius:4px;
+  border: none;
+  width: 100%;
+  height: auto;
+  padding: 0.5em;
+  border-radius: 3px;
+  font-size: 15px;
+  border: 1px solid #888;
+  -webkit-appearance: none;
+
+  &:focus {
+      outline: 0;
+  }
+}
+
+.map{
+  height: 300px;
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+}
+.rm-padding {
+  padding: 0px !important;
+}
+.pet-item-title {
+  --padding-start: 0px;
+}
+
+ion-item {
+  --padding-start: 0px;
+  --inner-padding-end: 0px;
+}
+.radio-btns-row {
+  .error {
+    padding: 0px 5px;
+    margin: 0px;
+  }
+}
+ion-textarea {
+  border: 1px solid #dedede;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-top: 16px;
+}
+.time-col {
+  padding-left: 5px;
+}
+.date-col {
+  padding-right: 5px;
+}
+.look-input-item .look-input {
+  padding: 10px 0 11px;
+}
+
+.btn-wrapper {
+  width: 100%;
+  ion-button {
+    width: 95%;
+    --border-radius: 8px;
+    font-weight: 400;
+    --box-shadow: none;
+    height: 45px;
+    white-space: normal;
+  };
+}
+
+.booking-estimate-grid {
+  width: 100%;
+  ion-col {
+    font-size: 14px;
+  }
+  .header-row {
+    font-weight: 600;
+    border-bottom: 2px solid #ddd;
+    background-color: #f9f9f9;
+  }
+  .detail-row {
+    border-bottom: 1px solid #ddd;
+  }
+  .donation-row {
+    border-bottom: 1px solid #ddd;
+    background-color: #f9f9f9;
+    .checkbox-col {
+      display: flex;
+      align-items: center;
+      ion-checkbox {
+        margin-right: 8px;
+      }      
+    }
+  }
+  .final-total {
+    background-color: #f9f9f9;
+  }
+  .total-row {
+    .title-text {
+      font-weight: 600;
+    }
+  }
+  .terms-col {
+    display: flex;
+    align-items: center;
+    text-align: left;
+    .div {
+      width: 20px;
+    }
+    ion-checkbox {
+      margin-right: 8px;
+    }
+  }
+  .second-term {
+    align-items: flex-start;
+  }
+}
+.extra-space {
+  width: 100%;
+  height: 50px;
+}
+.extra-space2 {
+  width: 100%;
+  height: 30px;
+}
+.extra-service-options {
+  width: 100%;
+  padding: 16px;
+}
+.list-slide {
+  height: 100%;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+.detail-item {
+  h3 {
+    font-size: 14px;
+    color: #fe4164;
+    text-transform: capitalize;
+    font-weight: 600;
+    white-space: normal;
+  }
+  p {
+    white-space: normal;
+  }  
+}
+.pet-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 8px;
+  .pet-wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    width: calc(100% - 108px);
+    .check-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #929292;
+      ion-icon {
+        font-size: 40px;
+      }      
+    }
+  }  
+  .pet-name {
+    font-size: 12px;
+    font-style: italic;
+    margin-bottom: 0px;
+  }
+  .occasions-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 108px;
+    .pet-name {
+      margin-top: 5px;
+    }
+  }
+  .occasions-info {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #4dbfbf !important;
+    background: #4dbfbf;
+    border-radius: 10px;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      width: 30px;
+      height: 30px;
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 16px;
+    }
+    .input-div {
+      input {
+        display: inline-block;
+        text-align: center;
+        resize: vertical;
+        padding-left: 2px;
+        padding-right: 2px;
+        border: none;
+        border-left: 2px solid #4dbfbf;
+        border-right: 2px solid #4dbfbf;
+        width: 30px !important;
+        height: 30px !important;
+        color: #999;
+        font-weight: 600;
+        font-size: 16px !important;
+        margin: 0px 4px !important;
+        &:focus {
+          outline: none;
+      }
+      }
+    }
+  }
+}
+.amt-note {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 400;
+  padding: 10px 0px calc(env(safe-area-inset-bottom) + 10px);
+  color: #333;
+  line-height: 130%;
+  p {
+    margin: 5px 0px;
+  }
+}
+
+ion-slide {
+  height: 100% !important;
+}

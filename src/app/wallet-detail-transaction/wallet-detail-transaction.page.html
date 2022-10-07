@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/tabs/profile-menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Wallet Transactions</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="needSupport()" defaultHref="/home/tabs/profile-menu">
+        <img width="25px" src="./assets/icon/solutions.png" alt="">
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <app-transactionscard></app-transactionscard>
+
+  <ng-container *ngIf="noTransaction">
+    <div class="no-transactions">
+      <h4>It looks like you have no wallet transactions yet.</h4>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!noTransaction">
+    <div class="transactions-cards-list">
+      <div class="header-details">
+        <h4>Transactions from PetCloud Wallet</h4>
+        <p>We will send payments within 2 to 7 business days after end date.
+          Timing depends on factors such as public holidays.</p>
+      </div>
+
+      <div  class="card-list">
+        <div class="item" (click)="transInfo(record)" *ngFor="let record of walletTransactions; let id = index">
+          <div class="number">
+            <h4>{{id + 1}}</h4>
+          </div>
+          <div class="details">
+            <h4 class="description">{{record?.description | titlecase}}</h4>
+            <h6 class="date">
+            {{record?.created_at}}
+            </h6>
+          </div>
+          <div class="amount">
+            <h4 class="cost"> $ {{record?.amount}} AUD</h4>
+            <h6 class="source" *ngIf="record?.payout_source || record?.deposit_source "> 
+              {{ !record?.payout_source ? (record?.deposit_source | titlecase)  : (record?.payout_source | titlecase)}}</h6>
+            <!-- <h6 class="view" (click)="transInfo(record)" >View Detail</h6> -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </ng-container>
+</ion-content>

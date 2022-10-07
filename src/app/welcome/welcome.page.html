@@ -1,0 +1,58 @@
+<ion-header class="fixtop">
+  <ion-toolbar mode="ios" color="transparent">
+  </ion-toolbar>
+</ion-header>
+<ion-content class="welcome">
+  <ion-slides pager="true" [options]="slideOpt" class="custom-bullets">
+    <ion-slide>
+      <div class="slide slide-1">
+        <div class="slide-img">
+          <ion-img src="assets/img/img1.jpg"></ion-img>
+        </div>
+        <div class="slide-caption">
+          <h1>Post a Pet Job and have available, local Pet Sitters & Dog Walkers apply to you.</h1>
+          <p>We have thousands of insured, screened & trusted animal lovers ready to care for your pet like their own.
+          </p>
+          <div class="skip-link">
+            <ion-button fill="outline" shape="round" color="light" (click)="gotoSignupPage()">
+              Skip</ion-button>
+          </div>
+        </div>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide slide-2">
+        <div class="slide-img">
+          <ion-img src="assets/img/img2.jpg"></ion-img>
+        </div>
+        <div class="slide-caption">
+          <h1>Meet in person.<br>Book securely.<br>Stay connected.</h1>
+          <p>All bookings are covered with insurance for both sitters & your pet. Training & Police Checked badges
+            display to show you high quality Sitters.</p>
+          <div class="skip-link">
+            <ion-button fill="outline" shape="round" color="light" (click)="gotoSignupPage()">
+              Skip</ion-button>
+          </div>
+        </div>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide slide-3">
+        <div class="slide-img">
+          <ion-img src="assets/img/img3.jpg"></ion-img>
+        </div>
+        <div class="slide-caption">
+          <h1>Make an impact with every booking.</h1>
+          <p>When you book with PetCloud, you are helping to change the lives of pets and people everywhere. PetCloud is
+            part-owned by RSPCA Qld and run by their National Call Centre making us radically transparent. All our
+            reviews are 100% real.</p>
+          <p><strong>People + Pets + Purpose.</strong> </p>
+          <div class="skip-link">
+            <ion-button fill="outline" shape="round" color="light" (click)="gotoSignupPage()">
+              Skip</ion-button>
+          </div>
+        </div>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

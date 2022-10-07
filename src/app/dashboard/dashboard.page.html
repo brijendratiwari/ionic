@@ -1,0 +1,43 @@
+<ion-content style="background-color: #f0eff5;">
+  <div class="dashboard-section">
+    <div class="header-img">
+      <ion-back-button   defaultHref="home/tabs/messages" (click)="goPreviousPage()"  ></ion-back-button>
+      <div class="background-image">
+        <img class="image" src="../../assets/icon/dashboard/banner.png" alt="">
+      </div>
+      <div class="title">
+        Pet Friendly Guide
+      </div>
+    </div>
+    <div  class="search-btn">
+      <button (click)="searchAroundMe()" > <ion-icon name="location-outline"></ion-icon> <span>Search around me</span></button>
+  
+      <input
+        type="search"
+        [options]='options'
+        ngx-google-places-autocomplete
+        #placesRef="ngx-places" 
+        clearInput
+        style="background-image: url(../../assets/icon/explore.svg);"
+        placeholder="Or Search by suburb"
+        class="google-input"
+        (onAddressChange)="handleAddressChange($event)" 
+        id="suburb" />
+      </div>
+
+    <div class="services-list-container">      
+      <div class="item" 
+      (click)="getSelectedservice(service,i)" *ngFor="let service of services; let i = index">
+      <div class="check-mark">
+        <img *ngIf="service?.isSelected == true" src="../assets/icon/check-mark.svg" alt="">
+      </div>
+        <div class="icon">
+           <img src="{{service?.icons}}" alt=""> 
+        </div>
+        <div class="title">
+          {{service?.name}}
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

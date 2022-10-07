@@ -1,0 +1,33 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>Booking Authorize</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-card>
+    <ion-card-content>
+      Congrats! You have Accepted Application from Pankit for your job.
+
+      Hurry! Next step is to make an Authorization. This will allow you to see the phone number of the Sitter/Walker &
+      also places a hold on your credit card for the booking dollar amount.
+
+      Your card will not be charged until you confirm on PetCloud that you have met the Sitter & that you are happy to
+      proceed. If after meeting you indicate the booking will not proceed, this Authorization will fall off the card.
+
+      <ion-row>
+        <ion-col size="6">
+            <ion-button size="full" (click)="authorizeCard()" color="success">Authorize Card</ion-button>
+        </ion-col>
+        <ion-col size="6">
+            <ion-button size="full" color="danger">Cancel Booking</ion-button>
+          </ion-col>
+      </ion-row>
+    </ion-card-content>
+  </ion-card>
+
+</ion-content>

@@ -1,0 +1,153 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button  defaultHref="listing"  ></ion-back-button>
+        </ion-buttons>
+        <ion-title>Basic Information</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row class="ion-margin-vertical custom-list">
+            <ion-col>
+                <form [formGroup]="basicListingFrm">
+                    <ion-item>
+                        <ion-label position="stacked">Listing Title <small class="error">*</small></ion-label>
+                        <ion-input formControlName="title" placeholder="listing title" (ionBlur)="testFunction()">
+                        </ion-input>
+                    </ion-item>
+                    <ion-text lines="none" class="animated fadeInUp error"
+                        *ngIf="basicListingFrm.get('title').hasError('required') && basicListingFrm.get('title').touched">
+                        Enter proper listing title
+                    </ion-text>
+                    <ion-item>
+                        <ion-label position="stacked">URL <small class="error">*</small></ion-label>
+                        <ion-input formControlName="name" placeholder="URL" readonly>
+                        </ion-input>
+                    </ion-item>
+                    <ion-text lines="none" class="animated fadeInUp error"
+                        *ngIf="basicListingFrm.get('name').hasError('required') && basicListingFrm.get('name').touched">
+                        Enter proper URL
+                    </ion-text>
+                    <ion-item>
+                        <ion-label position="stacked">Occupation</ion-label>
+                        <ion-input formControlName="occupation" placeholder="Occupation"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label position="stacked">About Yourself</ion-label>
+                        <ion-input formControlName="about_pet" placeholder="about your self"></ion-input>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">Do you accept last minute bookings? <small class="error">*</small>
+                        </ion-label>
+                        <div>
+                            <span class="theme-text" *ngIf="basicListingFrm.value.last_minute">
+                                Yes
+                            </span>
+                            <span class="theme-text-no" *ngIf="!basicListingFrm.value.last_minute">
+                                No
+                            </span>
+                        </div>
+                        <ion-toggle slot="end" color="theme" formControlName="last_minute"></ion-toggle>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">Do you have access to a nvehicle in case of an emergency? <small
+                                class="error">*</small></ion-label>
+                        <div>
+                            <span class="theme-text" *ngIf="basicListingFrm.value.emergency_car">
+                                Yes
+                            </span>
+                            <span class="theme-text-no" *ngIf="!basicListingFrm.value.emergency_car">
+                                No
+                            </span>
+                        </div>
+                        <ion-toggle slot="end" color="theme" formControlName="emergency_car"></ion-toggle>
+                    </ion-item>
+                    <div class="pet-list">
+                        <ion-label class="pet-list-title">What Pets do you want to care for?</ion-label>
+                        <ion-list class="ion-no-padding">
+                            <ion-item>
+                                <ion-label>Dogs</ion-label>
+                                <ion-checkbox color="theme" formControlName="sits_dogs"></ion-checkbox>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label>Cats</ion-label>
+                                <ion-checkbox color="theme" formControlName="sits_cats"></ion-checkbox>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label>Horses</ion-label>
+                                <ion-checkbox color="theme" formControlName="sits_horses"></ion-checkbox>
+                            </ion-item>
+                            <ion-item>
+                                <ion-label>Other(Birds,rats)</ion-label>
+                                <ion-checkbox color="theme" formControlName="sits_misc"></ion-checkbox>
+                            </ion-item>
+                        </ion-list>
+                        <ion-text class="animated fadeInUp error" *ngIf="basicListingFrm.get('sits_dogs').value == false &&
+                                    basicListingFrm.get('sits_cats').value == false &&
+            basicListingFrm.get('sits_horses').value == false && basicListingFrm.get('sits_misc').value == false">
+                            select any one
+                            above option
+                        </ion-text>
+                    </div>
+                    <ion-item>
+                        <ion-label> My Refund Policy
+                            <ion-icon name="information-circle" (click)="refundPolicy()"  slot="end"></ion-icon>
+                        </ion-label>
+                    </ion-item>
+
+                    <ion-item>
+                            <ion-label> Refund Policy
+                                    <ion-icon name="information-circle" (click)="refundPolicy()"  slot="end"></ion-icon>
+                                </ion-label>
+                            <ion-select formControlName="cancellation_policy" color="theme"
+                                placeholder="select refund policy" >
+                                <ion-select-option value="0">Strict</ion-select-option>
+                                <ion-select-option value="1">Flexible</ion-select-option>
+                                <ion-select-option value="2">Moderate</ion-select-option>
+                            </ion-select>
+                        </ion-item>
+
+                  
+
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">I'm a Pet Service Professional
+                            <ion-icon name="information-circle" slot="end"></ion-icon>
+                        </ion-label>
+                        <ion-checkbox formControlName="checkProfessional" color="theme"></ion-checkbox>
+                    </ion-item>
+                    <ion-item *ngIf="basicListingFrm && basicListingFrm.get('checkProfessional').value == true">
+                        <ion-label position="stacked">My ABN is</ion-label>
+                        <ion-input formControlName="abn" placeholder="enter your abn number">
+                        </ion-input>
+                    </ion-item>
+
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">I am GST Registered
+                        </ion-label>
+                        <ion-checkbox formControlName="gst_registered" color="theme"></ion-checkbox>
+                    </ion-item>
+
+                    <ion-item>
+                    <ion-label class="ion-text-wrap">Send me job notifications
+                            <ion-icon name="information-circle" slot="end"></ion-icon>
+                        </ion-label>
+                        <ion-checkbox formControlName="sendMeJobs" color="theme"></ion-checkbox>
+                    </ion-item>
+                </form>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+
+<ion-footer>
+    <ion-button
+        class="text-capitalize fls-0 fs-18 footer-btn" 
+        expand="full" 
+        color="theme"
+        (click)="saveListingBasicInformation()"
+    >
+        Save
+    </ion-button>
+</ion-footer>

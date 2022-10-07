@@ -1,0 +1,60 @@
+<ion-header>
+  <ion-toolbar mode="ios" color="transparent">
+  </ion-toolbar>
+</ion-header>
+<ion-content class="verification">
+  <ion-slides pager="true" class="form-slide">
+    <ion-slide>
+      <div class="slide">
+        <div class="form">
+          <h3 class="label">confirm your phone number</h3>
+          <ion-grid class="skip-drawer">
+            <ion-row>
+              <ion-col size="4">
+                <ion-select value="+00" [interfaceOptions]="customPopoverOptions" interface="popover" placeholder="+00">
+                  <ion-select-option value="+00">+00</ion-select-option>
+                  <ion-select-option value="+61">+61</ion-select-option>
+                  <ion-select-option value="+11">+11</ion-select-option>
+                  <ion-select-option value="+18">+18</ion-select-option>
+                </ion-select>
+              </ion-col>
+              <ion-col size="8">
+                <ion-input id="phoneNumebr" type="tel" placeholder="(061) 234 5678"></ion-input>
+              </ion-col>
+            </ion-row>
+          </ion-grid>
+          <p class="desc">This is so Pet Owners can reach you during a trip.</p>
+        </div>
+        <div class="fix-bottom">
+          <ion-button expand="full" color="theme" size="large" href="">Text me a code</ion-button>
+        </div>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide">
+        <div class="form">
+          <h3 class="label">Enter 4 Digit Code</h3>
+          <ion-input id="phoneNumebr" placeholder="####"></ion-input>
+          <p class="desc">We will send an SMS to 0466 000 000. Enter the code in that message.</p>
+          <p class="resendotp"><a href="" class="link">Having Trouble ?</a></p>
+        </div>
+        <div class="fix-bottom">
+          <ion-button expand="full" color="theme" size="large" href="">Confirm</ion-button>
+        </div>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="slide">
+        <div class="form">
+          <h3 class="label">Confirm your email</h3>
+          <ion-input id="phoneNumebr" placeholder="emaildebmorisson@gmail.com"></ion-input>
+          <p class="desc">We'll send an email to the address above.</p>
+          <p class="resendotp"><a href="" class="link">Having Trouble ?</a></p>
+        </div>
+        <div class="fix-bottom">
+          <ion-button expand="full" color="theme" size="large" href="/booking-thanks">Continue</ion-button>
+        </div>
+      </div>
+    </ion-slide>
+  </ion-slides>
+</ion-content>

@@ -1,0 +1,19 @@
+.blog-list {
+    border-bottom: 5px solid #e0e0e0;
+    padding: 16px;
+    .blog-title {
+        font-size: 16px;
+        margin: 0;
+        color: var(--ion-color-primary, #3880ff);
+        line-height: 1.5;
+        margin-bottom: 5px;
+    }
+    .blog-date{
+        opacity: 0.6;
+        font-size: 14px;
+    }
+    .blog-content{
+        font-size: 14px;
+        margin-top: 10px;
+    }
+}

@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-back-button  defaultHref="blog"></ion-back-button>
+      </ion-buttons>
+      <ion-title>Blog Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+  <div class="blog-list">
+    <div  *ngIf="blogDetail && blogDetail?.main_image" class="img"><ion-img [src]="blogDetail?.main_image"></ion-img></div>
+    <div class="content">
+      <h3 *ngIf="blogDetail?.title" class="blog-title">{{blogDetail?.title}}</h3>
+      <div  *ngIf="blogDetail?.tags" class="blog-tag">
+        {{blogDetail?.tags}}
+      </div>
+      <div class="blog-content" [innerHTML]="blogDetail?.content"></div>
+    </div>
+  </div>
+</ion-content>

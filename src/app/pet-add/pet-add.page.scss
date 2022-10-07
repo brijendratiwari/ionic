@@ -1,0 +1,47 @@
+.highlight{
+    color: #808080;
+    text-align: center;
+}
+
+.success-img{
+    width: 50%;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.img-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: var(--spinner-color);
+    .img-wrapper {
+        width: 50vw;
+        height: 50vw;
+        border-radius: 50%;        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid var(--spinner-color);
+        overflow: hidden;
+        .img-data {
+            object-fit: cover;
+            object-position: center;
+            height: 100%;
+            width: 100%;
+        }
+        .place-image {
+            height: 35%;
+            margin-bottom: 10px;
+            opacity: 0.5;
+        }
+        .select-text {
+            opacity: 0.5;
+        }
+    }
+}
+
+.note-card {
+    box-shadow: none;
+}

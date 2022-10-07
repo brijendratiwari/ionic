@@ -1,0 +1,60 @@
+<div class="custom-modal-container">
+  
+  <div class="custom-modal">
+    <div class="header">
+      <div (click)="closeModal()"><ion-icon slot="icon-only" name="close"></ion-icon></div>
+    </div>
+    <div class="custom-modal-body">
+      <div class="map-popup-container">
+        <div class="event-img"><img [src]="cover_image != null ?  cover_image : 'data:image/gif;base64,R0lGODlhAQABAAAAACwAAAAAAQABAAA='"></div>
+        <div class="event-details">
+          <a class="partner-link">{{listingData?.title}}</a>
+          <h4 class="event-address">{{listingData?.address}}</h4>
+          <div class="action-btn">
+              <ul>
+                  <li class="location" 
+                  (click)="navigateToMap()"
+                 tappable >
+                    <ion-icon style="width: 1.5rem;height: 1.5rem;" name="navigate-circle"></ion-icon>
+                  </li>
+                    
+        
+                  <ng-container *ngIf="listingData.hasOwnProperty('_phone') != ''"   >
+                     <li class= "call" tappable >
+                      <ion-icon style="width: 1.5rem;height: 1.5rem;" name="call"></ion-icon> 
+                    </li>
+                  </ng-container>
+                 
+              <ng-container>
+                 <li class="save" 
+                 tappable>
+                
+              <ng-container *ngIf="isClicked  == 0" >
+                <ion-icon  
+                (click)="bookmark()"
+                style="height: 1.5rem; width: 1.5rem;"
+                name="heart"></ion-icon>
+              </ng-container>
+
+              <ng-container *ngIf="isClicked  == 1" >
+                <ion-icon  
+                (click)="bookmark()"
+                style="height: 1.5rem;color: red; width: 1.5rem;"
+                name="heart"></ion-icon>
+              </ng-container>
+                
+
+              </ng-container>
+
+                  <li
+                      
+                      tappable>
+                      <ion-icon  (click)="share()" style="width: 1.5rem;height: 1.5rem;" name="share"></ion-icon> 
+                  </li>
+            </ul>
+         </div>
+     </div>
+    </div>
+    </div>
+  </div>
+</div>

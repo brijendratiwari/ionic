@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button (click)="backButtonNavigate()" defaultHref="home"   ></ion-back-button>
+        </ion-buttons>
+        <ion-title>Upload Photo</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+    <ion-grid>
+        <ion-row class="ion-justify-content-center">
+            <ion-col size=12 class="ion-text-justify">
+                <div class="profileimg">
+                    <ion-avatar>
+                        <ion-img *ngIf="myImageUrl != ''" 
+                        [src]="myImageUrl"></ion-img>
+                    </ion-avatar>
+                </div>
+            </ion-col>
+            <ion-col>
+                <div class="ion-text-center ion-padding-top">
+                    <ion-button class="text-capitalize fls-0 fs-16" size="large" color="theme" (click)="showActionSheet()">Upload Image</ion-button>
+                </div>
+                <div class="ion-text-center">
+                    <small>This must be a clear photo of your face. <br>Not a picture of a Pet or
+                        your Business Logo
+                    </small>
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+
+<ion-footer>
+    <ion-button class="text-capitalize fls-0 fs-18 footer-btn" 
+        expand="full" color="theme" 
+        (click)="imageUpload()"
+    >
+        Next
+    </ion-button>
+</ion-footer>

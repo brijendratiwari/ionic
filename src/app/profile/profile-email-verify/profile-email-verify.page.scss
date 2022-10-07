@@ -1,0 +1,118 @@
+ion-card {
+    box-shadow: none;
+}
+ion-grid {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 5px);
+}
+ion-list {
+    margin: 0px;
+    border: 1px solid #ede8e8;
+    padding: 10px;
+    border-radius: 4px;
+    h5 {
+        margin: 0px;
+    }
+}
+.verification-card{
+    border: 1px solid #CCCCCC;
+    margin: 10px 5px;
+    // box-shadow: 0 2px 4px 0 rgba(136,136,136,0.30);
+    ion-card-header{
+        display: flex;
+        flex-direction: row;
+        padding: 10px;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #efefef;
+        ion-row {
+            width: 100%;
+        }
+        // div:first-child{
+        //     width: 70%;
+        // }
+        // div:last-child{
+        //     width: 30%;
+        //     text-align: right;
+        // }
+        ion-card-title {
+            font-size: 14px;
+            color: #4A4A4A;
+            letter-spacing: 0;
+            margin-bottom: 8px;
+        }
+        ion-card-subtitle {
+            font-size: 12px;
+            color: #888888;
+            letter-spacing: 0;
+        }
+        ion-button{
+            font-size: 12px;
+            letter-spacing: 0;
+            --box-shadow:none;
+        }
+    }
+    ion-card-content{
+        padding: 10px;
+        .verify-icon{
+            width: 3em;
+            margin-bottom: .5em;
+        }
+    }
+    .img-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+ion-button {
+    --box-shadow: none;
+    --border-radius: 4px;
+    height: 35px;
+    font-size: 15px;
+    width: 100%;
+}
+.icon{
+    height: 40px;
+    width: 40px;
+    background-color: rgba(254, 65, 100, 0.2);
+    color: rgba(254, 65, 100, 1);
+    border-radius: 1000px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    ion-icon.md {
+        width: 1.3rem;
+        height: 1.3rem;
+    }
+}
+
+
+.verify-check{
+    display: flex;
+    .theme-icon{
+        width: 25px;
+    }
+    ion-img{
+        margin-right: 10px;
+    }
+    .content{
+        width: calc(100% - 35px);
+    }
+}
+
+.underline{
+    text-decoration: underline; 
+    color: #FE4164;
+}
+.doc-col {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.animal-care-label {
+    padding-bottom: 5px;
+    ion-text {
+        border-bottom: 2px solid #e0e0e0;
+    }
+}

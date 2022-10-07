@@ -1,0 +1,134 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button  defaultHref="home/tabs/profile-menu"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Account Setting</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-segment scrollable [(ngModel)]="selectedSegment" color="theme">
+        <ion-segment-button class="ion-text-capitalize" value="cp">Change Password</ion-segment-button>
+        <ion-segment-button class="ion-text-capitalize" value="cncl_account">Cancel Account</ion-segment-button>
+    </ion-segment>
+    <div [ngSwitch]="selectedSegment">
+        <div class="input-form" *ngSwitchCase="'cp'">
+            <form padding [formGroup]="changePasswordForm">
+                <ion-item>
+                    <ion-label position="stacked">Current Password</ion-label>
+                    <ion-input type="password" formControlName="currentPassword"
+                        placeholder="Password"></ion-input>
+                </ion-item>
+                <ion-text lines="none" class="animated fadeInUp error"
+                    *ngIf="changePasswordForm.get('currentPassword').hasError('required') && (changePasswordForm.get('currentPassword').touched || changePasswordForm.get('currentPassword').dirty)"
+                >
+                    Please enter current password
+                </ion-text>
+                <ion-text lines="none" class="animated fadeInUp error"
+                    *ngIf="changePasswordForm.get('currentPassword').hasError('minlength') && (changePasswordForm.get('currentPassword').touched || changePasswordForm.get('currentPassword').dirty)"
+                >
+                    Minimum 6 character long current password is required
+                </ion-text>
+                <ion-item>
+                    <ion-label position="stacked">New Password</ion-label>
+                    <ion-input type="password" formControlName="newPassword"
+                        placeholder="New Password"></ion-input>
+                </ion-item>
+                <ion-text lines="none" class="animated fadeInUp error"
+                    *ngIf="changePasswordForm.get('newPassword').hasError('required') && (changePasswordForm.get('newPassword').touched || changePasswordForm.get('newPassword').dirty)"
+                >
+                    Please enter new password
+                </ion-text>
+                <ion-text lines="none" class="animated fadeInUp error"
+                    *ngIf="changePasswordForm.get('newPassword').hasError('minlength') && (changePasswordForm.get('newPassword').touched || changePasswordForm.get('newPassword').dirty)"
+                >
+                    Minimum 6 character long new password is required
+                </ion-text>
+                <ion-item>
+                    <ion-label position="stacked">Confirm New password</ion-label>
+                    <ion-input type="password" formControlName="newPasswordConfirm"
+                        placeholder="Password"></ion-input>
+                </ion-item>
+                <ion-text lines="none" class="animated fadeInUp error"
+                    *ngIf="changePasswordForm.get('newPasswordConfirm').hasError('required') && (changePasswordForm.get('newPasswordConfirm').touched || changePasswordForm.get('newPasswordConfirm').dirty)"
+                >
+                    Please enter confirm new password
+                </ion-text>
+                <ion-text lines="none" class="animated fadeInUp error"
+                    *ngIf="changePasswordForm.get('newPasswordConfirm').hasError('minlength') && (changePasswordForm.get('newPasswordConfirm').touched || changePasswordForm.get('newPasswordConfirm').dirty)"
+                >
+                    Minimum 6 character long confirm new password is required
+                </ion-text>
+                <ion-text lines="none" class="animated fadeInUp error"
+                    *ngIf="passwordConfirm() && changePasswordForm.get('newPasswordConfirm').value != ''">
+                    Password doesn't matched!
+                </ion-text>
+                <ion-button class="footer-btn" color="theme" [disabled]="!changePasswordForm.valid"
+                    (click)="changeUserPassword()">
+                    Save
+                </ion-button>
+            </form>
+        </div>
+        <div class="input-form" *ngSwitchCase="'cncl_account'">
+            <form [formGroup]="CancelForm" padding>
+                <ion-list>
+                    <ion-item>
+                        <ion-label position="stacked">Reason</ion-label>
+                        <ion-select class="fs-14 ion-text-wrap" interface="action-sheet" formControlName="reason"
+                            placeholder="Select One">
+                            <ion-select-option value="kennelFound">I Found a Kennel
+                            </ion-select-option>
+                            <ion-select-option value="sitterFound">I found a Professional Sitter
+                            </ion-select-option>
+                            <ion-select-option value="familyFriendFound">I found a friend or Family Member
+                            </ion-select-option>
+                            <ion-select-option value="plansChanged">My plans changed and I no longer needed a sitter
+                            </ion-select-option>
+                            <ion-select-option value="externalBooking">I booked with a PetCloud sitter,but not through
+                                the site
+                            </ion-select-option>
+                            <ion-select-option value="minderUnavailable">The minder was not
+                                available for my dates
+                            </ion-select-option>
+                            <ion-select-option value="poorMinderSpace">The minder and their
+                                house or experience was not as described in their profile
+                            </ion-select-option>
+                            <ion-select-option value="badPetRelations">The minder's pet didn't get along with my pet
+                            </ion-select-option>
+                            <ion-select-option class="fs-14 ion-text-wrap" value="tooSlow">The minder was just too slow
+                            </ion-select-option>
+                            <ion-select-option value="other">Other</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-list>
+
+                <ion-text lines="none" class="animated fadeInUp error" *ngIf="CancelForm.get('reason').hasError('required') &&
+                (CancelForm.get('reason').touched || CancelForm.get('reason').dirty)">
+                    Please select reason.
+                </ion-text>
+
+                <ion-item>
+                    <ion-label position="stacked">Additional Feedback</ion-label>
+                    <ion-textarea class="ion-text-wrap" rows="3"
+                    formControlName="feedback"  placeholder="Please provide additional feedback that might be helpful to us to help us">
+                    </ion-textarea>
+                </ion-item>
+
+                <ion-text lines="none" class="animated fadeInUp error" *ngIf="CancelForm.get('feedback').hasError('required') &&
+                (CancelForm.get('feedback').touched || CancelForm.get('feedback').dirty)">
+                    Please Give Additional Feedback.
+                </ion-text>
+
+                <ion-item lines="full">
+                    <ion-label class="ion-text-wrap">Please Send me SMS Notifications</ion-label>
+                    <ion-checkbox formControlName="unsubscribe" slot="end"></ion-checkbox>
+                </ion-item>
+                
+                <ion-button class="footer-btn" color="theme" (click)="cancelAccount()"  [disabled]="!CancelForm.valid">
+                    Save
+                </ion-button>
+            </form>
+        </div>
+    </div>
+</ion-content>

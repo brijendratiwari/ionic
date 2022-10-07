@@ -1,0 +1,60 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home/tabs/profile-menu"></ion-back-button>
+        </ion-buttons>
+        <ion-title>My Pets</ion-title>
+
+        <ion-buttons slot="end">
+            <ion-button  (click)="needSupport()" defaultHref="/home/tabs/profile-menu">
+              <img width="25px" src="./assets/icon/solutions.png" alt="">
+            </ion-button>
+        </ion-buttons>
+        
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ng-container *ngIf="isAPILoaded">
+        <!-- if not pet -->
+        <ion-grid *ngIf="isPetAvailable == false">
+            <ion-row class="ion-align-items-center h-80">
+                <ion-col size="8" offset="2" class="ion-text-center">
+                    <ion-img src="assets/icon/emptypet.svg" class="ion-padding-bottom"></ion-img>
+                    <ion-text color="theme" class="msg">You haven’t enrolled your pet.</ion-text>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+        <!-- if pet found -->
+        <ion-list *ngIf="isPetAvailable == true" lines="none" class="petList">
+            <ion-item *ngFor="let p of petList,let i=index" class="petItem">
+                <ion-thumbnail slot="start" class="petProfile" [routerLink]="['/pet-view',p.id]">
+                    <ion-img
+                            [src]="p.imagename == null || p.imagename == '' ? 'https://dev.petcloud.com.au/img/pet_placeholder.png' : p.imagename"></ion-img>
+                </ion-thumbnail>
+                <ion-label [routerLink]="['/pet-view',p.id]">
+                    <a class="petName">
+                        {{p.name}}
+                    </a>
+                </ion-label>
+                <ion-buttons>
+                    <ion-button type="button" (click)="deletePet(p.id,p,i)">
+                        <ion-icon slot="end" src="assets/icon/trash.svg"></ion-icon>
+                    </ion-button>
+                </ion-buttons>
+            </ion-item>
+        </ion-list>
+    </ng-container>   
+</ion-content>
+
+<ion-footer>
+    <ion-button class="add-pet footer-btn"
+        expand="full"
+        color="theme"
+        routerLink="/pet-add"
+        expand="full"
+        color="theme"
+    >
+        Add New Family Member
+    </ion-button>
+</ion-footer>

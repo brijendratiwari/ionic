@@ -1,0 +1,34 @@
+ion-content, ion-toolbar{
+    // --background:#FE4164;
+}
+.maintanance-screen{
+    padding: 30px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    max-width: 320px;
+    margin: auto;
+    text-align: center;
+    color: #000;
+    font-size: 14px;
+    font-weight: 600;
+    span{
+        text-decoration: underline;
+        color: #FE4164;
+    }
+    p{
+        margin: 0;
+        font-size: 12px;
+        margin-top: 30px;
+        opacity: 0.7;
+    }
+    h4{
+        margin: 0;
+        margin-top: 30px;
+        font-size: 18px;
+        margin-bottom: 30px;
+        line-height: 1.6;
+    }
+}

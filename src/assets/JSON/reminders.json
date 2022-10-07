@@ -1,0 +1,94 @@
+[
+    {
+        "id":0,
+        "serviceName": "Grooming",
+        "isSelected": false
+    },
+    {
+        "id":1,
+        "serviceName": "Vaccination",
+        "isSelected": false
+    },
+    {
+        "id":2,
+        "serviceName": "General Check Up",
+        "isSelected": false
+    },
+    {
+        "id":3,
+        "serviceName": "(6-8 weeks age) C3 Vaccination",
+        "isSelected": false
+    },
+    {
+        "id":4,
+        "serviceName": "(10-12 weeks age) C3 Vaccination",
+        "isSelected": false
+    },
+    {
+        "id":5,
+        "serviceName": "(14-16 weeks age) C3 Vaccination",
+        "isSelected": false
+    },
+    {
+        "id":6,
+        "serviceName": "Annual Vaccination Booster",
+        "isSelected": false
+    },
+    {
+        "id":7,
+        "serviceName": "Socialisation",
+        "isSelected": false
+    },
+    {
+        "id":8,
+        "serviceName": "Puppy School",
+        "isSelected": false
+    },
+    {
+        "id":9,
+        "serviceName": "Desexing",
+        "isSelected": false
+    },
+    {
+        "id":10,
+        "serviceName": "Microchip",
+        "isSelected": false
+    },
+    {
+        "id":11,
+        "serviceName": "Council",
+        "isSelected": false
+    }, {
+        "id":12,
+        "serviceName": "Teeth Descale",
+        "isSelected": false
+    }, {
+        "id":13,
+        "serviceName": "Training",
+        "isSelected": false
+    },{
+        "id":14,
+        "serviceName": "Medication",
+        "isSelected": false
+    },{
+        "id":15,
+        "serviceName": "Flea Control",
+        "isSelected": false
+    },{
+        "id":16,
+        "serviceName": "Birthday Pawty!",
+        "isSelected": false
+    },{
+        "id":17,
+        "serviceName": "Exercise",
+        "isSelected": false
+    },{
+        "id":18,
+        "serviceName": "Gut Worming",
+        "isSelected": false
+    },{
+        "id":19,
+        "serviceName": "Heart Worm",
+        "isSelected": false
+    }
+]

@@ -1,0 +1,143 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()"><ion-icon name="close"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Pre Stay Inspection Request</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="animated fadeIn">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h4 class="fw-600">Pre Stay Inspection Request</h4>
+        (To check the property is escape-proof and hazard free & for Pet Sitter
+        + Pets compatibility)
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-text>We recommend you meet at the location of proposed care.</ion-text>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  
+  
+  <form [formGroup]="meetgreetForm">
+    <ion-row>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label position="stacked">Start Date<small class="error">*</small></ion-label>
+          <ion-datetime #startDatePicker 
+          
+          display-format="DDD DD MMM YYYY" picker-format="MMM/DD/YYYY" placeholder="Thu 16 Jan 2019" [min]="startMinDate" [max]="maxDate" [value]="startMinDate" formControlName="date1"></ion-datetime>
+        </ion-item>
+        <ion-text class="animated fadeInUp error" *ngIf="meetgreetForm.get('date1').hasError('required') && meetgreetForm.get('date1').touched">Select start date.</ion-text>
+      </ion-col>
+      <ion-col size="6">
+        <ion-item>
+          <ion-label position="stacked">Start Time<small class="error">*</small></ion-label>
+          <ion-datetime display-format="h:mm A" formControlName="time1" placeholder="9:15 AM" [value]="startTotime" picker-format="h:mm A" minuteValues="0,15,30,45"></ion-datetime>
+        </ion-item>
+        <ion-text class="animated fadeInUp error" *ngIf="meetgreetForm.get('time1').hasError('required') && meetgreetForm.get('time1').touched">Select start time.</ion-text>
+      </ion-col>
+    </ion-row>
+
+
+
+    <div *ngIf="isDate2">
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="stacked">Start Date<small class="error"></small></ion-label>
+            <ion-datetime display-format="DDD DD MMM YYYY" (ionChange)="selectDt2($event)" [min]="startMinDate" [max]="maxDate" picker-format="MMM/DD/YYYY" placeholder="Thu 16 Jan 2019" formControlName="date2"></ion-datetime>
+          </ion-item>
+          <ion-text class="animated fadeInUp error" *ngIf="meetgreetForm.get('date2').hasError('required') && meetgreetForm.get('date2').touched"> Select start date.</ion-text>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+            <ion-label position="stacked">Start Time<small class="error"></small></ion-label>
+            <ion-datetime display-format="h:mm A"  (ionChange)="selecttime2($event)"  formControlName="time2"  placeholder="9:15 AM" picker-format="h:mm A" minuteValues="0,15,30,45"></ion-datetime>
+          </ion-item>
+
+          <ion-text class="animated fadeInUp error" *ngIf="meetgreetForm.get('time2').hasError('required') && meetgreetForm.get('time2').touched"> Select start time.</ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-text lines="none" class="animated fadeInUp" *ngIf="istime1Selected">
+        <p class="error"> Please Select Time
+        </p>
+    </ion-text>
+
+    <ion-text lines="none" class="animated fadeInUp" *ngIf="isDate1Selected">
+      <p class="error"> Please Select Date
+      </p>
+  </ion-text>
+
+    </div>
+
+
+    <div *ngIf="isDate3">
+      <ion-row>
+        <ion-col size="6">
+          <ion-item>
+              <ion-label position="stacked">Start Date<small class="error"></small></ion-label>
+              <ion-datetime (ionChange)="selectDt3($event)"  display-format="DDD DD MMM YYYY" [min]="startMinDate" [max]="maxDate" picker-format="MMM/DD/YYYY" placeholder="Thu 16 Jan 2019" formControlName="date3"></ion-datetime>
+          </ion-item>
+          <ion-text class="animated fadeInUp error" *ngIf="meetgreetForm.get('date3').hasError('required') && meetgreetForm.get('date3').touched">Select start date.</ion-text>
+        </ion-col>
+        <ion-col size="6">
+          <ion-item>
+              <ion-label position="stacked">Start Time<small class="error"></small></ion-label>
+              <ion-datetime  (ionChange)="selecttime3($event)" display-format="h:mm A" formControlName="time3" placeholder="9:15 AM" picker-format="h:mm A" minuteValues="0,15,30,45"></ion-datetime>
+          </ion-item>
+          <ion-text class="animated fadeInUp error" *ngIf="meetgreetForm.get('time3').hasError('required') && meetgreetForm.get('time3').touched"> Select start time.</ion-text>
+        </ion-col>
+      </ion-row>
+
+      <ion-text lines="none" class="animated fadeInUp" *ngIf="istime2Selected">
+        <p class="error"> Please Select Time
+        </p>
+    </ion-text>
+
+    <ion-text lines="none" class="animated fadeInUp" *ngIf="isDate2Selected">
+      <p class="error"> Please Select Date
+      </p>
+  </ion-text>
+
+    </div>
+    <ion-row>
+      <ion-col>
+        <ion-button class="text-capitalize fls-0 fs-18" expand="full" color="theme-sec" *ngIf="isMeetandGreet==false" (click)="showDates()">Add Another Date</ion-button>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-text>We recommend you meet at the location of proposed care.</ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-item>
+            <ion-label position="stacked">Location</ion-label>
+            <ion-select value="petsittershouse" formControlName="location" okText="Okay" interface="action-sheet" cancelText="Dismiss">
+                <ion-select-option value="petsittershouse">Pet Sitter's House</ion-select-option>
+                <ion-select-option value="petownershouse">Pet Owner's House</ion-select-option>
+                <ion-select-option value="mutuallocation">Mutual Location</ion-select-option>
+                <ion-select-option value="other">Others</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-text lines="none" class="animated fadeInUp" *ngIf="(meetgreetForm.get('location').hasError('required') && meetgreetForm.get('location').touched )">
+            <p class="error" *ngIf="(meetgreetForm.get('location').hasError('required') && meetgreetForm.get('location').touched)"> Please Select Location</p>
+        </ion-text>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-button *ngIf="isMeetandGreet==false" class="text-capitalize fls-0 fs-18" size="large" expand="full" color="theme" (click)="meetGreet()">Create</ion-button>
+        <ion-button *ngIf="isMeetandGreet" class="text-capitalize fls-0 fs-18" size="large" expand="full" color="theme" (click)="minderMeetandGreet()">Make Suggestion</ion-button>
+      </ion-col>
+    </ion-row>
+  </form>
+</ion-content>

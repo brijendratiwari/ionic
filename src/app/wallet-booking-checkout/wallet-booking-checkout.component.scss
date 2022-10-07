@@ -1,0 +1,407 @@
+.span-addMoney{
+    color: #fe4164;
+}
+
+.wallet-card {
+    padding: 10px;
+    width: 100%;
+    max-width: 250px;
+    margin-top: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: #fe4164;
+    color: #fff;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+
+    h4 {
+        font-size: 16px;
+        text-align: center;
+        margin-top: 5px;
+        margin-bottom: 0;
+        opacity: 0.8;
+
+    }
+
+    h2 {
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 25px 0;
+        font-size: 30px;
+    }
+}
+
+.swiper-slide {
+    width: 250px;
+}
+
+.buy-btn-container {
+    display: flex;
+    margin-top: 30px;
+}
+
+.buy-btn {
+    background-color: #fff;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 50px;
+    padding: 15px 20px;
+    display: block;
+    margin: auto;
+    color: #fe4164;
+    text-decoration: none;
+}
+
+.withdraw-button {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    padding: 14px;
+    background-color: #fe4164;
+    color: #fff;
+}
+
+.add-money-card {
+    background-color: #fff;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    // margin-left: 16px;
+    // margin-right: 16px;
+    border-radius: 5px;
+    padding: 16px 0;
+    // margin-top: -60px;
+
+    .title {
+        font-size: 16px;
+        margin-top: 80px;
+        margin-bottom: 24px;
+        opacity: 0.8;
+        line-height: 1.6;
+        padding: 0 16px;
+    }
+
+    .sub-title {
+        font-size: 16px;
+        margin-top: 10px;
+        margin-bottom: 24px;
+        opacity: 0.8;
+        line-height: 1.6;
+        padding: 0 16px;
+    }
+
+    .title-small {
+        font-size: 16px;
+        text-align: center;
+        margin-top: 30px;
+        margin-bottom: 24px;
+        opacity: 0.8;
+        line-height: 1.6;
+    }
+
+    .input {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 16px;
+
+        span {
+            font-size: 36px;
+            margin-right: 10px;
+            color: #fe4164;
+        }
+
+        input {
+            border: none;
+            border-bottom: 2px solid #fe4164;
+            width: 100px;
+            font-size: 36px;
+            line-height: 20px;
+            background-color: transparent;
+            text-align: center;
+
+            &:focus {
+                outline: none;
+                border: none;
+                border-bottom: 2px solid #000000;
+            }
+        }
+    }
+
+    
+
+    .select-list {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 30px;
+        justify-content: center;
+        padding: 0 16px;
+
+        .item {
+            width: 23%;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 5px;
+            margin-left: 5px;
+            padding: 5px;           
+
+            &.active {
+                border: 2px solid #fe4164;
+                color: #fe4164;
+            }
+        }
+    }
+
+    .method-list {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 16px;
+        margin-bottom: 100px;
+        width: 100%;
+
+        .item {
+            width: calc(50% - 24px);
+            padding: 14px;
+            text-align: center;
+            border: 2px solid #e0e0e0;
+            border-radius: 5px;
+            margin-bottom: 16px;
+            margin-left: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 19px;
+            min-height: 100px;
+
+            &.active {
+                border: 2px solid #fe4164;
+                color: #fe4164;
+            }
+
+            img {
+                max-width: 100px;
+            }
+
+            ion-icon {
+                width: 30px;
+                height: 30px;
+                margin-right: 5px;
+            }
+        }
+    }
+
+    .other-input {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-top: 20px;
+
+        ion-input {
+            text-align: center;
+            border: 2px dotted #e0e0e0;
+            border-radius: 5px;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        .note {
+            font-size: 14px;
+            text-align: center;
+            margin-top: 10px;
+            padding: 10px;
+        }
+    }
+}
+
+ion-button.add-fund {
+    margin: 0;
+}
+
+.button-large {
+    font-size: 14px;
+    height: 53px;
+}
+
+.wallet-card-list {
+    margin-right: 0px;
+    margin-left: 0px;
+    background-color: #fff;
+    // border-bottom: 4px solid #e0e0e0;
+
+    .new-title {
+        margin-bottom: 0;
+        margin-top: 16px;
+        font-weight: 600;
+        font-size: 16px;
+        padding: 0 16px;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 16px;
+    }
+
+    .item {
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #e5e5e5;
+        align-items: center;
+        padding: 16px;
+
+        h4 {
+            margin: 0;
+            font-size: 14px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+        .recharge {
+            width: 100%;
+        }
+
+        h2 {
+            font-size: 16px;
+            margin: 0;
+            color: #fe4164;
+        }
+    }
+}
+
+.cards {
+    .add-card-btn {
+        font-size: 16px;
+        text-align: right;
+        color: #fe4164;
+        padding: 16px;
+        margin: 0;
+        padding-bottom: 12px;
+    }
+}
+
+.card-list {
+    padding: 5px 16px;
+
+    .item {
+        padding: 16px;
+        background-color: #f1f1f1;
+        border-radius: 5px;
+        display: flex;
+        margin-bottom: 16px;
+
+        .card-data {
+            margin-left: auto;
+            text-align: right;
+
+            .card-number {
+                margin: 0;
+                font-size: 14px;
+                margin-bottom: 5px;
+                white-space: nowrap;
+            }
+
+            .remove-card {
+                margin: 0;
+                font-size: 12px;
+                font-weight: 400;
+                opacity: 0.5;
+            }
+        }
+
+        .details {
+            .description {
+                margin: 0;
+                font-size: 14px;
+                margin-bottom: 5px;
+                color: #fe4164;
+            }
+
+            .make-default-card {
+                margin: 0;
+                font-size: 12px;
+                font-weight: 400;
+                opacity: 0.5;
+            }
+        }
+    }
+}
+
+.right_wllt_box {
+    background-color: #fff;
+    border-top: 3px solid #e0e0e0;
+    margin-top: 30px;
+    border-bottom: 3px solid #e0e0e0;
+}
+
+.right_wllt_box .coupon_title {
+    color: #666;
+    font-size: 18px;
+    padding: 20px;
+    font-weight: 500;
+}
+
+.right_wllt_box .coupon_title i {
+    float: right;
+    margin-top: 3px;
+    color: #646363;
+}
+
+.right_wllt_box .redeem_txt {
+    padding: 12px 12px 20px;
+}
+
+.right_wllt_box .redeem_txt h3 {
+    margin-top: 0px;
+    font-weight: 600;
+    font-size: 16px;
+}
+
+.right_wllt_box .redeem_txt p {
+    font-size: 14px;
+}
+
+.right_wllt_box .redeem_box img {
+    width: 100%;
+}
+
+.right_wllt_box .redeem_box img.mobile_img {
+    display: none;
+}
+
+.right_wllt_box .redeem_input {
+    position: relative;
+}
+
+.right_wllt_box .redeem_input input {
+    width: 100%;
+    padding: 6px 40px 6px 6px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    box-shadow: none;
+    background-color: #fff;
+}
+
+.right_wllt_box .redeem_input input:focus {
+    outline: none;
+}
+
+.right_wllt_box .redeem_input button[type="submit"] {
+    border: 1px solid #fb4467;
+    color: #fff;
+    border-radius: 0px 4px 4px 0px;
+    position: absolute;
+    right: 0;
+    height: 35px;
+    width: 40px;
+    font-size: 22px;
+    background: #f44467;
+}
+
+.methods{
+    .method-title{
+        margin-bottom: 0;
+        margin-top: 0;
+        font-weight: 600;
+        font-size: 16px;
+        padding: 16px;
+        border-top: 5px solid #e0e0e0;
+        padding-bottom: 0;
+    }
+}

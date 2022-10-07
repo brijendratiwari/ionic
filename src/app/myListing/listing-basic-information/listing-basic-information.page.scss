@@ -1,0 +1,21 @@
+.custom-list{
+    ion-item{
+      --padding-start:0;
+      font-size: 15px;
+      --min-height: 40px;
+    }
+}
+
+.theme-text{
+    color: #FE4164;
+  }
+  .theme-text-no{
+    color: grey;
+  }
+  .pet-list {
+    margin-top: 10px;
+    .pet-list-title {
+      font-weight: 600;
+      font-size: 16px;
+    }
+  }

@@ -1,0 +1,198 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Filter</ion-title>
+    <ion-buttons slot="end">
+      <ion-button class="" color="theme" (click)="clear()">
+          clear
+      </ion-button>
+  </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-grid *ngIf="!this.isLoading">
+  <ion-row>
+    <ion-col>
+      <ion-item>
+        <ion-label position="stacked">Select Service</ion-label>
+        <ion-select color="theme" [(ngModel)]="selectedFilter.serviceTypeId" placeholder="Select Service"
+          interface="action-sheet">
+          <ion-select-option class="fs-14" *ngFor="let service of searchParams?.Servicetype" [value]="service?.value">
+            {{service?.LongName}} 
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+<ion-row>
+    <ion-col>
+      <h5 class="fs-14 fw-600">Dates</h5>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col size="6">
+      <ion-item>
+        <ion-label position="stacked">From</ion-label>
+        <ion-datetime #startDatePicker displayFormat="DDD DD MMM YYYY"
+        placeholder="{{currentDate  | date : 'EEE dd MMM yyyy'}}"
+        [min]="currentDate" max="2024-12-31"[(ngModel)]="selectedFilter.pickUp" pickerFormat="DD/MMM/YYYY" (ionChange)="fromDate(selectedFilter.pickUp)">
+        </ion-datetime>
+      </ion-item>
+    </ion-col>
+    <ion-col size="6">
+      <ion-item>
+        <ion-label position="stacked">To</ion-label>
+        <ion-datetime displayFormat="DDD DD MMM YYYY" 
+        placeholder="{{currentDate  | date : 'EEE dd MMM yyyy'}}"
+        [min]="selectedFilter?.pickUp" max="2024-12-31" [(ngModel)]="selectedFilter.dropOff" pickerFormat="DD/MMM/YYYY"></ion-datetime>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <ion-row *ngIf="selectedFilter.serviceTypeId != '14'">
+    <ion-col>
+      <ion-item>
+        <ion-label position="stacked">Select Pet Type</ion-label>
+        <ion-select color="theme" [(ngModel)]="selectedFilter.spacesPet"
+        (ionChange)="petTypeChange($event)" placeholder="Pet Type" interface="action-sheet">
+          <ion-select-option class="fs-14" *ngFor="let pet of searchParams?.PetType" [value]="pet.value">
+            {{pet?.LongName}}
+          </ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+  <div *ngIf="isDogWeight">
+    <ion-row>
+      <ion-col>
+        <ion-list *ngFor="let petSize of searchParams?.DogSize; let i = index">
+          <div class="pet-counter">
+            <div class="info">
+              <img type="image/svg+xml" [src]="petSize?.imageName != '' ? 'assets/icon/'+petSize.imageName : 'assets/icon/sml_dog.svg'" class="symbol">
+              <span class="name">{{petSize.LongName}}</span>
+            </div>
+            <div class="counter">
+              <span class="decrement" name="remove" (click)="addRemoveOpt(petSize,i,0)">-</span>
+              <span class="value">{{petSize?.cartValue}}</span>
+              <span class="increment" name="add"  (click)="addRemoveOpt(petSize,i,1)">+</span>
+            </div>
+          </div>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+  </div>
+  <ion-row>
+    <ion-col>
+      <h5 class="fs-14 fw-600">Search for a Sitter that owns a similar pet</h5>
+    </ion-col>
+  </ion-row>
+ 
+ 
+  <ion-row>
+    <ion-col>
+      <ion-item *ngFor="let similarPet of searchParams?.SitterSimilarPet">
+        <ion-label>{{similarPet?.LongName}}</ion-label>
+        <ion-checkbox (ionChange)="smilarPetChange($event)"  slot="end" [value]="similarPet" color="theme"></ion-checkbox>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  
+  <ion-row *ngIf="selectedFilter.serviceTypeId != '14'">
+    <ion-col>
+      <ion-item>
+        <ion-label position="stacked">Host Attributes</ion-label>
+        <ion-select color="theme" [(ngModel)]="selectedFilter.hostAttributes" placeholder="Host Attributes" multiple interface="action-sheet">
+          <ion-select-option class="fs-14" *ngFor="let hostAttr of searchParams?.hostAttributes" [value]="hostAttr?.value">{{hostAttr?.LongName}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+
+
+  <ion-row *ngIf="selectedFilter.serviceTypeId != '14'">
+    <ion-col>
+      <h5 class="fs-14 fw-600">Search for a Sitter that specialises in a specific dog breed</h5>
+    </ion-col>
+  </ion-row>
+  <div class="sitter-input-div" *ngIf="selectedFilter.serviceTypeId != '14'">
+    <rl-tag-input
+    [(ngModel)]="breed" 
+    [addOnBlur]="false"
+    [autocomplete]="true"
+    [autocompleteItems]="petBreeds"
+    placeholder="Specific dog breed">
+  </rl-tag-input>
+  </div>
+  
+  <ion-row>
+    <ion-col>
+      <ion-item class="">
+        <ion-label position="stacked">Radius : <strong>{{selectedFilter?.distance}}</strong></ion-label>
+        <ion-range min="5" max="100" [(ngModel)]="selectedFilter.distance" color="danger" ></ion-range>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+ 
+  <ion-row *ngIf="selectedFilter.serviceTypeId != '14'">
+    <ion-col>
+      <ion-item>
+        <ion-label position="stacked">Rate per night - <strong>{{rangePicker.lower}} to {{rangePicker.upper}}</strong></ion-label>
+        <ion-range dualKnobs="true" min="5" max="100" [(ngModel)]="rangePicker" color="danger"></ion-range>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+ 
+  <ion-row  *ngIf="selectedFilter.serviceTypeId != '14'">
+    <ion-col>
+      <ion-item>
+        <ion-label position="stacked">Accommodation </ion-label>
+        <ion-select color="theme" [(ngModel)]="selectedFilter.property_type" placeholder="Select Accommodation " interface="action-sheet">
+          <ion-select-option class="fs-14" *ngFor="let property of searchParams?.property_type" [value]="property?.value">{{property?.LongName}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="selectedFilter.serviceTypeId != '14'">
+    <ion-col>
+      <ion-item>
+        <ion-label position="stacked">Backyard Type</ion-label>
+        <ion-select color="theme" [(ngModel)]="selectedFilter.backyard_type" placeholder="Backyard" interface="action-sheet">
+          <ion-select-option class="fs-14" *ngFor="let backyard of searchParams?.backyard_type" [value]="backyard?.value">{{backyard?.LongName}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+  <ion-row *ngIf="selectedFilter.serviceTypeId != '14'">
+    <ion-col>
+      <ion-item>
+        <ion-label position="stacked">Host Skills</ion-label>
+        <ion-select color="theme" [(ngModel)]="selectedFilter.hostSkills" placeholder="Sitter" multiple interface="action-sheet">
+          <ion-select-option class="fs-14" *ngFor="let sitterOpt of searchParams?.hostSkills" [value]="sitterOpt?.value">{{sitterOpt?.LongName}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-col>
+  </ion-row>
+
+
+</ion-grid>
+
+
+</ion-content>
+
+<ion-footer class="ion-no-border">
+    <ion-button class="text-capitalize fls-0 fs-18 footer-btn" 
+      expand="full" 
+      color="theme" 
+      (click)="applyFilter()"
+    >
+        Apply Filter
+    </ion-button>
+</ion-footer>

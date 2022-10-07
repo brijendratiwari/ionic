@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="Symbols">
+        <g id="icon_line_profile">
+            <g id="Icon">
+                <path id="path-1" d="M511,581C617,581 703.5,487.28 703.5,371C703.5,254.72 617,161 511,161C405,161 318.5,254.73 318.5,371C318.5,487.27 405,581 511,581ZM511,616C385,616 283.5,506 283.5,371C283.5,236 385,126 511,126C637,126 738.5,236 738.5,371C738.5,506 637,616 511,616ZM857,861C818.66,696.85 704.87,616 511,616C317.13,616 203.34,696.85 165.05,861L857,861ZM511,581C729.13,581 859.08,680 895.69,875.28C895.889,876.342 895.989,877.42 895.989,878.5C895.989,888.1 888.09,895.999 878.49,896L143.49,896C133.89,895.999 125.991,888.1 125.991,878.5C125.991,877.42 126.091,876.342 126.29,875.28C162.92,680 292.87,581 511,581Z" style="fill:rgb(254,65,100);fill-rule:nonzero;stroke:rgb(254,65,100);stroke-width:1px;"/>
+            </g>
+        </g>
+    </g>
+</svg>

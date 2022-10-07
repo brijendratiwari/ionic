@@ -1,0 +1,64 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="listing" ></ion-back-button>
+        </ion-buttons>
+        <ion-title>Listing Photos</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-card class="info-card ion-no-padding" color="note">
+        <ion-card-header> 
+            <ion-card-title>
+            Photo Upload Note
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+            <p>Add 1 to 5 photos for your listing. The first image will be your hero banner so this should be a long
+                wide image.</p>
+            <p>The photos you display are important as they tell a Pet Owner about you and your home, yard &
+                services.
+                Pet Owners will want to see where their pet will safely sleep, play, be bathed, groomed or
+                walked.</p>
+            <h5>Photo suggestions</h5>
+            <ul>
+                <li>Ensure they are clear quality photos with good lighting</li>
+                <li>A photo of your yard & fence (where the pet might play)</li>
+                <li>A photo of your Lounge Area (where the pet might sleep)</li>
+                <li>A photo of the Local Dog Park or Foot Path</li>
+                <li>An Action photo of a pet being walked, fed, washed</li>
+            </ul>
+        </ion-card-content>
+    </ion-card>
+    <div class="photo-content">
+        <div class="header">
+            <div class="title-text">
+                Photos
+            </div>
+            <ion-button color="theme" *ngIf="spacePhotos.length < 5" (click)="showActionSheet()">
+                <ion-icon slot="start" name="cloud-upload"></ion-icon>
+                Add
+            </ion-button>
+        </div>
+        <!-- <ion-item *ngFor="let sp of spacePhotos">
+            <ion-thumbnail slot="start">
+            <ion-img
+            [src]="sp.imagename == '' || sp.imagename == null  ? 
+            'https://dev.petcloud.com.au/img/pet_placeholder.png' 
+            : sp.imagename"></ion-img>
+            </ion-thumbnail>
+            <ion-button slot="end" type="button" color="transparent" (click)="deleteSpaceImage(sp.id,sp)">
+                <ion-icon name="trash" color="theme"></ion-icon>
+            </ion-button>
+        </ion-item> -->
+        <div class="photo-wrapper">
+            <div class="photo-box" *ngFor="let sp of spacePhotos">
+                <img [src]="(sp.imagename == '' || sp.imagename == null)? 
+                    'https://dev.petcloud.com.au/img/pet_placeholder.png' : sp.imagename"
+                >
+                <ion-icon (click)="deleteSpaceImage(sp.id,sp)" name="close-circle"></ion-icon>
+            </div>  
+        </div>
+    </div>
+</ion-content>

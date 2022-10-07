@@ -1,0 +1,201 @@
+<ion-header >
+  <ion-toolbar>
+    <ion-title>App Review / Feedback </ion-title>
+
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home/tabs/profile-menu" ></ion-back-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="feedbackForm">
+    <ion-item>
+      <ion-label position="stacked">App Version*</ion-label>
+      <ion-input
+        type="text"
+        readonly ="true"
+        formControlName="app_version"
+        placeholder="Can be found at bottom of the screen"
+      ></ion-input>
+    </ion-item>
+
+    <ion-text
+      lines="none"
+      class="animated fadeInUp error"
+      *ngIf="(feedbackForm.get('app_version').hasError('required') &&
+             feedbackForm.get('app_version').touched)"
+    >
+      Please enter your app version.
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="stacked">What Device are you using?*</ion-label>
+     <div><small>eg. iphone6s, Samsung S10, Sony Experia etc</small></div> 
+      <ion-input
+        type="text"
+        readonly ="true"
+        class="capitilize"
+        formControlName="device_info"
+        placeholder="device"
+      ></ion-input>
+    </ion-item>
+    <ion-text
+      lines="none"
+      class="animated fadeInUp error"
+      *ngIf="(feedbackForm.get('device_info').hasError('required') &&
+      feedbackForm.get('device_info').touched)"
+    >
+      Enter enter your device name.
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="stacked">What where you expecting to happen?*</ion-label
+      >
+     <div><small>eg. A notification should appear.</small></div> 
+      <ion-input
+        type="text"
+        formControlName="expectation_to_happen"
+        placeholder="Expectations for better experience"
+      ></ion-input>
+    </ion-item>
+    <ion-text
+      lines="none"
+      class="animated fadeInUp error"
+      *ngIf="(feedbackForm.get('expectation_to_happen').hasError('required') &&
+      feedbackForm.get('expectation_to_happen').touched)"
+    >
+      Enter enter your expectations for better experience
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="stacked">What actually happened*</ion-label>
+      <div><small>eg. What was output.</small></div>
+      
+      <ion-input
+        type="text"
+        formControlName="actually_happen"
+        placeholder="Expectations for better experience"
+      ></ion-input>
+    </ion-item>
+    <ion-text
+      lines="none"
+      class="animated fadeInUp error"
+      *ngIf="(feedbackForm.get('actually_happen').hasError('actually_happen') &&
+      feedbackForm.get('actually_happen').touched)"
+    >
+      Enter enter what actually happened
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="stacked"
+        >What where you doing just before the issue occured?*</ion-label
+      >
+     <div><small>eg.I went to create a booking and clicked on calender.</small></div> 
+      <ion-input
+        type="text"
+        formControlName="user_doing"
+        placeholder="Specific page name"
+      ></ion-input>
+    </ion-item>
+    <ion-text
+      lines="none"
+      class="animated fadeInUp error"
+      *ngIf="(feedbackForm.get('user_doing').hasError('user_doing') &&
+      feedbackForm.get('user_doing').touched)"
+    >
+      Please give us step for issue created
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="stacked">What error did you recieve*</ion-label>
+    <div> <small>eg.An error showed up showing "Server is down"</small></div> 
+      <ion-input
+        type="text"
+        
+        formControlName="error_received"
+        placeholder="Error / Bug"
+      ></ion-input>
+    </ion-item>
+    <ion-text
+      lines="none"
+      class="animated fadeInUp error"
+      *ngIf="(feedbackForm.get('error_received').hasError('required') &&
+      feedbackForm.get('error_received').touched)"
+    >
+      Let us know what error was recieved
+    </ion-text>
+
+    <ion-item>
+        <ion-label position="stacked">
+         What date issue occured*</ion-label>
+        
+        <ion-datetime
+          #startDatePicker
+          display-format="DDD DD MMM YYYY"
+          picker-format="DD/MMM/YYYY"
+          placeholder="Thu 16 Jan 2019"
+          [max]="maxDate"
+          (ionChange)="fromDate(startDatePicker)"
+          formControlName="date"
+        ></ion-datetime>
+    </ion-item>
+    <ion-text
+      class="animated fadeInUp error"
+      *ngIf="feedbackForm.get('date').hasError('required') && feedbackForm.get('date').touched"
+    >
+      Please Enter Date
+    </ion-text>
+
+    <ion-item>
+      <ion-label position="stacked">Approximately what time issue occured*</ion-label
+      >
+      <ion-datetime
+        display-format="hh:mm A"
+        picker-format="hh:mm A"
+        placeholder="06:00 PM"
+        (ionChange)="time($event)"
+        formControlName="time"
+      ></ion-datetime>
+    </ion-item>
+    <ion-text
+      class="animated fadeInUp error"
+      *ngIf="feedbackForm.get('time').hasError('required') && feedbackForm.get('time').touched">
+      Please Enter Time
+    </ion-text>
+
+    <ion-item lines="none">
+      <ion-label position="stacked"
+        >Anything that could help us diagnose the issue*</ion-label
+      >
+    <div><small>eg.Please try to be descriptive as possible.</small></div>  
+      <ion-textarea
+        type="text"
+        formControlName="description"
+        placeholder="Description of issue"
+      ></ion-textarea>
+    </ion-item>
+    <ion-text
+      lines="none"
+      class="animated fadeInUp error"
+      *ngIf="(feedbackForm.get('description').hasError('required') &&
+      feedbackForm.get('description').touched)">
+      Please give us decription of issue
+    </ion-text>
+    <ion-button class="sbt-btn" (click)="showActionSheet()">
+      Upload screenshot
+    </ion-button>
+    <ion-button class="sbt-btn" [disabled]="!feedbackForm.valid"(click)="sendFeedback()">
+      Submit
+    </ion-button>
+  </form>
+
+  <ion-row>
+    <ion-col class="version-info" size="12">
+      <div><ion-text>App Version :</ion-text> {{deviceInfo.appVersion}}</div> 
+      <div><ion-text>Version Number :</ion-text> {{deviceInfo.versionNumber}}</div> 
+      <div><ion-text>Model :</ion-text> {{deviceInfo.manufacturer}} {{deviceInfo.model}}</div> 
+    </ion-col>
+  </ion-row>
+
+</ion-content>

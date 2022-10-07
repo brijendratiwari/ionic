@@ -1,0 +1,50 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button defaultHref="home/tabs/profile-menu"></ion-back-button>
+        </ion-buttons>
+        <ion-title>About Us</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item  (click)="goToCMSPage('RSPCA Partnership')">
+            <ion-label>RSPCA Partnership</ion-label>
+            <ion-icon slot="end" name="chevron-forward-circle-outline"></ion-icon>
+        </ion-item>
+        <ion-item  (click)="goToCMSPage('Social Impact')">
+            <ion-label>Social Impact</ion-label>
+            <ion-icon slot="end" name="chevron-forward-circle-outline"></ion-icon>
+        </ion-item>
+        <ion-item  (click)="goToCMSPage('Pet Owner Reviews')">
+            <ion-label>Pet Owner Reviews</ion-label>
+            <ion-icon slot="end" name="chevron-forward-circle-outline"></ion-icon>
+        </ion-item>
+        <ion-item  (click)="goToCMSPage('How It Works')">
+            <ion-label>How It Works</ion-label>
+            <ion-icon slot="end" name="chevron-forward-circle-outline"></ion-icon>
+        </ion-item>
+        <ion-item  (click)="goToCMSPage('Services & Prices')" >
+            <ion-label>Services & Prices</ion-label>
+            <ion-icon slot="end" name="chevron-forward-circle-outline"></ion-icon>
+        </ion-item>
+        <ion-item (click)="goToCMSPage('blog')" >
+            <ion-label>Blog</ion-label>
+            <ion-icon slot="end" name="chevron-forward-circle-outline"></ion-icon>
+        </ion-item>
+        <ion-item  (click)="goToCMSPage('News & Media')">
+            <ion-label>News & Media</ion-label>
+            <ion-icon slot="end" name="chevron-forward-circle-outline"></ion-icon>
+        </ion-item>
+        <ion-item  (click)="goToCMSPage('Privacy')">
+            <ion-label>Privacy</ion-label>
+            <ion-icon slot="end" name="chevron-forward-circle-outline"></ion-icon>
+        </ion-item>
+        <ion-item  (click)="goToCMSPage('Terms Of Service')">
+            <ion-label>Terms Of Service</ion-label>
+            <ion-icon slot="end" name="chevron-forward-circle-outline"></ion-icon>
+        </ion-item>
+    </ion-list>
+
+</ion-content>

@@ -1,0 +1,45 @@
+
+  <ion-slides [options]="slideOpts" >
+    <ion-slide>
+      <div class="wallet-card">
+        <h4>Available Balance</h4>
+        <h2>$ {{walletData?.available_balance}} AUD</h2>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="wallet-card">
+        <h4>Reward Points Balance</h4>
+        <h2>$ {{walletData?.reward_point_balance}} AUD</h2>
+      </div>
+    </ion-slide>
+    <ion-slide>
+      <div class="wallet-card">
+        <h4>Total Balance</h4>
+        <h2>$ {{walletData?.total_balance}} AUD</h2>
+      </div>
+    </ion-slide>
+  </ion-slides>
+  <ion-grid *ngIf="isCreditShown == true">
+    <ion-row>
+      <ion-col>
+        <div (click)="goToAddMoney()" class="buy-btn-container">
+          <div class="buy-btn">Buy Credits</div>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid> 
+  <div class="wallet-card-list">
+    <div class="item">
+      <h4>Withdrawable Balance</h4>
+      <h2>$ {{walletData?.withdrawable_balance}} AUD </h2>
+    </div>
+    <div class="item">
+      <h4>Credits allocated to Bookings</h4>
+      <h2>$ {{walletData?.unavailable_balance}} AUD</h2>
+    </div>
+    <div class="item">
+      <h4>Total Balance </h4>
+      <h2>$ {{walletData?.total_balance}} AUD</h2>
+    </div>
+  </div>
+ 

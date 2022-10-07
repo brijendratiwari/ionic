@@ -1,0 +1,231 @@
+.report-card{
+    .report-inputs{
+        background-color: #fff;
+        border-bottom: 1px solid #e0e0e0;
+        padding-bottom: 0;
+        ul{
+            margin: 0;
+            padding: 16px;
+            display: flex;
+            list-style: none;
+            // justify-content: center;
+            // flex-wrap: wrap;
+            overflow-y: auto;
+            &:after {
+                content: '.';
+                width: 16px;
+                height: 100%;
+                display: block;
+                position: relative;
+                opacity: 0;
+            }
+            li{
+                min-width: 100px;
+                background-color: #f7dbe0;
+                margin-right: 10px;
+                border-radius: 10px;
+                overflow: hidden;
+                margin-right: 15px;
+                border-radius: 10px;
+                overflow: hidden;
+                background: #fff;
+                border-radius: 20px;
+                box-shadow: inset 0 0 15px rgba(55, 84, 170, 0), inset 0 0 20px rgba(255, 255, 255, 0), 7px 7px 15px rgba(55, 84, 170, 0.15), -7px -7px 20px white, inset 0px 0px 4px rgba(255, 255, 255, 0.2);
+                .item{
+                    width: 100px;
+                    padding: 8px;
+                    color: #555;
+                    height: 100%;
+                    text-align: center;
+                    &.sliders-selected{
+                        .slider-title{
+                           color: #fff;
+                        }
+                        img{
+                            filter: brightness(1000);
+                        }
+                    }
+                    img{
+                        width: 48px;
+                        height: 48px;
+                    }
+                    .slider-title{
+                        font-size: 12px;
+                        font-weight: 600;
+                    }
+                    .value{
+                        display: flex;
+                        align-items: center;
+                        padding: 3px 10px;
+                        border-radius: 30px;
+                        font-size: 12px;
+                        font-weight: 600;
+                        .check{
+                            line-height: 1;
+                            margin-left: 10px;
+                        }
+                    }
+                    .icon{
+                        padding: 8px;
+                        background-color: #fff;
+                        height: 40px;
+                        width: 40px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        border-radius: 30px;
+                        overflow: hidden;
+                        margin-bottom: 8px;
+                        margin-right: auto;
+                        margin-left: auto;
+                        img{
+                            width: 30px;
+                        }
+                        
+                    }
+                }
+
+                .counter{
+                    .decrement,.increment {
+                        border: 1px solid #000;
+                        padding: 6px 14px;
+                        border-radius: 23px;
+                        font-size: 18px;
+                        font-weight: 700;
+                    }
+                }
+
+                .item.sliders-selected {
+                    background-color: #FE4164;
+                }
+             
+                .slider-title {
+                    margin: 0px;
+                }
+            }
+        }
+    }
+    .pet-image{
+        position: relative;
+        min-height: 200px;
+        background-color: #e0e0e0;
+        img{
+            width: 100%;
+            // display: none;
+        }
+        .camera-btn{
+            position: absolute;
+            top:50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            p{
+                margin: 0;
+                color: #666;
+            }
+            ion-icon{
+                height: 2rem;
+                width: 2rem;
+                color: #666;
+            }
+        }
+    }
+}
+ion-footer{
+    ion-button{
+        margin: 0;
+    }
+}
+
+.inquiry{
+    > .item{
+        border-bottom: 5px solid #e0e0e0;
+        .title-wraper{
+            padding: 16px;
+            display: flex;
+            border-bottom: 1px solid #e0e0e0;
+            align-items: center;
+            justify-content: space-between;
+            .title{
+                font-size: 16px;
+                margin: 0;
+            }
+            .action{
+                display: flex;
+                align-items: center;
+                .counter{
+                     display: flex;
+                align-items: center;
+                    span{
+                        border: 1px solid #e0e0e0;
+                        padding: 5px;
+                        line-height: 0;
+                        height: 32px;
+                        width: 32px;
+                        display: inline-flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 14px;
+                        
+                    }
+                }
+            }
+        }
+    }
+}
+.mood-select{
+    display: flex;
+    overflow: auto;
+    &:after {
+        content: '.';
+        width: 16px;
+        height: 100%;
+        display: flex;
+        position: relative;
+        opacity: 0;
+        min-width: 20px;
+    }
+    .item{
+        flex-direction: column;
+        font-size: 10px;
+        width: 100px;
+        display: flex;
+        min-width: 55px;
+        align-items: center;
+        justify-content: center;
+        height: auto;
+        background-color: #fff;
+        margin: 8px;
+        border-radius: 5px;
+        padding: 5px;
+        padding-top: 0;
+        margin-right: 0;
+        &.active{
+            border-color: #FE4164;
+            img{
+                filter: invert(35%) sepia(96%) saturate(896%) hue-rotate(314deg) brightness(97%) contrast(108%); 
+            }
+            span{
+                color: #FE4164;
+            }
+        }
+        img{
+            width: 50px;
+            height: 50px;
+            object-fit: contain;
+            margin-bottom: 5px;
+        }
+    }
+}
+
+ion-button.submit-button {
+    margin: 0;
+    height: 55px !important;
+}
+
+ion-chip{
+    &.active{
+        background-color: #fe4164;
+        color: #fff;
+    }
+}

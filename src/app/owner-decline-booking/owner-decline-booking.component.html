@@ -1,0 +1,84 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Decline</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="animated fadeIn">
+  <ion-card color="theme-sec">
+    <ion-card-header>
+      Are you sure you want to Cancel this enquiry?
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-text>
+        This booking will be cancelled in the next 4 hours. If you change your mind, please click on <ion-text
+          class="link" (click)="meetandGreet()">request meet and
+          greet</ion-text> or <ion-text class="link" (click)="meetPreviously()">we’ve met previously</ion-text> within 4 hours. Have
+        you considered leaving a message for your sitter before you
+        decline?
+      </ion-text>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="ion-padding">
+    <form [formGroup]="declineForm">
+      <h3 class="title-text">Sorry to hear that</h3>
+      <h3 class="title-text">In what areas was there one or more issues?</h3>
+      <ion-item>
+        <ion-label position="stacked">Reason</ion-label>
+        <ion-select okText="Okay" placeholder="Select Reason" formControlName="cancelreason" (ionChange)="cancelReason_onChange($event)"
+          cancelText="Dismiss">
+          <ion-select-option value="Cleanliness">Cleanliness</ion-select-option>
+          <ion-select-option value="Attitude">Attitude</ion-select-option>
+          <ion-select-option value="Price">Price</ion-select-option>
+          <ion-select-option value="Unsecure Property">Unsecure Property</ion-select-option>
+          <ion-select-option value="Too Far">Too Far</ion-select-option>
+          <ion-select-option value="Pets Incompatible">Pets Incompatible</ion-select-option>
+          <ion-select-option value="Property Hazards">Property Hazards</ion-select-option>
+          <ion-select-option value="More Training Needed">More Training Needed</ion-select-option>
+          <ion-select-option value="Verification">Verification</ion-select-option>
+          <ion-select-option value="Sitter Cancelled">Sitter Cancelled</ion-select-option>
+          <ion-select-option value="Other">Other</ion-select-option>
+        </ion-select>
+      </ion-item>
+
+
+      <ion-text lines="none" class="animated fadeInUp"
+        *ngIf="(declineForm.get('cancelreason').hasError('required') && declineForm.get('cancelreason').touched )">
+        <p class="error"
+          *ngIf="(declineForm.get('cancelreason').hasError('required') && declineForm.get('cancelreason').touched)">
+          Please Select Reason
+        </p>
+      </ion-text>
+
+
+      <ion-item *ngIf="isOtherReason">
+        <ion-label position="stacked">Please tell me other reason</ion-label>
+        <ion-textarea placeholder="Ender other reason" formControlName="cancelreasonother" cols="3"></ion-textarea>
+      </ion-item>
+
+      <ion-text lines="none" class="animated fadeInUp"
+        *ngIf="(declineForm.get('cancelreasonother').hasError('cancelreasonother') && declineForm.get('cancelreasonother').touched )">
+        <p class="error"
+          *ngIf="(declineForm.get('cancelreasonother').hasError('cancelreasonother') && declineForm.get('cancelreasonother').touched)">
+          Please Enter Other Reason
+        </p>
+      </ion-text>
+      <div class="btn-wrapper">
+        <ion-button [disabled]="!declineForm.valid" class="text-capitalize first-btn"
+          color="theme" (click)="submitDecline()">Confirm
+        </ion-button>
+  
+        <ion-button class="text-capitalize second-btn" color="theme-sec" (click)="closeModal()">
+          Close
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>

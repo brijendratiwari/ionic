@@ -1,0 +1,43 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+        </ion-buttons>
+        <ion-title></ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-list>
+        <ion-item lines="none">
+            <ion-text>Can you tell us, why have you joined PetCloud?</ion-text>
+        </ion-item>
+        <ion-radio-group [(ngModel)]="user_type">
+            <ion-item>
+                <ion-label>Find Pet Care Services</ion-label>
+                <ion-radio value="1" color="theme"></ion-radio>
+            </ion-item>
+            <ion-item>
+                <ion-label>Offer Pet Care Services</ion-label>
+                <ion-radio value="2" color="theme"></ion-radio>
+            </ion-item>
+            <ion-item>
+                <ion-label>Both</ion-label>
+                <ion-radio value="3" color="theme"></ion-radio>
+            </ion-item>
+        </ion-radio-group>
+        <ion-text lines="none" class="fs-16 animated fadeInUp error"
+                  *ngIf="checkUserType">
+            Select why you joined Petcloud!
+        </ion-text>
+    </ion-list>
+</ion-content>
+<ion-footer class="ion-no-border">
+    <ion-button color="theme"
+        class="text-capitalize fls-0 fs-18 footer-btn" 
+        expand="full"
+        (click)="submitUserType()"
+    >
+        Submit
+    </ion-button>
+</ion-footer>

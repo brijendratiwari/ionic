@@ -1,0 +1,564 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons  slot="start">
+            <ion-back-button defaultHref="/home/tabs/sitter-listing"></ion-back-button>
+        </ion-buttons>
+        <ion-title>Verify Email</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-card color="note" class="ion-no-margin">
+                    <ion-card-header>
+                        <ion-card-title>
+                            At PetCloud, trust is paramount to our community
+                        </ion-card-title>
+                    </ion-card-header>
+                    <ion-card-content>
+                        All members must undergo these verifications:
+                        <ul>
+                            <li>Mobile Phone Number</li>
+                            <li>Email Account</li>
+                        </ul>
+
+                        Linking your Facebook account is optional but if you choose to do so, you will get an additional
+                        verification tick icon
+                        on your listing.
+                        Pet Sitters who wish to mind pets in the home of the Owner - must undergo a National Criminal
+                        History Check.
+                    </ion-card-content>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+
+        <!-- Email Verification Pending -->
+        <ion-row *ngIf="isEmailVerified == false">
+            <ion-col>
+                <ion-list>
+                    <h5>Email Verification</h5>
+                    <div>
+                        <p>Your email address has not been verified. Click the verify button to send an email and
+                            follow the link in the email to
+                            verify your account.
+                        </p>
+                    </div>
+                    <ion-button color="theme" class="text-capitalize fls-0 fs-16"
+                        (click)="sendVerificationCodeToEmail()">Send Verification
+                    </ion-button>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+
+        <!-- Email Verified -->
+        <ion-row *ngIf="isEmailVerified == true">
+            <ion-col>
+                <ion-list>
+                    <div class="verify-check">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="theme-icon"></ion-img>
+                        <div class="content">
+                            <h5>Email Verification</h5>
+                            <div>
+                                {{verificationResponse?.emailVerify?.message}}
+                            </div>
+                        </div>
+                    </div>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+
+
+        <!-- Phone Not Verified -->
+        <ion-row *ngIf="isPhoneVerified == false">
+            <ion-col>
+                <form [formGroup]="verifyForm">
+                    <ion-list>
+                        <h5>Mobile Verification</h5>
+                        <ion-row class="ion-no-padding">
+                            <ion-col size="6" size-md>
+                                <ion-item>
+                                    <ion-input type="tel" formControlName="mobileNumber"
+                                        placeholder="Enter Mobile Number"></ion-input>
+                                </ion-item>
+                                <ion-text lines="none" class="animated fadeInUp error"
+                                    *ngIf="(verifyForm.get('mobileNumber').hasError('required') && verifyForm.get('mobileNumber').touched)">
+                                    Enter mobile number!
+                                </ion-text>
+                            </ion-col>
+                            <ion-col>
+                                <ion-button color="theme"
+                                    [disabled]="verifyForm.get('mobileNumber').hasError('required')"
+                                    (click)="sendVerificationCodeForMobile()">Send Code
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+
+                        <ion-row class="ion-no-padding">
+                            <ion-col size="6" size-md>
+                                <ion-item>
+                                    <ion-input type="text" formControlName="verifyCode"
+                                        placeholder="Enter Code"></ion-input>
+                                </ion-item>
+                                <ion-text lines="none" class="animated fadeInUp error"
+                                    *ngIf="(verifyForm.get('verifyCode').hasError('required') && verifyForm.get('verifyCode').touched)">
+                                    Enter verification code!
+                                </ion-text>
+                            </ion-col>
+                            <ion-col>
+                                <ion-button color="theme" (click)="verifyCodeForMobile()">Verify
+                                </ion-button>
+                            </ion-col>
+                        </ion-row>
+                    </ion-list>
+                </form>
+            </ion-col>
+        </ion-row>
+
+
+         <!-- phone Verified -->
+         <ion-row *ngIf="isPhoneVerified == true">
+            <ion-col>
+                <ion-list>
+                    <div class="verify-check">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="theme-icon"></ion-img>
+                        <div class="content">
+                            <h5>Mobile Verification</h5>
+                            <div>
+                                {{verificationResponse?.phoneVerify?.message}}
+                            </div>
+                        </div>
+                    </div>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+
+        <!-- Facebook Verification Pending -->
+       <ion-row *ngIf="verificationResponse?.facebook?.is_verified == 'Pending'">
+            <ion-col>
+                <ion-list>
+                    <h5>Facebook Verification</h5>
+                    <div>
+                        <ion-button color="facebook" class="text-capitalize fls-0 fs-18 fls-0"
+                            (click)="facebookVerify()">Verify Facebook</ion-button>
+                    </div>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+
+  <!-- Facebook Verification Verified -->
+        <ion-row *ngIf="verificationResponse?.facebook?.is_verified == 'Verified'">
+            <ion-col>
+                <ion-list>
+                    <div class="verify-check">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="theme-icon"></ion-img>
+                        <div class="content">
+                            <h5>Facebook</h5>
+                            <div>
+                                Facebook is already linked
+                            </div>
+                        </div>
+                    </div>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+
+
+         <!-- Background -->
+         <ion-card class="verification-card ion-text-wrap">
+            <ion-card-header (click)="toggleVerification('1')" text-left
+                style=" color: black">
+                <ion-row>
+                    <ion-col size="11">
+                        <ion-text class="fs-14 fw-600">Verification all Sitters & Dog Walkers must have
+                        </ion-text>
+                    </ion-col>
+                    <ion-col size="1">
+                        <ion-icon [name]="isVerificationGroupShown('1')? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-card-header>
+
+            <ion-card-content text-left *ngIf="isVerificationGroupShown('1')">
+                <!-- Background Check -->
+                <ion-row>
+                    <ion-col>
+                        <ion-text class="fs-14 fw-600">Background Check
+                        </ion-text>
+                    </ion-col>
+                </ion-row>
+                
+               
+                <!--Background Upload and Pending -->
+                <ion-row *ngIf="verificationResponse?.BackgroundCheck?.document == '' 
+                && verificationResponse?.BackgroundCheck?.is_verified != 'Verified'  ">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/error.svg" class="verify-icon"></ion-img>
+                        <ion-text>Background Check
+                            To be verified as having completed a background check please click the link below.
+
+                            Once you have provided all your details and paid for the check we will review it and update
+                            your profile in 48 hours.</ion-text>
+
+                            <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
+                            (click)="backgroundCheck()">Background Check</ion-button>
+                        <div>
+                            <ion-text>
+                                Already had a background check?
+
+                                If you have had a Police Check within the last 12 months or a valid blue card etc., we
+                                will take this into consideration. Please upload your certificate for your background
+                                check
+                                using the button below so that we can cross-check and apply the Background Check badge
+                                to your
+                                profile.
+                                <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0" (click)="showActionSheet('background','')">Upload BackGround Check</ion-button>
+                            </ion-text>
+                        </div>
+                    </ion-col>
+                </ion-row>
+       
+                <!-- Background Document is Uploaded and Pending -->
+                <ion-row *ngIf="verificationResponse?.BackgroundCheck?.document != '' 
+                && verificationResponse?.BackgroundCheck?.is_verified != 'Verified'" >
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text> {{verificationResponse?.BackgroundCheck?.message}}</ion-text>
+                    </ion-col>
+                </ion-row>
+
+                <!-- Background Document is Verified-->
+                <ion-row *ngIf="verificationResponse?.BackgroundCheck?.is_verified == 'Verified'">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text> Background Check
+                            You have completed your background check.
+
+                            You will now have a badge on your profile showing other users this, and can now sit at
+                            owners homes.</ion-text>
+                    </ion-col>
+                </ion-row>
+
+                <!-- ------------------------------------------------ -->
+
+                  <!-- Accredited Animal Care -->
+                  <ion-row  (click)="openBrowser('accreditedanimalcare')">
+                    <ion-col class="animal-care-label"> 
+                        <ion-text class="fs-14 fw-600">Accredited Animal Care
+                        </ion-text>
+                    </ion-col>
+                 </ion-row>
+
+                  <!--Animal Care Upload and Pending -->
+                  <ion-row *ngIf="verificationResponse?.animalcare?.document == '' 
+                  && verificationResponse?.animalcare?.is_verified != 'Verified'  ">
+                      <ion-col class="img-content">
+                          <ion-img type="image/svg+xml" src="assets/icon/error.svg" class="verify-icon"></ion-img>
+                          <ion-text>Please upload your Certificate of Completion of the PetCloud Pet Care Course.
+                          </ion-text>
+  
+                          <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
+                              (click)="showActionSheet('animalcare','')">Browse</ion-button>
+                      </ion-col>
+                  </ion-row>
+
+                
+                  <!--Animal Care Document is Uploaded and Pending -->
+                  <ion-row *ngIf="verificationResponse?.animalcare?.document != '' &&
+                  verificationResponse?.animalcare?.is_verified != 'Verified' ">
+                      <ion-col class="img-content">
+                          <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                          <ion-text>  {{verificationResponse?.animalcare?.message}} 
+                          </ion-text>
+                      </ion-col>
+                  </ion-row>
+  
+                  <!--Animal Care Document Uploaded -->
+                  <ion-row *ngIf="verificationResponse?.animalcare?.is_verified == 'Verified'">
+                      <ion-col class="img-content">
+                          <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                          <ion-text> {{verificationResponse?.animalcare?.message}} </ion-text>
+                      </ion-col>
+                  </ion-row>
+
+            </ion-card-content>
+        </ion-card>
+
+
+          <!-- NDIS MODULE Document -->
+          <ion-card class="verification-card ion-text-wrap">
+            <ion-card-header (click)="toggleNIDSCard('1')" text-left
+                style=" color: black">
+                <ion-row>
+                    <ion-col size="11">
+                        <ion-text class="fs-14 fw-600">Verification for Sitters & Walkers who want NDIS Status</ion-text>
+                    </ion-col>
+                    <ion-col size="1">
+                        <ion-icon [name]="isNDISGroupShown('1')? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-card-header>
+
+            <ion-card-content text-left *ngIf="isNDISGroupShown('1')">
+                <!-- RIGHT TO WORK -->
+                <ion-row>
+                    <ion-col>
+                        <ion-text class="fs-14 fw-600">Right to Work Check</ion-text>
+                    </ion-col>
+                </ion-row>
+
+                <!-- Right to Work Document Null and Not Uploaded -->
+                <ion-row *ngIf="verificationResponse?.righttowork?.document == '' &&
+                verificationResponse?.righttowork?.is_verified=='Pending'">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/error.svg" class="verify-icon"></ion-img>
+                        <ion-text> Please upload evidence that you have the right to work in Australia.
+                        </ion-text>
+                        <b> Acceptable documents are one of the following:</b>
+                            <ion-text>
+                              
+                                <ul>Evidence of permanent resident status.</ul>
+                                <ul>Temporary visa with entitlement to work.</ul>
+                                <ul>Temporary visa with entitlement to work.</ul>
+                                <ul>Evidence of permanent resident status.</ul>
+                                <ul> Certificate of Australian citizenship.</ul>
+                                <ul>Australian birth certificate</ul>
+
+                            
+                            </ion-text>   
+
+                        <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
+                            (click)="showActionSheet('righttowork','')">Browse</ion-button>
+                    </ion-col>
+                </ion-row>
+
+                <!-- Right to Work Document is Uploaded and Pending -->
+                <ion-row *ngIf="verificationResponse?.righttowork?.document != '' &&
+                verificationResponse?.righttowork?.is_verified =='Pending' ">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text>  {{verificationResponse?.righttowork?.message}} 
+                        </ion-text>
+                    </ion-col>
+                </ion-row>
+
+                <!--Right to Work Document Uploaded -->
+                <ion-row *ngIf="verificationResponse?.righttowork?.is_verified=='Verified'">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text> {{verificationResponse?.righttowork?.message}} </ion-text>
+                    </ion-col>
+                </ion-row>
+
+
+                <!--------------------------------------------------------------------------------->
+
+                <!-- YELLOW CARD -->
+                <ion-row>
+                    <ion-col>
+                        <ion-text class="fs-14 fw-600">Disability Worker Screening</ion-text>
+                    </ion-col>
+                </ion-row>
+
+                <!-- YELLOW CARD Document Null and Not Uploaded -->
+                <!-- *ngIf="verificationResponse?.yellowcard?.document == '' && -->
+                <!-- verificationResponse?.yellowcard?.is_verified=='Pending'" -->
+                <ion-row>
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/error.svg" class="verify-icon"></ion-img>
+                        <ion-text> Please upload a scan of your clearance for working with vulnerable people. If you don't have one, <span class="underline" (click)="openBrowser('yellowcard')"> you can apply for one here</span>.
+                        </ion-text>
+
+                        <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
+                            (click)="showActionSheet('yellowcard','')">Browse</ion-button>
+                    </ion-col>
+                </ion-row>
+
+                <!--YELLOW CARD  Document is Uploaded and Pending -->
+                <ion-row *ngIf="verificationResponse?.yellowcard?.document != '' &&
+                verificationResponse?.yellowcard?.is_verified=='Pending' ">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text>  {{verificationResponse?.yellowcard?.message}} 
+                        </ion-text>
+                    </ion-col>
+                </ion-row>
+
+                <!--YELLOW CARD Document Uploaded -->
+                <ion-row *ngIf="verificationResponse?.yellowcard?.is_verified=='Verified'">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text> {{verificationResponse?.yellowcard?.message}} </ion-text>
+                    </ion-col>
+                </ion-row>
+
+
+                <!--------------------------------------------------------------------------------->
+                <!-- NDIS -->
+                <ion-row>
+                    <ion-col>
+                        <ion-text class="fs-14 fw-600">NDIS Training Module</ion-text>
+                    </ion-col>
+                </ion-row>
+
+                <!-- NDIS DOCUMENT NOT UPLOADED -->
+                <ion-row *ngIf="
+                verificationResponse?.ndistraining?.is_verified=='Pending' &&
+                verificationResponse?.ndistraining?.document== ''">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/error.svg" class="verify-icon"></ion-img>
+                        <ion-text> Please upload your certificate of Completion. If you don't have one.
+                            <span class="underline" (click)="openBrowser('ndis')" >You can apply for one here.</span>
+                        </ion-text>
+                        <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
+                            (click)="showActionSheet('ndistraining','')">Browse</ion-button>
+                    </ion-col>
+                </ion-row>
+
+                <!--NDIS Document is Uploaded and Pending -->
+                <ion-row *ngIf="verificationResponse?.ndistraining?.document != '' &&
+                verificationResponse?.ndistraining?.is_verified == 'Pending' ">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text>   {{verificationResponse?.ndistraining?.message}}   
+                        </ion-text>
+                    </ion-col>
+                </ion-row>
+
+                <!--NDIS Document Uploaded -->
+                <ion-row *ngIf="verificationResponse?.ndistraining?.is_verified=='Verified'">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text>  {{verificationResponse?.ndistraining?.message}}    </ion-text>
+                    </ion-col>
+                </ion-row>
+            </ion-card-content>
+        </ion-card>
+
+        <!-- Nurse Document -->
+        <ion-card class="verification-card ion-text-wrap">
+            <ion-card-header (click)="togleNurseCert('1')" text-left
+                style=" color: black">
+                <ion-row>
+                    <ion-col size="11">
+                        <ion-text class="fs-14 fw-600">Accredited Vet Nurse Cert IV</ion-text>
+                    </ion-col>
+                    <ion-col size="1">
+                        <ion-icon [name]="isNurseCertGroupShown('1')? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-card-header>
+
+            <ion-card-content text-left *ngIf="isNurseCertGroupShown('1')">
+
+                <!-- Upload and Pending -->
+                <ion-row *ngIf="verificationResponse?.nurseCertDoccument?.document=='' &&
+                verificationResponse?.nurseCertDoccument?.is_verified=='Pending'">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/error.svg" class="verify-icon"></ion-img>
+                        <ion-text> Cert IV certificate
+                            Cert IV certificate has not been uploaded to PetCloud.
+                        </ion-text>
+
+                        <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
+                            (click)="showActionSheet('nurse','')">Browse</ion-button>
+                    </ion-col>
+                </ion-row>
+
+                <!-- Document is Uploaded and Pending -->
+                <ion-row *ngIf="verificationResponse?.nurseCertDoccument?.document != '' &&
+                verificationResponse?.nurseCertDoccument?.is_verified=='Pending' ">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text>{{verificationResponse?.nurseCertDoccument?.message}}
+                        </ion-text>
+                    </ion-col>
+                </ion-row>
+
+                <!-- Document Uploaded -->
+                <ion-row *ngIf="verificationResponse?.nurseCertDoccument?.is_verified == 'Verified'">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text> {{verificationResponse?.nurseCertDoccument?.message}}</ion-text>
+                    </ion-col>
+                </ion-row>
+            </ion-card-content>
+        </ion-card>
+
+
+        <!-- Licence -->
+        <ion-card class="verification-card ion-text-wrap">
+            <ion-card-header (click)="togglePetTaxi('1')" text-left
+                style=" color: black">
+                <ion-row>
+                    <ion-col size="11">
+                        <ion-text class="fs-14 fw-600">Verification for Pet Sitters offering Pet Taxi Services
+                        </ion-text>
+                    </ion-col>
+                    <ion-col size="1">
+                        <ion-icon [name]="isPetTaxiGroupShow('1')? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                    </ion-col>
+                </ion-row>
+            </ion-card-header>
+
+            <ion-card-content text-left *ngIf="isPetTaxiGroupShow('1')">
+                <ion-row *ngIf="verificationResponse?.DriversLicence?.is_verified != 'Verified' && 
+                verificationResponse?.DriversLicence?.licence != ''">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text> Drivers Licence
+                            Your drivers licence has successfully been uploaded</ion-text>
+                    </ion-col>
+                </ion-row>
+
+                <ion-row *ngIf="verificationResponse?.DriversLicence?.is_verified == 'Pending' && 
+                verificationResponse?.DriversLicence?.licence == ''">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/error.svg" class="verify-icon"></ion-img>
+                        <ion-text> {{verificationResponse?.DriversLicence?.message}}</ion-text>
+                    </ion-col>
+                </ion-row>
+
+
+                <ion-row *ngIf="verificationResponse?.DriversLicence?.is_verified == 'Verified'">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text> {{verificationResponse?.DriversLicence?.message}} </ion-text>
+                    </ion-col>
+                </ion-row>
+
+                <div>
+                    <ion-row>
+                        <ion-text class="fs-14 fw-600"> Licence document Front <span class="error">*</span> </ion-text>
+                        <ion-col [size]='licenseImage.front != "" ? 10 : 12 '>
+                            <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
+                            (click)="showActionSheet('licence','front')">Browse</ion-button> 
+                        </ion-col>
+
+                        <ion-col class="doc-col" (click)="viewLicenseDoc(licenseImage.front)" *ngIf="licenseImage.front != ''" [size]='licenseImage.front != "" ? 2 : 0 '>
+                            <div class="icon">
+                                <ion-icon name="document"></ion-icon>
+                            </div>
+                        </ion-col>
+                    </ion-row>
+
+                    <ion-row>
+                        <ion-text class="fs-14 fw-600"> Licence document Back <span class="error">*</span> </ion-text>
+
+                        <ion-col [size]='licenseImage.back != "" ? 10 : 12 '>
+                            <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
+                            (click)="showActionSheet('licence','back')">Browse</ion-button> 
+                        </ion-col>
+
+                        <ion-col class="doc-col" (click)="viewLicenseDoc(licenseImage.back)" *ngIf="licenseImage.back != ''" [size]='licenseImage.back != "" ? 2 : 0 '>
+                            <div class="icon">
+                                <ion-icon name="document"></ion-icon>
+                            </div>
+                        </ion-col>
+                    </ion-row>           
+                </div>
+            </ion-card-content>
+        </ion-card>
+    </ion-grid>
+</ion-content>

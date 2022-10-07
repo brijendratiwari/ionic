@@ -1,0 +1,48 @@
+ion-datetime {
+    padding-left: 0;
+}
+
+.capitilize {
+    text-transform: capitalize;
+}
+
+.native-input[disabled].sc-ion-input-md {
+    opacity: 1;
+}
+ion-item {
+    --padding-start: 0px;
+    font-size: 15px;
+    --min-height: 40px;
+    --inner-padding-end: 0px;
+    ion-textarea {
+        border: 1px solid #dedede;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-top: 16px;
+    }
+    ion-label {
+        white-space: normal;
+    }
+    small {
+        color: #52C4BE;
+    }
+}
+.sbt-btn {
+    --box-shadow: none;
+    --border-radius: 4px;
+    margin: 0px;
+    margin-bottom: 10px;
+    width: 100%;
+    &:first-of-type {
+        margin-top: 20px;
+    }
+}
+.version-info {
+    font-size: 16px;
+    color: #6a7175;    
+    padding-bottom: calc(env(safe-area-inset-bottom) + 10px);
+    ion-text {
+        font-weight: 500;
+        color: #000;
+    }
+}

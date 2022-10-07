@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>CLIENT_ID</key>
+    <string>689365265587-dnh8935gi72tp3lf16fs74lsbuvp1qpd.apps.googleusercontent.com</string>
+    <key>REVERSED_CLIENT_ID</key>
+    <string>com.googleusercontent.apps.689365265587-dnh8935gi72tp3lf16fs74lsbuvp1qpd</string>
+    <key>API_KEY</key>
+    <string>AIzaSyC5rcS4_RjyhRNYXojaCJvN1wSn-wccoRY</string>
+    <key>GCM_SENDER_ID</key>
+    <string>689365265587</string>
+    <key>PLIST_VERSION</key>
+    <string>1</string>
+    <key>BUNDLE_ID</key>
+    <string>com.petcloud.petcloud</string>
+    <key>PROJECT_ID</key>
+    <string>petcloud2020</string>
+    <key>STORAGE_BUCKET</key>
+    <string>petcloud2020.appspot.com</string>
+    <key>IS_ADS_ENABLED</key>
+    <false/>
+    <key>IS_ANALYTICS_ENABLED</key>
+    <false/>
+    <key>IS_APPINVITE_ENABLED</key>
+    <true/>
+    <key>IS_GCM_ENABLED</key>
+    <true/>
+    <key>IS_SIGNIN_ENABLED</key>
+    <true/>
+    <key>GOOGLE_APP_ID</key>
+    <string>1:689365265587:ios:3573f5bc93a310b929d4c6</string>
+    <key>DATABASE_URL</key>
+    <string>https://petcloud2020.firebaseio.com</string>
+    <key>FIREBASE_ANALYTICS_COLLECTION_ENABLED</key>
+    <string>true</string>
+    <key>FIREBASE_PERFORMANCE_COLLECTION_ENABLED</key>
+    <string>true</string>
+    <key>FirebaseCrashlyticsCollectionEnabled</key>
+    <string>true</string>
+  </dict>
+</plist>

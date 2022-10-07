@@ -1,0 +1,101 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons (click)="closeModel()" slot="start">
+      <ion-back-button defaultHref="/wallet-detail-transaction"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Transaction Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content class="ion-padding">
+  <ion-list class="details-list">
+    <ion-item lines="none">
+      <ion-label>
+        Transaction Id
+      </ion-label>
+      <ion-note slot="end">
+        {{transactionRecord?.transaction_id}}
+      </ion-note>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>
+        Time
+      </ion-label>
+      <ion-note slot="end">
+        {{transactionRecord?.created_at }}
+      </ion-note>
+    </ion-item>
+    <ion-item lines="none" *ngIf="transactionRecord?.deposit_source != null">
+      <ion-label>
+        Deposit source
+      </ion-label>
+      <ion-note slot="end">
+        {{transactionRecord?.deposit_source | titlecase}}
+      </ion-note>
+    </ion-item>
+    <ion-item lines="none" *ngIf="transactionRecord?.payout_source != null">
+      <ion-label>
+        Payout source
+      </ion-label>
+      <ion-note slot="end">
+        {{transactionRecord?.payout_source | titlecase}}
+      </ion-note>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>
+        Status
+      </ion-label>
+      <ion-note slot="end">
+            Success
+       <!-- {{transactionRecord?.payout_source == '1' ? "Pending" :
+       transactionRecord?.payout_source == '2' ? "Processed" :
+       transactionRecord?.payout_source == '3' ? "Cancelled" : "Completed"
+      }} -->
+      </ion-note>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>
+        Description
+      </ion-label>
+      <ion-note slot="end">
+        {{transactionRecord?.description | titlecase}}
+      </ion-note>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>
+        Amount
+      </ion-label>
+      <ion-note slot="end">
+        $ {{transactionRecord?.amount}} AUD
+      </ion-note>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label>
+        Transaction Type
+      </ion-label>
+      <ion-note slot="end">
+        {{transactionRecord?.txn_type | titlecase}}
+      </ion-note>
+    </ion-item>
+  </ion-list>
+  <div class="sbt-btn-wrapper" [class.btn-no-padding]= "isRaiseDispute">
+    <ion-button (click)="showHideDispute()" class="ion-no-margin">  Raise Dispute
+    </ion-button>
+  </div>
+
+  <form *ngIf="isRaiseDispute" [formGroup]="disputeForm">
+    <ion-list>
+      <ion-item>
+        <ion-label position="stacked">Title*</ion-label>
+        <ion-input placeholder="title" formControlName="title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="stacked">Description*</ion-label>
+        <ion-textarea cols="4" max="500" placeholder="Description" formControlName="description"></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <div class="sbt-btn-wrapper">
+      <ion-button (click)="raiseDispute()" class="ion-no-margin" [disabled]="!disputeForm.valid"> Add
+      </ion-button>
+    </div>
+  </form>
+</ion-content>

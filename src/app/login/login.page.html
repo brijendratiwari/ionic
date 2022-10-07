@@ -1,0 +1,137 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar mode="md">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/tabs/sitter-listing" (click)="goBack()"></ion-back-button>
+    </ion-buttons>
+    <ion-title class="ion-text-end">
+      <a routerLink="/reset-password" class="text-grey-1 text-underline-none fs-18">Forgot
+        Password
+      </a>
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="login">
+    <div class="login-header">
+      <div class="logo">
+        <img class="logo-image" src="assets/img/petCloud_logo_fushia.png" alt="">
+      </div>
+      <div class="title">
+        <h2 class="ion-text-center text-theme fw-400">Login to your account.</h2>
+      </div>
+    </div>
+
+        <!-- *ngIf="platformName == 'ios'" -->
+        <ion-card  *ngIf="platformName == 'ios' && !isLoginShown('1')" class="custom-card" (click)="loginWithApple()">
+          <ion-card-header class="ioncardapple">
+            <div class="icon">
+              <ion-icon name="logo-apple"></ion-icon>
+            </div>
+            <ion-label class="text-grey-1"> Sign in with Apple</ion-label>
+          </ion-card-header>
+        </ion-card>
+    
+    
+        <ion-card class="custom-card" *ngIf="!isLoginShown('1')" (click)="facebookSignup()">
+          <ion-card-header class="ioncardfacebook">
+            <div class="icon">
+              <ion-icon name="logo-facebook"></ion-icon>
+            </div>
+            <ion-label class="text-grey-1"> Sign in with Facebook </ion-label>
+          </ion-card-header>
+        </ion-card>
+
+         <ion-card  class="custom-card" *ngIf="!isLoginShown('1')" (click)="loginWithGoogle()">
+            <ion-card-header class="ioncardgoogle">
+              <div class="icon">
+                <ion-icon name="logo-google"></ion-icon>
+              </div>
+              <ion-label class="text-grey-1"> Sign in with Google</ion-label>
+            </ion-card-header>
+          </ion-card> 
+
+
+        <ion-card class="custom-card" *ngIf="!isLoginShown('1')" (click)="continueGuest()">
+          <ion-card-header class="ioncardperson">
+            <div class="icon">
+              <ion-icon name="person"></ion-icon>
+            </div>
+            <ion-label class="text-grey-1"> Sign in as Guest </ion-label>
+          </ion-card-header>
+        </ion-card>
+    
+        
+    <ion-card class="custom-card" [class.borderBox]="isLoginShown('1')">
+      <ion-card-header class="ioncardemail" *ngIf="!isLoginShown('1')" (click)="toggleLogin('1')">
+        <div class="icon">
+          <ion-icon size="large" name="mail"></ion-icon>
+        </div>
+        <ion-label class="text-grey-1">Sign in with Email</ion-label>
+      </ion-card-header>
+      <ion-card-header *ngIf="isLoginShown('1')">
+        <ion-icon size="large" color="theme" class="back-icon" (click)="toggleLogin('1')" name="arrow-back"></ion-icon>
+      </ion-card-header>
+
+      <ion-card-content *ngIf="isLoginShown('1')">
+        <!-- Login Form -->
+        <form [formGroup]="loginForm">
+
+          <div class="forgot-password">
+            <ion-label position="stacked" class="ion-text-uppercase text-grey-1">Email</ion-label>
+            <ion-input class="custom-input" inputmode="email" formControlName="username" id="username" clearOnEdit="false"
+              placeholder="Enter Email">
+            </ion-input>
+          </div>
+          <ion-text lines="none" class="animated fadeInUp error"
+            *ngIf="loginForm.get('username').hasError('required') && (loginForm.get('username').touched || loginForm.get('username').dirty)"
+          >
+              Please enter email
+          </ion-text>
+          <ion-text lines="none" class="animated fadeInUp error"
+              *ngIf="loginForm.get('username').hasError('email') && (loginForm.get('username').touched || loginForm.get('username').dirty)"
+          >
+            Enter correct email address format
+          </ion-text>
+          <div class="forgot-password">
+            <ion-label position="stacked" class="ion-text-uppercase text-grey-1">Password</ion-label>
+            <ion-input type="password" inputmode="text" class="custom-input" formControlName="password" id="password"
+              [type]="passwordType" clearOnEdit="false" placeholder="Password">
+
+            </ion-input>
+            <ion-icon item-end [name]="passwordIcon" class="passwordIcon" (click)='hideShowPassword()'></ion-icon>
+          </div>
+          <ion-text lines="none" class="animated fadeInUp error"
+              *ngIf="loginForm.get('password').hasError('required') && (loginForm.get('password').touched || loginForm.get('password').dirty)"
+          >
+              Please enter password
+          </ion-text>
+          <ion-text lines="none" class="animated fadeInUp error"
+              *ngIf="loginForm.get('password').hasError('minlength') && (loginForm.get('password').touched || loginForm.get('password').dirty)"
+          >
+              Minimum 6 character long password is required
+          </ion-text>
+
+          <div class="terms">
+            <ion-checkbox color="primary" (ionChange)="isLoggedIn($event)" checked slot="start"></ion-checkbox>
+            <ion-label>Keep me logged in</ion-label>
+          </div>
+
+            <ion-button class="login-btn" color="theme" [disabled]="!loginForm.valid" (click)="loginUser()">Login
+           </ion-button>
+   
+        </form>
+      </ion-card-content>
+    </ion-card>
+    <div>
+    </div>
+
+  </ion-grid>
+
+
+  <!-- <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="ion-padding-bottom">
+    <ion-fab-button color="white" [disabled]="!loginForm.valid" (click)="loginUser()">
+      <ion-icon name="arrow-round-forward"></ion-icon>
+    </ion-fab-button>
+  </ion-fab> -->
+</ion-content>

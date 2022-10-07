@@ -1,0 +1,212 @@
+.petupdate{
+    padding: 0px 16px 16px;
+   ion-card {
+       margin: 16px 0px 0px;
+   }
+}
+.petprofile{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    width: 100%;
+    max-height: 300px;
+    box-shadow: 0px 3px 5px 0px rgb(153 153 153 / 20%);
+    margin-bottom: 10px;
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    .upload {
+        position: absolute;
+        right: 10px;
+        bottom: 10px;
+        border-radius: 50%;
+        height: 35px;
+        width: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        background: #f44164;
+        font-size: 18px;
+        box-shadow: 0 0 8px 0 rgb(0 0 0 / 20%);
+    }
+}
+ion-card {
+    box-shadow: none;
+}
+ion-item{
+    --padding-start:0;
+    --inner-padding-end:0;
+    font-size: 15px;
+}
+.careRoutine {
+    ion-item{
+        --padding-start: 10px;
+        --inner-padding-end:10px;
+        font-size: 15px;
+    }
+}
+.decleation-text{
+    font-size: 14px;
+    line-height: 24px;
+}
+.download-card{
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    .icon{
+        height: 3rem;
+        width: 3rem;
+        background-color: rgba(254, 65, 100, 0.2);
+        color: rgba(254, 65, 100, 1);
+        border-radius: 1000px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+        ion-icon.md {
+            width: 1.3rem;
+            height: 1.3rem;
+        }
+    }
+    .label{
+        font-size: 12px;
+        font-weight: 400;
+        text-decoration: underline;
+        color: rgb(254, 65, 100);
+    }
+}
+
+.details{
+    a, ion-text{
+        font-size: 12px;
+    }
+}
+
+table.details{
+    width: 100%;
+    margin-top: 16px;
+    margin-bottom: 16px;
+    th{
+        font-size: 12px;
+        font-weight: 400;
+        color: #fe5474;
+        text-align: left;
+    }
+    td{
+        font-size: 12px;
+        font-weight: 400;
+    }
+}
+
+.my-label{
+    white-space: normal;
+    margin-bottom: 10px;
+}
+
+.theme-text{
+    color: #FE4164;
+  }
+  .theme-text-no{
+    color: grey;
+  }
+
+  .form-section{
+    border-bottom: 1px dashed #e0e0e0;
+    .title{
+        font-size: 14px;
+        font-weight: 600;
+        margin: 0;
+        margin-bottom: 10px;
+        margin-top: 15px;
+    }
+    .info{
+        font-size: 14px;
+        font-weight: 400;
+        margin: 0;
+        margin-bottom: 10px;
+        color: #999;
+    }
+    .form-inner{
+        border: 1px solid #e0e0e0;
+        margin-bottom: 16px;
+        padding: 0px;
+        padding-top: 0;
+        border-radius: 4px;
+        overflow: hidden;
+    }
+}
+
+.custom-list{
+    padding: 16px;
+    .details{
+        .time{
+            font-size: 12px;
+            line-height: 16px;
+        }
+    }
+    ion-card{
+        margin: 10px 0px;
+        box-shadow: none;
+        border: 1px solid rgba(0,0,0,0.2);
+        ion-card-header{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 16px;
+            color: #2D2D2D;
+            font-weight: 500;
+        }
+        ion-card-content{
+            padding: 16px;
+            // border: 1px solid #e0e0e0;            
+        }
+    }
+}
+.repeat-list-item{
+    border: 1px dashed #e0e0e0;
+    padding: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.decleration{
+    h3{
+        font-size: 16px;
+    }
+    .decleation-text{
+        font-size: 13px;
+        line-height: 19px;
+        color: #666;
+        ol{
+            padding-left: 20px;
+        }
+    }
+}
+
+ion-grid, ion-row, ion-col {
+    margin: 0px;
+    padding: 0px;
+}
+
+.health-form {
+    ion-card-content{
+        padding: 0px 16px 16px !important;
+        ion-button {
+            --box-shadow: none;
+            --border-radius: 4px;
+            width: 100%;
+            text-transform: capitalize;
+            margin: 16px 0px 5px;
+        }
+    }
+}
+.agree-term {
+    ion-checkbox {
+        margin-right: 10px;
+    }
+}

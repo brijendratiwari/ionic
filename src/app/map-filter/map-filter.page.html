@@ -1,0 +1,342 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-button (click)="dismissModal()">
+                <ion-icon color="theme" name="close"></ion-icon>
+            </ion-button>
+        </ion-buttons>
+        <ion-title>Filter</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-text><h5>Service</h5></ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row class="pet-type">
+            <ion-col size="4" class="ion-no-padding" *ngFor="let ps of primaryService">
+                <ion-card [color]="(selectedFilter.serviceTypeId == ps.id) ? 'theme' : ''" (click)="setFilter('serviceTypeId', ps.id)" class="pet-item">
+                    <div>
+                        <!-- <ion-icon class="icon-active"  src="assets/icon/filter/{{ps.serviceIcon}}"></ion-icon> -->
+                        <ion-img type="image/svg+xml" src="assets/icon/filter/{{ps.serviceIcon}}" class="filter-icon icon-active"></ion-img>
+                    </div>
+                    <p class="title">{{ps.serviceName}}</p>
+                </ion-card>
+            </ion-col>
+          
+        </ion-row>
+       
+        <ion-row>
+            <ion-col>
+                <ion-text><h5>Dates</h5></ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+
+                <ion-item>
+                    <ion-label position="stacked">From</ion-label>
+                    <ion-datetime
+                    max="2024-12-31"
+                    displayFormat="DDD DD MMM YYYY" [(ngModel)]="selectedFilter.dropOff"
+                                  pickerFormat="MMM/DD/YYYY"></ion-datetime>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <ion-label position="stacked">To</ion-label>
+                    <ion-datetime displayFormat="DDD DD MMM YYYY" 
+                    max="2024-12-31"
+                    [(ngModel)]="selectedFilter.pickUp"
+                                  pickerFormat="MMM/DD/YYYY"></ion-datetime>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-text><h5>Pet Type</h5></ion-text>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="ion-no-padding ion-no-margin">
+                <ion-card class="ion-text-center" padding [color]="(selectedFilter.spacesPet == 1) ? 'theme' : ''"
+                          (click)="setFilter('spacesPet', 1)">
+                    <div>
+                        <ion-icon  class="icon-active" size="large" src="assets/icon/filter/filter_b_10.svg"></ion-icon>
+                    </div>
+                    <small>Dog</small>
+                </ion-card>
+            </ion-col>
+            <ion-col class="ion-no-padding ion-no-margin">
+                <ion-card class="ion-text-center" padding [color]="(selectedFilter.spacesPet == 2) ? 'theme' : ''"
+                          (click)="setFilter('spacesPet', 2)">
+                    <div>
+                        <ion-icon  class="icon-active" size="large" src="assets/icon/filter/filter_b_11.svg"></ion-icon>
+                    </div>
+                    <small>Cat</small>
+                </ion-card>
+            </ion-col>
+            <ion-col class="ion-no-padding ion-no-margin">
+                <ion-card class="ion-text-center" padding [color]="(selectedFilter.spacesPet == 3) ? 'theme' : ''"
+                          (click)="setFilter('spacesPet', 3)">
+                    <div>
+                        <ion-icon  class="icon-active" size="large" src="assets/icon/filter/filter_b_12.svg"></ion-icon>
+                    </div>
+                    <small>Other</small>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class="ion-no-padding ion-no-margin">
+                <ion-card class="ion-text-center" padding [color]="(selectedFilter.spacesPet == 4) ? 'theme' : ''"
+                          (click)="setFilter('spacesPet', 4)">
+                    <div>
+                        <ion-icon  class="icon-active" size="large" src="assets/icon/filter/filter_b_13.svg"></ion-icon>
+                    </div>
+                    <small>Bird</small>
+                </ion-card>
+            </ion-col>
+            <ion-col class="ion-no-padding ion-no-margin">
+                <ion-card class="ion-text-center" padding [color]="(selectedFilter.spacesPet == 4) ? 'theme' : ''"
+                          (click)="setFilter('spacesPet', 4)">
+                    <div>
+                        <ion-icon  class="icon-active" size="large" src="assets/icon/filter/filter_b_14.svg"></ion-icon>
+                    </div>
+                    <small>Rabbit</small>
+                </ion-card>
+            </ion-col>
+            <ion-col class="ion-no-padding ion-no-margin">
+                <ion-card class="ion-text-center" padding [color]="(selectedFilter.spacesPet == 4) ? 'theme' : ''"
+                          (click)="setFilter('spacesPet', 4)">
+                    <div>
+                        <ion-icon  class="icon-active" size="large" src="assets/icon/filter/filter_b_15.svg"></ion-icon>
+                    </div>
+                    <small>Other</small>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-text><h5>Search for a Sitter that owns a similar pet</h5></ion-text>
+            </ion-col>
+        </ion-row>
+
+
+        <ion-row>
+            <ion-col>
+            <ion-radio-group>
+                <ion-item>
+                    <ion-label>Same pet type as mine</ion-label>
+                    <ion-radio slot="end" (ionChange)="setFilter('samePetType',1)" color="theme"
+                                  value="1"></ion-radio>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Same pet breed as mine</ion-label>
+                    <ion-radio slot="end" (ionChange)="setFilter('samePetType',2)" color="theme"
+                                  value="2"></ion-radio>
+                </ion-item>
+                <ion-item>
+                    <ion-label>Same pet size as mine</ion-label>
+                    <ion-radio slot="end" (ionChange)="setFilter('samePetType',3)" color="theme"
+                                  value="3"></ion-radio>
+                </ion-item>
+
+            </ion-radio-group>
+            
+            </ion-col>
+        </ion-row> 
+
+
+        <ion-row>
+            <ion-col>
+                <ion-item lines="none">Search for a Sitter that specialises in a specific dog breed</ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <!--<ion-input type="text" [(ngModel)]="selectedFilter.breed"></ion-input>-->
+                    <ion-select color="theme" multiple placeholder="Search pet breed" interface="action-sheet"
+                                [interfaceOptions]="breedListInterfaceOption"
+                                [(ngModel)]="selectedFilter.breed">
+                        <ion-select-option *ngFor="let pb of petBreedList"
+                                           value="{{pb.id}}">{{pb.name}}</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-label>Radius - {{selectedFilter.distance}}km</ion-label>
+                <ion-item>
+                    <ion-range pin min="5" max="100" color="theme" [(ngModel)]="selectedFilter.distance">
+                        <ion-label slot="start">5</ion-label>
+                        <ion-label slot="end">100</ion-label>
+                    </ion-range>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-label>Rate per night - ${{selectedFilter.ratepernight.lower}}km to
+                    ${{selectedFilter.ratepernight.upper}}</ion-label>
+                <ion-item>
+                    <ion-range dualKnobs="true" pin min="5" max="100" color="theme"
+                               [(ngModel)]="selectedFilter.ratepernight">
+                        <ion-label slot="start">$5</ion-label>
+                        <ion-label slot="end">$100</ion-label>
+                    </ion-range>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <ion-label>Specific Accomodation</ion-label>
+                    <ion-select [(ngModel)]="selectedFilter.property_type">
+                        <ion-select-option value="">Any</ion-select-option>
+                        <ion-select-option value="2">House</ion-select-option>
+                        <ion-select-option value="3">Apartment &amp; Unit</ion-select-option>
+                        <ion-select-option value="4">Apartment</ion-select-option>
+                        <ion-select-option value="5">Unit</ion-select-option>
+                        <ion-select-option value="6">Townhouse</ion-select-option>
+                        <ion-select-option value="7">Villa</ion-select-option>
+                        <ion-select-option value="8">Land</ion-select-option>
+                        <ion-select-option value="9">Acreage</ion-select-option>
+                        <ion-select-option value="10">Rural</ion-select-option>
+                        <ion-select-option value="11">Block of Units</ion-select-option>
+                        <ion-select-option value="12">Retirement Living</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <ion-label>Backyard Type</ion-label>
+                    <ion-select [(ngModel)]="selectedFilter.backyard_type">
+                        <ion-select-option value="">Any</ion-select-option>
+                        <ion-select-option value="1">Inside available only</ion-select-option>
+                        <ion-select-option value="2">Balcony or deck</ion-select-option>
+                        <ion-select-option value="3">Small fenced yard</ion-select-option>
+                        <ion-select-option value="4">Medium fenced yard</ion-select-option>
+                        <ion-select-option value="5">Large fenced yard</ion-select-option>
+                        <ion-select-option value="6">Fenced Acreage</ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-list>
+                    <ion-item>
+                        <ion-label>Epilepsy</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostSkills',1)" slot="end" color="theme"
+                                      value="1"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Senior Dogs</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostSkills',2)" slot="end" color="theme"
+                                      value="2"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Puppies</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostSkills',3)" slot="end" color="theme"
+                                      value="3"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Senior Cats</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostSkills',4)" slot="end" color="theme"
+                                      value="4"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Kittens</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostSkills',5)" slot="end" color="theme"
+                                      value="5"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Medication</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostSkills',6)" slot="end" color="theme"
+                                      value="6"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Injections</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostSkills',7)" slot="end" color="theme"
+                                      value="7"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Special Needs</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostSkills',8)" slot="end" color="theme"
+                                      value="8"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Doesn't own a cat</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostAttributes','noCat')" slot="end" color="theme"
+                                      value="noCat"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">Current Australian Drivers Licence</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostAttributes','currentLicence')" slot="end"
+                                      color="theme" value="currentLicence"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">Current Police Background Check</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostAttributes','policeCheck')" slot="end"
+                                      color="theme"
+                                      value="policeCheck"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">No small Children under 5 years</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostAttributes','noChildren')" slot="end"
+                                      color="theme"
+                                      value="noChildren"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">Has access to emergency transport</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostAttributes','hasTransport')" slot="end"
+                                      color="theme"
+                                      value="hasTransport"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Has Qualifications</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostAttributes','hasQualifications')" slot="end"
+                                      color="theme" value="hasQualifications"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Offers Dropoff and pickup</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostAttributes','offersDropoff')" slot="end"
+                                      color="theme"
+                                      value="offersDropoff"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label class="ion-text-wrap">Accepts last minute bookings</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostAttributes','lastMinute')" slot="end"
+                                      color="theme"
+                                      value="lastMinute"></ion-checkbox>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>Is RSPCA Accredited</ion-label>
+                        <ion-checkbox (ionChange)="setFilter('hostAttributes','rspcaCertificate')" slot="end"
+                                      color="theme" value="rspcaCertificate"></ion-checkbox>
+                    </ion-item>
+                </ion-list>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</ion-content>
+<ion-footer>
+    <ion-button
+        class="text-capitalize fls-0 fs-18 footer-btn" 
+        expand="full"
+        color="theme"
+        (click)="applyFilter()"
+    >
+        Apply Filter
+    </ion-button>
+</ion-footer>

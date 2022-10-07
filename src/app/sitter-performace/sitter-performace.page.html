@@ -1,0 +1,184 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start" color="theme">
+      <ion-back-button defaultHref="home/tabs/profile-menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Performance Score</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="stacked">View Performance for Service
+      <small class="error">*</small>
+    </ion-label>
+
+    <ion-select (ionChange)="petCareSelectedService($event)" placeholder="Please select a service"
+      interface="action-sheet">
+
+      <ion-select-option class="fs-14" *ngFor="let service of petCareServices, let idx = index"
+        [hidden]="service?.enabled != '1'" [value]="service">{{service?.serviceName}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-card *ngIf="isAPILoaded == true && isGraphDataAvailable == false" color="note">
+    <ion-card-header>
+      No Data Available for Performance Score
+    </ion-card-header>
+  </ion-card>
+
+  <div class="progress-bars-container" *ngIf="isAPILoaded == true && isGraphDataAvailable == true">
+    <div class="big-progress-bar">
+      <div class="progress-wrapper">
+        <round-progress [current]="graphData?.repeatscore?.score" [max]="100" [stroke]="10" [radius]="100"
+          [semicircle]="semicircle" [rounded]="rounded" [responsive]="responsive" [clockwise]="clockwise"
+          [color]="gradient ? 'url(#gradient)' : color" [background]="background" [duration]="duration"
+          [animation]="animation" [animationDelay]="animationDelay">
+        </round-progress>
+        <div class="progress-text">
+          <ion-label>Repeat Score </ion-label>
+        </div>
+        <div class="progress-text-percentage">
+          <ion-label> {{graphData?.repeatscore?.score}} </ion-label>
+        </div>
+      </div>
+     
+    </div>
+    <ion-row>
+      <ion-col size="4" class="center">
+        <div class="progress-wrapper">
+          <round-progress [current]="max" [max]="100" [stroke]="stroke"
+            [radius]="radius" [semicircle]="semicircle" [rounded]="rounded" [responsive]="responsive"
+            [clockwise]="clockwise" [color]="gradient ? 'url(#gradient)' : color" [background]="background"
+            [duration]="duration" [animation]="animation" [animationDelay]="animationDelay">
+          </round-progress>
+          <div class="progress-text-percentage">
+            <ion-label> {{graphData?.repeatscore?.totalclients}}</ion-label>
+          </div>
+        </div>
+        <div class="progress-text">
+          <ion-label>Total Clients </ion-label>
+        </div>
+      </ion-col>
+      <ion-col size="4" class="center">
+        <div class="progress-wrapper">
+          <round-progress [current]="max" [max]="100" [stroke]="stroke"
+            [radius]="radius" [semicircle]="semicircle" [rounded]="rounded" [responsive]="responsive"
+            [clockwise]="clockwise" [color]="gradient ? 'url(#gradient)' : color" [background]="background"
+            [duration]="duration" [animation]="animation" [animationDelay]="animationDelay">
+          </round-progress>
+          <div class="progress-text-percentage">
+            <ion-label> {{graphData?.repeatscore?.repeatedclients}} </ion-label>
+          </div>
+        </div>
+        <div class="progress-text">
+          <ion-label>Repeat Clients </ion-label>
+        </div>
+      </ion-col>
+      <ion-col size="4" class="center">
+        <div class="progress-wrapper">
+          <round-progress [current]="graphData?.repeatscore?.repeatstays" [max]="100" [stroke]="stroke"
+            [radius]="radius" [semicircle]="semicircle" [rounded]="rounded" [responsive]="responsive"
+            [clockwise]="clockwise" [color]="gradient ? 'url(#gradient)' : color" [background]="background"
+            [duration]="duration" [animation]="animation" [animationDelay]="animationDelay">
+          </round-progress>
+          <div class="progress-text-percentage">
+            <ion-label> {{graphData?.repeatscore?.repeatstays}}  </ion-label>
+          </div>
+        </div>
+        <div class="progress-text">
+          <ion-label>Repeat Stays </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+  </div>
+  <div class="progress-bars-container" *ngIf="isAPILoaded == true && isGraphDataAvailable == true">
+    <div class="big-progress-bar">
+      <div class="progress-wrapper">
+
+        <round-progress [current]="graphData?.bookingscore?.score" [max]="max" [stroke]="10" [radius]="100"
+          [semicircle]="semicircle" [rounded]="rounded" [responsive]="responsive" [clockwise]="clockwise"
+          [color]="gradient ? 'url(#gradient)' : color" [background]="background" [duration]="duration"
+          [animation]="animation" [animationDelay]="animationDelay">
+        </round-progress>
+        <div class="progress-text">
+          <ion-label>Booking Score </ion-label>
+        </div>
+        
+  
+        <div class="progress-text-percentage">
+          <ion-label> {{graphData?.bookingscore?.score}} % </ion-label>
+        </div>
+  
+      </div>
+      
+    </div>
+    <ion-row>
+      <ion-col size="4" class="center">
+        <div class="progress-wrapper">
+
+          <round-progress [current]="graphData?.bookingscore?.acceptRate" [max]="max" [stroke]="stroke"
+            [radius]="radius" [semicircle]="semicircle" [rounded]="rounded" [responsive]="responsive"
+            [clockwise]="clockwise" [color]="gradient ? 'url(#gradient)' : color" [background]="background"
+            [duration]="duration" [animation]="animation" [animationDelay]="animationDelay">
+          </round-progress>
+
+          
+
+          <div class="progress-text-percentage">
+            <ion-label> {{graphData?.bookingscore?.acceptRate}} % </ion-label>
+          </div>
+
+        </div>
+        <div class="progress-text">
+          <ion-label>Booking Rate </ion-label>
+        </div>
+      </ion-col>
+
+      <ion-col size="4" class="center">
+        <div class="progress-wrapper">
+
+          <round-progress [current]="graphData?.bookingscore?.reviewRate" [max]="max" [stroke]="stroke"
+            [radius]="radius" [semicircle]="semicircle" [rounded]="rounded" [responsive]="responsive"
+            [clockwise]="clockwise" [color]="gradient ? 'url(#gradient)' : color" [background]="background"
+            [duration]="duration" [animation]="animation" [animationDelay]="animationDelay">
+          </round-progress>
+
+          
+
+          <div class="progress-text-percentage">
+            <ion-label> {{graphData?.bookingscore?.reviewRate}} % </ion-label>
+          </div>
+
+        </div>
+        <div class="progress-text">
+          <ion-label>Review Rate </ion-label>
+        </div>
+      </ion-col>
+
+      <ion-col size="4" class="center">
+        <div class="progress-wrapper">
+
+          <round-progress [current]="max" [max]="max" [stroke]="stroke"
+            [radius]="radius" [semicircle]="semicircle" [rounded]="rounded" [responsive]="responsive"
+            [clockwise]="clockwise" [color]="gradient ? 'url(#gradient)' : color" [background]="background"
+            [duration]="duration" [animation]="animation" [animationDelay]="animationDelay">
+          </round-progress>
+
+          
+
+          <div class="progress-text-percentage">
+            <ion-label> {{graphData?.bookingscore?.responseRate}} </ion-label>
+          </div>
+
+        </div>
+        <div class="progress-text">
+          <ion-label>Response Time </ion-label>
+        </div>
+      </ion-col>
+    </ion-row>
+
+  </div>
+
+</ion-content>

@@ -1,0 +1,114 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home/tabs/sitter-listing"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Create Reminder</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content class="ion-padding">
+  <form [formGroup]="addReminderForm">
+    <h5 class="form-title">
+      Remind Me to <small class="error">*</small>
+    </h5>
+    <!-- <h5 class="form-small-title">
+      Type <small class="error">*</small>
+    </h5> -->
+    <ion-item>
+      <ion-label  position="stacked">Type <small class="error">*</small></ion-label>
+      <ion-select interface="action-sheet" placeholder="Select your reminder type"  formControlName="reminder_type">
+        <ion-select-option [value]="type.id" *ngFor="let type of reminderTypes" >{{type?.serviceName}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <!-- <div class="chips">
+      <ion-chip (click)="selectReminder(type)" *ngFor="let type of reminderTypes"
+      [color]="type.isSelected == false ? '' : 'theme'"
+      >
+      <ion-label>{{type?.serviceName}} </ion-label>
+    </ion-chip>
+    </div> -->
+    <h5 class="form-small-title">
+      Schedule <small class="error">*</small>
+    </h5>
+    <ion-item>
+      <ion-label position="stacked">Start Date<small class="error"></small></ion-label>
+      <ion-datetime display-format="DDD DD MMM YYYY" max="2024-12-31" [min]="startMinDate" picker-format="DD/MMM/YYYY"
+        placeholder="Thu 16 Jan 2019" formControlName="date"></ion-datetime>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Start Time<small class="error"></small></ion-label>
+      <ion-datetime display-format="HH:mm" picker-format="HH:mm" placeholder="11:20 AM" formControlName="time">
+      </ion-datetime>
+    </ion-item>
+  
+  
+    <div *ngIf="!pets.length">
+      <ion-text class="error" routerLink="/pet-add">No Pets Added. Please Add Pet <span class="link-contrast"> (Click
+          Here)*</span></ion-text>
+    </div>
+
+    <h5 *ngIf="pets.length" class="form-small-title">
+      Pets <small class="error">*</small>
+    </h5>
+
+    <div class="petList">
+      <ion-list>
+        <ion-radio-group>
+          <ion-item lines="full" *ngFor="let pet of pets; let i=index">
+            <ion-avatar slot="start" class="petProfile">
+              <ion-img [src]="pet.imagename == '' || pet.imagename == null  ? 
+            'https://dev.petcloud.com.au/img/pet_placeholder.png' 
+            : pet?.imagename"></ion-img>
+            </ion-avatar>
+            <ion-label>{{pet?.name}}</ion-label>
+            <ion-radio (click)="selectPet(pet)" slot="end" color="theme"></ion-radio>
+          </ion-item>
+        </ion-radio-group>
+      </ion-list>
+      <ion-text *ngIf="addReminderForm.get('pets').hasError('required') && addReminderForm.get('pets').touched"
+        lines="none" class="animated fadeInUp">
+        <p class="error">Please select Pets </p>
+      </ion-text>
+    </div>
+    <ion-item>
+      <ion-label  position="stacked">Reminder Frequency</ion-label>
+      <ion-select value="6" interface="action-sheet" placeholder="Select your reminder frequency" formControlName="alertFrequency">
+
+        <ion-select-option value="0">Weekly</ion-select-option>
+        <ion-select-option value="1">Fortnightly</ion-select-option>
+        <ion-select-option value="2">Monthy</ion-select-option>
+        <ion-select-option value="3">Quarterly</ion-select-option>
+        <ion-select-option value="4">Half-yearly</ion-select-option>
+        <ion-select-option value="5">Yearly</ion-select-option>
+        <ion-select-option value="6">Once Off</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Notification Reminder</ion-label>
+      <ion-select interface="action-sheet" color="theme" formControlName="notifi_reminder"
+        placeholder="Select your reminder notification">
+        <ion-select-option value="1">Send before a hour</ion-select-option>
+        <ion-select-option value="2">Send at a time</ion-select-option>
+        <ion-select-option value="3">Send one day before</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item lines="none">
+      <ion-label position="stacked">Notes</ion-label>
+      <ion-textarea rows="3" formControlName="description" placeholder="Enter description">
+      </ion-textarea>
+    </ion-item>
+  </form>
+</ion-content>
+
+
+<ion-footer class="bg-white">
+  <ion-button
+    class="add-reminder footer-btn" 
+    expand="full" 
+    (click)="addReminder()"
+    [disabled]="!addReminderForm.valid"
+  >
+    Create</ion-button>
+</ion-footer>

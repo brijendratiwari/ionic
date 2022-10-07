@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title> Shadow Login </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="shadowLoginForm">
+    <!-- Textarea in an item with a floating label -->
+
+
+    <ion-item lines="none">
+      <ion-label position="stacked" class="ion-text-uppercase text-grey-1">Email</ion-label>
+      <ion-input class="custom-input" formControlName="email" id="email" clearOnEdit="false" placeholder="Enter Email">
+      </ion-input>
+    </ion-item>
+
+    <div style="padding-left: 20px;">
+      <ion-text lines="none" class="animated fadeInUp"
+        *ngIf="(shadowLoginForm.get('email').hasError('required') && shadowLoginForm.get('email').touched || shadowLoginForm.get('email').hasError('email'))">
+        <p class="error"
+          *ngIf="(shadowLoginForm.get('email').hasError('required') && shadowLoginForm.get('email').touched || shadowLoginForm.get('email').hasError('email'))">
+          Enter correct email address format.
+        </p>
+      </ion-text>
+    </div>
+
+  </form>
+
+  <div style="padding: 20px;">
+    <ion-button class="ion-no-margin" expand="full" color="theme" [disabled]="!shadowLoginForm.valid" (click)="doLogin()">
+      Login
+    </ion-button>
+  </div>
+
+</ion-content>

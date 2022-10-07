@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Meet and Greet</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <h4 class="fw-600">Sorry to hear that</h4>
+        <p>In what areas was there one or more issues?</p>
+      </ion-col>
+      </ion-row>
+  </ion-grid>
+  <form [formGroup]="notGreat">
+
+    <ion-item>
+      <ion-label>Select Reason</ion-label>
+      <ion-select  formControlName="cancelreason"  okText="Okay" cancelText="Dismiss">
+        <ion-select-option value="Cleanliness">Cleanliness</ion-select-option>
+        <ion-select-option value="Attitude">Attitude</ion-select-option>
+        <ion-select-option value="Price">Price</ion-select-option>
+        <ion-select-option value="Unsecure Property">Unsecure Property</ion-select-option>
+        <ion-select-option value="Pets Incompatible">Pets Incompatible</ion-select-option>
+        <ion-select-option value="Property Hazards">Property Hazards</ion-select-option>
+        <ion-select-option value="More Training Neeeded">More Training Neeeded</ion-select-option>
+        <ion-select-option value="Verification">Verification</ion-select-option>
+        <ion-select-option value="Sitter Cancelled">Sitter Cancelled</ion-select-option>
+        <ion-select-option value="Others">Others</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-text lines="none" class="animated fadeInUp" *ngIf="notGreat.get('cancelreason').hasError('required') && notGreat.get('cancelreason').touched">
+      <p class="error" *ngIf="notGreat.get('cancelreason').hasError('cancelreason') && notGreat.get('cancelreason').touched">Please Select Reason</p>
+    </ion-text>
+
+    <ion-button expand="full" color="theme" class="text-capitalize fls-0" [disabled]="!notGreat.valid"
+      (click)="submitReview()">Submit</ion-button>
+  </form>
+</ion-content>

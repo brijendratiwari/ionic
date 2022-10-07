@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button (click)="jobPosted()" defaultHref="/home/tabs/sitter-listing">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>Job Posted Successfully</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+
+<ion-content>
+
+  <div class="job-success">
+    <h4 class="job-success-text">Success! Your Job has <br> Been Posted</h4>
+  </div>
+
+  <div class="what-happen-next">
+    <h4>What Happens Next?</h4>
+  </div>
+
+  <div class="sides">
+    <ion-slides pager="true" [options]="slideOpts" >
+      <ion-slide>
+        <div>
+          <ion-img src="../../assets/icon/job-posted-promote.svg"></ion-img>
+          <h4>Receive offers from trusted Sitters within minutes</h4>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div>
+          <ion-img src="../../assets/icon/job-posted-message.svg"></ion-img>
+          <h4>Review profiles and choose the right person for your job</h4>
+        </div>
+      </ion-slide>
+      <ion-slide>
+        <div>
+          <ion-img src="../../assets/icon/job-posted-insurance.svg"></ion-img>
+          <h4>The job is complete & payment is released securely via PetCloud Pay</h4>
+        </div>
+      </ion-slide>
+    </ion-slides>
+  </div>
+</ion-content>
+
+<ion-footer>
+  <ion-button 
+    class="job-posted footer-btn"
+    expand="full"
+    (click)="jobPosted()"
+  >
+    Done
+  </ion-button>
+</ion-footer>

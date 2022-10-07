@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home/tabs/profile-menu"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Help Article</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="blog-list" (click)="goToDetails(helpArticle.redirectTo)" *ngFor="let helpArticle of helpArticles">
+    <h3 class="blog-title">{{helpArticle?.title}}</h3>
+    <div class="blog-date">{{helpArticle?.dateTime}}</div>
+    <div class="blog-content">{{helpArticle?.content}}</div>
+  </div>
+</ion-content>

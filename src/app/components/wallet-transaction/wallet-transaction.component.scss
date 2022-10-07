@@ -1,0 +1,82 @@
+.wallet-card{
+    padding: 10px;
+    width: 100%;
+    max-width: 250px;
+    margin-top: 30px;
+    margin-right: auto;
+    margin-left: auto;
+    background-color: #fe4164;
+    color: #fff;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    h4{
+        font-size: 16px;
+        text-align: center;
+        margin-top: 5px;
+        margin-bottom: 0;
+        opacity: 0.8;
+        
+    }
+    h2{
+        text-align: center;
+        margin-top: 0;
+        margin-bottom: 0;
+        padding: 25px 0;
+        font-size: 30px;
+        font-weight: 600;
+    }
+}
+.swiper-slide{
+    width: 250px;
+}
+.wallet-card-list{
+    margin-top: 16px;
+    margin-right: 16px;
+    margin-left: 16px;
+    background-color: #fff;
+    box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    .item{
+        display: flex;
+        justify-content: space-between;
+        border-bottom: 1px solid #e5e5e5;
+        align-items: center;
+        padding: 16px;
+        h4{
+            margin: 0;
+            font-size: 12px;
+            opacity: 0.8;
+            font-weight: 500;
+        }
+        h2{
+            font-size: 12px;
+            margin: 0;
+            color: #fe4164;
+        }
+        &:last-of-type {
+            border-bottom: unset;
+        }
+    }
+}
+
+.buy-btn-container{
+    display: flex;
+    margin-top: 16px;
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.buy-btn{
+    background-color: #fff;
+    box-shadow: 0 0 8px 0px rgb(254 65 100 / 20%);
+    border-radius: 8px;
+    display: block;
+    margin: auto;
+    color: #fe4164;
+    text-decoration: none;
+    padding: 5px 0px;
+    text-align: center;
+    font-size: 15px;
+    width: 150px;
+    font-weight: 500;
+    border: 1px solid #fe4164;
+}

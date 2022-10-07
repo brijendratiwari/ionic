@@ -1,0 +1,36 @@
+ion-button.add-reminders {
+    margin: 0;
+}
+
+.reminder-items {
+    box-shadow: 0px 0px 2px 2px #eaedf5;
+    border-radius: 6px;
+    margin: 16px;
+    ion-avatar {
+        width: 60px;
+        height: 60px;
+    }
+    h2 {
+        white-space: normal;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 130%;
+    }
+    p {
+        font-size: 13px;
+        white-space: normal;
+        line-height: 130%;
+    }
+    .rm-date {
+        font-weight: 600;
+    }
+}
+.reminder-list {
+    margin: 0px;
+    padding: 0px;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 75px);
+}
+
+ion-fab {
+    padding-bottom: calc(env(safe-area-inset-bottom) + 10px);
+}

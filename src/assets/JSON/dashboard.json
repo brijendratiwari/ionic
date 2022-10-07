@@ -1,0 +1,64 @@
+[
+    {
+        "serviceName" : "Cafe & Pubs",
+        "icon": "dogcafe.png",
+        "m_icon":"m_dogcafe.png",
+        "isSelected":false,
+        "coverPhoto":"cover_cafe.png"
+    },
+    {
+        "serviceName" : "Parks & Beaches",
+        "icon": "dogpark.png",
+        "m_icon":"m_dogpark.png",
+        "isSelected":false,
+        "coverPhoto":"park.jpg"
+    },
+    {
+        "serviceName" : "Pet Events",
+        "icon": "petevents.png",
+        "m_icon":"m_petevents.png",
+        "isSelected":false,
+        "coverPhoto":"cover_events.png"
+        
+    },
+    {
+        "serviceName" : "Vets",
+        "icon": "vets.png",
+        "m_icon":"m_vets.png",
+        "isSelected":false,
+        "coverPhoto":"cover_clinic.png"
+    },{
+        "serviceName" : "Pet Shop",
+        "icon": "shop.png",
+        "m_icon":"m_shop.png",
+        "isSelected":false,
+        "coverPhoto":"cover_shop.jpg"
+    },
+    {
+        "serviceName" : "Pet Services",
+        "icon": "petservices.png",
+        "m_icon":"m_petservices.png",
+        "isSelected":false,
+        "coverPhoto":"cover_shop"
+    },
+    {
+        "serviceName" : "Pet Adoption",
+        "icon": "adopt.png",
+        "m_icon":"m_adopt.png",
+        "isSelected":false,
+        "coverPhoto":""
+    },{
+        "serviceName" : "Rewards and Offers",
+        "icon": "rewardsandservices.png",
+        "m_icon":"m_rewardsandservices.png",
+        "isSelected":false,
+        "coverPhoto":"cover_reward.jpg"
+        
+    },{
+        "serviceName" : "Pet Insurance",
+        "icon": "insurance.png",
+        "m_icon":"m_insurance.png",
+        "isSelected":false,
+        "coverPhoto":"cover_insurance.png"
+    }
+]

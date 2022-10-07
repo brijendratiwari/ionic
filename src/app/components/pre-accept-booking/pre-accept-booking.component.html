@@ -1,0 +1,34 @@
+<ion-content>
+  <ion-item class="header-item" lines="full">
+    <ion-label>
+      <h3 class="title-text">Accept Booking</h3>
+    </ion-label>
+    <ion-icon (click)="closeModal()" name="close" color="medium"></ion-icon>
+  </ion-item>
+  <div class="ion-padding">
+    <ion-row>
+      <ion-col size="1">
+        <ion-checkbox [(ngModel)]="shareContact"></ion-checkbox>
+      </ion-col>
+      <ion-col class="desc-col">
+        Share my number with {{minderName}}: {{ownerContact}}
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="1">
+        <ion-checkbox [(ngModel)]="agreeTerms"></ion-checkbox>
+      </ion-col>
+      <ion-col class="desc-col">
+        <b>I agree to not ever accept any payments outside of PetCloud,</b>
+        by {{minderName}}. PetCloud's portion of bookings are essential to maintain the Website, Apps, Operations, Support, and Marketing. 
+        PetCloud is a Corporate Supporter of Animal Welfare charity, the RSPCA. Thank you for your support.
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>
+<ion-footer class="ion-no-border">
+  <div class="footer-item">
+    <ion-button color="theme" [disabled] ="!shareContact || !agreeTerms" (click)="bookingSubmit()">Agree with Booking</ion-button>
+    <ion-button class="cancel-btn" (click)="closeModal()">Close</ion-button>    
+  </div>
+</ion-footer>

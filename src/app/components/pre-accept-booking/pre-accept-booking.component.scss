@@ -1,0 +1,35 @@
+.title-text {
+    font-size: 18px;
+    font-weight: 500;
+}
+.desc-col {
+    font-weight: 400;
+    font-size: 15px;
+    padding-top: 0px;
+    padding-left: 10px;
+}
+.footer-item {
+    display: flex;
+    padding: 10px;
+    justify-content: flex-end;
+    width: 100%;
+    align-items: center;
+    ion-button {
+        --box-shadow: none;
+        --border-radius: 8px;
+        font-size: 14px;
+        font-weight: 400;
+        text-transform: capitalize;
+    }
+    .cancel-btn {
+        --color: #333;
+        --background: #fff;
+        --border-color: #ccc;
+        --border-width: 1px;
+        --border-style: solid;
+        margin-left: 10px;
+    }
+}
+ion-footer {
+    border-top: 1px solid #e5e5e5;
+}

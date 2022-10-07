@@ -1,0 +1,111 @@
+<ion-header>
+    <ion-toolbar>
+        <ion-buttons slot="start">
+            <ion-back-button (click)="backButtonNavigate()" defaultHref="/home/tabs/sitter-listing"   ></ion-back-button>
+        </ion-buttons>
+        <ion-title>Payment Method</ion-title>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+    <ion-card class="note-card" color="theme-sec">
+        <ion-card-content class="fs-14">
+            This screen allows Pet Owners to connect their credit card to PetCloud to pay for bookings.
+        </ion-card-content>
+    </ion-card>
+    <ion-item>
+        <ion-label>Credit card</ion-label>
+        <ion-img class="accountCard" src="/assets/img/cards.png" alt="cards"></ion-img>
+    </ion-item>
+    <ion-item>
+        <ion-label>Default Payment Method</ion-label>
+        <ion-checkbox color="theme" [(ngModel)]="stripeDefaultCheck" (ionChange)="setDefaultMethod($event)"></ion-checkbox>
+    </ion-item>
+    <form [formGroup]="creditCardFrm" padding>
+        <ion-item>
+            <ion-label position="stacked">Name On Card</ion-label>
+            <ion-input placeholder="name on card" formControlName="cardName"></ion-input>
+        </ion-item>
+        <ion-text class="error animated fadeInUp" lines="none"
+                  *ngIf="creditCardFrm.get('cardName').hasError('required') && creditCardFrm.get('cardName').touched">
+            Enter name on card
+        </ion-text>
+        <ion-item>
+            <ion-label position="stacked">Card Number</ion-label>
+            <ion-input type="text" maxlength="16" formControlName="cardNumber"
+                       placeholder="Exp. 1234123412341234"></ion-input>
+        </ion-item>
+        <ion-text class="error animated fadeInUp" lines="none"
+                  *ngIf="creditCardFrm.get('cardNumber').hasError('required') && creditCardFrm.get('cardNumber').touched
+    || creditCardFrm.get('cardNumber').hasError('maxlength') || creditCardFrm.get('cardNumber').hasError('pattern')">
+            Enter proper card number.
+        </ion-text>
+        <ion-item>
+            <ion-label position="stacked">Expiry Month</ion-label>
+            <ion-select placeholder="select month" formControlName="cardMonth">
+                <ion-select-option value="01">January</ion-select-option>
+                <ion-select-option value="02">February</ion-select-option>
+                <ion-select-option value="03">March</ion-select-option>
+                <ion-select-option value="04">April</ion-select-option>
+                <ion-select-option value="05">May</ion-select-option>
+                <ion-select-option value="06">June</ion-select-option>
+                <ion-select-option value="07">July</ion-select-option>
+                <ion-select-option value="08">August</ion-select-option>
+                <ion-select-option value="09">September</ion-select-option>
+                <ion-select-option value="10">October</ion-select-option>
+                <ion-select-option value="11">November</ion-select-option>
+                <ion-select-option value="12">December</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-text class="error animated fadeInUp" lines="none"
+                  *ngIf="creditCardFrm.get('cardMonth').hasError('required') && creditCardFrm.get('cardMonth').touched">
+            Select month
+        </ion-text>
+        <ion-item>
+            <ion-label position="stacked">Expiry Year</ion-label>
+            <ion-select placeholder="select year" formControlName="cardYear">
+                <ion-select-option *ngFor="let n of getCardYears()" [value]="n">{{n}}</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-text class="error animated fadeInUp" lines="none"
+                  *ngIf="creditCardFrm.get('cardYear').hasError('required') && creditCardFrm.get('cardYear').touched">
+            Select year
+        </ion-text>
+        <ion-item>
+            <ion-label position="stacked">CCV</ion-label>
+            <ion-input type="text" placeholder="ccv number" formControlName="cardCcv" maxlength="4"></ion-input>
+        </ion-item>
+        <ion-text class="error animated fadeInUp" lines="none"
+                  *ngIf="creditCardFrm.get('cardCcv').hasError('required') && creditCardFrm.get('cardCcv').touched
+                  || creditCardFrm.get('cardCcv').hasError('maxlength') || creditCardFrm.get('cardCcv').hasError('pattern')">
+            Enter proper ccv
+        </ion-text>
+        <!--<ion-item lines="none">
+            <ion-button class="text-capitalize fls-0 fs-18" size="large" expand="block" color="theme"
+                        [disabled]="!creditCardFrm.valid" (click)="saveCardInStripe()">Save
+            </ion-button>
+        </ion-item>-->
+    </form>
+    <ion-card class="paypal-card">
+        <ion-card-content>
+            <ion-button shape="round" size="default" fill="outline" expand="full" color="theme" (click)="connectPaypal()">
+                connect with
+                <ion-icon class="theme-icon" src="/assets/img/paypal.svg"></ion-icon>
+            </ion-button>
+            <ion-item lines="none" class="fs-14">
+                <ion-label>{{paypal_email}}</ion-label>
+            </ion-item>
+        </ion-card-content>
+    </ion-card>
+</ion-content>
+<ion-footer>
+    <ion-button
+        class="text-capitalize fls-0 fs-18 footer-btn"
+        expand="block"
+        color="theme"
+        [disabled]="!creditCardFrm.valid"
+        (click)="saveCardInStripe()"
+    >
+        save payment method
+    </ion-button>
+</ion-footer>

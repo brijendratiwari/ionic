@@ -1,0 +1,21 @@
+.petList {
+    .petItem {
+      .petProfile {
+        --border-radius: 50%;
+      }
+  
+      .petName {
+        font-weight: 600;
+        font-size: 16px;
+        color: #4A4A4A;
+        letter-spacing: 0;
+        text-decoration: none;
+      }
+    }
+  }
+  @media (min-width:320px) and (max-width:375px){
+    ion-datetime{
+      font-size:14px;
+    }
+  }
+  

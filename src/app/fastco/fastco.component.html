@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid class="login">
+    <ion-row class="ion-margin-vertical ion-padding-bottom">
+      <ion-col>
+        <h1 class="ion-text-start text-theme fw-400">Login to Fast.co account.</h1>
+      </ion-col>
+    </ion-row>
+    <ion-row class="ion-margin-vertical">
+      <ion-col>
+        <form [formGroup]="fastCoForm">
+          <div>
+            <ion-label position="stacked" class="ion-text-uppercase text-grey-1">Email address</ion-label>
+            <ion-input type="email" id="identifier" class="custom-input" formControlName="identifier"
+              placeholder="Enter Email"></ion-input>
+          </div>
+          <ion-text lines="none" class="animated fadeInUp"
+            *ngIf="(fastCoForm.get('identifier').hasError('required') && fastCoForm.get('identifier').touched || fastCoForm.get('identifier').hasError('email'))">
+            <p class="error"
+              *ngIf="(fastCoForm.get('identifier').hasError('required') && fastCoForm.get('identifier').touched || fastCoForm.get('identifier').hasError('email'))">
+              Enter correct email address format.
+            </p>
+          </ion-text>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed" class="ion-padding-bottom">
+    <ion-fab-button color="white" [disabled]="!fastCoForm.valid" (click)="fastLogin()">
+      <ion-icon name="arrow-forward-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

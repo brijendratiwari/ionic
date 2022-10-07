@@ -1,0 +1,101 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="needSupport()" defaultHref="/home/tabs/profile-menu">
+        <img width="25px" src="./assets/icon/solutions.png" alt="" />
+      </ion-button>
+    </ion-buttons>
+    
+    <ion-title>Add Card Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding animated fadeIn">
+
+  <div class="input-form">
+    <form [formGroup]="addCard">
+      <ion-item>
+        <ion-label position="stacked">Name on Card <small class="error">*</small></ion-label>
+        <ion-input placeholder="Name on card" type="text" name="card_name" formControlName="card_name"></ion-input>
+      </ion-item>
+      <ion-text lines="none" class="animated fadeInUp error"
+        *ngIf="addCard.get('card_name').hasError('required') && addCard.get('card_name').touched">
+        Enter card name
+      </ion-text>
+
+
+      <ion-item>
+        <ion-label position="stacked">Card Number <small class="error">*</small></ion-label>
+        <ion-input placeholder="Exp. 1234123412341234" type="number" name="card_number" formControlName="card_number">
+        </ion-input>
+      </ion-item>
+      <ion-text lines="none" class="animated fadeInUp error"
+        *ngIf="addCard.get('card_number').hasError('required') && addCard.get('card_number').touched">
+        Enter card Number
+      </ion-text>
+
+      <!-- <ion-row>
+        <ion-col size="12"> -->
+          <ion-item>
+            <ion-label position="stacked">Expiry Date<small class="error">*</small></ion-label>
+            <ion-datetime
+            min="2021" max="2035"
+            display-format="MM YYYY" picker-format="MM/YYYY" placeholder="02/2021"
+              formControlName="expiry_date"></ion-datetime>
+          </ion-item>
+          <ion-text class="animated fadeInUp error"
+            *ngIf="addCard.get('expiry_date').hasError('required') && addCard.get('expiry_date').touched">
+            Select expiry date.
+          </ion-text>
+        <!-- </ion-col>
+      </ion-row> -->
+
+      <ion-item>
+        <ion-label position="stacked">CVV Number <small class="error">*</small></ion-label>
+        <ion-input placeholder="123" type="number" name="cvv"
+  
+        formControlName="cvv"></ion-input>
+      </ion-item>
+      <ion-text lines="none" class="animated fadeInUp error"
+        *ngIf="addCard.get('cvv').hasError('required') && addCard.get('cvv').touched">
+        Enter CVV Number
+      </ion-text>
+      <div class="custom-checkBox">
+        <ion-checkbox
+        formControlName="stripeDefault"  
+        slot="start"
+        (ionChange)="defaultCardChange($event)"
+        ></ion-checkbox>
+        <ion-label>Set Default Card</ion-label>
+        
+      </div>
+      <ion-button 
+      class="text-capitalize fls-0 fs-18 footer-btn"
+      expand="full"
+      color="theme"
+      [disabled]="!addCard.valid"
+      (click)="addCardDetails()">
+      Add Card
+      </ion-button>
+    </form>      
+  </div>
+
+</ion-content>
+
+
+<!-- <ion-footer>
+  <ion-button 
+  class="text-capitalize fls-0 fs-18 footer-btn"
+  expand="full"
+  color="theme"
+  [disabled]="!addCard.valid"
+  (click)="addCardDetails()">
+  Add Card
+  </ion-button>
+</ion-footer> -->

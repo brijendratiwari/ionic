@@ -1,0 +1,53 @@
+.info-card {    
+    box-shadow: none;
+}
+.photo-content {
+    width: 100%;
+    padding: 10px;
+    padding-bottom: calc(env(safe-area-inset-bottom) + 20px);
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 5px;
+        ion-button {
+            --box-shadow: none;
+            --border-radius: 4px;
+            text-transform: capitalize;
+            font-size: 14px;
+        }
+        .title-text {
+            font-weight: 500;
+        }
+    }
+}
+.photo-wrapper {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    .photo-box {
+        width: calc(100vw/3 - 17px);
+        height: calc(100vw/3 - 17px);
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        overflow: hidden;
+        margin: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        img {
+            object-fit: cover;
+            object-position: center;
+        }
+        ion-icon {
+            position: absolute;
+            right: 2px;
+            top: 2px;
+            font-size: 20px;
+            color: #f44164;
+            background: white;
+            border-radius: 50%;
+        }
+    }
+}

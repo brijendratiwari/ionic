@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-toolbar>
+      <ion-buttons slot="start">
+          <ion-button (click)="closeModal()">
+              <ion-icon slot="icon-only" name="close"></ion-icon>
+          </ion-button>
+      </ion-buttons>
+      <ion-title>
+             Report this Listing
+      </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-radio-group >
+      <ion-list-header>
+        <ion-label>Why are you reporting this listing?</ion-label>
+      </ion-list-header>
+
+      <ion-item *ngFor="let issue of issues" (click)="getIssueSelected(issue)"  >
+        <ion-label>{{issue?.title}}</ion-label>
+        <ion-radio slot="end"    [value]="issue.title"  ></ion-radio>
+      </ion-item>
+
+      <ng-container *ngIf="isOtherIssueVisible">
+        <ion-item *ngFor="let oIssue of otherIssue" (click)="getIssueSelected(oIssue)">
+          <ion-label>{{oIssue?.title}}</ion-label>
+          <ion-radio slot="end" [value]="oIssue.title"></ion-radio>
+      </ion-item>
+      </ng-container>
+     
+
+    </ion-radio-group>
+
+    <ion-button (click)="reportReport()"
+    [disabled]="selectedIssue == ''"
+    color="theme" expand="block"> Report </ion-button>
+  </ion-list>
+</ion-content>
