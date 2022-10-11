@@ -314,10 +314,9 @@
 
             </ion-grid>
             <ion-card class="noteBorder">
-                <ion-card-header>
-                    <ion-card-title>Hello {{sitterName | titlecase}}!</ion-card-title>
-                </ion-card-header>
+                
                 <ion-card-content *ngIf="!isRebook">
+                    Hello {{sitterName | titlecase}}!<br/>
                     Are you available on these dates?
                     If so, can we do an initial Meet & Greet with my pet/s?
                     If it's a good fit, I will make a payment for the booking via PetCloud straight afterwards so that
