@@ -29,6 +29,7 @@ import { CallNumber } from '@ionic-native/call-number/ngx';
 import { AnalyticsService } from '../analytics.service';
 import { AppsFlyerService } from '../apps-flyer.service';
 import { BookingSuccessComponentComponent } from '../booking-success-component/booking-success-component.component';
+import { HTMLIonOverlayElement } from '@ionic/core';
 
 @Component({
     selector: 'app-message-detail',
@@ -137,6 +138,23 @@ export class MessageDetailPage implements OnInit {
             this.getInfo(this.chatBookingId); // Message Id
         }
     }
+
+    closeAll(){
+        // adjust selector to fit your needs
+        const overlays = document.querySelectorAll('ion-modal');
+        const overlaysArr = Array.from(overlays) as HTMLIonOverlayElement[];
+        overlaysArr.forEach(o => o.dismiss());
+      };
+
+    redirectProfile(){
+        this.closeAll();
+        if( this.userId == this.messageOwnerId )
+          this.router.navigate(["/pet-sitter-detail", this.messageMinderId]);
+    
+        if( this.userId == this.messageMinderId )
+          this.router.navigate(["/pet-sitter-detail", this.messageOwnerId]);
+    
+      }
 
 
     ngOnDestroy() {

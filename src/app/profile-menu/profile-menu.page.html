@@ -226,7 +226,6 @@
                         </ion-item>
                     </div>
 
-
                     <!-- Pet Sitters & Walkers end -->
                     <ion-item lines="inset" routerLink="/reference"
                         *ngIf="completedProfileStep === 5 && menuType == 'sitter' ">
@@ -234,10 +233,14 @@
                         <ion-img type="image/svg+xml" src="assets/icon/reference.svg" class="theme-icon"></ion-img>
                     </ion-item>
 
-
-                    <ion-item *ngIf="userData?.user_type === '1' || userData?.user_type === '3'" lines="inset"
-                        routerLink="/help">
-                        <ion-label>Help</ion-label>
+                    <ion-item *ngIf="menuType == 'sitter' && (userData?.user_type === '1' || userData?.user_type === '3')" lines="inset"
+                    (click)="openWebpage('https://community.petcloud.com.au/portal/en/kb/pet-carers')">
+                        <ion-label>Pet Sitter FAQs</ion-label>
+                        <ion-img type="image/svg+xml" src="assets/icon/info.svg" class="theme-icon"></ion-img>
+                    </ion-item>
+                    <ion-item *ngIf="menuType == 'owner' && (userData?.user_type === '1' || userData?.user_type === '3')" lines="inset"
+                        (click)="openWebpage('https://community.petcloud.com.au/portal/en/kb/pet-owners')">
+                        <ion-label>Pet Owner FAQs</ion-label>
                         <ion-img type="image/svg+xml" src="assets/icon/info.svg" class="theme-icon"></ion-img>
                     </ion-item>
                     <ion-item lines="inset" routerLink="/account-setting">
