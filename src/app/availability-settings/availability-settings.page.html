@@ -1,0 +1,78 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Availability Settings</ion-title>
+    <ion-buttons slot="end" class="close-btn">
+      <ion-icon name="close" (click)="dismissModal()"></ion-icon>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="settingForm">
+    <div class="setting-form">
+      <ion-list lines="none">
+        <div class="setting-item">
+          <h5>Volume of enquires</h5>
+          <ion-radio-group [allowEmptySelection]="true" formControlName="enquires">
+            <ion-item>
+              <ion-label>Full time - Pets are my life</ion-label>
+              <ion-radio slot="end" value="full-time"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Part time - Week days only</ion-label>
+              <ion-radio slot="end" value="part-time-week-days"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Part time - Friday nights 4 weekend </ion-label>
+              <ion-radio slot="end" value="part-time-4-days"></ion-radio>
+            </ion-item>
+
+            <ion-item>
+              <ion-label>Casual - Sparadic</ion-label>
+              <ion-radio slot="end" value="casual"></ion-radio>
+            </ion-item>
+          </ion-radio-group>
+        </div>
+        <div *ngIf="f['enquires'].invalid && f['enquires'].errors && (f['enquires'].dirty || f['enquires'].touched)"
+          class="invalid">
+          <div *ngIf="f['enquires'].errors['required']"> Enquires is required</div>
+        </div>
+        <div class="setting-item">
+          <h5>Operating Days</h5>
+          <p>Choose which days you want to be open for business and save changes</p>
+          <ion-item *ngFor="let day of days">
+            <ion-label>{{day}}</ion-label>
+            <ion-checkbox (click)="onChange(day)" name="day">
+            </ion-checkbox>
+          </ion-item>
+        </div>
+        <!-- <div
+          *ngIf="f['operating_days'].invalid && f['operating_days'].errors && (f['operating_days'].dirty || f['operating_days'].touched)"
+          class="invalid">
+          <div *ngIf="f['operating_days'].errors['required']"> Select operating days</div>
+        </div> -->
+        <div class="setting-item">
+          <h5>Having a Break?</h5>
+          <p>If you can't respond to messages for a while,switch to Away mode.</p>
+          <ion-item>
+            <ion-label>Away</ion-label>
+            <ion-toggle slot="start" name="blueberry" color="success" formControlName="break"></ion-toggle>
+          </ion-item>
+        </div>
+        <div class="setting-item">
+          <h5>Just want your regulars?</h5>
+          <p>If you have built up enough customers,switch to only be contacted by them.</p>
+          <ion-item>
+            <ion-label>Repeat Customers Only</ion-label>
+            <ion-toggle slot="start" name="blueberry" color="success" formControlName="regulars"></ion-toggle>
+          </ion-item>
+        </div>
+      </ion-list>
+      <div class="action-btn">
+        <ion-button class="save-btn" (click)="save()">Save</ion-button>
+      </div>
+    </div>
+  </form>
+</ion-content>

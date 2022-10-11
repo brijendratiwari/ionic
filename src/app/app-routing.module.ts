@@ -419,6 +419,10 @@ const routes: Routes = [
     loadChildren: () =>  import('./its-match/its-match.module').then(m => m.ItsMatchPageModule)
     // loadChildren: './its-match/its-match.module#ItsMatchPageModule',
   },
+  {
+    path: 'availability-settings',
+    loadChildren: () => import('./availability-settings/availability-settings.module').then( m => m.AvailabilitySettingsPageModule)
+  },
 ];
 
 @NgModule({

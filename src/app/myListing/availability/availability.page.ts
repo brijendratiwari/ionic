@@ -7,6 +7,7 @@ import * as moment from "moment";
 import { User } from "../../../app/model/user";
 import { Router, ActivatedRoute } from "@angular/router";
 import { SittergeneralavailabilityComponent } from "../../sittergeneralavailability/sittergeneralavailability.component";
+import { AvailabilitySettingsPage } from "../../availability-settings/availability-settings.page";
 import { MeetingdetailComponent } from "../../meetingdetail/meetingdetail.component";
 
 @Component({
@@ -73,7 +74,7 @@ export class AvailabilityPage implements OnInit {
     this.currentActiveYear = this.currDate.getFullYear();
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ionViewDidEnter() {
     this.meetingData = [];
@@ -83,12 +84,12 @@ export class AvailabilityPage implements OnInit {
     let year = today.getFullYear();
     let selectedMonth = year + "-" + month;
     this.selectedMth = year + "-" + month;
-    this.tdDate =new Date().toISOString().split('T')[0]
+    this.tdDate = new Date().toISOString().split('T')[0]
     this.getAvailibilityDates(selectedMonth);
     this.getBookingList(this.tdDate, "", this.tdDate);
   }
 
-  ionViewWillLeave(){
+  ionViewWillLeave() {
     this.meetingData = [];
   }
 
@@ -107,9 +108,9 @@ export class AvailabilityPage implements OnInit {
     this.getAvailibilityDates(selectedMonth);
     this.meetingData = [];
 
-    
-   
-    this.getBookingList(this.currentActiveYear + "-" +this.currentActiveMonth + "-" + "01", "", "");
+
+
+    this.getBookingList(this.currentActiveYear + "-" + this.currentActiveMonth + "-" + "01", "", "");
   }
 
   public saveAvailability() {
@@ -192,7 +193,7 @@ export class AvailabilityPage implements OnInit {
         (err: any) => {
           this.api.hideLoader();
 
-          this.api.autoLogout(err,this.selectedBlockDay);
+          this.api.autoLogout(err, this.selectedBlockDay);
         }
       );
     } else {
@@ -226,7 +227,7 @@ export class AvailabilityPage implements OnInit {
         (err: any) => {
           this.api.hideLoader();
 
-          this.api.autoLogout(err,noUpdate);
+          this.api.autoLogout(err, noUpdate);
         }
       );
     }
@@ -264,15 +265,15 @@ export class AvailabilityPage implements OnInit {
   }
 
   async getBookingList(selectedDate, infiniteScroll, nextDate) {
-     let daysInMonth = await this.daysInMonth(7,2009);
+    let daysInMonth = await this.daysInMonth(7, 2009);
 
-     const param = {
+    const param = {
       date: selectedDate,
-      limit:  nextDate == 30 && daysInMonth == 30 ? 0:
-      nextDate >= 27 && daysInMonth == 30 ? 3 :
-     nextDate > 30 && daysInMonth == 31 ? 1 :
-     nextDate >= 27 && daysInMonth == 31 ? 4 :
-     nextDate >= 25 && daysInMonth == 28 ? 3 : 5
+      limit: nextDate == 30 && daysInMonth == 30 ? 0 :
+        nextDate >= 27 && daysInMonth == 30 ? 3 :
+          nextDate > 30 && daysInMonth == 31 ? 1 :
+            nextDate >= 27 && daysInMonth == 31 ? 4 :
+              nextDate >= 25 && daysInMonth == 28 ? 3 : 5
     };
     this.api.getBookingCalenderList(param).subscribe(
       (res: any) => {
@@ -282,21 +283,21 @@ export class AvailabilityPage implements OnInit {
         if (res.success) {
           this.pagination = true;
           this.isMeetingDataShown = true;
-     
+
           if (res.booking) {
             const meetingDataVal = [];
-            Object.keys(res.booking).forEach(function(key) {
+            Object.keys(res.booking).forEach(function (key) {
               meetingDataVal.push({
-                "date":key,
-                "data":res.booking[key]
+                "date": key,
+                "data": res.booking[key]
               })
-             
-          });
-          meetingDataVal.forEach(async element => {
-            element.showStartDate = await moment(element.startDate).format(" h:mm A");
-            this.meetingData.push(element);
-          });
-     
+
+            });
+            meetingDataVal.forEach(async element => {
+              element.showStartDate = await moment(element.startDate).format(" h:mm A");
+              this.meetingData.push(element);
+            });
+
           }
         } else {
           this.pagination = false;
@@ -308,7 +309,7 @@ export class AvailabilityPage implements OnInit {
         if (infiniteScroll) {
           infiniteScroll.target.complete();
         }
-        this.api.autoLogout(err,param);
+        this.api.autoLogout(err, param);
       }
     );
   }
@@ -379,24 +380,32 @@ export class AvailabilityPage implements OnInit {
           }
         }
 
-       
+
         this.api.hideLoader();
         this.calenderOption();
       },
       (err: any) => {
         this.api.hideLoader();
-        this.api.autoLogout(err,selectedMonth);
+        this.api.autoLogout(err, selectedMonth);
       }
     );
   }
-
+  async availabilitySettingsModal() {
+    const modal = await this.modalCtrl.create({
+      component: AvailabilitySettingsPage,
+      animated: true,
+      componentProps: {},
+    });
+    modal.onDidDismiss().then((data: any) => { });
+    return await modal.present();
+  }
   async sittergeneralAvailability() {
     const modal = await this.modalCtrl.create({
       component: SittergeneralavailabilityComponent,
       animated: true,
       componentProps: {},
     });
-    modal.onDidDismiss().then((data: any) => {});
+    modal.onDidDismiss().then((data: any) => { });
     return await modal.present();
   }
 
@@ -408,15 +417,15 @@ export class AvailabilityPage implements OnInit {
         id: data.id
       },
     });
-    modal.onDidDismiss().then((data: any) => {});
+    modal.onDidDismiss().then((data: any) => { });
     return await modal.present();
   }
 
-  async loadData(infiniteScroll) {  
-     let last_date = await this.meetingData[Object.keys(this.meetingData)[Object.keys(this.meetingData).length - 1]];
-     let seconds = await new Date(last_date.date).setDate(new Date(last_date.date).getDate() + 1);
-     let next_date =await moment(seconds).format("YYYY-MM-DD");
-  
+  async loadData(infiniteScroll) {
+    let last_date = await this.meetingData[Object.keys(this.meetingData)[Object.keys(this.meetingData).length - 1]];
+    let seconds = await new Date(last_date.date).setDate(new Date(last_date.date).getDate() + 1);
+    let next_date = await moment(seconds).format("YYYY-MM-DD");
+
     this.getBookingList(next_date, infiniteScroll, 28);
   }
 

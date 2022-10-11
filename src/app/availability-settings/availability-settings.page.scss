@@ -1,0 +1,24 @@
+.setting-item {
+    padding: 15px;
+}
+.close-btn {
+    font-size: 20px;
+    padding-right: 9px;
+}
+.action-btn {
+    text-align: center;
+    ion-button {
+        --box-shadow: none;
+        width: 79%;
+        --border-radius: 8px;
+        margin: 0px;
+        text-transform: capitalize;
+        font-size: 14px;
+        font-weight: 600;
+        margin-bottom: 23px;
+    }
+}
+.invalid {
+    padding: 0 19px;
+    color: red;
+}

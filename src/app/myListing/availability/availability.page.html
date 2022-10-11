@@ -4,6 +4,9 @@
             <ion-buttons slot="start">
                 <ion-back-button (click)="backButtonNavigate()" defaultHref="home"></ion-back-button>
             </ion-buttons>
+            <ion-buttons slot="end" class="setting-btn">
+                <ion-icon name="settings" (click)="availabilitySettingsModal()"></ion-icon>
+            </ion-buttons>
         </ion-toolbar>
     </ion-header>
     <div class="calendar-view">
@@ -22,29 +25,28 @@
     </div>
 
 
-       <div *ngIf="isMeetingDataShown" class="daily-view">
+    <div *ngIf="isMeetingDataShown" class="daily-view">
         <div class="list-type-day">
             <div *ngFor="let meetingData of meetingData" class="list-type-day">
-                <div  class="title">{{meetingData?.date  | date : 'EEE dd'}}</div>
+                <div class="title">{{meetingData?.date | date : 'EEE dd'}}</div>
                 <div class="list-booking">
                     <ng-container *ngFor="let bookingData of meetingData?.data">
                         <div (click)="meetingDetail(bookingData)" class="list-item">
 
-                            <div  class="dot"></div>
+                            <div class="dot"></div>
                             <div class="details">
-                                <div class="time">{{bookingData?.startDate |  date : 'hh:mm a'}},
+                                <div class="time">{{bookingData?.startDate | date : 'hh:mm a'}},
                                     {{api.getBookingStatusFullName(bookingData?.booking_status)}}</div>
                                 <div class="location">
-                                    <ng-container  *ngFor="let pet of bookingData?.pets; let last = last">
+                                    <ng-container *ngFor="let pet of bookingData?.pets; let last = last">
                                         <span>{{pet.name}}</span>
                                         <span *ngIf="!last">, &nbsp;</span>
                                     </ng-container>
                                 </div>
                             </div>
                             <div class="images">
-                                <img
-                                *ngFor="let pet of bookingData?.pets"
-                                [src]="pet?.imagename == null ? 'https://dev.petcloud.com.au/img/pet_placeholder.png' : pet?.imagename"
+                                <img *ngFor="let pet of bookingData?.pets"
+                                    [src]="pet?.imagename == null ? 'https://dev.petcloud.com.au/img/pet_placeholder.png' : pet?.imagename"
                                     alt="">
                             </div>
                         </div>
@@ -54,23 +56,16 @@
         </div>
     </div>
 
-  
 
-    <ion-infinite-scroll  *ngIf="pagination" threshold="100px" (ionInfinite)="loadData($event)">
-        <ion-infinite-scroll-content
-          loadingSpinner="bubbles"
-          loadingText="Loading more data...">
+
+    <ion-infinite-scroll *ngIf="pagination" threshold="100px" (ionInfinite)="loadData($event)">
+        <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
         </ion-infinite-scroll-content>
-      </ion-infinite-scroll>
+    </ion-infinite-scroll>
 
 </ion-content>
 <ion-footer>
-    <ion-button 
-        class="text-capitalize fls-0 fs-18 footer-btn"
-        expand="full"
-        color="theme"
-        (click)="saveAvailability()"
-    >
+    <ion-button class="text-capitalize fls-0 fs-18 footer-btn" expand="full" color="theme" (click)="saveAvailability()">
         Save
     </ion-button>
 </ion-footer>
