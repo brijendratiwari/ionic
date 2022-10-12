@@ -21,7 +21,7 @@
         <div [ngSwitch]="selectedSegment">
             <div *ngSwitchCase="'info'">
                 <ion-grid class="profile">
-                    <ion-row *ngIf="userId == messageMinderId">
+                    <ion-row *ngIf="userId == messageMinderId" (click)="redirectProfile()">
                         <ion-col class="avatar-col">
                             <ion-avatar [routerLink]="['/pet-sitter-detail', messageOwnerId]">
                                 <ion-img [src]="messageDetails?.owner?.imagename == '' || 
@@ -32,7 +32,7 @@
                         </ion-col>
                     </ion-row>
 
-                    <ion-row *ngIf="userId == messageOwnerId">
+                    <ion-row *ngIf="userId == messageOwnerId" (click)="redirectProfile()">
                         <ion-col class="avatar-col">
                             <ion-avatar [routerLink]="['/pet-sitter-detail', messageMinderId]">
                                 <ion-img [src]="messageDetails?.minder?.imagename == '' || 
@@ -41,21 +41,16 @@
                                 : messageDetails?.minder?.imagename"></ion-img>
                             </ion-avatar>
                         </ion-col>
-                        <!-- <ion-col [routerLink]="['/pet-sitter-detail', messageMinderId]">
-                            <ion-img [src]="messageDetails?.minder?.imagename == '' || 
-                            messageDetails?.minder?.imagename == null  ? 
-                            '../../assets/icon/user.png' 
-                            : messageDetails?.minder?.imagename"></ion-img>
-                        </ion-col> -->
+                        
                     </ion-row>
 
-                    <ion-row *ngIf="userId == messageOwnerId">
+                    <ion-row (click)="redirectProfile()">
                         <ion-col [routerLink]="['/pet-sitter-detail', messageMinderId]">
                             <h4 class="profile-name">{{messageDetails?.minder?.first_name}}</h4>
                         </ion-col>
                     </ion-row>
 
-                    <ion-row *ngIf="userId == messageMinderId">
+                    <ion-row (click)="redirectProfile()">
                         <ion-col [routerLink]="['/pet-sitter-detail', messageOwnerId]">
                             <h4 class="profile-name">{{message?.owner?.first_name}}</h4>
                         </ion-col>

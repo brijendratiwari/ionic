@@ -46,13 +46,13 @@
         <ion-list class="msg-list ion-no-padding">
             <ion-item *ngFor="let message of listing" class="ion-no-padding">
                 <div class="msg-item">
-                    <div (click)="messageDetail(message)" class="profile">
-                        <ion-avatar *ngIf="userId == message?.ownerid" class="profile-pic" slot="start">
+                    <div  class="profile" >
+                        <ion-avatar *ngIf="userId == message?.ownerid" class="profile-pic" slot="start" [routerLink]="['/pet-sitter-detail',message.minderId]">
                             <ion-img type="image/svg+xml" [src]="message?.minder?.imagename">
                             </ion-img>
                         </ion-avatar>
 
-                        <ion-avatar *ngIf="userId == message?.minderId" class="profile-pic" slot="start">
+                        <ion-avatar *ngIf="userId == message?.minderId" class="profile-pic" slot="start" [routerLink]="['/pet-sitter-detail',message.ownerId]">
                             <ion-img type="image/svg+xml" [src]="message?.owner?.imagename">
                             </ion-img>
                         </ion-avatar>
@@ -66,7 +66,7 @@
                             <h4 class="user"> {{message?.owner?.first_name}}</h4>
                         </div>
                     </div>
-                    <div class="info">
+                    <div class="info" >
                         <h4 (click)="messageDetail(message)" 
                             class="title"
                         >

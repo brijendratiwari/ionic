@@ -13,38 +13,39 @@
       <ion-list lines="none">
         <div class="setting-item">
           <h5>Volume of enquires</h5>
-          <ion-radio-group [allowEmptySelection]="true" formControlName="enquires">
+          <ion-radio-group [allowEmptySelection]="true" formControlName="enquiriesValues">
             <ion-item>
               <ion-label>Full time - Pets are my life</ion-label>
-              <ion-radio slot="end" value="full-time"></ion-radio>
+              <ion-radio slot="end" [value]="0"></ion-radio>
             </ion-item>
 
             <ion-item>
               <ion-label>Part time - Week days only</ion-label>
-              <ion-radio slot="end" value="part-time-week-days"></ion-radio>
+              <ion-radio slot="end" [value]="1"></ion-radio>
             </ion-item>
 
             <ion-item>
-              <ion-label>Part time - Friday nights 4 weekend </ion-label>
-              <ion-radio slot="end" value="part-time-4-days"></ion-radio>
+              <ion-label>Part time - Friday nights & Weekends only </ion-label>
+              <ion-radio slot="end" [value]="2"></ion-radio>
             </ion-item>
 
             <ion-item>
               <ion-label>Casual - Sparadic</ion-label>
-              <ion-radio slot="end" value="casual"></ion-radio>
+              <ion-radio slot="end" [value]="3"></ion-radio>
             </ion-item>
           </ion-radio-group>
         </div>
-        <div *ngIf="f['enquires'].invalid && f['enquires'].errors && (f['enquires'].dirty || f['enquires'].touched)"
+        <div
+          *ngIf="f['enquiriesValues'].invalid && f['enquiriesValues'].errors && (f['enquiriesValues'].dirty || f['enquiriesValues'].touched)"
           class="invalid">
-          <div *ngIf="f['enquires'].errors['required']"> Enquires is required</div>
+          <div *ngIf="f['enquiriesValues'].errors['required']"> Enquires is required</div>
         </div>
-        <div class="setting-item">
+        <div class="setting-item days">
           <h5>Operating Days</h5>
           <p>Choose which days you want to be open for business and save changes</p>
           <ion-item *ngFor="let day of days">
-            <ion-label>{{day}}</ion-label>
-            <ion-checkbox (click)="onChange(day)" name="day">
+            <ion-label>{{day.label}}</ion-label>
+            <ion-checkbox (click)="onChange(day.value)" name="day" [checked]="day.checked">
             </ion-checkbox>
           </ion-item>
         </div>

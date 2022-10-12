@@ -78,7 +78,7 @@
                             <ion-col size="6" [hidden]="!isRecurring">
                                 <ion-item lines="none">
                                     <ion-radio color="theme-sec" value="1"></ion-radio>
-                                    <ion-label> &nbsp;Recurring</ion-label>
+                                    <ion-label> &nbsp;Weekly Recurring</ion-label>
                                 </ion-item>
                             </ion-col>
                         </ion-row>
@@ -313,11 +313,10 @@
                 
 
             </ion-grid>
-            <ion-card color="note">
-                <ion-card-header>
-                    <ion-card-title>Hello {{sitterName | titlecase}}!</ion-card-title>
-                </ion-card-header>
+            <ion-card class="noteBorder">
+                
                 <ion-card-content *ngIf="!isRebook">
+                    Hello {{sitterName | titlecase}}!<br/>
                     Are you available on these dates?
                     If so, can we do an initial Meet & Greet with my pet/s?
                     If it's a good fit, I will make a payment for the booking via PetCloud straight afterwards so that

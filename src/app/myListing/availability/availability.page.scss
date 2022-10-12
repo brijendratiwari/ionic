@@ -109,3 +109,19 @@
   font-size: 20px;
   padding-right: 9px;
 }
+.save-btn {
+  border: 2px solid #fe4164;
+  --box-shadow: none;
+  width: 100%;
+  margin: 0px;
+  text-transform: unset;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 23px;
+  --background: transparent;
+  color: #fe4164;
+  height: 46px;
+}
+.calender-head {
+  padding: 10px;
+}

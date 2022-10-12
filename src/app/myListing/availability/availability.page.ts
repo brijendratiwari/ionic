@@ -74,7 +74,9 @@ export class AvailabilityPage implements OnInit {
     this.currentActiveYear = this.currDate.getFullYear();
   }
 
-  ngOnInit() { }
+  ngOnInit() {
+    this.getBookingDetails();
+  }
 
   ionViewDidEnter() {
     this.meetingData = [];
@@ -105,6 +107,7 @@ export class AvailabilityPage implements OnInit {
         : event.newMonth.months;
     let selectedMonth = this.currentActiveYear + "-" + this.currentActiveMonth;
     this.selectedMth = this.currentActiveYear + "-" + this.currentActiveMonth;
+    console.log(this.selectedMth, "ggg")
     this.getAvailibilityDates(selectedMonth);
     this.meetingData = [];
 
@@ -266,7 +269,6 @@ export class AvailabilityPage implements OnInit {
 
   async getBookingList(selectedDate, infiniteScroll, nextDate) {
     let daysInMonth = await this.daysInMonth(7, 2009);
-
     const param = {
       date: selectedDate,
       limit: nextDate == 30 && daysInMonth == 30 ? 0 :
@@ -275,6 +277,7 @@ export class AvailabilityPage implements OnInit {
             nextDate >= 27 && daysInMonth == 31 ? 4 :
               nextDate >= 25 && daysInMonth == 28 ? 3 : 5
     };
+    console.log(param)
     this.api.getBookingCalenderList(param).subscribe(
       (res: any) => {
         if (infiniteScroll) {
@@ -313,7 +316,48 @@ export class AvailabilityPage implements OnInit {
       }
     );
   }
+  updateCalendar() {
+    this.api.showLoader();
+    this.api.updateCalendar().subscribe(
+      (res: any) => {
+        if (res.success) {
+          this.api.showToast(res.success, 2000, 'bottom');
+        } else {
+          this.api.showToast('Please,try again!', 2000, 'bottom');
+        }
+        this.api.hideLoader();
+      },
+      (err: any) => {
+        this.api.hideLoader();
+      }
+    );
+  }
 
+  getBookingDetails() {
+    this.api.showLoader();
+    var data = {
+      "date": "2022-09-25",
+      "requireMonthDate": true
+
+    }
+
+
+    this.api.getBookingDetails(data).subscribe(
+      (res: any) => {
+        console.log(res)
+        // if (res.success) {
+        //   this.api.showToast(res.success, 2000, 'bottom');
+        // } else {
+        //   this.api.showToast('Please,try again!', 2000, 'bottom');
+        // }
+        this.api.hideLoader();
+      },
+      (err: any) => {
+        this.api.hideLoader();
+      }
+    );
+
+  }
   public getAvailibilityDates(selectedMonth) {
     this.api.showLoader();
     this.api.getAvailibility(selectedMonth).subscribe(
@@ -391,10 +435,13 @@ export class AvailabilityPage implements OnInit {
     );
   }
   async availabilitySettingsModal() {
+    console.log(this.selectedMth, "selectedDays");
     const modal = await this.modalCtrl.create({
       component: AvailabilitySettingsPage,
       animated: true,
-      componentProps: {},
+      componentProps: {
+        selectedMonth: this.selectedMth,
+      },
     });
     modal.onDidDismiss().then((data: any) => { });
     return await modal.present();

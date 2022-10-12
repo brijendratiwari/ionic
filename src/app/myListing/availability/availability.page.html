@@ -1,6 +1,7 @@
 <ion-content>
     <ion-header>
         <ion-toolbar>
+            <ion-title>Calendar</ion-title>
             <ion-buttons slot="start">
                 <ion-back-button (click)="backButtonNavigate()" defaultHref="home"></ion-back-button>
             </ion-buttons>
@@ -10,6 +11,13 @@
         </ion-toolbar>
     </ion-header>
     <div class="calendar-view">
+        <div class="calender-head">
+            <p>Is your Calendar up to date? If so, click "Calendar is up to date" or update your Calendar availability
+                below.</p>
+            <div>
+                <ion-button class="save-btn" (click)="updateCalendar()">Calendar is up to date</ion-button>
+            </div>
+        </div>
         <!-- <div class="settings" (click)="sittergeneralAvailability()">
             Calendar <br> Settings
         </div> -->

@@ -1,13 +1,13 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-        <div class="title-div" >
+        <div class="title-div" (click)="redirectProfile()">
           <ion-avatar>
             <img [src]="otherUserImage">
           </ion-avatar>
           {{toName}}
-          <!-- <ion-icon class="info-icon" color="theme" name="information-circle-outline"></ion-icon> -->
-        </div> 
+        </div>
+        
     </ion-title>
     <ion-buttons slot="end">
       <ion-button fill="clear" color="medium" (click)="closeModal()">

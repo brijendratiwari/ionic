@@ -146,17 +146,10 @@ export class BookingCostComponent implements OnInit {
 
     async appRating() {
         const alert = await this.alertController.create({
-            header: 'Booking Sent!',
-            subHeader: 'Are you enjoying the PetCloud App?',
+            header: 'Booking Request Sent!',
+            subHeader: 'What do you think of the PetCloud App?',
             buttons: [
                 {
-                    text: 'Could improve',
-                    role: 'cancel',
-                    cssClass: 'secondary',
-                    handler: () => {
-                        this.appSuggestionAlert();
-                    }
-                }, {
                     text: 'I love it!',
                     handler: async (data) => {
 
@@ -185,6 +178,13 @@ export class BookingCostComponent implements OnInit {
                             this.api.autoLogout(err, appRate);
                         })
                     }
+                },{
+                    text: 'Could improve',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: () => {
+                        this.appSuggestionAlert();
+                    }
                 }
             ]
         });
@@ -194,7 +194,7 @@ export class BookingCostComponent implements OnInit {
 
     async appSuggestionAlert() {
         const alert = await this.alertController.create({
-            subHeader: 'What can we do to improve?',
+            subHeader: 'Sorry, what can we do to improve?',
             buttons: [
                 {
                     text: 'Give Suggestions',
@@ -220,7 +220,7 @@ export class BookingCostComponent implements OnInit {
     }
 
     async sendFeedbackEmail() {
-        this.api.sendEmailtoAccounts("dev@petcloud.com.au", ["kirtan.p@shaligraminfotech.com"], "Pet Cloud app review", "")
+        this.api.sendEmailtoAccounts("support@petcloud.com.au", ["kirtan.p@shaligraminfotech.com"], "Pet Cloud app review", "")
     }
 
     closeBottomDrawer(){

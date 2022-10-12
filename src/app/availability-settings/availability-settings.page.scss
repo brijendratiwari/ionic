@@ -1,5 +1,11 @@
 .setting-item {
     padding: 15px;
+    clear: both;
+}
+.setting-item.days ion-item {
+    display: flex;
+    width: 50%;
+    float: left;
 }
 .close-btn {
     font-size: 20px;
@@ -8,14 +14,16 @@
 .action-btn {
     text-align: center;
     ion-button {
+        border: 2px solid #fe4164;
         --box-shadow: none;
-        width: 79%;
-        --border-radius: 8px;
+        width: 92%;
         margin: 0px;
-        text-transform: capitalize;
+        text-transform: unset;
         font-size: 14px;
         font-weight: 600;
         margin-bottom: 23px;
+        --background: transparent;
+        color: #fe4164;
     }
 }
 .invalid {

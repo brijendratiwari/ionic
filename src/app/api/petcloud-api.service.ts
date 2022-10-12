@@ -33,13 +33,13 @@ export class PetcloudApiService {
    */
   public getPlatform = () => {
     let platform = "";
-    if(this.plt.is('ios')){
+    if (this.plt.is('ios')) {
       platform = "ios";
     }
-     if(this.plt.is('android')){
+    if (this.plt.is('android')) {
       platform = "android";
     }
-     if(this.plt.is('mobileweb')){
+    if (this.plt.is('mobileweb')) {
       platform = "webmobile";
     }
 
@@ -59,7 +59,7 @@ export class PetcloudApiService {
     params: new HttpParams(),
   };
 
-private nonAuthHeader = {
+  private nonAuthHeader = {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
@@ -81,7 +81,7 @@ private nonAuthHeader = {
     headers: {
       Authorization:
         localStorage.getItem("token") != null ? "Basic " + btoa(localStorage.getItem("token")).slice(0, -1) + "6" : "",
-        source: this.getPlatform()
+      source: this.getPlatform()
     },
     params: new HttpParams(),
   };
@@ -152,7 +152,7 @@ private nonAuthHeader = {
     fullscreen: 'yes',//Windows only
   };
 
-  
+
 
   // very important and usefull for listing services constants
   public static PETTYPE = {
@@ -214,7 +214,7 @@ private nonAuthHeader = {
         break;
       }
     }
-      return statusName;
+    return statusName;
   }
 
 
@@ -311,7 +311,7 @@ private nonAuthHeader = {
       }
     }
     return statusName;
-}
+  }
   /**
    * Get short Name
    * @param stateId pass status code like '1' for getting Short State Name
@@ -398,11 +398,11 @@ private nonAuthHeader = {
     public events: Events,
     public iab: InAppBrowser,
     public plt: Platform,
-    public device:Device,
+    public device: Device,
     private firebase: FirebaseX,
     public socialSharing: SocialSharing,
-    public clipboard:Clipboard,
-    public platform: Platform    
+    public clipboard: Clipboard,
+    public platform: Platform
   ) {
 
     this.events.subscribe("token", (data) => {
@@ -410,10 +410,10 @@ private nonAuthHeader = {
       if (data) {
         localStorage.setItem("token", data);
         this.header.headers.Authorization = localStorage.getItem("token") != null ? "Basic " + btoa(localStorage.getItem("token")).slice(0, -1) + "6" : "",
-        this.header.headers.source = this.getPlatform();
+          this.header.headers.source = this.getPlatform();
       } else {
         this.header.headers.Authorization = localStorage.getItem("token") != null ? "Basic " + btoa(localStorage.getItem("token")).slice(0, -1) + "6" : "",
-        this.header.headers.source = this.getPlatform();
+          this.header.headers.source = this.getPlatform();
       }
     })
 
@@ -434,7 +434,7 @@ private nonAuthHeader = {
   getDeviceVerison = () => {
     return this.device.version;
   }
-  
+
 
   /**
    * Signup user for create new account on petcloud.
@@ -463,7 +463,7 @@ private nonAuthHeader = {
    * @param token changed for header
    */
   public shadowLogin(token) {
-    return this.http.post(this.BASE_URL + "login/masquerade",token, this.header);
+    return this.http.post(this.BASE_URL + "login/masquerade", token, this.header);
   }
 
   /**
@@ -586,7 +586,7 @@ private nonAuthHeader = {
     return this.http.post(this.BASE_URL + "login/apple", deviceId);
   }
 
-  public authWithGoogle(userDetail){
+  public authWithGoogle(userDetail) {
     return this.http.post(this.BASE_URL + "login/google", userDetail);
   }
 
@@ -605,7 +605,7 @@ private nonAuthHeader = {
     console.log("localstorage", localStorage.getItem("token"));
     this.header.headers["Authorization"] =
       "Basic " + btoa(localStorage.getItem("token")).slice(0, -1) + "6";
-    
+
   }
 
   // Destroy token when 401 error comes in mobile.
@@ -719,13 +719,13 @@ private nonAuthHeader = {
     );
   }
 
-   /**
-   *
-   * imageData User Image
-   * @params image : Base64 Data
-   * @params file_name : image Name
-   * @params pageside : front/ back
-   */
+  /**
+  *
+  * imageData User Image
+  * @params image : Base64 Data
+  * @params file_name : image Name
+  * @params pageside : front/ back
+  */
   public uploadDocumentForBank(imageData: any) {
     return this.http.post(
       this.BASE_URL + "users/bankverification",
@@ -1004,10 +1004,13 @@ private nonAuthHeader = {
     );
   }
 
+
+
   /**
    * Get Availibility of My Listing
    */
   public getAvailibility(currentMonth) {
+
     return this.http.get(
       this.BASE_URL + "listing/availability?selectedMonth=" + currentMonth,
       this.header
@@ -1752,22 +1755,22 @@ private nonAuthHeader = {
   /**
    * Get Count of Posted Job
    */
-    postedJobCount = () => {
+  postedJobCount = () => {
     this.http.get(this.BASE_URL + "jobs/userpostedjobs", this.header).subscribe(
-       (res: any) => {
+      (res: any) => {
         console.log("response", res);
         if (res.success) {
           if (res.jobs >= 1) {
             localStorage.setItem(PetcloudApiService.TOTALPOSTEDJOB, res.jobs);
           } else {
-             localStorage.setItem(PetcloudApiService.TOTALPOSTEDJOB, "0");
+            localStorage.setItem(PetcloudApiService.TOTALPOSTEDJOB, "0");
           }
         } else {
-            localStorage.setItem(PetcloudApiService.TOTALPOSTEDJOB, "0");
+          localStorage.setItem(PetcloudApiService.TOTALPOSTEDJOB, "0");
         }
       },
       async (err: any) => {
-         localStorage.setItem(PetcloudApiService.TOTALPOSTEDJOB, "0");
+        localStorage.setItem(PetcloudApiService.TOTALPOSTEDJOB, "0");
       }
     );
   }
@@ -1851,7 +1854,7 @@ private nonAuthHeader = {
   }
 
 
-  
+
 
   public deleteVaccinationRecord(id) {
     return this.http.get(
@@ -1875,7 +1878,7 @@ private nonAuthHeader = {
     );
   }
 
-  public uploadInsurancePolicy(petId, data){
+  public uploadInsurancePolicy(petId, data) {
     return this.http.post(
       this.BASE_URL + "pets/createpolicy?id=" + petId,
       data,
@@ -1883,7 +1886,7 @@ private nonAuthHeader = {
     );
   }
 
-  public getInsurancePolicy(petId){
+  public getInsurancePolicy(petId) {
     return this.http.get(
       this.BASE_URL + "pets/getpolicy?id=" + petId,
       this.header
@@ -2187,7 +2190,7 @@ private nonAuthHeader = {
   /* Explore Data API */
   public userExplore(location) {
     const header = localStorage.getItem("token") != null ? this.header : this.nonAuthHeader;
-    return this.http.post(this.BASE_URL + "users/exploredata", location,header);
+    return this.http.post(this.BASE_URL + "users/exploredata", location, header);
   }
 
   /* Get Reminders API*/
@@ -2229,65 +2232,65 @@ private nonAuthHeader = {
     );
   }
 
-   /*  Wallet Check Balance */
-   public addCouponCode(couponCode) {
+  /*  Wallet Check Balance */
+  public addCouponCode(couponCode) {
     return this.http.post(
-      this.BASE_URL + "wallet/applyvoucher",couponCode,
+      this.BASE_URL + "wallet/applyvoucher", couponCode,
       this.header
     );
   }
 
 
-   /*  Sitter Performance Score API*/
-   public dashboardPerformace(serviceId) {
+  /*  Sitter Performance Score API*/
+  public dashboardPerformace(serviceId) {
     return this.http.post(
-      this.BASE_URL + "dashboard/performance",serviceId,
+      this.BASE_URL + "dashboard/performance", serviceId,
       this.header
     );
   }
 
-   /*  Report Listing*/
+  /*  Report Listing*/
   public reportListing(reportIssue) {
     return this.http.post(
-      this.BASE_URL + "listing/reportlisting",reportIssue,
+      this.BASE_URL + "listing/reportlisting", reportIssue,
       this.header
     );
   }
 
-   /*  Rate Android and iOS APP*/
-   public rateAPP(rate) {
+  /*  Rate Android and iOS APP*/
+  public rateAPP(rate) {
     return this.http.post(
-      this.BASE_URL + "users/updateappreview",rate,
+      this.BASE_URL + "users/updateappreview", rate,
       this.header
     );
   }
 
-   /*  Add Pet Report Record */
-   public addPetReportRecord(record,bookingId,petId) {
+  /*  Add Pet Report Record */
+  public addPetReportRecord(record, bookingId, petId) {
     return this.http.post(
-      this.BASE_URL + "reportcard?booking_id="+bookingId+"&pet_id="+petId ,record,
+      this.BASE_URL + "reportcard?booking_id=" + bookingId + "&pet_id=" + petId, record,
       this.header
     );
   }
 
 
-  public getAminities(id){
+  public getAminities(id) {
     return this.http.get(
-      this.BASE_URL + "wplistings/amenities?category="+id,
+      this.BASE_URL + "wplistings/amenities?category=" + id,
       this.header
     );
   }
 
-  public sendFeedbackEmail(feedBackDetails){
+  public sendFeedbackEmail(feedBackDetails) {
     return this.http.post(
-      this.BASE_URL + "feedback",feedBackDetails,
+      this.BASE_URL + "feedback", feedBackDetails,
       this.header
     );
   }
 
-  public addDirectoryListing(listingDetails){
+  public addDirectoryListing(listingDetails) {
     return this.http.post(
-      this.BASE_URL + "wplistings/addlisting",listingDetails,
+      this.BASE_URL + "wplistings/addlisting", listingDetails,
       this.header
     );
   }
@@ -2304,9 +2307,43 @@ private nonAuthHeader = {
       );
   }
 
-  public getRefferalList(){
+  public getRefferalList() {
     return this.http.get(
-      this.BASE_URL + "referredfriends/invitelist",this.header)
+      this.BASE_URL + "referredfriends/invitelist", this.header)
+  }
+
+
+  /**
+  * Calender up to date in availablity screen
+  */
+  public updateCalendar() {
+    return this.http.get(this.BASE_URL + "listing/calendar_uptodate", this.header);
+  }
+
+  /**
+ * Update calendar availability settings 
+ */
+
+  public calenderSettting(data) {
+    return this.http.post(
+      this.BASE_URL + "listing/calendarsettings", data,
+      this.header
+    );
+  }
+  /**
+*  get the data of Availability Settings Page.
+*/
+  public getAvailabilitySettingsData() {
+    return this.http.get(this.BASE_URL + "listing/get_settings", this.header);
+  }
+  /**
+*  get  booking details for particular date, month.
+*/
+  public getBookingDetails(data) {
+    return this.http.post(
+      this.BASE_URL + "booking/calendar_events", data,
+      this.header
+    );
   }
 
 
@@ -2349,7 +2386,7 @@ private nonAuthHeader = {
   async showLoader() {
 
     await this.hideLoader()
-    
+
     const loader = await this.loading.create({
       message: "",
       spinner: "bubbles",
@@ -2930,108 +2967,108 @@ private nonAuthHeader = {
       });
 
     if (err.status === 401) {
-  
-              await this.storage
-                .remove(PetcloudApiService.USERTOKEN)
-                .then(async (res: any) => {
-                  let viewPetJob = localStorage.getItem("viewPetJobs");
-                  let trainingDone = localStorage.getItem(PetcloudApiService.TRAININGDONE);
-                  let paymentCardData = "";
-                  if(this.model){
-                    this.model.dismiss();
-                  }
-                  
-                  this.storage.get(PetcloudApiService.STRIPECARD).then((cardData: any) => {
-                    if (cardData != null && cardData !== "") {
-                      paymentCardData = cardData;
-                    }
-                  });
 
-                  localStorage.setItem("token", "")
-                  await localStorage.clear();
-                  this.storage.set("isLoggedInKeyPressed", false);
-                  this.storage.set("menuType", null);
-        
-                  viewPetJob == "yes" ? localStorage.setItem("viewPetJobs", "yes") : "";
-                  trainingDone == "yes"
-                    ? localStorage.setItem(PetcloudApiService.TRAININGDONE, "yes")
-                    : "";
-        
-                  if (paymentCardData != null) {
-                    this.storage.set(PetcloudApiService.STRIPECARD, paymentCardData);
-                  }
-        
-                  if (this.isSaveLoginKeyPress) {
-                    await this.storage.set("email", this.email);
-                    await this.storage.set("password", this.password);
-                  } else {
-                    await this.storage.set("email", "");
-                    await this.storage.set("password", "");
-                  }
-                  if (this.isSaveLoginKeyPress) {
-                    this.navCtrl.navigateRoot("/login");
-                  } else {
-                    this.navCtrl.navigateRoot("/get-started");
-                  }
-               
+      await this.storage
+        .remove(PetcloudApiService.USERTOKEN)
+        .then(async (res: any) => {
+          let viewPetJob = localStorage.getItem("viewPetJobs");
+          let trainingDone = localStorage.getItem(PetcloudApiService.TRAININGDONE);
+          let paymentCardData = "";
+          if (this.model) {
+            this.model.dismiss();
+          }
+
+          this.storage.get(PetcloudApiService.STRIPECARD).then((cardData: any) => {
+            if (cardData != null && cardData !== "") {
+              paymentCardData = cardData;
+            }
+          });
+
+          localStorage.setItem("token", "")
+          await localStorage.clear();
+          this.storage.set("isLoggedInKeyPressed", false);
+          this.storage.set("menuType", null);
+
+          viewPetJob == "yes" ? localStorage.setItem("viewPetJobs", "yes") : "";
+          trainingDone == "yes"
+            ? localStorage.setItem(PetcloudApiService.TRAININGDONE, "yes")
+            : "";
+
+          if (paymentCardData != null) {
+            this.storage.set(PetcloudApiService.STRIPECARD, paymentCardData);
+          }
+
+          if (this.isSaveLoginKeyPress) {
+            await this.storage.set("email", this.email);
+            await this.storage.set("password", this.password);
+          } else {
+            await this.storage.set("email", "");
+            await this.storage.set("password", "");
+          }
+          if (this.isSaveLoginKeyPress) {
+            this.navCtrl.navigateRoot("/login");
+          } else {
+            this.navCtrl.navigateRoot("/get-started");
+          }
+
           this.hideLoader();
-         
+
         });
     } else if (err.status == 0) {
-          this.router.navigateByUrl("/app-maintainiance");
-      }
+      this.router.navigateByUrl("/app-maintainiance");
+    }
     else {
-        const apiError = {
-          userId,
-          errorCode: err.status,
-          apiName: err.url,
-          postData
-        }
-
-        this.serverErrorAPI(apiError).subscribe((res => {
-        }), err => {
-        })
-
-        this.showToast("Please try again later.!", "3000", "bottom");
+      const apiError = {
+        userId,
+        errorCode: err.status,
+        apiName: err.url,
+        postData
       }
-    }
 
-
-    shareViaFb(message,image,url){
-      this.socialSharing.shareViaFacebook(message,image,url).then(() => {
-      }).catch((e) => {
-        this.singleAlert("Error", "Facebook is not installed or please update facebook");
-      });
-    }
-
-    shareViaTwitter(message,image,url){
-      this.socialSharing.shareViaTwitter(message,image,url).then(() => {
-      }).catch((e) => {
-        this.singleAlert("Error", "Twitter is not installed or please update facebook");
-      });
-    }
-
-    shareViaClipBoard(message){
-      this.clipboard.copy(message);
-      this.showToast('url copy to clipboard, now you can share with your near and dear', 2000, 'bottom');
-    }
-
-    shareViaWhatsapp(message,image,url){
-      this.socialSharing.shareViaWhatsApp(message,image,url)
-    }
-
-    shareVia(packageName,appName,message,subject,image,url){
-      this.socialSharing.shareVia(packageName,message,subject,image,url).then(() => {
-
-      }).catch((e)=>{
-        this.singleAlert("Error", appName+" is not installed or please update " + appName);
+      this.serverErrorAPI(apiError).subscribe((res => {
+      }), err => {
       })
+
+      this.showToast("Please try again later.!", "3000", "bottom");
     }
+  }
+
+
+  shareViaFb(message, image, url) {
+    this.socialSharing.shareViaFacebook(message, image, url).then(() => {
+    }).catch((e) => {
+      this.singleAlert("Error", "Facebook is not installed or please update facebook");
+    });
+  }
+
+  shareViaTwitter(message, image, url) {
+    this.socialSharing.shareViaTwitter(message, image, url).then(() => {
+    }).catch((e) => {
+      this.singleAlert("Error", "Twitter is not installed or please update facebook");
+    });
+  }
+
+  shareViaClipBoard(message) {
+    this.clipboard.copy(message);
+    this.showToast('url copy to clipboard, now you can share with your near and dear', 2000, 'bottom');
+  }
+
+  shareViaWhatsapp(message, image, url) {
+    this.socialSharing.shareViaWhatsApp(message, image, url)
+  }
+
+  shareVia(packageName, appName, message, subject, image, url) {
+    this.socialSharing.shareVia(packageName, message, subject, image, url).then(() => {
+
+    }).catch((e) => {
+      this.singleAlert("Error", appName + " is not installed or please update " + appName);
+    })
+  }
 
 
 
   calenderUpdate(lastCalenderUpdate, nextUpdateDate) {
-   
+
     if (lastCalenderUpdate == null || lastCalenderUpdate == "") {
       return (this.isCalenderUpdated = false);
     } else if (lastCalenderUpdate < nextUpdateDate) {
@@ -3246,7 +3283,7 @@ private nonAuthHeader = {
             }
           },
           (err) => {
-            
+
           }
         );
 
@@ -3339,8 +3376,8 @@ private nonAuthHeader = {
 
   }
 
-  async sendEmailtoAccounts(to,cc,subject,body){
-  
+  async sendEmailtoAccounts(to, cc, subject, body) {
+
     const modal = await this.model.create({
       component: FeedbackEmailFormComponent,
       animated: true,
@@ -3357,7 +3394,7 @@ private nonAuthHeader = {
     return await modal.present();
   }
 
-  public  isVerificationPendingModel() {
+  public isVerificationPendingModel() {
     let righttowork;
     let isanimalCare;
     let verificationResponse: any;
@@ -3406,18 +3443,18 @@ private nonAuthHeader = {
               animalcare.is_verified = "Verified";
             }
 
-             this.storage.set(PetcloudApiService.USER, user);
+            this.storage.set(PetcloudApiService.USER, user);
             this.storage.get("menuType").then(async (menuType) => {
               if (menuType != null) {
                 if (menuType == "sitter") {
                   if (res.emailVerify.status == 0 || res.phoneVerify.verify_phoneflag == "N"
                     || res.BackgroundCheck.is_verified != this.VERIFIED) {
-                     this.verificationModel();
+                    this.verificationModel();
                   }
                 } else {
 
                   if (res.emailVerify.status == 0 || res.phoneVerify.verify_phoneflag == "N") {
-                     this.verificationModel();
+                    this.verificationModel();
                   }
                 }
               } else {
@@ -3432,7 +3469,7 @@ private nonAuthHeader = {
       );
   }
 
-  public  dismissModelorAlert(){
+  public dismissModelorAlert() {
 
     this.model.getTop().then((modelPresent) => {
       if (modelPresent) {
@@ -3460,7 +3497,7 @@ private nonAuthHeader = {
     return await modal.present();
   }
 
-  
+
 
   async singleAlert(subHeader, message) {
     const alert = await this.alert.create({
@@ -3473,25 +3510,25 @@ private nonAuthHeader = {
     await alert.present();
   }
 
-  async getFirebaseToken(){
+  async getFirebaseToken() {
 
     const deviceId = {
       androidId: "",
       iPhoneId: ""
-  }
+    }
 
     await this.platform.ready();
     await this.firebase.getToken().then((token) => {
       if (this.plt.is("android")) {
-          deviceId.androidId = token;
-          localStorage.setItem("fcmToken", deviceId.androidId);
+        deviceId.androidId = token;
+        localStorage.setItem("fcmToken", deviceId.androidId);
       } else if (this.plt.is("ios")) {
-          deviceId.iPhoneId = token;
-          localStorage.setItem("fcmToken", deviceId.iPhoneId);
+        deviceId.iPhoneId = token;
+        localStorage.setItem("fcmToken", deviceId.iPhoneId);
       }
-  })
+    })
 
-  return deviceId;
+    return deviceId;
 
   }
 
@@ -3511,12 +3548,12 @@ private nonAuthHeader = {
   }
 
   validURL(str) {
-    var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
-      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|'+ // domain name
-      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
-      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
-      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
-      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+    var pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
+      '(\\#[-a-z\\d_]*)?$', 'i'); // fragment locator
     return !!pattern.test(str);
   }
 }

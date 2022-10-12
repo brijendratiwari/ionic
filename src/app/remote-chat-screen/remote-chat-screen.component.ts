@@ -149,6 +149,16 @@ export class RemoteChatScreenComponent implements OnInit {
     }, 500);
   }
 
+  redirectProfile(){
+    this.closeModal();
+    if( this.userId == this.ownerId )
+      this.router.navigate(["/pet-sitter-detail", this.minderId]);
+
+    if( this.userId == this.minderId )
+      this.router.navigate(["/pet-sitter-detail", this.ownerId]);
+
+  }
+
   async connectSocket() {
     let repToken: any = await this.api.getIoToken().toPromise();
     if(repToken && repToken.status && repToken.token) {
