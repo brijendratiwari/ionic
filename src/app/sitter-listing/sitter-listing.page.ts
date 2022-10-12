@@ -534,6 +534,9 @@ export class SitterListingPage implements OnInit {
     }
 
     async sendEnquiry(sitter) {
+        this.router.navigateByUrl("check-availability",{
+        });
+        return;
         const modal = await this.modelCtrl.create({
             component: PostEnquiryComponent,
             animated: true,

@@ -190,4 +190,8 @@ export class ListingPage implements OnInit {
 
     this.api.shareViaFb(null,null,this.webURLLink);
   }
+
+  public openWebpage(url: string) {
+    this.api.openExteralLinks(url)
+  }
 }
