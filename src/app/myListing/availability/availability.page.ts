@@ -18,6 +18,7 @@ import { MeetingdetailComponent } from "../../meetingdetail/meetingdetail.compon
 export class AvailabilityPage implements OnInit {
   public currentDate: any;
   public isMeetingDataShown: boolean = false;
+  public isbookingDataShown: boolean = false;
   public selectedBlockDay = {
     selectedMonth: "",
     day: [],
@@ -28,7 +29,7 @@ export class AvailabilityPage implements OnInit {
   public tdDate: any;
   public meetData: any = [];
   public pagination: boolean = false;
-
+  bookingdata: any = [];
   public currentActiveMonth: any;
   public currentActiveYear: any;
   public type = "string";
@@ -52,7 +53,7 @@ export class AvailabilityPage implements OnInit {
   daysConfig: DayConfig[] = [];
   public selectedDays: string[];
   public selectedMonth: any;
-
+  selectedDate: any = '';
   public offsetLimit = 0;
 
   public meetingSchedules = [{ date: [], data: [] }];
@@ -75,7 +76,7 @@ export class AvailabilityPage implements OnInit {
   }
 
   ngOnInit() {
-    this.getBookingDetails();
+
   }
 
   ionViewDidEnter() {
@@ -86,7 +87,9 @@ export class AvailabilityPage implements OnInit {
     let year = today.getFullYear();
     let selectedMonth = year + "-" + month;
     this.selectedMth = year + "-" + month;
-    this.tdDate = new Date().toISOString().split('T')[0]
+    this.tdDate = new Date().toISOString().split('T')[0];
+    this.selectedDate = this.tdDate;
+    this.getBookingDetails();
     this.getAvailibilityDates(selectedMonth);
     this.getBookingList(this.tdDate, "", this.tdDate);
   }
@@ -95,6 +98,14 @@ export class AvailabilityPage implements OnInit {
     this.meetingData = [];
   }
 
+  /**
+  *date change event
+  * @param event
+  */
+  tappedDate(event) {
+    this.selectedDate = event[event.length - 1];
+    this.getBookingDetails()
+  }
   /**
    * Month change event
    * @param event
@@ -111,7 +122,7 @@ export class AvailabilityPage implements OnInit {
     this.getAvailibilityDates(selectedMonth);
     this.meetingData = [];
 
-
+    // this.selectedDate
 
     this.getBookingList(this.currentActiveYear + "-" + this.currentActiveMonth + "-" + "01", "", "");
   }
@@ -266,6 +277,13 @@ export class AvailabilityPage implements OnInit {
       pickMode: "multi",
     };
   }
+  singleCalenderOption() {
+    this.calendarOption = {
+      daysConfig: this.daysConfig,
+      color: "dark",
+      pickMode: "single",
+    };
+  }
 
   async getBookingList(selectedDate, infiniteScroll, nextDate) {
     let daysInMonth = await this.daysInMonth(7, 2009);
@@ -334,26 +352,42 @@ export class AvailabilityPage implements OnInit {
   }
 
   getBookingDetails() {
-    this.api.showLoader();
+    // this.api.showLoader();
     var data = {
-      "date": "2022-09-25",
+      "date": this.selectedDate,
       "requireMonthDate": true
-
     }
-
-
     this.api.getBookingDetails(data).subscribe(
       (res: any) => {
-        console.log(res)
-        // if (res.success) {
-        //   this.api.showToast(res.success, 2000, 'bottom');
-        // } else {
-        //   this.api.showToast('Please,try again!', 2000, 'bottom');
-        // }
-        this.api.hideLoader();
+        this.isbookingDataShown = true;
+        if (res.events) {
+          const booking = [];
+          console.log(this.selectedDate)
+          var that = this;
+          Object.keys(res.events).forEach(function (key) {
+            if (that.selectedDate == key) {
+              console.log(booking, "booking")
+              booking.push({
+                "date": key,
+                "data": res.events[key]
+              })
+
+            } else {
+              that.bookingdata = [];
+            }
+          });
+          booking.forEach(async element => {
+            element.showStartDate = await moment(element.startDate).format(" h:mm A");
+            this.bookingdata.push(element);
+          });
+        } else {
+          this.bookingdata = [];
+        }
+
+        // this.api.hideLoader();
       },
       (err: any) => {
-        this.api.hideLoader();
+        // this.api.hideLoader();
       }
     );
 

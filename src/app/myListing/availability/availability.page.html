@@ -23,13 +23,45 @@
         </div> -->
         <div class="calendar-container">
             <ion-calendar [(ngModel)]="selectedDays" [options]="calendarOption" [format]="'YYYY-MM-DD'"
-                (monthChange)="onChange($event)">
+                (monthChange)="onChange($event)" (change)="tappedDate($event)">
             </ion-calendar>
         </div>
     </div>
 
     <div *ngIf="!isMeetingDataShown">
         <a>No booking details available for this months</a>
+    </div>
+    <div *ngIf="isbookingDataShown && bookingdata.length == 0 " class="no-booking-details">
+        <a>No booking details available for this date</a>
+    </div>
+    <div *ngIf="bookingdata.length>0" class="daily-view">
+        <div class="list-type-day">
+            <div *ngFor="let booking of bookingdata" class="list-type-day">
+                <div class="title">{{booking?.date | date : 'EEE dd'}}</div>
+                <div class="list-booking">
+                    <ng-container *ngFor="let bookingData of booking?.data">
+                        <div (click)="meetingDetail(bookingData)" class="list-item">
+                            <div class="dot"></div>
+                            <div class="details">
+                                <div class="time">{{bookingData?.startDate | date : 'hh:mm a'}},
+                                    {{api.getBookingStatusFullName(bookingData?.booking_status)}}</div>
+                                <div class="location">
+                                    <ng-container *ngFor="let pet of bookingData?.pets; let last = last">
+                                        <span>{{pet.name}}</span>
+                                        <span *ngIf="!last">, &nbsp;</span>
+                                    </ng-container>
+                                </div>
+                            </div>
+                            <div class="images">
+                                <img *ngFor="let pet of bookingData?.pets"
+                                    [src]="pet?.imagename == null ? 'https://dev.petcloud.com.au/img/pet_placeholder.png' : pet?.imagename"
+                                    alt="">
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
     </div>
 
 
@@ -66,7 +98,8 @@
 
 
 
-    <ion-infinite-scroll *ngIf="pagination" threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll *ngIf="pagination && isMeetingDataShown.length>0" threshold="100px"
+        (ionInfinite)="loadData($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>
