@@ -124,7 +124,6 @@
                         <ion-segment scrollable [(ngModel)]="selectedSegment" color="segment-theme" class="custom-segment">
                             <ion-segment-button value="info">Info</ion-segment-button>
                             <ion-segment-button value="review">Reviews</ion-segment-button>
-                            <ion-segment-button value="services">Services</ion-segment-button>
                             <ion-segment-button value="availa">Availability</ion-segment-button>
                             <ion-segment-button value="myPets">My Own Pets</ion-segment-button>
                             <ion-segment-button value="pastClients">Past Clients</ion-segment-button>
@@ -140,6 +139,63 @@
                                 <p class="desc">
                                     {{sitterData?.space?.description}}
                                 </p>
+                            </ion-col>
+                        </ion-row>
+                        <hr class="height-10">
+                        <ion-row  class="ion-justify-content-start">
+                            <ion-col>
+                                <h4 class="sub-heading">Recurring Service Plans</h4>
+
+                                <ion-card class="note-card" color="note">
+                
+                                    <ion-card-content >
+                                        Prices are itemised per session below. Note: We don’t offer Once-off Day Care or Walking bookings to guarantee placement for pets who need weekly service.
+                                    </ion-card-content>
+                                </ion-card>
+                                    <ion-row class="ion-justify-content-start" *ngFor="let servs of sitterProfile?.new_services.group_services">
+                                        <ion-col>
+                                            <h4 class="sub-heading">{{servs.name}}</h4>
+                                            
+                                            <ul class="service-list">
+                                                <ng-container *ngFor="let prRule of servs.data">
+                                                    <li >
+                                                        <p>{{prRule?.serviceType?.serviceName}}</p>
+                                                        <p><strong>${{prRule?.petPrice[0].price}}</strong></p>
+                                                    </li>
+                                                </ng-container>
+                
+                                            </ul>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row class="ion-justify-content-start" *ngFor="let servs of sitterProfile?.new_services.normal_services">
+                                        <ion-col>
+                                            <h4 class="sub-heading">{{servs?.serviceType?.serviceName}}</h4>
+                                            
+                                            <ul class="service-list">
+                                                <ng-container *ngFor="let prRule of servs?.petPrice">
+                                                    <li *ngIf="prRule?.price > 0">
+                                                        <p>{{prRule?.petName}}</p>
+                                                        <p><strong>${{prRule?.price}}</strong></p>
+                                                    </li>
+                                                </ng-container>
+                
+                                            </ul>
+                                        </ion-col>
+                                    </ion-row>
+                                    <ion-row class="ion-justify-content-start">
+                                </ion-row>
+                                    <ion-row class="ion-justify-content-start" *ngFor="let servs of sitterProfile?.new_services.secondary_services">
+                                        <ion-col>
+                                            <h4 class="sub-heading">Pet Sitting Extras</h4>
+                                            <ul class="service-list">
+                                                
+                                                    <li >
+                                                        <p>{{servs?.serviceType?.serviceName}}</p>
+                                                        <p><strong>${{servs.petPrice[0].price}}</strong></p>
+                                                    </li>
+                                            </ul>
+                                        </ion-col>
+                                    </ion-row>
                             </ion-col>
                         </ion-row>
                         <hr class="height-10">
@@ -196,13 +252,9 @@
                         </ion-row>
                         <hr class="height-10">
 
-                        <ion-row class="ion-justify-content-start">
-                            <ion-col>
-                                <h4 class="sub-heading">Preferences</h4>
-                            </ion-col>
-                        </ion-row>
                         <ion-row  class="ion-justify-content-start">
                             <ion-col>
+                                <h4 class="sub-heading">Preferences</h4>
                                 <div class="item-list preferences-list">
                                     <div class="item"  *ngFor="let hostingPref of sitterProfile?.hosting_preferences" >
                                         <div class="item-inner">
@@ -241,14 +293,9 @@
                         </ion-row>
 
                         <hr class="height-10">
-
-                        <ion-row class="ion-justify-content-start">
-                            <ion-col>
-                                <h4 class="sub-heading">Experience</h4>
-                            </ion-col>
-                        </ion-row>
                         <ion-row class="ion-justify-content-between">
                             <ion-col>
+                                <h4 class="sub-heading">Experience</h4>
                                 <div class="detail-list">
                                     <div *ngIf="sitterData?.experienceYears != ''" class="detail-item">
                                         <div class="detail-label">Experience Looking After Pets</div>
@@ -260,8 +307,8 @@
                                         <div class="content">{{sitterData?.qualifications}}</div>
                                     </div>
 
-                                    <div *ngIf="sitterProfile?.petsBreed.length > 0" class="detail-item icon-details">
-                                        <div class="detail-label">Specific Breeds</div>
+                                    <div *ngIf="sitterProfile?.petsBreed.length > 0" class="detail-item icon-details czMargin">
+                                        <h4 class="detail-label">Specific Breeds</h4>
                                         <div class="big-content">
                                             <div class="item" *ngFor="let petBreed of sitterProfile?.petsBreed">
                                                 <img src="../../assets/icon/gnt_dogs.svg" alt="">
@@ -271,7 +318,7 @@
                                     </div>
 
                                     <div *ngIf="sitterProfile?.specialskills.length > 0" class="detail-item icon-details">
-                                        <div class="detail-label">Special Skills</div>
+                                        <h4 class="detail-label">Special Skills</h4>
                                         <div class="big-content">
                                             <div class="item" *ngFor="let splSkill of sitterProfile?.specialskills">
                                                 <ion-img 

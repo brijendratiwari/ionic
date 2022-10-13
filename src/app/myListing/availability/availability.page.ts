@@ -345,11 +345,6 @@ export class AvailabilityPage implements OnInit {
     this.api.getBookingDetails(data).subscribe(
       (res: any) => {
         console.log(res)
-        // if (res.success) {
-        //   this.api.showToast(res.success, 2000, 'bottom');
-        // } else {
-        //   this.api.showToast('Please,try again!', 2000, 'bottom');
-        // }
         this.api.hideLoader();
       },
       (err: any) => {

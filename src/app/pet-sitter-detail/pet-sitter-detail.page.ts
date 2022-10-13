@@ -210,6 +210,54 @@ export class PetSitterDetailPage implements OnInit {
               }
               prcRule["petPrice"] = prcArr;
             }
+            if(this.sitterProfile.new_services.group_services && this.sitterProfile.new_services.group_services.length){
+              for (let servd of this.sitterProfile.new_services.group_services) {
+                
+                for (let prcRule of servd.data) {
+                
+                  prcRule.pricingRules = JSON.parse(prcRule.pricingRules);
+                  let prcArr = [];
+                  for (const i in prcRule.pricingRules) {
+                    prcArr.push({
+                      petName: PetcloudApiService.PETTYPE[i],
+                      price: prcRule.pricingRules[i],
+                    });
+                  }
+                  //console.log(prcArr);
+                  prcRule["petPrice"] = prcArr;
+                }
+              }
+            }
+            if(this.sitterProfile.new_services.secondary_services){
+              for (let prcRule of this.sitterProfile.new_services.secondary_services) {
+                
+                prcRule.pricingRules = JSON.parse(prcRule.pricingRules);
+                let prcArr = [];
+                for (const i in prcRule.pricingRules) {
+                  prcArr.push({
+                    petName: PetcloudApiService.PETTYPE[i],
+                    price: prcRule.pricingRules[i],
+                  });
+                }
+                //console.log(prcArr);
+                prcRule["petPrice"] = prcArr;
+              }
+            }
+
+            if(this.sitterProfile.new_services.normal_services){
+              for (let prcRule of this.sitterProfile.new_services.normal_services) {
+                //console.log(prcRule.serviceType.serviceName);
+                prcRule.pricingRules = JSON.parse(prcRule.pricingRules);
+                let prcArr = [];
+                for (const i in prcRule.pricingRules) {
+                  prcArr.push({
+                    petName: PetcloudApiService.PETTYPE[i],
+                    price: prcRule.pricingRules[i],
+                  });
+                }
+                prcRule["petPrice"] = prcArr;
+              }
+            }
 
             for (let prcRule of this.sitterData.secondaryServices) {
               prcRule.pricingRules = JSON.parse(prcRule.pricingRules);

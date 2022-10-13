@@ -113,7 +113,7 @@
                         </ion-item>
                     </ion-col>
                 </ion-row>
-                <ion-row *ngIf="isRecurringDateSelector">
+                <!--ion-row *ngIf="isRecurringDateSelector">
                     <ion-col>
                         <ion-item>
                             <ion-label position="stacked">Select Days <small class="error">*</small></ion-label>
@@ -129,13 +129,13 @@
                         </ion-item>
                     </ion-col>
                 </ion-row>
-                <ion-text lines="none" class="animated fadeInUp" *ngIf="is_recurringType==true">
-                    <p class="error"> Please Select Booking Days</p>
-                </ion-text>
-                <ion-row *ngIf="isCustomDays">
+                <ion-text lines="none" class="animated fadeInUp" >
+                    <p class="error">Select Frequency of Fun</p>
+                </ion-text-->
+                <ion-row >
                     <ion-col>
                         <ion-item>
-                            <ion-label position="stacked">Custom Days</ion-label>
+                            <ion-label position="stacked">Days</ion-label>
                             <ion-select interface="action-sheet" color="theme" [multiple]="isMultipleDays == true ? true :
                                 false" formControlName="booking_days" (ionChange)="customDays($event)"
                                 placeholder="Custom Days">
