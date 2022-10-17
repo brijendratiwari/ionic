@@ -318,6 +318,7 @@ export class MessagesListPage implements OnInit {
   }
 
   rebook(message) {
+    //console.log(message);debugger
     const availabilityData = {
       sitterId: message.minder.id,
       sitterName: message.minder.first_name,

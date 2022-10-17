@@ -69,13 +69,13 @@
                 <ion-col>
                     <ion-radio-group color="theme" formControlName="bookingType" (ionChange)="selectMode($event)">
                         <ion-row class="ion-align-items-center">
-                            <ion-col  [hidden]="isOnceOff" size="6">
+                            <ion-col  [hidden]="isOnceOff" >
                                 <ion-item lines="none">
                                     <ion-radio color="theme-sec"  value="0"></ion-radio>
                                     <ion-label> &nbsp;One Off </ion-label>
                                 </ion-item>
                             </ion-col>
-                            <ion-col size="6" [hidden]="!isRecurring">
+                            <ion-col [hidden]="!isRecurring">
                                 <ion-item lines="none">
                                     <ion-radio color="theme-sec" value="1"></ion-radio>
                                     <ion-label> &nbsp;Weekly Recurring</ion-label>
@@ -94,7 +94,7 @@
 
             <div  *ngIf="serviceChargeType != '0'">
 
-                <ion-row *ngIf="isOneOffDateSelector">
+                <!--ion-row *ngIf="isOneOffDateSelector">
                     <ion-col>
                         <ion-item>
                             <ion-label
@@ -113,7 +113,7 @@
                         </ion-item>
                     </ion-col>
                 </ion-row>
-                <!--ion-row *ngIf="isRecurringDateSelector">
+                <ion-row *ngIf="isRecurringDateSelector">
                     <ion-col>
                         <ion-item>
                             <ion-label position="stacked">Select Days <small class="error">*</small></ion-label>
@@ -132,9 +132,20 @@
                 <ion-text lines="none" class="animated fadeInUp" >
                     <p class="error">Select Frequency of Fun</p>
                 </ion-text-->
-                <ion-row >
-                    <ion-col>
-                        <ion-item>
+
+                
+                
+                <div class="settingDays" *ngIf="isRecurringDateSelector">
+                    <ion-label position="stacked">Select Frequency of Fun</ion-label>
+                    <ion-row >  
+                        
+                        <ion-col *ngFor="let day of days">
+                            
+                            <ion-checkbox (click)="onChange(day.value)" name="day" [checked]="day.checked" [disabled]="day.disabled">
+                            </ion-checkbox>
+                            <ion-label>{{day.label}}</ion-label>
+                        </ion-col>
+                        <!--ion-item>
                             <ion-label position="stacked">Days</ion-label>
                             <ion-select interface="action-sheet" color="theme" [multiple]="isMultipleDays == true ? true :
                                 false" formControlName="booking_days" (ionChange)="customDays($event)"
@@ -147,9 +158,10 @@
                                 <ion-select-option value="5">Friday</ion-select-option>
                                 <ion-select-option value="6">Saturday</ion-select-option>
                             </ion-select>
-                        </ion-item>
-                    </ion-col>
+                        </ion-item-->
+                    
                 </ion-row>
+                </div>
                 <ion-text lines="none" class="animated fadeInUp" *ngIf="is_booking_days">
                     <p class="error"> Please Select Days</p>
                 </ion-text>

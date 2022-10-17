@@ -39,6 +39,8 @@ export class CheckAvailabilityPage implements OnInit {
   public frmDate: any;
   public toDate: any;
 
+  checkedItems: any = [];
+
   // Setting Min Date and Min Max Time
   public startMinDate = "";
   public minToDate: any;
@@ -84,6 +86,16 @@ export class CheckAvailabilityPage implements OnInit {
   public serviceData;
   public isAppReviewed: any = ""
 
+  days: any = [
+    { label: "Mon", value: '1', checked: false, disabled: true },
+    { label: "Tue", value: '2', checked: false, disabled: true },
+    { label: "Wed", value: '3', checked: false, disabled: true },
+    { label: "Thu", value: '4', checked: false, disabled: true },
+    { label: "Fri", value: '5', checked: false, disabled: true },
+    { label: "Sat", value: '6', checked: false, disabled: true },
+    { label: "Sun", value: '7', checked: false, disabled: true },
+  ]
+
   constructor(
     protected storage: Storage,
     private formBuilder: FormBuilder,
@@ -114,15 +126,23 @@ export class CheckAvailabilityPage implements OnInit {
       end_date: [""],
       end_time: [""],
       couponCode: [""],
-      recurring_type: [""],
+      recurring_type: ["C"],
     });
 
     // get availability
     this.storage.get("availabilitySitter").then((siterData: any) => {
       if (siterData != null) {
+        
         this.sittersDetail = siterData;
         this.sitterId = siterData.sitterId;
         this.isRebook = siterData.isRebook;
+
+        this.days.forEach(day =>{
+          let finder = siterData.operating_days.findIndex( x => x == day.value );
+          if(finder >= 0){
+            day.disabled = false;
+          }
+        })
 
         // add minderid.
         this.availabilityFrm.patchValue({
@@ -154,13 +174,13 @@ export class CheckAvailabilityPage implements OnInit {
             this.isOneOffDateSelector = false,
             this.availabilityFrm.patchValue({
               bookingType: "1",
-              recurring_type: "EWD"
+              recurring_type: "C"
             })))
           : (this.isRecurring = false,
             this.isRecurringDateSelector = false,
             this.availabilityFrm.patchValue({
               bookingType: "0",
-              recurring_type: "ED"
+              recurring_type: "C"
             }));
 
 
@@ -507,7 +527,7 @@ export class CheckAvailabilityPage implements OnInit {
       this.lbl_formatedEndDate = "";
       this.availabilityFrm.patchValue({
         bookingType: "1",
-        recurring_type: "EWD",
+        recurring_type: "C",
         end_date: "",
         end_time: "",
       });
@@ -517,7 +537,7 @@ export class CheckAvailabilityPage implements OnInit {
       this.isEndDateTime = true;
       this.availabilityFrm.patchValue({
         bookingType: "0",
-        recurring_type: "ED",
+        recurring_type: "C",
         end_data: this.lbl_formatedEndDate,
         end_time: "16:00",
 
@@ -537,6 +557,30 @@ export class CheckAvailabilityPage implements OnInit {
     if (event.detail.value.serviceType.serviceChargeType == 3) {
       this.isEndDateTime = false;
     } 
+
+
+    this.storage.get("availabilitySitter").then((siterData: any) => {
+      if (siterData != null) {
+        this.sitterServices.secondary = [];
+        if (siterData.secondaryService.length > 0) {
+          for (const s of siterData.secondaryService) {
+            if(event.detail.value.serviceTypeId == '14' && s.serviceTypeId == '11'){
+              continue;
+            }
+            this.sitterServices.secondary.push({
+              serviceId: s.id,
+              isSelected: false,
+              serviceName: s.serviceType.serviceName,
+              occasions: 0,
+              sec_description: s.serviceType.sec_description,
+              noOfPetSelected: 0,
+              petListing: this.petList
+            });
+            this.activeService.push('extra-' + s.id)
+          }
+        }
+      }
+    });
 
     console.log("once off", this.isOnceOff);
     this.checkValidations();
@@ -609,14 +653,14 @@ export class CheckAvailabilityPage implements OnInit {
       this.hideBothDaySelector = false;
       // Clear Form Values
       this.availabilityFrm.patchValue({
-        recurring_type: "",
+        recurring_type: "C",
         booking_days: "",
       });
       this.isFormValid = false;
 
       if (this.serviceChargeType != 0) {
         this.availabilityFrm.patchValue({
-          recurring_type: "ED",
+          recurring_type: "C",
         });
       }
 
@@ -628,14 +672,14 @@ export class CheckAvailabilityPage implements OnInit {
       this.isRecurringDateSelector = true;
 
       this.availabilityFrm.patchValue({
-        recurring_type: "",
+        recurring_type: "C",
         booking_days: "",
       });
       this.isFormValid = false;
 
       if (this.serviceChargeType != 0) {
         this.availabilityFrm.patchValue({
-          recurring_type: "ED",
+          recurring_type: "C",
         });
       }
 
@@ -649,6 +693,18 @@ export class CheckAvailabilityPage implements OnInit {
     }
   }
 
+  onChange(item) {
+    if (this.checkedItems.includes(item)) {
+      this.checkedItems = this.checkedItems.filter((value) => value != item);
+    } else {
+      this.checkedItems.push(item)
+      // }
+      // console.log(this.checkedItems.toString())
+      
+    }
+    this.availabilityFrm.get("booking_days").setValue(this.checkedItems);
+    this.checkValidations();
+  }
   //Custom Calender Selector
   customDays(event) {
     let val = event.detail.value;

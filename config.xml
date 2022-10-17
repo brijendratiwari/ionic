@@ -31,6 +31,7 @@
         <allow-intent href="market:*" />
         <preference name="android-targetSdkVersion" value="30" />
         <preference name="android-minSdkVersion" value="19" />
+        <preference name="multiDexEnabled" value="true" />
         <preference name="AndroidXEnabled" value="true" />
         <config-file parent="/manifest" target="AndroidManifest.xml" xmlns:android="http://schemas.android.com/apk/res/android">
             <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />

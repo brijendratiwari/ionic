@@ -3,7 +3,22 @@
     justify-content: space-between;
     width: 100%;
 }
+.settingDays {
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    padding: 10px;
 
+}
+
+.settingDays ion-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.settingDays ion-col ion-label {
+    margin-top: 4px;
+}
 .danger{
     color: red;
 }

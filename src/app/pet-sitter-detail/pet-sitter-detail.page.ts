@@ -275,9 +275,10 @@ export class PetSitterDetailPage implements OnInit {
             this.selectedSegment = "info";
             const availabilityData = {
               sitterId: this.sitterData.id,
-            sitterName: this.sitterData.first_name,
+              sitterName: this.sitterData.first_name,
               primaryService: this.sitterData.primaryServices,
               secondaryService: this.sitterData.secondaryServices,
+              operating_days: this.sitterProfile.operating_days,
               isRebook: false,
             };
             this.storage.set("availabilitySitter", availabilityData);

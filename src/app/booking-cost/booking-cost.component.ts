@@ -147,6 +147,7 @@ export class BookingCostComponent implements OnInit {
     async appRating() {
         const alert = await this.alertController.create({
             header: 'Booking Request Sent!',
+            cssClass: 'booking-request-sent',
             subHeader: 'What do you think of the PetCloud App?',
             buttons: [
                 {
@@ -195,6 +196,7 @@ export class BookingCostComponent implements OnInit {
     async appSuggestionAlert() {
         const alert = await this.alertController.create({
             subHeader: 'Sorry, what can we do to improve?',
+            cssClass: 'booking-request-sent',
             buttons: [
                 {
                     text: 'Give Suggestions',
@@ -207,6 +209,7 @@ export class BookingCostComponent implements OnInit {
                     role: 'cancel',
                     cssClass: 'secondary',
                     handler: () => {
+                        this.router.navigateByUrl('/home/tabs/messages');
                     }
                 },
             ]

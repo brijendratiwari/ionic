@@ -23,15 +23,17 @@
         </div> -->
         <div class="calendar-container">
             <ion-calendar [(ngModel)]="selectedDays" [options]="calendarOption" [format]="'YYYY-MM-DD'"
-                (monthChange)="onChange($event)" (change)="tappedDate($event)">
+                (monthChange)="onChange($event)" 
+                
+                >
             </ion-calendar>
         </div>
     </div>
 
     <div *ngIf="!isMeetingDataShown">
-        <a>No booking details available for this months</a>
+        <a>No booking details available for this month</a>
     </div>
-    <div *ngIf="isbookingDataShown && bookingdata.length == 0 " class="no-booking-details">
+    <!--div *ngIf="isbookingDataShown && bookingdata.length == 0 " class="no-booking-details">
         <a>No booking details available for this date</a>
     </div>
     <div *ngIf="bookingdata.length>0" class="daily-view">
@@ -62,7 +64,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div-->
 
 
     <div *ngIf="isMeetingDataShown" class="daily-view">
