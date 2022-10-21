@@ -4,6 +4,16 @@ ion-card {
 .service-card{
     border: 1px solid #CCCCCC;
     box-shadow: 0 2px 4px 0 rgba(136,136,136,0.30);
+    ion-card-header.Active{
+        color: #3c763d;
+        background-color: #dff0d8;
+        border-color: #d6e9c6;
+    }
+    ion-card-header.Pending{
+        color: #8a6d3b;
+        background-color: #fcf8e3;
+        border-color: #faebcc;
+    }
     ion-card-header{
         display: flex;
         flex-direction: row;
@@ -29,6 +39,10 @@ ion-card {
             letter-spacing: 0;
         }
         ion-button{
+            --color: #fff;
+    --background-color: #f0ad4e;
+    --background: #f0ad4e;
+    --border-color: #eea236;
             font-size: 12px;
             letter-spacing: 0;
             --box-shadow:none;
@@ -47,6 +61,10 @@ ion-card {
         }
 
     }
+    
+}
+
+.active.service-card{
     
 }
 

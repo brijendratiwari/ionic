@@ -6,3 +6,40 @@ ion-card {
     font-weight: 500;
     font-size: 15px;
 }
+
+ion-grid, ion-row, ion-col {
+    padding: 0px;
+    margin: 0px;
+  }
+  
+  ion-item {
+    --padding-start: 0px;
+    font-size: 15px;
+    --min-height: 40px;
+    --inner-padding-end: 0px;
+    ion-textarea {
+        border: 1px solid #dedede;
+        padding-left: 10px;
+        padding-right: 10px;
+        margin-top: 16px;
+    }
+    ion-label {
+        white-space: normal;
+    }
+  }
+  .sbt-btn {
+    --box-shadow: none;
+    --border-radius: 4px;
+    margin: 0px;
+    white-space: normal;
+    width: 48%;
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  .btn-wrapper {
+    display: flex;
+    margin-top: 20px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }

@@ -112,7 +112,7 @@ export class AppComponent {
         }
       });
     });
-    this.navCntl.navigateForward('/home/tabs/sitter-listing');
+    //this.navCntl.navigateForward('/home/tabs/sitter-listing');
   }
 
   async initAppsFlyer() {

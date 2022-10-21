@@ -5,15 +5,15 @@
             <ion-buttons slot="start">
                 <ion-back-button (click)="backButtonNavigate()" defaultHref="home"></ion-back-button>
             </ion-buttons>
-            <ion-buttons slot="end" class="setting-btn">
-                <ion-icon name="settings" (click)="availabilitySettingsModal()"></ion-icon>
+            <ion-buttons slot="end" class="setting-btn" (click)="availabilitySettingsModal()">
+                Settings
+                
             </ion-buttons>
         </ion-toolbar>
     </ion-header>
     <div class="calendar-view">
         <div class="calender-head">
-            <p>Is your Calendar up to date? If so, click "Calendar is up to date" or update your Calendar availability
-                below.</p>
+            <p>To block out dates you are unavailable, select dates on the Calendar & Save.            </p>
             <div>
                 <ion-button class="save-btn" (click)="updateCalendar()">Calendar is up to date</ion-button>
             </div>

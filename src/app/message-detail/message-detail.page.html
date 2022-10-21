@@ -50,11 +50,11 @@
                         </ion-col>
                     </ion-row>
 
-                    <ion-row (click)="redirectProfile()">
+                    <!--ion-row (click)="redirectProfile()">
                         <ion-col [routerLink]="['/pet-sitter-detail', messageOwnerId]">
                             <h4 class="profile-name">{{message?.owner?.first_name}}</h4>
                         </ion-col>
-                    </ion-row>
+                    </ion-row-->
 
 
                 </ion-grid>
@@ -85,21 +85,7 @@
                         </div>
                     </div>
 
-                    <div *ngIf="userId == messageOwnerId" class="info-item info-row">
-                        <div class="info-label">
-                            <h4> Suburb</h4>
-                        </div>
-                        <div class="info-desc">
-
-                            <p class="profile-contact">{{
-                                (messageDetails?.booking_status == 'MD'
-                                || messageDetails?.booking_status == 'M'
-                                || messageDetails?.booking_status == 'CURR')
-                                ? (messageDetails?.minder?.address)
-                                : 'XXXX XXX XXX' }}
-                            </p>
-                        </div>
-                    </div>
+                    
 
 
                     <div *ngIf="userId == messageMinderId" class="info-item info-row">
@@ -176,7 +162,32 @@
                         </div>
                     </div>
 
+                    <div class="info-item info-row">
+                        <div class="info-label">
+                            <h4>Frequency</h4>
+                        </div>
+                        <div class="info-desc">
+                            <p>{{messageDetails?.isRecurring ? 'Weekly Recurring': 'Once Off'}}</p>
+                        </div>
+                    </div>
 
+                    <div class="info-item info-row">
+                        <div class="info-label">
+                            <h4>Duration</h4>
+                        </div>
+                        <div class="info-desc">
+                            <p>{{messageDetails?.durationTime}}</p>
+                        </div>
+                    </div>
+
+                    <div class="info-item info-row">
+                        <div class="info-label">
+                            <h4>Socialisation</h4>
+                        </div>
+                        <div class="info-desc">
+                            <p>{{messageDetails?.durationTime}}</p>
+                        </div>
+                    </div>
 
                     <div class="info-item info-row">
                         <div class="info-label">

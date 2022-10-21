@@ -1,3 +1,26 @@
+ion-item{--padding-start:0}
+.cardFrequecy ion-card {
+    margin: 10px 0;
+    padding: 15px;
+    box-shadow: none;
+    background: #daecf7;
+}
+
+.cardFrequecy ion-card ion-card-title {
+    font-size: 14px;
+    color: #31708F;
+}
+
+.cardFrequecy ion-bael {
+    margin: 15px 0 10px;
+    display: block;
+}
+
+.cardFrequecy ion-select {
+    border: 1px solid silver;
+    border-radius: 4px;
+    margin-bottom: 20px;
+}
 .hori-input{
     display: flex;
     justify-content: space-between;

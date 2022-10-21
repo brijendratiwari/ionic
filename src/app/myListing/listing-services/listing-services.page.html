@@ -25,16 +25,15 @@
         <div class="data-div" [ngSwitch]="selectedSegment">
             <!-- main service -->
             <div *ngSwitchCase="'mainService'">
-                <ion-card>
-                    <ion-card-header  (click)="toggleRange('1')" class="distance-header ion-text-left">
-                        <ion-row>
-                            <ion-col>
-                                <ion-text class="fs-14 fw-700"> Distance willing to Travel</ion-text>
+                <ion-card class="service-card">
+                    <ion-card-header  (click)="toggleRange('1')"  [ngClass]="travel_distance > 0 ? 'Active' : ''">
+                        <div>
+                            <ion-card-title>Distance willing to Travel</ion-card-title>
+                        </div>
+                        <div></div>
                                 <ion-icon
                                     [name]="(isRangeValueShown('1'))? 'chevron-up-outline' : 'chevron-down-outline'"
                                 ></ion-icon>
-                            </ion-col>
-                        </ion-row>
                     </ion-card-header>        
                     <ion-card-content class="card-content ion-text-left" *ngIf="isRangeValueShown('1')">        
                         <ion-row>
@@ -45,7 +44,9 @@
                                     Pet Taxi, House Sitting, and Home Visits.
                                 </ion-text>
                                 <ion-text>
-                                    <ion-label style="top: 10px;"> Radius {{travel_distance}} - kms </ion-label>
+                                    <ion-label style="display: block;
+                                    font-weight: bold;
+                                    margin-top: 10px;"> Radius - {{travel_distance}}km </ion-label>
                                 </ion-text>
                             </ion-col>
                             <ion-col size="12">
@@ -65,7 +66,7 @@
                     </ion-card-content>
                 </ion-card>
                 <ion-card *ngFor="let p of listingService?.primaryServices; let idx = index" class="service-card">
-                    <ion-card-header lines="none">
+                    <ion-card-header lines="none" [ngClass]="p?.notification_message?.panel_status">
                         <div>
                     
                         <!-- <ion-card-title *ngIf="p.notification_message.noti_flag == 'spacecheck'">
@@ -95,22 +96,15 @@
                             
                             <ion-card-title  (click)="openActiveBlock('primary-'+p.idx)" >{{p.serviceType.serviceName}}</ion-card-title>
 
-                            <ion-card-subtitle  (click)="openActiveBlock('primary-'+p.idx)" *ngIf="p?.notification_message?.panel_status == 'Pending'" color="theme">
-                                Pending
+                            <ion-card-subtitle  (click)="openActiveBlock('primary-'+p.idx)" *ngIf="p?.notification_message?.panel_status != ''">
+                                {{p?.notification_message?.panel_status}}
                             </ion-card-subtitle>
-                            <ion-card-subtitle  (click)="openActiveBlock('primary-'+p.idx)" *ngIf="p?.notification_message?.panel_status != 'Pending'" color="theme">
-                                {{ (p?.notification_message?.panel_status == 'Active') ? 'Active' : 'Inactive'}}
-                            </ion-card-subtitle>
+                            
                         </div>
                         <div>
-                            <ion-button *ngIf="p?.notification_message?.panel_status == 'Pending'"
-                                class="ion-text-capitalize" size="small" [color]="'theme'"
-                            >
-                                Pending
-                            </ion-button>
-                            <ion-button *ngIf="p?.notification_message?.panel_status != 'Pending'"
-                                class="ion-text-capitalize" size="small"
-                                [color]="(p?.notification_message?.panel_status != 'Active') ? 'theme-sec' : 'theme'"
+                            
+                            <ion-button *ngIf="p?.notification_message?.panel_status == 'Active'"
+                                class="ion-text-capitalize deactivate" size="small"
                                 (click)="changeStatusService(p)"
                             >
                                 {{ (p?.notification_message?.panel_status != 'Active') ? 'Activate' : 'Deactivate'}}
@@ -201,23 +195,21 @@
 
                 <!-- daily walking 2 -->
                 <ion-card *ngFor="let s of listingService.secondaryServices; let idx = index;" class="service-card">
-                    <ion-card-header lines="none">
+                    <ion-card-header lines="none" [ngClass]="s?.notification_message?.panel_status">
                         <div (click)="openActiveBlock('extra-'+s.idx)">
                             <ion-card-title>{{s?.serviceType?.serviceName}}</ion-card-title>
-                            <ion-card-subtitle *ngIf="s?.notification_message?.panel_status != 'Pending'" color="theme">
+                            <ion-card-subtitle *ngIf="s?.notification_message?.panel_status == 'Active'" color="theme">
                                 {{ (s?.notification_message?.panel_status == 'Active') ? 'Active' : 'Inactive'}}
                             </ion-card-subtitle>
 
-                            <ion-card-subtitle *ngIf="s?.notification_message?.panel_status == 'Pending'" color="theme">
-                                Pending</ion-card-subtitle>
+                            
 
                         </div>
                         <div>
 
-                            <ion-button *ngIf="s?.notification_message?.panel_status == 'Pending'"
-                                class="ion-text-capitalize" size="small" [color]="'theme'">Pending</ion-button>
+                            
 
-                            <ion-button *ngIf="s?.notification_message?.panel_status != 'Pending'"
+                            <ion-button *ngIf="s?.notification_message?.panel_status == 'Active'"
                                 class="ion-text-capitalize" (click)="changeStatusService(s)" size="small"
                                 [color]="(s?.notification_message?.panel_status != 'Active') ? 'theme-sec' : 'theme'">
                                 {{ (s?.notification_message != 'Active') ? 'Activate' : 'Deactivate'}}</ion-button>
