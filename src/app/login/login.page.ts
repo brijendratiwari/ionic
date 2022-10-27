@@ -66,12 +66,12 @@ export class LoginPage implements OnInit {
     protected router: Router,
     public sideMenu: MenuController,
     public platform: Platform,
-    public fba:AnalyticsService,
+    public fba: AnalyticsService,
     public alertController: AlertController,
     public authService: AuthenticationService,
     private signInWithApple: SignInWithApple,
     public googlePlus: GooglePlus,
-    public appFlyerAnalytics:AppsFlyerService,
+    public appFlyerAnalytics: AppsFlyerService,
 
   ) {
     this.backButtonEvent();
@@ -81,7 +81,7 @@ export class LoginPage implements OnInit {
 
   ngOnInit() {
     this.loginCount = 0;
-    this.platform.is("android") ? this.platformName =  "android" : this.platformName = "ios";
+    this.platform.is("android") ? this.platformName = "android" : this.platformName = "ios";
     this.loginForm = this.formBuilder.group({
       username: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required, Validators.minLength(6)]],
@@ -103,7 +103,7 @@ export class LoginPage implements OnInit {
           password: res,
         });
       }
-    });    
+    });
   }
 
   public async loginUser() {
@@ -112,7 +112,7 @@ export class LoginPage implements OnInit {
       LoginForm: {
         username: this.loginForm.value.username,
         password: this.loginForm.value.password,
-        androidId:"",
+        androidId: "",
         iPhoneId: "",
       },
     };
@@ -142,18 +142,19 @@ export class LoginPage implements OnInit {
     }
   }
 
-   appFlyerLog = (user_id,login_first_date,login_last_date) => {    
-     const analytics = {
+  appFlyerLog = (user_id, login_first_date, login_last_date) => {
+    const analytics = {
       user_id,
       login_first_date,
       login_last_date,
-      login_count:this.loginCount,
-      app_version:this.appFlyerAnalytics.getCurrentVersionCode(),
-      app_type:this.appFlyerAnalytics.platformName()}  
-
-      // Apps Flyer
-      this.appFlyerAnalytics.loginAnalytics(analytics)  
+      login_count: this.loginCount,
+      app_version: this.appFlyerAnalytics.getCurrentVersionCode(),
+      app_type: this.appFlyerAnalytics.platformName()
     }
+
+    // Apps Flyer
+    this.appFlyerAnalytics.loginAnalytics(analytics)
+  }
 
 
 
@@ -167,7 +168,7 @@ export class LoginPage implements OnInit {
           // check token is received or user data received
           if (res.user && res.token) {
             const userId = res.user.id;
-            this.fba.logEvent(PetcloudApiService.app_login_analytics,{userId});
+            this.fba.logEvent(PetcloudApiService.app_login_analytics, { userId });
             this.authService.authState.next(true);
             this.storage.set("isLoggedInKeyPressed", this.isLoggedInChecked);
             this.storage.set("password", this.loginForm.value.password);
@@ -175,12 +176,12 @@ export class LoginPage implements OnInit {
             localStorage.setItem("token", res.token);
             localStorage.setItem("notificationToken", res.notificationToken);
 
-            this.events.publish("token",res.token),
-            this.events.publish("user", res.user);
+            this.events.publish("token", res.token),
+              this.events.publish("user", res.user);
 
-           await this.appFlyerLog(res.user.id,res.login_first_date,res.login_last_date);
-            
-          
+            await this.appFlyerLog(res.user.id, res.login_first_date, res.login_last_date);
+
+
             let background: any = res.user.BackgroundCheck;
             let rightToWork: any = res.user.righttowork;
             let animalCare: any = res.user.animalcare;
@@ -196,23 +197,23 @@ export class LoginPage implements OnInit {
             await this.storage.set(PetcloudApiService.USER, res.user);
 
             let user_type = await res.user.user_type;
- 
+
             if (user_type == 3 || user_type == 2) {
               localStorage.setItem("menuType", "sitter")
               this.storage.set("menuType", "sitter").then((res) => {
-                this.events.publish("menuName", {menuType: "sitter", time: Date.now()})
+                this.events.publish("menuName", { menuType: "sitter", time: Date.now() })
               })
             } else if (user_type == 1) {
               localStorage.setItem("menuType", "owner")
               this.storage.set("menuType", "owner").then((res) => {
-               
+
               })
             }
 
             await this.api.addTokenInHeader();
 
             let getReturnurl: any = await this.api.checkisNewUser(res.user);
-           
+
             if (res.user.longitude == null || res.user.longitude == "") {
               this.navCntl.navigateRoot([
                 "/basic-info",
@@ -241,7 +242,7 @@ export class LoginPage implements OnInit {
           }
         } else {
           // Email Exist then take user to Reset Password Page.
-          if(res.emailExist){
+          if (res.emailExist) {
             const alert = await this.alertController.create({
               message: res.error,
               buttons: [
@@ -252,13 +253,13 @@ export class LoginPage implements OnInit {
                 }, {
                   text: 'Okay',
                   handler: () => {
-                      this.navCntl.navigateRoot("/reset-password");
+                    this.navCntl.navigateRoot("/reset-password");
                   }
                 }
               ]
             });
             await alert.present();
-          } else if(!res.emailExist){
+          } else if (!res.emailExist) {
             const alert = await this.alertController.create({
               message: "This Email address is not linked to PetCloud, Sign up Instead.",
               buttons: [
@@ -275,69 +276,69 @@ export class LoginPage implements OnInit {
               ]
             });
             await alert.present();
-           
-          }else{
-            this.api.showToast(res.error,'3000',"bottom");
+
+          } else {
+            this.api.showToast(res.error, '3000', "bottom");
           }
         }
       },
       (err) => {
-        this.api.autoLogout(err,signInData)
+        this.api.autoLogout(err, signInData)
         // hide loader in error
         this.api.hideLoader();
       }
     );
   }
 
-  public async loginWithApple(){
+  public async loginWithApple() {
 
-    if(this.platform.is("ios")){
-    await  this.signInWithApple.signin({
+    if (this.platform.is("ios")) {
+      await this.signInWithApple.signin({
         requestedScopes: [
           ASAuthorizationAppleIDRequest.ASAuthorizationScopeFullName,
           ASAuthorizationAppleIDRequest.ASAuthorizationScopeEmail
         ]
       }).then(async (res: AppleSignInResponse) => {
-      
+
         const deviceData = await this.api.getFirebaseToken()
         const deviceId = {
           androidId: deviceData.androidId,
-          iPhoneId:deviceData.iPhoneId,
-          token:res.identityToken,
+          iPhoneId: deviceData.iPhoneId,
+          token: res.identityToken,
         }
 
-       this.api.showLoader();
-      await this.api.loginWithapple(deviceId).subscribe(
-        async (r: ApiResponse) => {
-          this.api.hideLoader();
-          if (r.success === true) {
-            if (r.user && r.token) {
-              await this.storage.set(PetcloudApiService.USERTOKEN, r.token);
-              localStorage.setItem("token", await r.token);
-              this.events.publish("token",r.token),
-           await this.storage.set(PetcloudApiService.USER, r.user);
-           deviceId.androidId != "" ? this.appFlyerAnalytics.registerToken(deviceId.androidId) :
+        this.api.showLoader();
+        await this.api.loginWithapple(deviceId).subscribe(
+          async (r: ApiResponse) => {
+            this.api.hideLoader();
+            if (r.success === true) {
+              if (r.user && r.token) {
+                await this.storage.set(PetcloudApiService.USERTOKEN, r.token);
+                localStorage.setItem("token", await r.token);
+                this.events.publish("token", r.token),
+                  await this.storage.set(PetcloudApiService.USER, r.user);
+                deviceId.androidId != "" ? this.appFlyerAnalytics.registerToken(deviceId.androidId) :
                   this.appFlyerAnalytics.registerToken(deviceId.iPhoneId)
-                  
-           await this.api.checkIsNewUser().then(async (dynamicUrl: any) => {
-                await  this.navCntl.navigateRoot(dynamicUrl);
-              });
+
+                await this.api.checkIsNewUser().then(async (dynamicUrl: any) => {
+                  await this.navCntl.navigateRoot(dynamicUrl);
+                });
+              }
+            } else {
+              this.api.showToast(r.error, 3000, "bottom");
             }
-          } else {
-            this.api.showToast(r.error,3000,"bottom");
+          },
+          (err: any) => {
+            this.api.hideLoader();
+            this.api.autoLogout(err, deviceId)
           }
-        },
-        (err: any) => {
-          this.api.hideLoader();
-          this.api.autoLogout(err,deviceId)
-        }
-      );
-    }).catch((error: AppleSignInErrorResponse) => {
-        error.code === 1001? "" : this.api.showToast("This device does not support Apple SignIn, try updating your device","3000","bottom")
+        );
+      }).catch((error: AppleSignInErrorResponse) => {
+        error.code === 1001 ? "" : this.api.showToast("This device does not support Apple SignIn, try updating your device", "3000", "bottom")
       });
-  
-    }else{
-      this.api.showToast("Apple Sign In is available for iOS device.","3000","bottom")  
+
+    } else {
+      this.api.showToast("Apple Sign In is available for iOS device.", "3000", "bottom")
     }
   }
 
@@ -354,10 +355,10 @@ export class LoginPage implements OnInit {
 
         const deviceData = await this.api.getFirebaseToken()
         const deviceId = {
-          androidId:deviceData.androidId,
+          androidId: deviceData.androidId,
           iPhoneId: deviceData.iPhoneId,
           token: await res.authResponse.accessToken
-      }
+        }
         this.api.loginWithFacebook(deviceId).subscribe(
           (r: ApiResponse) => {
             this.api.hideLoader();
@@ -366,10 +367,10 @@ export class LoginPage implements OnInit {
                 this.storage.set(PetcloudApiService.USERTOKEN, r.token);
                 localStorage.setItem("token", r.token);
 
-                this.events.publish("token",r.token),
+                this.events.publish("token", r.token),
                   deviceId.androidId != "" ? this.appFlyerAnalytics.registerToken(deviceId.androidId) :
-                  this.appFlyerAnalytics.registerToken(deviceId.iPhoneId)
-                    
+                    this.appFlyerAnalytics.registerToken(deviceId.iPhoneId)
+
                 this.storage.set(PetcloudApiService.USER, r.user);
                 this.api.checkIsNewUser().then((dynamicUrl: any) => {
                   this.navCntl.navigateRoot(dynamicUrl);
@@ -437,7 +438,7 @@ export class LoginPage implements OnInit {
 
     viewPetJob == "yes" ? localStorage.setItem("viewPetJobs", "yes") : "";
     trainingDone == "yes" ? localStorage.setItem(PetcloudApiService.TRAININGDONE, "yes") : "";
-    
+
     this.router.navigateByUrl('/home/tabs/sitter-listing')
   }
 
@@ -463,34 +464,34 @@ export class LoginPage implements OnInit {
         async (res: FacebookLoginResponse) => {
           this.api.showToast('Sign up successful with Facebook.', 2000, 'bottom');
           this.api.showLoader();
-  
+
           const deviceData = await this.api.getFirebaseToken()
           const deviceId = {
-            androidId:deviceData.androidId,
-            iPhoneId:deviceData.iPhoneId
+            androidId: deviceData.androidId,
+            iPhoneId: deviceData.iPhoneId
           }
 
-          await this.api.signupWithFacebook(res.authResponse.accessToken,deviceId)
+          await this.api.signupWithFacebook(res.authResponse.accessToken, deviceId)
             .pipe(finalize(() => {
               // hide loader in success
             }))
             .subscribe(
               (r: ApiResponse) => {
-              if (r.success) {
+                if (r.success) {
                   this.api.showToast('Authentication successful, login now.', 2000, 'bottom');
                   // add redirection code to login user.
                   this.storage.set(PetcloudApiService.USERTOKEN, r.token);
                   localStorage.setItem('token', r.token);
                   deviceId.androidId != "" ? this.appFlyerAnalytics.registerToken(deviceId.androidId) :
-                  this.appFlyerAnalytics.registerToken(deviceId.iPhoneId)
-                  this.events.publish("token",r.token),
-                  
-                  this.api.addTokenInHeader();
+                    this.appFlyerAnalytics.registerToken(deviceId.iPhoneId)
+                  this.events.publish("token", r.token),
+
+                    this.api.addTokenInHeader();
                   this.storage.set(PetcloudApiService.USER, r.user);
                   this.api.showLoader();
                   this.api.checkIsNewUser()
                     .then((dynamicUrl: any) => {
-                     
+
                       this.router.navigateByUrl(dynamicUrl);
                       this.api.hideLoader();
                     });
@@ -508,68 +509,69 @@ export class LoginPage implements OnInit {
                 this.api.showToast('having some trouble for signup your user! Try Again', 2000, 'bottom');
               });
         }).catch((e: any) => {
+          console.log(e, "errrr")
           this.api.hideLoader();
           this.api.showToast('Error logging into Facebook', 2000, 'bottom');
         });
   }
 
-  public continueGuest(){
+  public continueGuest() {
 
     this.storage.clear();
     localStorage.clear();
-    
+
     this.storage.set("isLoggedInKeyPressed", false);
 
     this.router.navigateByUrl("//home/tabs/sitter-listing");
   }
 
-  public async loginWithGoogle(){
+  public async loginWithGoogle() {
 
-      const deviceId = await this.api.getFirebaseToken();
-      let userData = {
-          user_id: "",
-          email: "",
-          first_name: "",
-          last_name: "",
-          androidId: deviceId.androidId,
-          iPhoneId: deviceId.iPhoneId
-      }
-      this.googlePlus.login({}).then((res) => {
-          
-          this.api.showLoader();
+    const deviceId = await this.api.getFirebaseToken();
+    let userData = {
+      user_id: "",
+      email: "",
+      first_name: "",
+      last_name: "",
+      androidId: deviceId.androidId,
+      iPhoneId: deviceId.iPhoneId
+    }
+    this.googlePlus.login({}).then((res) => {
 
-          userData.email = res.email,
-              userData.first_name = res.givenName,
-              userData.last_name = res.familyName,
-              userData.user_id = res.userId
+      this.api.showLoader();
 
-          this.api.authWithGoogle(userData).pipe(finalize(() => {
-              // hide loader in success
-           
-          })).subscribe(async (data: any) => {
-              if (data.success) {
-                  this.storage.set(PetcloudApiService.USERTOKEN, data.token);
-                  localStorage.setItem('token', data.token);
-                  this.api.addTokenInHeader();
-                  this.storage.set(PetcloudApiService.USER, data.user);
+      userData.email = res.email,
+        userData.first_name = res.givenName,
+        userData.last_name = res.familyName,
+        userData.user_id = res.userId
 
-                  deviceId.androidId != "" ? this.appFlyerAnalytics.registerToken(deviceId.androidId) :
-                  this.appFlyerAnalytics.registerToken(deviceId.iPhoneId)
-                  
-                  await this.api.checkIsNewUser()
-                      .then((dynamicUrl: any) => {
-                          this.router.navigateByUrl(dynamicUrl);
-                          this.api.hideLoader();
-                      });
-              } else {
-                this.api.hideLoader();
-                  this.api.showToast(data.error, 3000, "bottom");
-              }
+      this.api.authWithGoogle(userData).pipe(finalize(() => {
+        // hide loader in success
 
-          }, err => {
-              this.api.autoLogout(err, userData);
-          })
-      }).catch(err => console.error(err));
+      })).subscribe(async (data: any) => {
+        if (data.success) {
+          this.storage.set(PetcloudApiService.USERTOKEN, data.token);
+          localStorage.setItem('token', data.token);
+          this.api.addTokenInHeader();
+          this.storage.set(PetcloudApiService.USER, data.user);
+
+          deviceId.androidId != "" ? this.appFlyerAnalytics.registerToken(deviceId.androidId) :
+            this.appFlyerAnalytics.registerToken(deviceId.iPhoneId)
+
+          await this.api.checkIsNewUser()
+            .then((dynamicUrl: any) => {
+              this.router.navigateByUrl(dynamicUrl);
+              this.api.hideLoader();
+            });
+        } else {
+          this.api.hideLoader();
+          this.api.showToast(data.error, 3000, "bottom");
+        }
+
+      }, err => {
+        this.api.autoLogout(err, userData);
+      })
+    }).catch(err => console.error(err));
   }
 
 }
