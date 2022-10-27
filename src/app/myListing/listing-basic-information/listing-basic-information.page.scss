@@ -19,3 +19,10 @@
       font-size: 16px;
     }
   }
+  .setIcon {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--ion-item-border-color, var(--ion-border-color, var(--ion-color-step-150, rgba(0, 0, 0, 0.13))));
+    justify-content: space-between;
+    min-height: 54px;
+}

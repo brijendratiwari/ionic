@@ -91,9 +91,9 @@
                             above option
                         </ion-text>
                     </div>
-                    <ion-item>
-                        <ion-label> My Refund Policy
-                            <ion-icon name="information-circle" (click)="refundPolicy()"  slot="end"></ion-icon>
+                        <div class="setIcon">
+                        <ion-label (click)="refundPolicy()"> My Refund Policy 
+                            <ion-icon name="information-circle"  slot="end"></ion-icon>
                         </ion-label>
                         <ion-select formControlName="cancellation_policy" color="theme"
                                 placeholder="select refund policy" >
@@ -101,14 +101,14 @@
                                 <ion-select-option value="1">Flexible</ion-select-option>
                                 <ion-select-option value="2">Moderate</ion-select-option>
                             </ion-select>
-                    </ion-item>
+                        </div>
 
-                    <ion-item>
+                        <div class="setIcon">
                         <ion-label class="ion-text-wrap">I'm a Pet Service Professional
                             <ion-icon name="information-circle" slot="end"></ion-icon>
                         </ion-label>
                         <ion-checkbox formControlName="checkProfessional" color="theme"></ion-checkbox>
-                    </ion-item>
+                    </div>
                     <ion-item *ngIf="basicListingFrm && basicListingFrm.get('checkProfessional').value == true">
                         <ion-label position="stacked">My ABN is</ion-label>
                         <ion-input formControlName="abn" placeholder="enter your abn number">
@@ -121,12 +121,12 @@
                         <ion-checkbox formControlName="gst_registered" color="theme"></ion-checkbox>
                     </ion-item>
 
-                    <ion-item>
+                    <div class="setIcon">
                     <ion-label class="ion-text-wrap">Send me job notifications
                             <ion-icon name="information-circle" slot="end"></ion-icon>
                         </ion-label>
                         <ion-checkbox formControlName="sendMeJobs" color="theme"></ion-checkbox>
-                    </ion-item>
+                    </div>
                 </form>
             </ion-col>
         </ion-row>

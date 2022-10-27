@@ -390,6 +390,7 @@ export class ListingServicesPage implements OnInit {
                 })).subscribe((res: any) => {
                     if (res.success) {
                         this.api.showToast('Service is Updated successful', 2000, 'bottom');
+                        this.getListingService();
                     } else {
                         this.api.showToast('Service is not Updated try again!', 2000, 'bottom');
                     }
