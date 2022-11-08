@@ -68,6 +68,7 @@ export class MessageDetailPage implements OnInit {
 
     public isReviewLikeUnlike: boolean = false;
     public messageDetails: any;
+    public messageRes: any;
     public messageMinderInfo: any;
     public messageOwnerInfo: any;
 
@@ -192,7 +193,7 @@ export class MessageDetailPage implements OnInit {
                 })).subscribe(async (res: any) => {
                     if (res.success) {
                         this.isAPILoaded = true;
-
+                        this.messageRes = res
                         this.message = res.booking;
                         this.messageDetails = await res.booking;
                         console.log("this.messageDetails", this.messageDetails);
