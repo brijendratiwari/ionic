@@ -16,6 +16,9 @@ ion-item{--padding-start:0}
     display: block;
 }
 
+.greyed{
+    opacity : 0.3;
+}
 .cardFrequecy ion-select {
     border: 1px solid silver;
     border-radius: 4px;

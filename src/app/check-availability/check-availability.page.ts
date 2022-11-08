@@ -119,6 +119,7 @@ export class CheckAvailabilityPage implements OnInit {
       booking_days: [""],
       book_days: [],
       service: ["", [Validators.required]],
+      duration_walk: ["", [Validators.required]],
       services: [[]],
       pets: [[], [Validators.required, Validators.minLength(1)]],
       start_date: [tomorrow, [Validators.required]],
@@ -153,7 +154,7 @@ export class CheckAvailabilityPage implements OnInit {
         this.firebaseAnalytics.logEvent(PetcloudApiService.check_availability_analytics, { "sitterId": this.sitterId })
 
         this.sitterName = siterData.sitterName;
-        this.primaryService = siterData.primaryService.filter((res) => res.active == "1");
+        this.primaryService = siterData.primaryServiceNew.filter((res) => res.active == "1");
 
         this.availabilityFrm.patchValue({
           service: this.primaryService[0],
@@ -161,7 +162,7 @@ export class CheckAvailabilityPage implements OnInit {
 
         this.selectedServiceId = this.primaryService[0].id;
 
-        let selectedServiceValue = this.sittersDetail.primaryService.filter(
+        let selectedServiceValue = this.sittersDetail.primaryServiceNew.filter(
           (data) => data.id == this.primaryService[0].id
         );
         this.serviceChargeType = selectedServiceValue[0].serviceType.serviceChargeType;
@@ -202,8 +203,8 @@ export class CheckAvailabilityPage implements OnInit {
 
 
 
-        if (siterData.primaryService.length > 0) {
-          for (const s of siterData.primaryService) {
+        if (siterData.primaryServiceNew.length > 0) {
+          for (const s of siterData.primaryServiceNew) {
             this.sitterServices.primary.push({
               serviceId: s.id,
               serviceName: s.serviceType.serviceName,
@@ -395,6 +396,7 @@ export class CheckAvailabilityPage implements OnInit {
       let avilaFrm = {
         minderid: this.availabilityFrm.value.minderid,
         frequency: this.availabilityFrm.value.frequency,
+        duration_walk: this.availabilityFrm.value.duration_walk,
         service: this.availabilityFrm.value.service.id,
         pets: this.selectedPetIds,
         start_date,
@@ -551,7 +553,7 @@ export class CheckAvailabilityPage implements OnInit {
     this.serviceChargeType = event.detail.value.serviceType.serviceChargeType;
     this.isOnceOff = event.detail.value.hideonce;
     
-    console.log("service charge type", event.detail.value.serviceType.serviceChargeType);
+    console.log("service charge type", event.detail.value.serviceType.serviceChargeType, event.detail.value);
       
     this.setHideOnce(event.detail.value.hideonce)
     if (event.detail.value.serviceType.serviceChargeType == 3) {

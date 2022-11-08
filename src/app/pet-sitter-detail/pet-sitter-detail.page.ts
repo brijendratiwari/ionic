@@ -277,6 +277,7 @@ export class PetSitterDetailPage implements OnInit {
               sitterId: this.sitterData.id,
               sitterName: this.sitterData.first_name,
               primaryService: this.sitterData.primaryServices,
+              primaryServiceNew: this.sitterData.primaryServicesNew,
               secondaryService: this.sitterData.secondaryServices,
               operating_days: this.sitterProfile.operating_days,
               isRebook: false,

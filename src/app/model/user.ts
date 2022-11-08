@@ -40,6 +40,7 @@ export class User {
     spaceImages: [SpaceImage] = [null];
     listing: Listing;
     primaryServices: [Service] = [null];
+    primaryServicesNew: [Service] = [null];
     secondaryServices: [Service] = [null];
     services: [Service] = [null];
     rating: Rating;
