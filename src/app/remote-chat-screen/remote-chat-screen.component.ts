@@ -58,6 +58,7 @@ export class RemoteChatScreenComponent implements OnInit {
   amount: any = "";
   serviceName: any = ""
   bookingStatus: any = "";
+  service_name: any = "";
 
   isButtonVisible: boolean = true;
   isMeetGreetButtonVisible: boolean = true;
@@ -119,6 +120,7 @@ export class RemoteChatScreenComponent implements OnInit {
     this.amount = navParams.get("amount");
     this.serviceName = navParams.get("serviceName");
     this.bookingStatus = navParams.get("bookingStatus");
+    this.service_name = navParams.get("service_name");
     this.bookingStatus == "D" || this.bookingStatus == "CAN" || this.bookingStatus == "E" ? this.isButtonVisible = false : this.isButtonVisible = true;
     if(this.platform.is("cordova")){
       this.analytics.logEvent(PetcloudApiService.chatscreen, { userId: this.userId });

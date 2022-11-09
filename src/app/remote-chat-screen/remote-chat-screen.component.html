@@ -35,8 +35,8 @@
               <ion-img src="assets/img/matchlink.png"></ion-img>
             </ion-avatar>
             <ion-label>
-              <h3>{{serviceName}} - 1 Night</h3>
-              <p class="company-msg-time">{{dropOff | date : 'EEE dd MMM'}} - {{pickUp | date : 'EEE dd MMM'}}</p>
+              <h3>{{serviceName}} {{service_name != '' ? '-' : ''}} {{service_name}}</h3>
+              <p class="company-msg-time">{{dropOff | date : 'EEE dd MMM'}} {{pickUp != '' ? '-' : ''}} {{pickUp | date : 'EEE dd MMM'}}</p>
               <p>Booking ID: {{bookingId}}</p>
             </ion-label>
           </ion-item>

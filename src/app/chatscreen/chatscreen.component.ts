@@ -54,6 +54,7 @@ export class ChatscreenComponent implements OnInit {
   amount: any = "";
   serviceName: any = ""
   bookingStatus: any = "";
+  service_name: any = "";
 
   isButtonVisible: boolean = true;
   isMeetGreetButtonVisible: boolean = true;
@@ -111,6 +112,7 @@ export class ChatscreenComponent implements OnInit {
     this.amount = navParams.get("amount");
     this.serviceName = navParams.get("serviceName");
     this.bookingStatus = navParams.get("bookingStatus");
+    this.service_name = navParams.get("service_name");
 
     this.bookingStatus == "A" || this.bookingStatus == "PP" ? this.isMeetGreetButtonVisible = true : this.isMeetGreetButtonVisible = false;
     this.bookingStatus == "MD" || this.bookingStatus == "CURR" || this.bookingStatus == "C" || this.bookingStatus == "CAN" || this.bookingStatus == "E" ? this.isButtonVisible = false : this.isButtonVisible = true;

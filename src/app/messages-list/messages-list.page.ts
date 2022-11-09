@@ -224,7 +224,7 @@ export class MessagesListPage implements OnInit {
     otherUserImage = msg.owner.imagename == this.user.imagename ? msg.minder.imagename : msg.owner.imagename;
     await this.remoteChatScreenWindow(msg.id,msg.minderId,msg.ownerid,this.userId,this.user.imagename,
       otherUserImage,this.user.first_name,toName,sendPush,msg.startDate,msg.endDate,msg.servicetype.serviceName,msg?.service?.total,
-      msg.booking_status)
+      msg.booking_status,msg.service_name)
     } else if(msg.booking_status == "CURR" || msg.booking_status == "MD"){
 
       if(msg.booking_status == "MD"){
@@ -236,7 +236,7 @@ export class MessagesListPage implements OnInit {
       otherUserImage = msg.owner.imagename == this.user.imagename ? msg.minder.imagename : msg.owner.imagename;      
       await this.chatScreenWindow(msg.id,msg.minderId,msg.ownerid,this.userId,this.user.imagename,
         otherUserImage,this.user.first_name,toName,sendPush,msg.startDate,msg.endDate,msg.servicetype.serviceName,msg?.service?.total,
-        msg.booking_status)
+        msg.booking_status,msg.service_name)
       } else{
     this.router.navigate(["/message-detail"], {
       queryParams: { id: msg.id },
@@ -344,7 +344,7 @@ export class MessagesListPage implements OnInit {
   }
 
   public async chatScreenWindow(id,minderId,ownerId,userId,currentUserImage,
-    otherUserImage,fromName,toName,sendPush,dropOff,pickUp,serviceName,amount,bookingStatus) {
+    otherUserImage,fromName,toName,sendPush,dropOff,pickUp,serviceName,amount,bookingStatus, service_name) {
 
     const modal = await this.modalCtrl.create({
       component: ChatscreenComponent,
@@ -363,7 +363,8 @@ export class MessagesListPage implements OnInit {
         pickUp,
         serviceName,
         amount,
-        bookingStatus
+        bookingStatus,
+        service_name
       }
     });
     modal.onDidDismiss()
@@ -374,7 +375,7 @@ export class MessagesListPage implements OnInit {
   }
 
   public async remoteChatScreenWindow(id,minderId,ownerId,userId,currentUserImage,
-    otherUserImage,fromName,toName,sendPush,dropOff,pickUp,serviceName,amount,bookingStatus) {
+    otherUserImage,fromName,toName,sendPush,dropOff,pickUp,serviceName,amount,bookingStatus,service_name) {
 
     const modal = await this.modalCtrl.create({
       component: RemoteChatScreenComponent,
@@ -393,7 +394,8 @@ export class MessagesListPage implements OnInit {
         pickUp,
         serviceName,
         amount,
-        bookingStatus
+        bookingStatus,
+        service_name
       }
     });
     modal.onDidDismiss()
