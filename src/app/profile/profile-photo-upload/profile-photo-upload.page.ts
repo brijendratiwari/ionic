@@ -177,7 +177,7 @@ export class ProfilePhotoUploadPage implements OnInit {
                                 this.router.navigateByUrl('/home/tabs/profile-menu');
                             }
                         } else {
-                            this.api.showToast('Filed to add photo.', 2000, 'bottom');
+                            this.api.showToast('Failed to add photo.', 2000, 'bottom');
                         }
                     }, (err: any) => {
                         this.api.autoLogout(err,fileParams)
