@@ -3014,10 +3014,7 @@ export class PetcloudApiService {
           this.hideLoader();
 
         });
-    } else if (err.status == 0) {
-      this.router.navigateByUrl("/app-maintainiance");
-    }
-    else {
+    }else {
       const apiError = {
         userId,
         errorCode: err.status,

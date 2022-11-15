@@ -533,9 +533,55 @@ export class SitterListingPage implements OnInit {
         });
     }
 
+    public getSittersProfileDetails() {
+        
+      }
+
     async sendEnquiry(sitter) {
-        this.router.navigateByUrl("check-availability",{
-        });
+        this.api.showLoader();
+        this.api
+            .getSittersProfileDetails(sitter.id)
+            .pipe(
+                finalize(() => {
+                    this.api.hideLoader();
+                })  
+            )
+            .subscribe(
+                (res: any) => {
+                    if (res.success) {
+                
+                        const availabilityData = {
+                        sitterId: res.user.id,
+                        sitterName: res.user.first_name,
+                        primaryService: res.user.primaryServices,
+                        primaryServiceNew: res.user.primaryServicesNew,
+                        secondaryService: res.user.secondaryServices,
+                        operating_days: res.operating_days,
+                        isRebook: false,
+                        };
+                        this.storage.set("availabilitySitter", availabilityData);
+                        this.router.navigateByUrl("check-availability",{
+                        });
+                
+                    } else {
+                        
+                        this.api.showToast(
+                        "sitters details not found! Try again.",
+                        2000,
+                        "bottom"
+                        );
+                    }
+                },
+                (err: any) => {
+                    this.api.showToast(
+                        "sitters details not found! Try again.",
+                        2000,
+                        "bottom"
+                        );
+                
+                }
+            );
+        
         return;
         const modal = await this.modelCtrl.create({
             component: PostEnquiryComponent,

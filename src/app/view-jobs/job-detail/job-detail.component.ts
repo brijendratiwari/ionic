@@ -83,8 +83,8 @@ export class JobDetailComponent implements OnInit {
         async (res: any) => {
           if (res.success) {
             this.jobDetail = await res;
-          
-            console.log("applied user", this.jobDetail.job.appliedUser.id);
+            
+            console.log("applied user", this.jobDetail);
 
             this.jobDetail.job.start_date =  await moment(this.jobDetail.job.start_date).format("MMM DD YYYY, h:mm A"); 
             this.jobDetail.job.end_date = await moment(this.jobDetail.job.end_date).format("MMM DD YYYY, h:mm A"); 

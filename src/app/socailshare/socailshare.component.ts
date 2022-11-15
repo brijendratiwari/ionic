@@ -26,7 +26,7 @@ export class SocailshareComponent implements OnInit {
       this.description = navParams.get("description");
       this.shareURL = navParams.get("shareURL");
     } else if (navParams.get("shareType") == "directory-listing-map") {
-      this.description = navParams.get("description");
+      this.description = navParams.get("description")+ ' ';
     }
   }
 
@@ -48,7 +48,7 @@ export class SocailshareComponent implements OnInit {
       }
 
       else {
-        this.api.shareViaTwitter(this.description, null, this.shareURL);
+        this.api.shareViaFb(this.description, null, this.shareURL);
       }
 
     } else if (param == "twitter") {

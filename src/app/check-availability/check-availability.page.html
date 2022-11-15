@@ -89,27 +89,19 @@
                     </ion-text>
                 </ion-col>
             </ion-row>
-
-
-
-            <div  *ngIf="serviceChargeType != '0'">
-
                 
-
-                
-                
-                <div class="settingDays" *ngIf="isRecurringDateSelector">
-                    <ion-label position="stacked">Select Frequency of Fun</ion-label>
-                    <ion-row >  
-                        
-                        <ion-col *ngFor="let day of days">
-                            
-                            <ion-checkbox (click)="onChange(day.value)" name="day" [checked]="day.checked" [disabled]="day.disabled">
-                            </ion-checkbox>
-                            <ion-label [ngClass]="day.disabled ? 'greyed' : ''">{{day.label}}</ion-label>
-                        </ion-col>
-                        
+            <div class="settingDays" *ngIf="availabilityFrm.get('bookingType').value == '1'">
+                <ion-label position="stacked">Select Frequency of Fun</ion-label>
+                <ion-row >  
                     
+                    <ion-col *ngFor="let day of days">
+                        
+                        <ion-checkbox (click)="onChange(day.value)" name="day" [checked]="day.checked" [disabled]="day.disabled">
+                        </ion-checkbox>
+                        <ion-label [ngClass]="day.disabled ? 'greyed' : ''">{{day.label}}</ion-label>
+                    </ion-col>
+                    
+                
                 </ion-row>
                 <ion-text lines="none" class="animated fadeInUp" *ngIf="is_booking_days">
                     <p class="error"> Please Select Days</p>
@@ -127,7 +119,7 @@
                             *ngFor="let durat of availabilityFrm.get('service').value.duration | keyvalue,let i = index" 
                             [value]="durat.key">
                             {{durat.value}}
-                       </ion-select-option>
+                    </ion-select-option>
                     </ion-select>
                     <ion-card *ngIf="availabilityFrm.get('service').value.duration">
                             <ion-card-title>
@@ -135,19 +127,21 @@
                             </ion-card-title>
                     </ion-card>
                 </div>
-                </div>
             </div>
-
 
             <ion-row>
                 <ion-col>
-                    <ion-item (click)="openFromDateCalender('from_date')" class="hori-input ion-no-padding">
+                    <ion-item class="hori-input ion-no-padding">
                         <ion-label>Start Date
                             <small class="error">*</small>
                         </ion-label>
-                        <div class="look-input" >
-                            {{lbl_formatedStartDate | date: 'EEE  dd MMM yyyy'}}
-                        </div>
+                        <ion-datetime display-format="DD MMM YYYY" [value]="startMinDate"
+                            placeholder="9:15 AM" picker-format="DD MMM YYYY" [min]="startMinDate"
+                            max="2024-12-31"
+                            formControlName="start_date" value="startMinDate"
+                            >
+                        </ion-datetime>
+                        
                     </ion-item>
                     <ion-text lines="none" class="animated fadeInUp error"
                         *ngIf="availabilityFrm.get('start_date').hasError('required') && availabilityFrm.get('start_date').touched">
@@ -179,12 +173,16 @@
                 <ion-col>
                     
                     <ion-item  class="ion-no-padding" (click)="openToCalender('end_date')" >
-                        <div class="hori-input">
-                            <div class="look-label"> End Date <small class="error">*</small></div>
-                            <div class="look-input">
-                                {{lbl_formatedEndDate | date: 'EEE  dd MMM yyyy'}}
-                            </div>
-                        </div>
+                        <ion-label>End Date
+                            <small class="error">*</small>
+                        </ion-label>
+                            <ion-datetime display-format="DD MMM YYYY" [value]="endMinDate"
+                                picker-format="DD MMM YYYY" [min]="endMinDate"
+                                max="2024-12-31"
+                                formControlName="end_date" value="endMinDate" >
+                            </ion-datetime>
+                            
+                        
                         
                   
                     </ion-item>
@@ -203,8 +201,7 @@
                             <small class="error">*</small>
                         </ion-label>
                         <ion-datetime display-format="h:mm A" picker-format="h:mm A" placeholder="11:15 AM"
-                        max="2024-12-31"
-                            hour-values="[1,2,3,4,5,6,7,8,9,10,11,12]" formControlName="end_time"
+                        max="2024-12-31" hour-values="[1,2,3,4,5,6,7,8,9,10,11,12]" formControlName="end_time"
                             minuteValues="0,15,30,45"></ion-datetime>
                     </ion-item>
                     <ion-text lines="none" class="animated fadeInUp error"

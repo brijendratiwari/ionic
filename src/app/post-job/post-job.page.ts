@@ -1427,7 +1427,7 @@ export class PostJobPage implements OnInit {
                 userId: this.userId,
               });
               await this.api.postedJobCount();
-              this.api.showToast("Job posted successful", 2000, "bottom");
+              //this.api.showToast("Job posted successful", 2000, "bottom");
               const jobCount =
                 parseInt(
                   localStorage.getItem(PetcloudApiService.TOTALPOSTEDJOB)

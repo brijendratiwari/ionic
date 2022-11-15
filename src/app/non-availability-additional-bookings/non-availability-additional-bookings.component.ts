@@ -33,7 +33,7 @@ export class NonAvailabilityAdditionalBookingsComponent implements OnInit {
   postjob(){
     this.closeModal();
     // this.router.navigateByUrl("/home/tabs/post-job")
-    this.router.navigateByUrl("/home/tabs/view-job")
+    this.router.navigateByUrl("/home/tabs/jobs-tab/post-job")
   }
 
   sitterListing(){

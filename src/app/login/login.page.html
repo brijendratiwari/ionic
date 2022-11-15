@@ -22,44 +22,21 @@
       </div>
     </div>
 
-        <!-- *ngIf="platformName == 'ios'" -->
-        <ion-card  *ngIf="platformName == 'ios' && !isLoginShown('1')" class="custom-card" (click)="loginWithApple()">
-          <ion-card-header class="ioncardapple">
-            <div class="icon">
-              <ion-icon name="logo-apple"></ion-icon>
-            </div>
-            <ion-label class="text-grey-1"> Sign in with Apple</ion-label>
-          </ion-card-header>
-        </ion-card>
-    
-    
-        <ion-card class="custom-card" *ngIf="!isLoginShown('1')" (click)="facebookSignup()">
-          <ion-card-header class="ioncardfacebook">
-            <div class="icon">
-              <ion-icon name="logo-facebook"></ion-icon>
-            </div>
-            <ion-label class="text-grey-1"> Sign in with Facebook </ion-label>
-          </ion-card-header>
-        </ion-card>
+        
+    <ion-card color="note">
+      <ion-card-header>
+          <ion-card-subtitle>We have removed Apple & Google sign in authentication. If you need to access your account, email: <a href="mailto:support@petcloud.com.au">support@petcloud.com.au</a></ion-card-subtitle>
+      </ion-card-header>
+    </ion-card>
 
-         <ion-card  class="custom-card" *ngIf="!isLoginShown('1')" (click)="loginWithGoogle()">
-            <ion-card-header class="ioncardgoogle">
-              <div class="icon">
-                <ion-icon name="logo-google"></ion-icon>
-              </div>
-              <ion-label class="text-grey-1"> Sign in with Google</ion-label>
-            </ion-card-header>
-          </ion-card> 
-
-
-        <ion-card class="custom-card" *ngIf="!isLoginShown('1')" (click)="continueGuest()">
-          <ion-card-header class="ioncardperson">
-            <div class="icon">
-              <ion-icon name="person"></ion-icon>
-            </div>
-            <ion-label class="text-grey-1"> Sign in as Guest </ion-label>
-          </ion-card-header>
-        </ion-card>
+    <ion-card class="custom-card" *ngIf="!isLoginShown('1')" (click)="continueGuest()">
+      <ion-card-header class="ioncardperson">
+        <div class="icon">
+          <ion-icon name="person"></ion-icon>
+        </div>
+        <ion-label class="text-grey-1"> Sign in as Guest </ion-label>
+      </ion-card-header>
+    </ion-card>
     
         
     <ion-card class="custom-card" [class.borderBox]="isLoginShown('1')">

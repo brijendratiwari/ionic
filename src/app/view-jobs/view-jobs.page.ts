@@ -578,7 +578,7 @@ export class ViewJobsPage implements OnInit {
       cssClass: "modalCss",
       componentProps: {
         description:
-          "Check out this cute pet job on PetCloud! Earn up to $200.",
+          "Check out this cute pet job on PetCloud! Earn up to $200. ",
         petImage: petImage,
         link: "",
         shareURL,

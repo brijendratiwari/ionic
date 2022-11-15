@@ -81,19 +81,14 @@ sliderOpts = {
     } else if(this.platform.is("ios")){
       this.isLocationAuthorized()
     }
-    // this.routeExploreSubscription.add(
-    //   this.router.events
-    //     .pipe(filter((event) => event instanceof NavigationEnd))
-    //     .subscribe(async (event: any) => {
-
-    //       if (event.url == "/home/tabs/explore") {
-            
-    //       }
-    //     }))
   }
 
   ngOnInit() {
      
+  }
+
+  ionViewWillEnter() {
+    this.getInfo()
   }
 
   ngOnDestroy() {

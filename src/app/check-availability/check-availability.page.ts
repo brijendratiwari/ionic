@@ -27,7 +27,6 @@ export class CheckAvailabilityPage implements OnInit {
   public selectedPet = [];
   public availabilityFrm: FormGroup;
   public showPetError = false;
-  public isRecurringDateSelector = false;
   public isbookingType = false;
   public is_recurringType: boolean = false;
   public is_booking_days: boolean = false;
@@ -54,14 +53,11 @@ export class CheckAvailabilityPage implements OnInit {
   //Boolean Show Hide Variables
   public isRecurring: boolean = false;
   public isOnceOff: boolean = false; // Show or hide Once off 
-  public hideBothDaySelector: boolean = false;
   public isCustomDays: boolean = false;
   public isEndDateTime: boolean = true;
   public isMultipleDays: boolean = false;
-  public isrecurringSelected: Boolean = false;
   // Response in Recurring Type
   recurringOptions: any;
-  public isOneOffDateSelector: boolean = false;
   public selectedMode: any;
   selectedDayStatus: any;
   public isFormValid: boolean = false;
@@ -138,12 +134,15 @@ export class CheckAvailabilityPage implements OnInit {
         this.sitterId = siterData.sitterId;
         this.isRebook = siterData.isRebook;
 
-        this.days.forEach(day =>{
-          let finder = siterData.operating_days.findIndex( x => x == day.value );
-          if(finder >= 0){
-            day.disabled = false;
-          }
-        })
+        if( siterData.operating_days ){
+
+          this.days.forEach(day =>{
+            let finder = siterData.operating_days.findIndex( x => x == day.value );
+            if(finder >= 0){
+              day.disabled = false;
+            }
+          })
+        }
 
         // add minderid.
         this.availabilityFrm.patchValue({
@@ -155,7 +154,7 @@ export class CheckAvailabilityPage implements OnInit {
 
         this.sitterName = siterData.sitterName;
         this.primaryService = siterData.primaryServiceNew.filter((res) => res.active == "1");
-
+        console.log(this.primaryService,siterData)
         this.availabilityFrm.patchValue({
           service: this.primaryService[0],
         });
@@ -171,14 +170,11 @@ export class CheckAvailabilityPage implements OnInit {
        
         selectedServiceValue[0].serviceType.allow_reoccurring == 1
           ? ((this.isRecurring = true,
-            this.isRecurringDateSelector = true,
-            this.isOneOffDateSelector = false,
             this.availabilityFrm.patchValue({
               bookingType: "1",
               recurring_type: "C"
             })))
           : (this.isRecurring = false,
-            this.isRecurringDateSelector = false,
             this.availabilityFrm.patchValue({
               bookingType: "0",
               recurring_type: "C"
@@ -283,37 +279,28 @@ export class CheckAvailabilityPage implements OnInit {
     }
   }
 
-  checkValidations() {
+  isDateEnabled = (dateIsoString: string) => {
+    const date = new Date(dateIsoString);
+    const utcDay = date.getUTCDay();
+    
+    if(this.sittersDetail.operating_days.findIndex( x => x == utcDay ) >=0 ){
+      return true;
+    }
+    return false;
+  }
 
+  checkValidations() {
+    //console.log(this.availabilityFrm.value)
     if (this.selectedPetIds.length > 0 && this.selectedMode != null && this.availabilityFrm.value.service != "") {
-      if (this.serviceChargeType == 0) {
-        this.isFormValid = true;
-      } else if (this.serviceChargeType != 0) {
-        if (this.availabilityFrm.value.recurring_type == "") {
-          this.isFormValid = false;
-        } else if (this.availabilityFrm.value.recurring_type != "") {
-          if (this.availabilityFrm.value.recurring_type == "OAW" || this.availabilityFrm.value.recurring_type == "C") {
-            if (this.availabilityFrm.value.recurring_type == "OAW") {
-              this.isMultipleDays = false;
-              if (this.availabilityFrm.value.booking_days != "") {
-                this.isFormValid = true;
-              } else {
-                this.isFormValid = false;
-              }
-            }
-            if (this.availabilityFrm.value.recurring_type == "C") {
-              if (this.availabilityFrm.value.booking_days.length) {
-                this.isFormValid = true;
-              } else {
-                this.isFormValid = false;
-              }
-            }
-          } else if (this.availabilityFrm.value.recurring_type != "OAW" || this.availabilityFrm.value.recurring_type != "C") {
+      this.isFormValid = true;
+        if (this.availabilityFrm.value.bookingType == "1") {
+          if (this.availabilityFrm.value.booking_days.length) {
             this.isFormValid = true;
-            this.isMultipleDays = false;
+          } else {
+            this.isFormValid = false;
           }
         }
-      }
+      
     } else {
       this.isFormValid = false;
     }
@@ -407,10 +394,7 @@ export class CheckAvailabilityPage implements OnInit {
             ? this.tConvert(this.availabilityFrm.value.end_time)
             : "",
         book_days: this.availabilityFrm.value.book_days,
-
-        booking_days: this.availabilityFrm.value.recurring_type == "W" ? ['6'] :
-          this.availabilityFrm.value.recurring_type == "OAW" ? booking_days :
-            this.availabilityFrm.value.booking_days,
+        booking_days:  this.availabilityFrm.value.booking_days,
         recurring_type: this.availabilityFrm.value.recurring_type,
         bookingType: this.availabilityFrm.value.bookingType,
         inquire_anyway: this.isInquireAnyWay == true ? "inquireanyway" : "",
@@ -426,7 +410,7 @@ export class CheckAvailabilityPage implements OnInit {
         for (let [key, value] of Object.entries(avilaFrm.extraservices)) {
           let val: any
           val = value;
-
+          console.log(value)
           if (val.occasions == 0 && val.pets.length == 0) {
             await delete avilaFrm.extraservices[key];
           }
@@ -558,7 +542,7 @@ export class CheckAvailabilityPage implements OnInit {
     this.setHideOnce(event.detail.value.hideonce)
     if (event.detail.value.serviceType.serviceChargeType == 3) {
       this.isEndDateTime = false;
-    } 
+    }
 
 
     this.storage.get("availabilitySitter").then((siterData: any) => {
@@ -614,76 +598,27 @@ export class CheckAvailabilityPage implements OnInit {
       );
   }
 
-  selectDays(event) {
-    this.selectedDayStatus = event.detail.value;
-
-    this.availabilityFrm.patchValue({
-      booking_days: "",
-    });
-
-    if (event.detail.value == "OAW" || event.detail.value == "C") {
-      this.isCustomDays = true;
-      if (event.detail.value == "OAW") {
-        this.isMultipleDays = false;
-        this.isFormValid = false;
-      } else {
-        this.isMultipleDays = true;
-        this.isFormValid = false;
-      }
-    } else {
-      this.availabilityFrm.patchValue({
-        booking_days: "",
-      });
-      if (this.availabilityFrm.value.pets.length === 0) {
-        this.isFormValid = false;
-      } else if (this.availabilityFrm.value.pets.length === 1) {
-        this.isFormValid = true;
-      }
-      this.isCustomDays = false;
-    }
-    this.checkValidations();
-  }
 
   // Mode Select
   selectMode(event) {
     this.selectedMode = event.detail.value;
     if (event.detail.value == "0") {
-      this.isrecurringSelected = false;
-      this.isOneOffDateSelector = true;
-      this.isRecurringDateSelector = false;
-
-      this.hideBothDaySelector = false;
-      // Clear Form Values
+      
       this.availabilityFrm.patchValue({
         recurring_type: "C",
         booking_days: "",
       });
       this.isFormValid = false;
-
-      if (this.serviceChargeType != 0) {
-        this.availabilityFrm.patchValue({
-          recurring_type: "C",
-        });
-      }
 
       this.checkValidations();
     } else {
-      this.hideBothDaySelector = true;
-      this.isrecurringSelected = true;
-      this.isOneOffDateSelector = false;
-      this.isRecurringDateSelector = true;
+      
 
       this.availabilityFrm.patchValue({
         recurring_type: "C",
         booking_days: "",
       });
       this.isFormValid = false;
-
-      if (this.serviceChargeType != 0) {
-        this.availabilityFrm.patchValue({
-          recurring_type: "C",
-        });
-      }
 
       this.checkValidations();
     }
@@ -700,16 +635,8 @@ export class CheckAvailabilityPage implements OnInit {
       this.checkedItems = this.checkedItems.filter((value) => value != item);
     } else {
       this.checkedItems.push(item)
-      // }
-      // console.log(this.checkedItems.toString())
-      
     }
     this.availabilityFrm.get("booking_days").setValue(this.checkedItems);
-    this.checkValidations();
-  }
-  //Custom Calender Selector
-  customDays(event) {
-    let val = event.detail.value;
     this.checkValidations();
   }
 
@@ -872,37 +799,6 @@ export class CheckAvailabilityPage implements OnInit {
     );
   }
 
-  openFromDateCalender(date_type) {
-    this.datePicker
-      .show({
-        date: new Date(),
-        mode: "date",
-        minDate: this.platform.is("ios") ? new Date() : new Date().valueOf(),
-        allowOldDates: false,
-        allowFutureDates: true,
-        androidTheme: 5,
-      })
-      .then(
-        async (date) => this.fromDate(date),
-        (err) => console.log("Error occurred while getting date: ", err)
-      );
-  }
-
-  openToCalender(date_type) {
-    this.datePicker
-      .show({
-        date: new Date(),
-        mode: "date",
-        minDate: this.platform.is("ios") ? new Date() : new Date().valueOf(),
-        allowOldDates: false,
-        allowFutureDates: true,
-        androidTheme: 5,
-      })
-      .then(
-        async (date) => this.endDateChange(date),
-        (err) => console.log("Error occurred while getting date: ", err)
-      );
-  }
 
   changeOccuranceValue(event, service) {
 
@@ -919,11 +815,9 @@ export class CheckAvailabilityPage implements OnInit {
     this.createExtraService(service);
   }
 
-  changePetToSecondaryListing = async (petList, servs, index, petIndex, event) => {
-    // Pushing PetId in Pet List 
-    servs.petList.indexOf(petList.id) !== -1 ? servs.petList = servs.petList.filter(petId => petId != petList.id) : servs.petList.push(petList.id);
-    // Checking No of Pets Selected
-    // servs.noOfPetSelected = await servs.petList.length;
+  changePetToSecondaryListing = async (petList, servs, index, petIndex, event) => { 
+    servs.petList = []
+    servs.petListing.indexOf(petList.id) !== -1 ? servs.petList = servs.petListing.filter(petId => petId != petList.id) : servs.petList.push(petList.id);
     this.createExtraService(servs)
   }
 
@@ -960,6 +854,6 @@ export class CheckAvailabilityPage implements OnInit {
           pets: (this.sitterServices.secondary.filter(serviceData => key == serviceData.serviceId).map((data, index) => data.petList))[0]
         },
       })))
-    console.log("extra serv", this.extraServiceData);
+    console.log("extra serv", this.extraServiceData, this.sitterServices.secondary);
   }
 }
