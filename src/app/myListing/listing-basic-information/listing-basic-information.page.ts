@@ -89,7 +89,7 @@ export class ListingBasicInformationPage implements OnInit {
                 if (res.success) {
                     this.saveListingResponse(res.user);  
                 } else {
-                    this.api.showToast('Listing is not updated', 2000, 'bottom');
+                    this.api.showToast(res.error, 2000, 'bottom');
                 }
             }, (err: any) => {
                 this.api.showToast('Listing is not updated', 2000, 'bottom');
