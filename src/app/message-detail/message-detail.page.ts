@@ -571,7 +571,7 @@ export class MessageDetailPage implements OnInit {
         if (methodName == "confrimMyBooking") {
             const alert = await this.alertController.create({
                 header: 'Confirm MY BOOKING',
-                subHeader: 'By clicking on OK, you indicate that you have met this Pet Lover and happy to confirm this booking. We will now process a payment (Pay now only for 2 weeks if it’s a recurring booking). All bookings are covered with Pet Sitter Liability Insurance up to $10M',
+                subHeader: 'By clicking on OK, you indicate that you have met this person and happy to confirm this booking. We will now process a payment (Pay now only for 2 weeks if it’s a recurring booking). All bookings are covered with Pet Sitter Liability Insurance up to $5M',
                 buttons: [
                     {
                         text: 'Close',
@@ -701,7 +701,7 @@ export class MessageDetailPage implements OnInit {
     async confrimMyBooking() {
         const alert = await this.alertController.create({
             header: 'CONFIRM BOOKING FOR PET OWNER',
-            subHeader: 'By clicking on OK, you indicate that you have met this Pet Lover and happy to confirm this booking. We will now process a payment (Pay now only for 2 weeks if it’s a recurring booking). All bookings are covered with Pet Sitter Liability Insurance up to $10M',
+            subHeader: 'By clicking on OK, you indicate that you have met this person and happy to confirm this booking. We will now process a payment (Pay now only for 2 weeks if it’s a recurring booking). All bookings are covered with Pet Sitter Liability Insurance up to $5M',
             buttons: [
                 {
                     text: 'Close',
@@ -740,7 +740,7 @@ export class MessageDetailPage implements OnInit {
     async meetandGreetAwesome(bookingId) {
         const alert = await this.alertController.create({
             header: 'Great! Thanks for letting us know your Meet & Greet went well!',
-            subHeader: 'We will now process a payment for this booking on your card so that your booking is confirmed. A receipt will be sent to your email address. All bookings are covered with Pet Sitter Liability Insurance up to $10M.',
+            subHeader: 'We will now process a payment for this booking on your card so that your booking is confirmed. A receipt will be sent to your email address. All bookings are covered with Pet Sitter Liability Insurance up to $5M.',
             buttons: [
                 {
                     text: 'Close',

@@ -594,7 +594,7 @@ export class ChatscreenComponent implements OnInit {
   async walletCheckBalance() {
     const alert = await this.alertController.create({
       header: 'Confirm MY BOOKING',
-      subHeader: 'By clicking on OK, you indicate that you have met this Pet Lover and happy to confirm this booking. We will now process a payment (Pay now only for 2 weeks if it’s a recurring booking). All bookings are covered with Pet Sitter Liability Insurance up to $10M',
+      subHeader: 'By clicking on OK, you indicate that you have met this person and happy to confirm this booking. We will now process a payment (Pay now only for 2 weeks if it’s a recurring booking). All bookings are covered with Pet Sitter Liability Insurance up to $5M',
       buttons: [
         {
           text: 'Close',
@@ -660,7 +660,7 @@ export class ChatscreenComponent implements OnInit {
   async confrimMyBooking() {
     const alert = await this.alertController.create({
       header: 'CONFIRM BOOKING FOR PET OWNER',
-      subHeader: 'By clicking on OK, you indicate that you have met this Pet Lover and happy to confirm this booking. We will now process a payment (Pay now only for 2 weeks if it’s a recurring booking). All bookings are covered with Pet Sitter Liability Insurance up to $10M',
+      subHeader: 'By clicking on OK, you indicate that you have met this person and happy to confirm this booking. We will now process a payment (Pay now only for 2 weeks if it’s a recurring booking). All bookings are covered with Pet Sitter Liability Insurance up to $5M',
       buttons: [
         {
           text: 'Close',
