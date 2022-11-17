@@ -216,7 +216,7 @@ export class SitterListingPage implements OnInit {
             if (res != null) {
                 await this.geoLocationPositionAPI(res.latitude, res.longitude);
             } else {
-                await this.geoLocationPositionAPI(-33.8861, 151.2111);
+                await this.getLocationAuthorization()
             }
         })
     }

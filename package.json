@@ -139,14 +139,14 @@
     "cordova-plugin-stripe": "^1.5.3",
     "cordova-plugin-x-socialsharing": "^6.0.3",
     "cordova-sqlite-storage": "^6.0.0",
-    "cordova-support-android-plugin": "^1.0.2",
+    "cordova-support-android-plugin": "^2.0.4",
     "cordova.plugins.diagnostic": "^6.0.4",
     "es6-promise-plugin": "^4.2.2",
     "eslint": "^7.6.0",
     "eslint-plugin-import": "2.22.1",
     "eslint-plugin-jsdoc": "30.7.6",
     "eslint-plugin-prefer-arrow": "1.2.2",
-    "instabug-cordova": "^9.1.7",
+    "instabug-cordova": "^11.3.0",
     "jasmine-core": "~3.8.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.3.2",
@@ -178,7 +178,9 @@
         "FACEBOOK_IOS_SDK_VERSION": "11.1.0",
         "FACEBOOK_BROWSER_SDK_VERSION": "v11.0"
       },
-      "cordova-plugin-file": {},
+      "cordova-plugin-file": {
+        "ANDROIDX_WEBKIT_VERSION": "1.4.0"
+      },
       "cordova-plugin-nativestorage": {
         "ANDROID_PLAY_ADID_VERSION": "17.0.+"
       },

@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="10047" id="com.petcloud.petcloud" ios-CFBundleVersion="2.3" version="2.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="20061" id="com.petcloud.petcloud" ios-CFBundleVersion="2.6" version="2.6.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>PetCloud</name>
     <description>PetCloud is an Australian company selling pet care services based in Brisbane.</description>
     <author email="deb@petcloud.com.au" href="https://www.petcloud.com.au/">
@@ -30,14 +30,11 @@
         </edit-config>
         <resource-file src="resources/android/xml/network_security_config.xml" target="app/src/main/res/xml/network_security_config.xml" />
         <allow-intent href="market:*" />
-        <preference name="android-targetSdkVersion" value="30" />
+        <preference name="android-targetSdkVersion" value="31" />
         <preference name="android-minSdkVersion" value="22" />
-        <preference name="android-compileSdkVersion" value="30" />
+        <preference name="android-compileSdkVersion" value="31" />
         <preference name="multiDexEnabled" value="true" />
         <preference name="AndroidXEnabled" value="true" />
-        <config-file parent="/manifest" target="AndroidManifest.xml" xmlns:android="http://schemas.android.com/apk/res/android">
-            <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
-        </config-file>
         <preference name="AndroidLaunchMode" value="singleTop" />
         <icon density="ldpi" src="resources/android/icon/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="resources/android/icon/drawable-mdpi-icon.png" />

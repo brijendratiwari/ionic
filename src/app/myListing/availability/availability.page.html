@@ -100,7 +100,7 @@
 
 
 
-    <ion-infinite-scroll *ngIf="pagination && isMeetingDataShown.length>0" threshold="100px"
+    <ion-infinite-scroll *ngIf="pagination && isMeetingDataShown" threshold="100px"
         (ionInfinite)="loadData($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
         </ion-infinite-scroll-content>

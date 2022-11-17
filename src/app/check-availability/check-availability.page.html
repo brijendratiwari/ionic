@@ -172,14 +172,14 @@
             <ion-row *ngIf="isEndDateTime">
                 <ion-col>
                     
-                    <ion-item  class="ion-no-padding" (click)="openToCalender('end_date')" >
+                    <ion-item  class="ion-no-padding" >
                         <ion-label>End Date
                             <small class="error">*</small>
                         </ion-label>
-                            <ion-datetime display-format="DD MMM YYYY" [value]="endMinDate"
-                                picker-format="DD MMM YYYY" [min]="endMinDate"
+                            <ion-datetime display-format="DD MMM YYYY" [value]="minEdDate"
+                                picker-format="DD MMM YYYY" [min]="minEdDate"
                                 max="2024-12-31"
-                                formControlName="end_date" value="endMinDate" >
+                                formControlName="end_date" value="minEdDate" >
                             </ion-datetime>
                             
                         

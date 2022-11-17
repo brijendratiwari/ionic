@@ -91,7 +91,7 @@ export class AppComponent {
       if(this.platform.is("cordova")){
         await this.notificationSetup();
         await this.initAppsFlyer();
-        await this.instaBug();
+        //await this.instaBug();
         this.idfaTracking();
       }
 
@@ -167,33 +167,22 @@ export class AppComponent {
   }
 
   async instaBug() {
-    cordova.plugins.instabug.activate(
-      {
-        ios: 'ae03d4e68ddf78d119de941cd1ae0287',
-      },
-      'shake',
-      {
-        commentRequired: true,
-        colorTheme: 'dark',
-      },
-      () => {
-        console.log('Instabug initialized.');
-      },
-      (error) => {
-        console.log('Instabug could not be initialized - ' + error);
-      }
-    );
 
-    //The first parameter represents the invocation mode
-    //The second parameter represents the invocation option
-    // cordova.plugins.instabug.show(
-    //   function () {
-    //     console.log('Invoke method successful');
-    //   },
-    //   function (error) {
-    //     console.log('Invoke method not successful  ' + error);
-    //   }
-    // )
+    var Instabug = cordova.require('instabug-cordova.Instabug');
+
+Instabug.start(
+    'ae03d4e68ddf78d119de941cd1ae0287',
+    'shake',
+    function () {
+        console.log('Instabug initialized.');
+    },
+    function (error) {
+        console.log('Instabug could not be initialized - ' + error);
+    }
+);
+    
+
+    
   }
 
   async getUserDetails() {
