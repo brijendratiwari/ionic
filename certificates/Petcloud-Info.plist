@@ -25,7 +25,7 @@
 		<dict>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>fb1555591604634042</string>
+				<string>fb2268223460065594</string>
 			</array>
 		</dict>
 		<dict>
@@ -42,7 +42,7 @@
 	<key>CFBundleVersion</key>
 	<string>1.0.2</string>
 	<key>FacebookAppID</key>
-	<string>1555591604634042</string>
+	<string>2268223460065594</string>
 	<key>FacebookDisplayName</key>
 	<string>PetCloud</string>
 	<key>FacebookHybridAppEvents</key>
