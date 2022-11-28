@@ -47,7 +47,7 @@
       </dict>
     </array>
     <key>CFBundleVersion</key>
-    <string>2</string>
+    <string>3</string>
     <key>FacebookAppID</key>
     <string>2268223460065594</string>
     <key>FacebookDisplayName</key>
@@ -111,7 +111,7 @@
     <key>NSCalendarsUsageDescription</key>
 	<string>Allow this app to use calender to create reminder.</string>
 	<key>NSCameraUsageDescription</key>
-	<string>Allow this app to use camera to capture photo and upload on server</string>
+	<string>The App requests access to the users phone's gallery and camera for Profile photo uploads and for sharing photos of guest pets staying with the pet owner via the App in the Messaging section.</string>
 	<key>NSContactsUsageDescription</key>
 	<string>Allow this app to access contacts to send SMS</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
@@ -129,7 +129,7 @@
 	<key>NSMotionUsageDescription</key>
 	<string>This app needs your Phones motion manager to update when the phone is tilted. Please allow this App to use your phones tilt devices.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Allow this app to use photo library to select photo and upload on server</string>
+	<string>The App requests access to the users phone's gallery and camera for Profile photo uploads and for sharing photos of guest pets staying with the pet owner via the App in the Messaging section.</string>
 	<key>NSRemindersUsageDescription</key>
 	<string>Allow this app to access reminders to create new reminders</string>
     <key>UIBackgroundModes</key>
@@ -152,7 +152,7 @@
       <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
     <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>This app requires photo library access to function properly.</string>
+    <string>The App requests access to the users phone's gallery and camera for Profile photo uploads and for sharing photos of guest pets staying with the pet owner via the App in the Messaging section.</string>
     <key>NSUserTrackingUsageDescription</key>
     <string>Allowing will support Pet Sitters who rely on ads to reach their customers. Helps keep PetCloud's Pet Friendly Directory Free of Charge to search. Anonymous data helps PetCloud to improve our platform.</string>
     
