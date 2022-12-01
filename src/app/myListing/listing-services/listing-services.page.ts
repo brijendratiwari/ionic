@@ -51,6 +51,10 @@ export class ListingServicesPage implements OnInit {
         this.api.hideLoader();
     }
 
+    gotoCalendar(){
+        this.navCtrl.navigateForward("/availability");
+    }
+
     /**
      * Open and close accordian
      * @param activeBlock
@@ -77,6 +81,7 @@ export class ListingServicesPage implements OnInit {
             this.api.hideLoader();
         })).subscribe((res: any) => {
             const listData: User = res.user;
+            console.log(res.user)
             this.listingService.listing = res.user.listing;
             this.listingService.primaryServices = listData.primaryServices;
             this.listingService.secondaryServices = listData.secondaryServices;
@@ -355,7 +360,7 @@ export class ListingServicesPage implements OnInit {
                 })).subscribe((res: any) => {
                     if (res.success) {
                         this.activeService = [];
-                        this.api.showToast('Service is Updated successful', 2000, 'bottom');
+                        this.api.showToast('Service is Updated successfully', 2000, 'bottom');
                         this.getListingService();
                     } else {
                         this.api.showToast('Service is not Updated try again!', 2000, 'bottom');
@@ -389,7 +394,7 @@ export class ListingServicesPage implements OnInit {
                     this.api.hideLoader();
                 })).subscribe((res: any) => {
                     if (res.success) {
-                        this.api.showToast('Service is Updated successful', 2000, 'bottom');
+                        this.api.showToast('Service is Updated successfully', 2000, 'bottom');
                         this.getListingService();
                     } else {
                         this.api.showToast('Service is not Updated try again!', 2000, 'bottom');

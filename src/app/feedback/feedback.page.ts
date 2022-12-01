@@ -76,7 +76,7 @@ export class FeedbackPage implements OnInit {
     });
 
     this.appVersion
-      .getVersionCode()
+      .getVersionNumber()
       .then((value) => {
         this.deviceInfo.versionNumber = value;
 

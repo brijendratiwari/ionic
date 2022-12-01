@@ -21,7 +21,7 @@ export class CameraService {
       mediaType: this.camera.MediaType.PICTURE,
       sourceType: params,
       saveToPhotoAlbum: false,
-      correctOrientation: false,
+      correctOrientation: true,
       allowEdit: (params == this.camera.PictureSourceType.CAMERA || this.platform.is('android'))? false : true,
     };
      // get the picture 

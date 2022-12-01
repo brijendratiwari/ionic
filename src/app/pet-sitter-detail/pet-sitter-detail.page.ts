@@ -10,6 +10,7 @@ import {
   ActionSheetController,
   NavController,
   ModalController,
+  AlertController,
   IonSlides,
 } from "@ionic/angular";
 import { ViewChild } from "@angular/core";
@@ -90,6 +91,7 @@ export class PetSitterDetailPage implements OnInit {
     public api: PetcloudApiService,
     private storage: Storage,
     public model:ModalController,
+    public alertCtrl: AlertController,
     private activeRoute: ActivatedRoute,
     protected router: Router,
     public navcntl: NavController,
@@ -607,6 +609,18 @@ export class PetSitterDetailPage implements OnInit {
     return await modal.present();
   }
 
+
+  async displayPetCoverDetail(){
+    
+
+    const alert = await this.alertCtrl.create({
+      header: 'PetCloud Cover',
+      message: 'Up to $5M insurance if the Sitter is at fault for a Pet accident or illness during a booking.',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
   updateFaviourateUnfaviourate(status) {
     if(this.userData != null){
       this.events.publish("isFaviourate", {status: true, time: Date.now()});

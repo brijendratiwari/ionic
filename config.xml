@@ -63,7 +63,7 @@
         <config-file parent="NSPhotoLibraryUsageDescription" platform="ios" target="*-Info.plist">
             <string>App requires access to your photo library to let you browse your albums.</string>
         </config-file>
-        <config-file parent="NSPhotoLibraryAddUsageDescription" platform="ios" target="*-Info.plist">
+        <config-file mode="merge" parent="NSPhotoLibraryAddUsageDescription" platform="ios" target="*-Info.plist">
             <string>App requires access to your photo library to let you browse your albums.</string>
         </config-file>
         <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">

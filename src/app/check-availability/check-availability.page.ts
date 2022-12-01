@@ -137,10 +137,15 @@ export class CheckAvailabilityPage implements OnInit {
         if( siterData.operating_days ){
 
           this.days.forEach(day =>{
-            let finder = siterData.operating_days.findIndex( x => x == day.value );
-            if(finder >= 0){
+            if(siterData.operating_days.length){
+              let finder = siterData.operating_days.findIndex( x => x == day.value );
+              if(finder >= 0){
+                day.disabled = false;
+              }
+            }else{
               day.disabled = false;
             }
+            
           })
         }
 
