@@ -1,7 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-
+// import { SmsRetriever } from '@ionic-native/sms-retriever/ngx';
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 
 import { AppComponent } from './app.component';
@@ -154,6 +154,7 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
   ],
   providers: [
     StatusBar,
+    // SmsRetriever,
     RlTagInputModule,
     IonicRatingModule,
     SplashScreen,
@@ -185,4 +186,4 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

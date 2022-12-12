@@ -1,0 +1,54 @@
+.otpActions {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+.otpActions span {
+    color: #fe4164;
+}
+.otpset {
+    width: 100%;
+    padding-top: 50%;
+}
+
+.otpset section {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.otpset section ion-icon {
+    margin: 0 auto 5px;
+    font-size: 25px;
+    color: #fe4164;
+}
+
+.otpset section p {
+    margin: 0;
+}
+
+.alllOtp ion-input {
+    margin: 0 2px;
+    background: transparent;
+    background: transparent;
+    border-bottom: 2px solid grey;
+    width: 25px;
+    display: inline-block;
+    --padding-start: 0;
+}
+
+.alllOtp {
+    padding-top: 20px;
+    text-align: center;
+}
+
+.otpset ion-text {
+    font-size: 22px;
+    font-weight: 500;
+    color: #fe4164;
+}
+.timer {
+    text-align: center;
+    margin-top: 15px;
+}

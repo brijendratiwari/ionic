@@ -423,6 +423,10 @@ const routes: Routes = [
     path: 'availability-settings',
     loadChildren: () => import('./availability-settings/availability-settings.module').then( m => m.AvailabilitySettingsPageModule)
   },
+  {
+    path: 'otp-verification',
+    loadChildren: () => import('./otp-verification/otp-verification.module').then( m => m.OtpVerificationPageModule)
+  },
 ];
 
 @NgModule({

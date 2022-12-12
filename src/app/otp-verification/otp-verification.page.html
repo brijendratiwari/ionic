@@ -1,0 +1,45 @@
+<ion-content>
+  <div class="otpActions">
+    <span (click)="resend()"><ng-container *ngIf="hidevalue"> Resend</ng-container></span>
+    <span (click)="cancel()">Cancel</span>
+  </div>
+  <div class="otpset">
+    <form [formGroup]="otpForm">
+      <section>
+        <ion-icon name="lock-closed"></ion-icon>
+        <ion-text>Enter SMS code</ion-text>
+        <p>Sent to mobile, ending in XXX{{phone_number}}<span>
+          </span></p>
+      </section>
+      <div class="alllOtp">
+        <ion-input type="tel" #otp1 required maxLength="1" (keyup)="otpController($event,otp2,'')"
+          formControlName="otp1">
+        </ion-input>
+        <ion-input type="tel" #otp2 required maxLength="1" (keyup)="otpController($event,otp3,otp1)"
+          formControlName="otp2">
+        </ion-input>
+        <ion-input type="tel" #otp3 required maxLength="1" (keyup)="otpController($event,otp4,otp2)"
+          formControlName="otp3">
+        </ion-input>
+        <ion-input type="tel" #otp4 required maxLength="1" (keyup)="otpController($event,otp5,otp3)"
+          formControlName="otp4">
+        </ion-input>
+        <ion-input type="tel" #otp5 required maxLength="1" (keyup)="otpController($event,otp6,otp4)"
+          formControlName="otp5">
+        </ion-input>
+        <ion-input type="tel" #otp6 id="otp6" required maxLength="1" (keyup)="otpController($event,'',otp5)"
+          formControlName="otp6">
+        </ion-input>
+      </div>
+      <div class="timer" *ngIf="!hidevalue">
+        00:<ng-container *ngIf="maxTime<10">0</ng-container>{{maxTime}}
+      </div>
+    </form>
+  </div>
+  <!-- <div class="main-div">
+    <ion-input #Field1 (keyup)="gotoNextField(Field2)"></ion-input>
+    <ion-input #Field2 (keyup)="gotoNextField(Field3)"></ion-input>
+    <ion-input #Field3 (keyup)="gotoNextField(Field4)"></ion-input>
+    <ion-input #Field4 (keyup)="finishFunction()"></ion-input> 
+  </div> -->
+</ion-content>
