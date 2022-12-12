@@ -39,12 +39,12 @@
   <div>
     <ion-card class="refer-ern-card">
       <ion-card-header>
-       <span class="refer-header">Refer and Earn</span> <br>
-       <span class="refer-sub-header">Create a new income stream & earn upto 8% in commission.</span>
+        <span class="refer-header">Refer and Earn</span> <br>
+        <span class="refer-sub-header">Create a new income stream & earn upto 8% in commission.</span>
       </ion-card-header>
 
       <ion-card-content>
-     
+
         <ion-button routerLink="/invite-friend" color="theme">Invite Friend</ion-button>
         <h4 style="font-size: 14px;
         color: #000;" class="ion-text-center">OR</h4>
@@ -59,11 +59,13 @@
 </ion-content>
 
 
-<ion-footer class="ion-no-border">
+<!-- <ion-footer class="ion-no-border">
   <ion-button class="text-capitalize fls-0 fs-18 footer-btn" 
     expand="full" color="theme"
     routerLink="/withdrawal"
-  >
+  > -->
+<ion-footer class="ion-no-border">
+  <ion-button class="text-capitalize fls-0 fs-18 footer-btn" expand="full" color="theme" (click)="goToVerification()">
     Withdraw Money
   </ion-button>
 </ion-footer>

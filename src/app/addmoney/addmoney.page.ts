@@ -10,6 +10,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 import { AddCardDetailsComponent } from "../add-card-details/add-card-details.component";
 import { Router } from '@angular/router';
 import { AnalyticsService } from '../analytics.service';
+import { OtpVerificationPage } from '../otp-verification/otp-verification.page';
 
 
 
@@ -33,7 +34,7 @@ export class AddmoneyPage implements OnInit {
     { amount: "Other", css: false },
   ];
 
-  cards: any = [] ;
+  cards: any = [];
   promoCode: "";
   isActiveClass: boolean = false;
   public couponAmount = 0;
@@ -46,7 +47,7 @@ export class AddmoneyPage implements OnInit {
   public transactionalFees = 0;
   public creditAmount = 0;
 
- 
+
 
   paypalProductionKey = "";
   paypalSandboxKey = "";
@@ -64,7 +65,7 @@ export class AddmoneyPage implements OnInit {
   billingAddressRequirement: any = ["name", "email", "phone"];
   shippingAddressRequirement: any = "none";
   shippingType: string = "shipping";
-  
+
   public isGiftCodeInput: boolean = false
   public promoType: any;
   constructor(
@@ -78,6 +79,7 @@ export class AddmoneyPage implements OnInit {
     public nav: NavController,
     private api: PetcloudApiService,
     public firebaseAnalytics: AnalyticsService,
+    public modalCtrl: ModalController,
   ) { }
 
   ngOnInit() {
@@ -90,15 +92,15 @@ export class AddmoneyPage implements OnInit {
       userEditedAmount: ["0", [Validators.required]],
       selectAmount: [""],
       otherAmount: [""],
-      default_card:[""],
+      default_card: [""],
       paymentGateway: ["", [Validators.required]],
 
     });
     this.getInfo();
   }
 
-  ionViewWillEnter(){
-    
+  ionViewWillEnter() {
+
     this.isGiftCodeInput = false;
     console.log("this.addMoney ", this.addMoney)
   }
@@ -121,8 +123,8 @@ export class AddmoneyPage implements OnInit {
       });
 
       this.firebaseAnalytics.setUser();
-      this.firebaseAnalytics.logEvent(PetcloudApiService.select_amount_analytics,{"amount": this.promoCodeForm.value.amount})
-      this.firebaseAnalytics.setProperty(PetcloudApiService.select_amount_analytics,{"amount": this.promoCodeForm.value.amount})
+      this.firebaseAnalytics.logEvent(PetcloudApiService.select_amount_analytics, { "amount": this.promoCodeForm.value.amount })
+      this.firebaseAnalytics.setProperty(PetcloudApiService.select_amount_analytics, { "amount": this.promoCodeForm.value.amount })
 
       this.calculateTransactionalAmount(this.creditAmount);
 
@@ -140,7 +142,7 @@ export class AddmoneyPage implements OnInit {
       this.calculateTransactionalAmount(0);
       this.addMoney.patchValue({
         userEditedAmount: "0",
-      }); 
+      });
     }
   }
 
@@ -173,29 +175,30 @@ export class AddmoneyPage implements OnInit {
     this.api.openExteralLinks(this.api.FRESHDESK_WEB)
   }
 
-  
+
   public addCreditToPaypal() {
 
-    this.api.showToast("We will release paypal payments in next version of App","3000","bottom");
+    this.api.showToast("We will release paypal payments in next version of App", "3000", "bottom");
   }
 
   addCreditAPI(amount, paymentId, source) {
     let addCreditParams = {
-     
-        amount,
-        transaction_id: source == "paypal" ? paymentId : "",
-        deposit_source: source,
-        giftvoucher:this.isGiftCodeInput ? this.promoCodeForm.value.giftvoucher : "",
-        coupon_status:this.isGiftCodeInput ? "valid" : "",
-        card_id: this.addMoney.value.default_card 
+
+      amount,
+      transaction_id: source == "paypal" ? paymentId : "",
+      deposit_source: source,
+      giftvoucher: this.isGiftCodeInput ? this.promoCodeForm.value.giftvoucher : "",
+      coupon_status: this.isGiftCodeInput ? "valid" : "",
+      card_id: this.addMoney.value.default_card
       // coupon: this.promoCode
     };
 
-   
+
     this.api.showLoader();
     this.api
       .addCredits(addCreditParams).pipe(finalize(() => {
-          this.api.hideLoader();})).subscribe(
+        this.api.hideLoader();
+      })).subscribe(
         (res: any) => {
           {
             if (res.success) {
@@ -207,7 +210,7 @@ export class AddmoneyPage implements OnInit {
           }
         },
         (err: any) => {
-          this.api.autoLogout(err,addCreditParams);
+          this.api.autoLogout(err, addCreditParams);
         }
       );
   }
@@ -227,28 +230,28 @@ export class AddmoneyPage implements OnInit {
               if (res.cards) {
                 if (res.cards.data.length) {
                   this.cards = await res.cards.data;
-                  
+
                   this.cards.map((item: any) => {
                     item.css = false;
                   })
-             
-                  
-                  if(this.cards.length){
+
+
+                  if (this.cards.length) {
                     this.selectedCard(this.cards[0]);
-                  }else{
+                  } else {
                     this.getSelectedPaymentMethod(1)
                   }
                 }
-              }else{
+              } else {
                 this.getSelectedPaymentMethod(1)
               }
-            }else{
+            } else {
               this.getSelectedPaymentMethod(1)
             }
           }
         },
         (err: any) => {
-          this.api.autoLogout(err,"");
+          this.api.autoLogout(err, "");
         }
       );
   }
@@ -295,7 +298,7 @@ export class AddmoneyPage implements OnInit {
           }
         },
         (err: any) => {
-          this.api.autoLogout(err,cardParam);
+          this.api.autoLogout(err, cardParam);
         }
       );
   }
@@ -309,7 +312,7 @@ export class AddmoneyPage implements OnInit {
           text: "Cancel",
           role: "cancel",
           cssClass: "secondary",
-         
+
         },
         {
           text: "Okay",
@@ -322,26 +325,26 @@ export class AddmoneyPage implements OnInit {
     await alert.present();
   }
 
-  selectedCard(card){
-  let cardId = card.id;
+  selectedCard(card) {
+    let cardId = card.id;
 
-  this.addMoney.patchValue({
-    default_card: cardId,
-    paymentGateway:""
-  })
+    this.addMoney.patchValue({
+      default_card: cardId,
+      paymentGateway: ""
+    })
 
-  if(this.addMoney.value.default_card != ""){
-    this.addMoney.controls['paymentGateway'].setValidators([]);
-    this.addMoney.controls['paymentGateway'].updateValueAndValidity();
-  }
+    if (this.addMoney.value.default_card != "") {
+      this.addMoney.controls['paymentGateway'].setValidators([]);
+      this.addMoney.controls['paymentGateway'].updateValueAndValidity();
+    }
 
-  this.cards.forEach(element => {
-        if(element.id == card.id){
-            element.css = true;
-        }else{
-          element.css = false;
-        }
-  });
+    this.cards.forEach(element => {
+      if (element.id == card.id) {
+        element.css = true;
+      } else {
+        element.css = false;
+      }
+    });
   }
 
   async makeDefaultCardAPI(card_id) {
@@ -364,23 +367,22 @@ export class AddmoneyPage implements OnInit {
           }
         },
         (err: any) => {
-          this.api.autoLogout(err,cardParam);
+          this.api.autoLogout(err, cardParam);
         }
       );
   }
 
   addFunds() {
 
-
     if (this.creditAmount < 5) {
       this.api.showToast("Minimum amount wallet is $ 5 AUD", 3000, "bottom");
-    } 
+    }
     else {
-      
-      let paymentGateWay = this.addMoney.value.paymentGateway;
-    
-        this.addCreditAPI(this.creditAmount,"","stripe")
-      
+      this.goToVerification()
+      // let paymentGateWay = this.addMoney.value.paymentGateway;
+
+      // this.addCreditAPI(this.creditAmount, "", "stripe")
+
     }
   }
 
@@ -396,12 +398,12 @@ export class AddmoneyPage implements OnInit {
     return await modal.present();
   }
 
-  checkCoupon(){
+  checkCoupon() {
     const data = {
-      giftvoucher:this.promoCodeForm.value.giftvoucher,
+      giftvoucher: this.promoCodeForm.value.giftvoucher,
       amount: this.addMoney.value.userEditedAmount
     }
-  
+
     this.api.showLoader();
     this.api
       .checkCoupon(data)
@@ -414,18 +416,18 @@ export class AddmoneyPage implements OnInit {
         async (res: any) => {
           {
             if (res.status) {
-            
+
               this.isGiftCodeInput = true;
-             this.promoType = await res.promo_type; 
-              if(res.couponamount){
-                this.couponAmount =  res.couponamount;
+              this.promoType = await res.promo_type;
+              if (res.couponamount) {
+                this.couponAmount = res.couponamount;
               }
 
-              if(res.promo_type == 2){
+              if (res.promo_type == 2) {
                 this.payableAmount = parseFloat(this.payableAmount.toString()) - Number.parseFloat(this.couponAmount.toString());
-              }             
-          
-               this.api.showToast("Coupon added", "5000", "bottom");
+              }
+
+              this.api.showToast("Coupon added", "5000", "bottom");
             } else {
               this.isGiftCodeInput = false;
               this.promoCode = "";
@@ -436,7 +438,7 @@ export class AddmoneyPage implements OnInit {
         (err: any) => {
           this.isGiftCodeInput = false;
           this.promoCode = "";
-          this.api.autoLogout(err,data);
+          this.api.autoLogout(err, data);
         }
       );
   }
@@ -457,7 +459,7 @@ export class AddmoneyPage implements OnInit {
             if (res.status) {
               this.promoCode = promoCode;
               this.isGiftCodeInput = true;
-              this.analytics.logEvent(PetcloudApiService.usedcoupon,{userId:this.userId});
+              this.analytics.logEvent(PetcloudApiService.usedcoupon, { userId: this.userId });
               this.api.showToast("Coupon added", "5000", "bottom");
             } else {
               this.isGiftCodeInput = false;
@@ -469,7 +471,7 @@ export class AddmoneyPage implements OnInit {
         (err: any) => {
           this.isGiftCodeInput = false;
           this.promoCode = "";
-          this.api.autoLogout(err,promoCode);
+          this.api.autoLogout(err, promoCode);
         }
       );
   }
@@ -479,24 +481,24 @@ export class AddmoneyPage implements OnInit {
     this.api.autoRechargeWallet(event.detail.checked === true ? 1 : "").pipe(
       finalize(() => { this.api.hideLoader(); })).subscribe(
         async (res: any) => {
-          
-            if (!res.status) {
-              this.api.showToast("Issue in auto recharge, try again later", 3000, "bottom");
-            }else{
-            await  this.storage.get(PetcloudApiService.USER)
+
+          if (!res.status) {
+            this.api.showToast("Issue in auto recharge, try again later", 3000, "bottom");
+          } else {
+            await this.storage.get(PetcloudApiService.USER)
               .then(async (userData: User) => {
-                 userData.auto_recharge = await event.detail.checked == false ? 0 : 1;
-                 await this.storage.set(PetcloudApiService.USER, userData).then(respons=>{ 
-               });
+                userData.auto_recharge = await event.detail.checked == false ? 0 : 1;
+                await this.storage.set(PetcloudApiService.USER, userData).then(respons => {
+                });
               });
-            }
+          }
         },
         (err: any) => {
-          this.api.autoLogout(err,event.detail.checked === true ? 1 : "");
+          this.api.autoLogout(err, event.detail.checked === true ? 1 : "");
         }
       );
 
-}
+  }
 
   getInfo() {
     this.storage.get(PetcloudApiService.USER).then(
@@ -507,14 +509,43 @@ export class AddmoneyPage implements OnInit {
         let enviroment: any = paypalData.mode;
 
         this.paypalSandboxKey = enviroment == "sandbox" ? client_key : "";
-        this.paypalProductionKey = enviroment == "live" ? client_key: "";
+        this.paypalProductionKey = enviroment == "live" ? client_key : "";
         this.userId = user.id;
         user.auto_recharge == 1 ? this.auto_recharge = true : this.auto_recharge = false;
         this.getCardsList();
       },
       (err) => {
-        
+
       }
     );
   }
+  async goToVerification() {
+    this.api.showLoader();
+    this.api.getOtp().pipe(finalize(() => {
+      this.api.hideLoader();
+    })).subscribe(async (res: any) => {
+      console.log(res);
+      const modal = await this.modalCtrl.create({
+        component: OtpVerificationPage,
+        animated: true,
+        backdropDismiss: false,
+        componentProps: {
+          'phone_number': res.phone_number,
+          'type': 'add_money'
+        }
+      });
+      modal.onDidDismiss()
+        .then((data: any) => {
+          if (data.data == 'add_money') {
+            let paymentGateWay = this.addMoney.value.paymentGateway;
+            this.addCreditAPI(this.creditAmount, "", "stripe")
+          }
+        });
+      return await modal.present();
+    }, err => {
+      this.api.autoLogout(err, "");
+    })
+    // this.nav.navigateForward(['/otp-verification'])
+  }
+
 }

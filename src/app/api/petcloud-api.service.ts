@@ -1684,7 +1684,25 @@ export class PetcloudApiService {
       this.header
     );
   }
-
+  /**
+   get Otp 
+     */
+  public getOtp() {
+    return this.http.get(
+      this.BASE_URL + "users/otp_authentication",
+      this.header
+    );
+  }
+  /**
+    Otp Verification
+     */
+  public otpVerification(data) {
+    return this.http.post(
+      this.BASE_URL + "users/verify_otp",
+      data,
+      this.header
+    );
+  }
   /**
    * Recent Jobs Posted
    * @param longitude pass longitude
@@ -3014,7 +3032,7 @@ export class PetcloudApiService {
           this.hideLoader();
 
         });
-    }else {
+    } else {
       const apiError = {
         userId,
         errorCode: err.status,

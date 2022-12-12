@@ -4,6 +4,7 @@ import { ModalController, NavController } from '@ionic/angular';
 import { finalize } from 'rxjs/operators';
 import { PetcloudApiService } from '../api/petcloud-api.service';
 import { AuthorizationCongratsModelComponent } from '../authorization-congrats-model/authorization-congrats-model.component';
+import { OtpVerificationPage } from '../otp-verification/otp-verification.page';
 
 
 @Component({
@@ -47,10 +48,10 @@ export class WalletPage implements OnInit {
       this.api.hideLoader();
     })).subscribe((res: any) => {
       if (res.status) {
-          this.api.showToast(res.message,"3000","bottom")
-          this.nav.pop()
-      }else{
-        this.api.showToast(res.message,"3000","bottom")
+        this.api.showToast(res.message, "3000", "bottom")
+        this.nav.pop()
+      } else {
+        this.api.showToast(res.message, "3000", "bottom")
       }
     }, err => {
       this.api.autoLogout(err, "");
@@ -92,5 +93,29 @@ export class WalletPage implements OnInit {
   }
 
 
+  async goToVerification() {
+    this.api.showLoader();
+    this.api.getOtp().pipe(finalize(() => {
+      this.api.hideLoader();
+    })).subscribe(async (res: any) => {
+      console.log(res);
+      const modal = await this.modalCtrl.create({
+        component: OtpVerificationPage,
+        animated: true,
+        backdropDismiss: false,
+        componentProps: {
+          phone_number: res.phone_number
+        }
 
+      });
+      modal.onDidDismiss()
+        .then((data: any) => {
+          console.log(data);
+        });
+      return await modal.present();
+    }, err => {
+      this.api.autoLogout(err, "");
+    })
+    // this.nav.navigateForward(['/otp-verification'])
+  }
 }
