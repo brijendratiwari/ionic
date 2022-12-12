@@ -5,6 +5,7 @@ import { finalize } from 'rxjs/operators';
 import { ModalController, NavController } from '@ionic/angular';
 import { AddBankDetailPayoutComponent } from '../add-bank-detail-payout/add-bank-detail-payout.component';
 import { Router } from '@angular/router';
+import { OtpVerificationPage } from '../otp-verification/otp-verification.page';
 
 @Component({
   selector: 'app-withdrawal',
@@ -33,8 +34,6 @@ export class WithdrawalPage implements OnInit {
   }
 
   async sendMoney() {
-
-   
     if (this.withdraw.value.amount === 0) {
       this.api.showToast("Withdrawal amount cannot be 0", "3000", "bottom");
     } else if (parseInt(this.withdraw.value.amount) > parseInt(this.api.availableBalance)) {
@@ -49,7 +48,7 @@ export class WithdrawalPage implements OnInit {
           },
         });
         modal.onDidDismiss().then((data: any) => {
-         this.router.navigateByUrl('/home/tabs/profile-menu')
+          this.router.navigateByUrl('/home/tabs/profile-menu')
         });
         return await modal.present();
       } else {
@@ -72,11 +71,41 @@ export class WithdrawalPage implements OnInit {
               this.api.showToast(res.message, '2000', 'bottom');
             }
           }, (err: any) => {
-            this.api.autoLogout(err,formData)
+            this.api.autoLogout(err, formData)
             this.api.hideLoader();
           });
       }
     }
 
+  }
+
+  async goToVerification() {
+    this.api.showLoader();
+    this.api.getOtp().pipe(finalize(() => {
+      this.api.hideLoader();
+    })).subscribe(async (res: any) => {
+      console.log(res);
+      const modal = await this.modelCntl.create({
+        component: OtpVerificationPage,
+        animated: true,
+        backdropDismiss: false,
+        componentProps: {
+          phone_number: res.phone_number,
+          'type': 'withdrawal'
+        }
+      });
+      modal.onDidDismiss()
+        .then((data: any) => {
+          console.log(data);
+          if (data.data == 'withdrawal') {
+            this.sendMoney();
+          }
+
+        });
+      return await modal.present();
+    }, err => {
+      this.api.autoLogout(err, "");
+    })
+    // this.nav.navigateForward(['/otp-verification'])
   }
 }

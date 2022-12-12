@@ -1,16 +1,16 @@
 <ion-header>
   <ion-toolbar>
-      <ion-buttons slot="start">
-          <ion-back-button  defaultHref="wallet"></ion-back-button>
-      </ion-buttons>
-      <ion-title>Withdrawal</ion-title>
-
-      <ion-buttons slot="end">
-        <ion-button  (click)="needSupport()" defaultHref="/home/tabs/profile-menu">
-          <img width="25px" src="./assets/icon/solutions.png" alt="">
-        </ion-button>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="wallet"></ion-back-button>
     </ion-buttons>
-     
+    <ion-title>Withdrawal</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="needSupport()" defaultHref="/home/tabs/profile-menu">
+        <img width="25px" src="./assets/icon/solutions.png" alt="">
+      </ion-button>
+    </ion-buttons>
+
   </ion-toolbar>
 </ion-header>
 
@@ -19,7 +19,7 @@
   <app-wallet-transaction> </app-wallet-transaction>
 
   <form [formGroup]="withdraw" style="margin-top: 30px;">
-    
+
     <ion-item>
       <ion-label>Withdrawal</ion-label>
       <ion-select formControlName="payout_source" value="paypal">
@@ -27,23 +27,25 @@
         <ion-select-option value="bank">Bank</ion-select-option>
       </ion-select>
     </ion-item>
-  
+
     <ion-item>
       <ion-label position="stacked">Enter Amount</ion-label>
       <ion-input formControlName="amount" type="tel" maxLength="5" min="1" placeholder="$"></ion-input>
     </ion-item>
- 
+
   </form>
 
 </ion-content>
 <ion-footer>
-  <ion-button 
+  <!-- <ion-button 
     class="ion-no-margin footer-btn" 
     [disabled]="!withdraw.valid" 
     color="theme" 
     expand="full" 
     (click)="sendMoney()"
-  >
+  > -->
+  <ion-button class="ion-no-margin footer-btn" [disabled]="!withdraw.valid" color="theme" expand="full"
+    (click)="goToVerification()">
     Send Money
   </ion-button>
 </ion-footer>
