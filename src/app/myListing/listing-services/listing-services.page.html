@@ -93,7 +93,9 @@
                                 There is an issue with this service and it cannot be activated. 
                                 Please contact PetCloud for assistance.
                             </ion-card-title>
-                            
+
+                            <ion-text *ngIf="0 && p?.serviceType?.multipleDays == '1'" class="fs-12">Please add your Operating days for recurring services inside your Calendar Settings. <a (click)="gotoCalendar()">Got it.</a></ion-text>
+
                             <ion-card-title  (click)="openActiveBlock('primary-'+p.idx)" >{{p.serviceType.serviceName}}</ion-card-title>
 
                             <ion-card-subtitle  (click)="openActiveBlock('primary-'+p.idx)" *ngIf="p?.notification_message?.panel_status != ''">

@@ -27,6 +27,8 @@ import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 import { Events } from './events';
 import { RemoteChatScreenComponent } from './remote-chat-screen/remote-chat-screen.component';
 import { ChatServiceService } from './chat-service.service';
+import { AppVersion } from "@ionic-native/app-version/ngx";
+
 
 declare let cordova: any;
 
@@ -69,6 +71,7 @@ export class AppComponent {
     public authenticationService: AuthenticationService,
     private appsflyer: Appsflyer,
     private appsFlyerService: AppsFlyerService,
+    public appVersion: AppVersion,
     public firebase: FirebaseX,
     private chatsService: ChatServiceService,
   ) {
@@ -94,6 +97,8 @@ export class AppComponent {
         //await this.instaBug();
         this.idfaTracking();
       }
+
+      await this.checkAppUpdates()
 
       this.badge.set(0);
       this.badge.clear();
@@ -372,5 +377,58 @@ Instabug.start(
             console.log("idfaOrAaid", idfaOrAaid);
         }
     });
+  }
+
+  async checkAppUpdates() {
+    
+    this.api.checkAPPVersion().subscribe((res: any) => {
+      
+          console.log(res)
+
+      this.appVersion.getVersionNumber()
+      .then( async (version) => {
+        
+        console.log('checkAppUpdatesres',res,version)
+
+        let alertButtons:any = [{
+          text: "Upgrade",
+          cssClass: "update-btn",
+          handler: () => {
+            if (this.plt.is("ios")) {
+              this.market.open("id1539909889");
+            } else {
+              this.market.open("com.petcloud.petcloud");
+            }
+            return false;
+          },
+        }];
+
+        
+
+        let serverVersion = res["ios_ver_name"].split('.').map(x => parseInt(x))
+        if( this.plt.is("android")) {
+          serverVersion = res["android_ver_name"].split('.').map(x => parseInt(x))
+        }
+        
+        const appVersion = version.split('.').map(x => parseInt(x))
+        console.log(serverVersion, appVersion)
+
+        if( serverVersion[0] > appVersion[0] || serverVersion[1] > appVersion[1] || serverVersion[2] > appVersion[2]){
+          var alert = await this.alertController.create({
+            header: "Exciting News!",
+            message: "There’s a much better version of the PetCloud App",
+            cssClass: "open1",
+            buttons: alertButtons,
+            backdropDismiss: false
+          });
+          alert.present();
+        }
+      })
+      .catch((err) => {
+    
+      });
+      
+    })
+    
   }
 }

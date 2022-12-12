@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="20061" id="com.petcloud.petcloud" ios-CFBundleVersion="2.6" version="2.6.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="20062" id="com.petcloud.petcloud" ios-CFBundleVersion="2" version="2.6.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>PetCloud</name>
     <description>PetCloud is an Australian company selling pet care services based in Brisbane.</description>
     <author email="deb@petcloud.com.au" href="https://www.petcloud.com.au/">
@@ -63,7 +63,7 @@
         <config-file parent="NSPhotoLibraryUsageDescription" platform="ios" target="*-Info.plist">
             <string>App requires access to your photo library to let you browse your albums.</string>
         </config-file>
-        <config-file parent="NSPhotoLibraryAddUsageDescription" platform="ios" target="*-Info.plist">
+        <config-file mode="merge" parent="NSPhotoLibraryAddUsageDescription" platform="ios" target="*-Info.plist">
             <string>App requires access to your photo library to let you browse your albums.</string>
         </config-file>
         <config-file parent="NSCameraUsageDescription" platform="ios" target="*-Info.plist">

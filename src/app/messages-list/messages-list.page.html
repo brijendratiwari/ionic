@@ -52,7 +52,7 @@
                             </ion-img>
                         </ion-avatar>
 
-                        <ion-avatar *ngIf="userId == message?.minderId" class="profile-pic" slot="start" [routerLink]="['/pet-sitter-detail',message.ownerId]">
+                        <ion-avatar *ngIf="userId == message?.minderId" class="profile-pic" slot="start" [routerLink]="['/pet-sitter-detail',message.ownerid]">
                             <ion-img type="image/svg+xml" [src]="message?.owner?.imagename">
                             </ion-img>
                         </ion-avatar>
