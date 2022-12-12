@@ -93,29 +93,4 @@ export class WalletPage implements OnInit {
   }
 
 
-  async goToVerification() {
-    this.api.showLoader();
-    this.api.getOtp().pipe(finalize(() => {
-      this.api.hideLoader();
-    })).subscribe(async (res: any) => {
-      console.log(res);
-      const modal = await this.modalCtrl.create({
-        component: OtpVerificationPage,
-        animated: true,
-        backdropDismiss: false,
-        componentProps: {
-          phone_number: res.phone_number
-        }
-
-      });
-      modal.onDidDismiss()
-        .then((data: any) => {
-          console.log(data);
-        });
-      return await modal.present();
-    }, err => {
-      this.api.autoLogout(err, "");
-    })
-    // this.nav.navigateForward(['/otp-verification'])
-  }
 }
