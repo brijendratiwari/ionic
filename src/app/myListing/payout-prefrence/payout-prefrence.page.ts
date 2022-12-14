@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { PetcloudApiService } from '../../api/petcloud-api.service';
+import { ModalController, NavParams } from '@ionic/angular';
 import { Validators, FormBuilder, FormGroup, } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
+import { OtpVerificationPage } from '../../otp-verification/otp-verification.page';
 
 
 // importing model files
@@ -25,8 +27,10 @@ export class PayoutPrefrencePage implements OnInit {
     public selectedSegment = '';
     public backButton: any = "";
     public isStripeAccountAdded: boolean = false;
+    public isPaypalEdit: boolean = true;
     public documentContainer: boolean = false;
-
+    public isEdit: boolean = true;
+    public verify_code: any;
     constructor(public api: PetcloudApiService,
         private formBuilder: FormBuilder,
         protected router: Router,
@@ -36,7 +40,8 @@ export class PayoutPrefrencePage implements OnInit {
         public camera: Camera,
         public actionSheetCtrl: ActionSheetController,
         public route: ActivatedRoute,
-        protected storage: Storage) {
+        protected storage: Storage,
+        public modalCtrl: ModalController) {
 
         this.backButton = this.route.snapshot.paramMap.get("backBtn");
 
@@ -62,6 +67,7 @@ export class PayoutPrefrencePage implements OnInit {
                 if (userData != null) {
                     await this.checkVerificationPending(userData)
                     if (userData.account) {
+                        this.isEdit = false;
                         this.isStripeAccountAdded = true;
                         this.stripeFrm.patchValue({
                             accountName: userData.account.data[0].account_holder_name,
@@ -69,10 +75,15 @@ export class PayoutPrefrencePage implements OnInit {
                             accountNumber: "xxxxx " + userData.account.data[0].last4
                         })
                     } else {
+                        this.isEdit = true;
                         this.isStripeAccountAdded = false;
                     }
                     userData.stripe_connect_update != null ? this.documentContainer = true : this.documentContainer = false;
-
+                    if (userData.paypal_email != '' && userData.paypal_email != null && userData.paypal_email != undefined) {
+                        this.isPaypalEdit = false;
+                    } else {
+                        this.isPaypalEdit = true;
+                    }
                     this.paypalFrm.setValue({
                         paypal_email: userData.paypal_email
                     });
@@ -135,7 +146,7 @@ export class PayoutPrefrencePage implements OnInit {
 
 
     imageUpload(base64String, pageSide) {
-        const fileParams = { image: base64String, file_name: "Imagename.jpg", pageside: pageSide };
+        const fileParams = { image: base64String, file_name: "Imagename.jpg", pageside: pageSide, verify_code: this.verify_code };
         this.api.showLoader();
         this.api.uploadDocumentForBank(fileParams).pipe(
             finalize(() => {
@@ -157,11 +168,12 @@ export class PayoutPrefrencePage implements OnInit {
     /**
      * Update Paypal email
      */
-    public updatePaypal() {
+    public updatePaypal(code) {
         this.api.showLoader();
         const user = {
             'Users': {
-                paypal_email: this.paypalFrm.value.paypal_email
+                paypal_email: this.paypalFrm.value.paypal_email,
+                verify_code: code
             }
         };
         this.api.updatePaypal(user)
@@ -198,16 +210,48 @@ export class PayoutPrefrencePage implements OnInit {
             });
     }
 
+    async goToVerification(val) {
+        this.api.showLoader();
+        this.api.getOtp().pipe(finalize(() => {
+            this.api.hideLoader();
+        })).subscribe(async (res: any) => {
+            console.log(res);
+            const modal = await this.modalCtrl.create({
+                component: OtpVerificationPage,
+                animated: true,
+                backdropDismiss: false,
+                componentProps: {
+                    'phone_number': res.phone_number,
+                    'type': val
+                }
+            });
+            modal.onDidDismiss()
+                .then((data: any) => {
+                    this.verify_code = data.data.code;
+                    if (data.data.type == 'update_stripe') {
+                        this.updateStripe(data.data.code);
+                    }
+                    if (data.data.type == 'update_paypal') {
+                        this.updatePaypal(data.data.code);
+                    }
+                    if (data.data.type == 'front' || data.data.type == 'back') {
+                        this.stripeDocumentUpload(data.data.type);
+                    }
+                });
+            return await modal.present();
+        }, err => {
+            this.api.autoLogout(err, "");
+        })
+        // this.nav.navigateForward(['/otp-verification'])
+    }
     /**
      * Update Stripe Details
      */
-    public updateStripe() {
-
+    public updateStripe(code) {
+        this.stripeFrm.value['verify_code'] = code
         const bankFrm = {
             'BankForm': this.stripeFrm.value
         };
-
-
         this.api.showLoader();
         this.api.updateStripeDetails(bankFrm)
             .pipe(finalize(() => {

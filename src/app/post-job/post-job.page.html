@@ -1,9 +1,7 @@
 <ion-header class="ion-no-border" *ngIf="isMessagesContainerSectionLoaded">
-    <ion-card
-        class="ion-no-margin"
+    <ion-card class="ion-no-margin"
         *ngIf="progressStepper?.profile == '0' || progressStepper?.email == '0' || progressStepper?.pet == '0' || progressStepper?.wallet == 0"
-        style="background: #FFF3CD;"
-    >
+        style="background: #FFF3CD;">
         <ion-card-content>
             <ion-text *ngIf="progressStepper?.profile == '0'" size="12">
                 Please complete your <a routerLink="/home/tabs/profile-menu">profile</a> before posting a job
@@ -137,8 +135,7 @@
                     <ion-item>
                         <ion-label position="stacked">Start Time <small class="error">*</small></ion-label>
                         <ion-datetime #startFromTimePicker display-format="h:mm A" [value]="startMinTime"
-                            placeholder="9:15 AM" picker-format="h:mm A"                            
-                            formControlName="start_time" 
+                            placeholder="9:15 AM" picker-format="h:mm A" formControlName="start_time"
                             (ionChange)="fromTimeChange(startFromTimePicker)" minuteValues="0,15,30,45">
                         </ion-datetime>
                     </ion-item>
@@ -165,8 +162,7 @@
                     <ion-text class="animated fadeInUp error"
                         *ngIf="jobPostingForm.get('end_date').hasError('required')">
                         Select end time.</ion-text>
-                    <ion-text class="animated fadeInUp error"
-                        *ngIf="!isValidFromTime().isValidEndDate">
+                    <ion-text class="animated fadeInUp error" *ngIf="!isValidFromTime().isValidEndDate">
                         The end date must be greater than start date.
                     </ion-text>
                 </ion-col>
@@ -193,8 +189,8 @@
                     <ion-col size="12">
                         <input type="search" [options]='options' ngx-google-places-autocomplete #placesRef="ngx-places"
                             clearInput [ngModelOptions]="{standalone: true}" [(ngModel)]="pickupLocation"
-                            (focus)="isFooterShown()"
-                            placeholder="Enter Pick up Address" class="search-input native-input sc-ion-input-md"
+                            (focus)="isFooterShown()" placeholder="Enter Pick up Address"
+                            class="search-input native-input sc-ion-input-md"
                             (onAddressChange)="handleAddressChange('start_location',$event)" id="suburb" />
                         <i class="counts fs-12"></i>
                     </ion-col>
@@ -204,8 +200,8 @@
                     <ion-col size="12">
                         <input type="search" [options]='options' ngx-google-places-autocomplete #placesRef="ngx-places"
                             clearInput [ngModelOptions]="{standalone: true}" [(ngModel)]="destinationLocation"
-                            (focus)="isFooterShown()"
-                            placeholder="Enter Destination Address" class="search-input native-input sc-ion-input-md"
+                            (focus)="isFooterShown()" placeholder="Enter Destination Address"
+                            class="search-input native-input sc-ion-input-md"
                             (onAddressChange)="handleAddressChange('end_location',$event)" id="suburb" />
                         <i class="counts fs-12"></i>
                     </ion-col>
@@ -316,9 +312,10 @@
 
 
             <div *ngIf="isPetTaxi" style="display: flex;margin-left: 15px;">
-                <ion-checkbox style="margin-top: 10px;" color="primary" (ionChange)="onPetTaxiAgreement($event)" checked slot="start">
+                <ion-checkbox style="margin-top: 10px;" color="primary" (ionChange)="onPetTaxiAgreement($event)" checked
+                    slot="start">
                 </ion-checkbox>
-                <ion-label style="padding-left: 10px;font-size: 14px;" >I agree to the <span (click)="petTaxiAgreement()"
+                <ion-label style="padding-left: 10px;font-size: 14px;">I agree to the <span (click)="petTaxiAgreement()"
                         class="text-theme ">Pet Safety & Cleaning <br> Terms & Conditions</span>
                 </ion-label>
             </div>
@@ -328,18 +325,18 @@
                 <ion-col>
                     <p style="color: #52C4BE;"> Fare Estimation : ${{estimationTaxiPrice | number:'1.2-2' }} </p>
                 </ion-col>
-        </ion-row>
+            </ion-row>
 
             <ion-row>
                 <ion-col>
                     <ion-item lines="none" class="text-area-item">
                         <ion-label position="stacked">Any Special Requirements</ion-label>
-                        <ion-textarea rows="3" formControlName="description" placeholder="enter description">
+                        <ion-textarea rows="3" formControlName="description" placeholder="Enter description">
                         </ion-textarea>
                     </ion-item>
                 </ion-col>
             </ion-row>
-           
+
             <ion-row *ngIf="hideCosts && is_booking_days == false && !isPetTaxi">
                 <ion-col>
                     <div>
@@ -356,24 +353,19 @@
                 </ion-col>
             </ion-row>
 
-           
+
         </ion-grid>
     </form>
 </ion-content>
 
 
-<ion-footer *ngIf="isCreateButtonShown" >
+<ion-footer *ngIf="isCreateButtonShown">
     <ion-toolbar class="ion-no-padding rm-padding">
-        <ion-button class="text-capitalize fls-0 fs-18" size="large" expand="full" color="theme"
-            [disabled]="!isFormValid 
+        <ion-button class="text-capitalize fls-0 fs-18" size="large" expand="full" color="theme" [disabled]="!isFormValid 
             || !isValidFromTime().isValidStart 
             || !isValidFromTime().isValidEndDate 
-            || !isValidFromTime().isValidEndTime"
-            (click)="createJob()"
-        >
+            || !isValidFromTime().isValidEndTime" (click)="createJob()">
             Post a Job
         </ion-button>
     </ion-toolbar>
 </ion-footer>
-
-

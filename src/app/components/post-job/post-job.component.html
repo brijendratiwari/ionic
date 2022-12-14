@@ -1,269 +1,260 @@
-
-  <ng-container *ngIf="isMessagesContainerSectionLoaded">
-      <ion-card *ngIf="progressStepper?.profile == '0' || progressStepper?.email == '0' || progressStepper?.pet == '0' || progressStepper?.wallet == 0" 
-     style="background: #FFF3CD;">
-          <ion-card-content >
-             <ion-text *ngIf="progressStepper?.profile == '0'" size="12">
-               Please complete your <a  routerLink="/home/tabs/profile-menu" >profile</a> before posting a job   
+<ng-container *ngIf="isMessagesContainerSectionLoaded">
+    <ion-card
+        *ngIf="progressStepper?.profile == '0' || progressStepper?.email == '0' || progressStepper?.pet == '0' || progressStepper?.wallet == 0"
+        style="background: #FFF3CD;">
+        <ion-card-content>
+            <ion-text *ngIf="progressStepper?.profile == '0'" size="12">
+                Please complete your <a routerLink="/home/tabs/profile-menu">profile</a> before posting a job
             </ion-text>
-  
+
             <ion-text *ngIf="progressStepper?.profile != '0' && progressStepper?.email == 0" size="12">
                 Please complete your <a routerLink="/verifications">verification</a> before posting a job
             </ion-text>
-  
-            <ion-text *ngIf="progressStepper?.profile != '0' && progressStepper?.email != 0 && progressStepper?.pet == 0" size="12">
+
+            <ion-text
+                *ngIf="progressStepper?.profile != '0' && progressStepper?.email != 0 && progressStepper?.pet == 0"
+                size="12">
                 Please create a <a routerLink="/pet-add">pet profile</a> before posting a job
-            </ion-text> 
-  
-            <ion-text color="dark" *ngIf="progressStepper?.profile != '0' && progressStepper?.email != 0 && progressStepper?.pet != 0 && progressStepper?.wallet == 0"  size="12">
-                <b> <a (click)="goToAddMoney()">  <u > Add Credits to your Wallet </u> </a> </b> 
-                    <br>
-                     With your digital wallet, you have full control on your money. 
-                        Any funds you add will stay in your wallet until you authorise and confirm a job.
-                        You can contact <a (click)="sendEmailtoAccounts()" >accounts@petcloud.com.au</a> at any time.
-                    
             </ion-text>
-          </ion-card-content>
-      </ion-card>
-  </ng-container>
+
+            <ion-text color="dark"
+                *ngIf="progressStepper?.profile != '0' && progressStepper?.email != 0 && progressStepper?.pet != 0 && progressStepper?.wallet == 0"
+                size="12">
+                <b> <a (click)="goToAddMoney()"> <u> Add Credits to your Wallet </u> </a> </b>
+                <br>
+                With your digital wallet, you have full control on your money.
+                Any funds you add will stay in your wallet until you authorise and confirm a job.
+                You can contact <a (click)="sendEmailtoAccounts()">accounts@petcloud.com.au</a> at any time.
+
+            </ion-text>
+        </ion-card-content>
+    </ion-card>
+</ng-container>
 
 
-  <form [formGroup]="jobPostingForm">
-      <ion-grid>
-          <ion-row>
-              <ion-col>
-                  <ion-item>
-                      <ion-label position="stacked">What service do you need?
-                          <small class="error">*</small>
-                      </ion-label>
+<form [formGroup]="jobPostingForm">
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <ion-label position="stacked">What service do you need?
+                        <small class="error">*</small>
+                    </ion-label>
 
-                      <ion-select
-                          [compareWith]="compareWith" 
-                          formControlName="service_type_id" 
-                          (ionChange)="selectService($event)"
-                          placeholder="Please select a service"
-                          interface="action-sheet">
-                      
-                          <ion-select-option class="fs-14"
-                          *ngFor="let service of recurringOptions?.services, let idx = index"
-                          [hidden]="service?.enabled != '1'"
-                          [value]="service"
-                          >{{service?.serviceName}}
-                         </ion-select-option>
-                      </ion-select>
-                  </ion-item>
-              </ion-col>
-          </ion-row>
+                    <ion-select [compareWith]="compareWith" formControlName="service_type_id"
+                        (ionChange)="selectService($event)" placeholder="Please select a service"
+                        interface="action-sheet">
 
-          <ion-text lines="none" class="animated fadeInUp" *ngIf="is_service_type_id==true">
-              <p class="error"> Please Select Service</p>
-          </ion-text>
+                        <ion-select-option class="fs-14"
+                            *ngFor="let service of recurringOptions?.services, let idx = index"
+                            [hidden]="service?.enabled != '1'" [value]="service">{{service?.serviceName}}
+                        </ion-select-option>
+                    </ion-select>
+                </ion-item>
+            </ion-col>
+        </ion-row>
 
-          <ion-row>
-              <ion-col>
-                  <ion-radio-group color="theme" formControlName="bookingType" (ionChange)="selectMode($event)">
-                      <ion-row class="ion-align-items-center">
-                          <ion-col size="6">
-                              <ion-item lines="none">
-                                  <ion-radio color="theme" selected value="0"></ion-radio>
-                                  <ion-label> &nbsp;One Off</ion-label>
-                              </ion-item>
-                          </ion-col>
-                          <ion-col size="6" *ngIf="isRecurring">
-                              <ion-item lines="none">
-                                  <ion-radio color="theme" value="1"></ion-radio>
-                                  <ion-label> &nbsp;Recurring</ion-label>
-                              </ion-item>
-                          </ion-col>
-                      </ion-row>
-                  </ion-radio-group>
-                  <ion-text lines="none" class="animated fadeInUp" *ngIf="isbookingType">
-                      <p class="error"> Please Select Booking Type
-                      </p>
-                  </ion-text>
-              </ion-col>
-          </ion-row>
+        <ion-text lines="none" class="animated fadeInUp" *ngIf="is_service_type_id==true">
+            <p class="error"> Please Select Service</p>
+        </ion-text>
 
-          <ion-row>
-              <ion-col (click)="openFromDateCalender('from_date')" size="6">
-                  <ion-item class="look-input-item">
-                      <ion-label position="stacked">Start Date<small class="error">*</small></ion-label>
-                      <div class="look-input" >
-                          {{lbl_formatedStartDate | date: 'EEE  dd MMM yyyy'}}
-                      </div>
-                  </ion-item>
-                  <ion-text class="animated fadeInUp error"
-                      *ngIf="jobPostingForm.get('start_date').hasError('required') && jobPostingForm.get('start_date').touched">
-                      Select start date.
-                  </ion-text>
-              </ion-col>
-              <ion-col size="6">
-                  <ion-item>
-                      <ion-label position="stacked">Start Time <small class="error">*</small></ion-label>
-                      <ion-datetime #startFromTimePicker display-format="h:mm A" [value]="startMinTime"
-                          placeholder="9:15 AM" picker-format="h:mm A" [min]="startMinTime"
-                          formControlName="start_time" value="startMinTime"
-                          (ionChange)="fromTimeChange(startFromTimePicker)"
-                          minuteValues="0,15,30,45">
-                      </ion-datetime>
-                  </ion-item>
-                  <ion-text class="animated fadeInUp error"
-                      *ngIf="jobPostingForm.get('start_time').hasError('required') && jobPostingForm.get('start_time').touched">
-                      Select start time.
-                  </ion-text>
-              </ion-col>
-          </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-radio-group color="theme" formControlName="bookingType" (ionChange)="selectMode($event)">
+                    <ion-row class="ion-align-items-center">
+                        <ion-col size="6">
+                            <ion-item lines="none">
+                                <ion-radio color="theme" selected value="0"></ion-radio>
+                                <ion-label> &nbsp;One Off</ion-label>
+                            </ion-item>
+                        </ion-col>
+                        <ion-col size="6" *ngIf="isRecurring">
+                            <ion-item lines="none">
+                                <ion-radio color="theme" value="1"></ion-radio>
+                                <ion-label> &nbsp;Recurring</ion-label>
+                            </ion-item>
+                        </ion-col>
+                    </ion-row>
+                </ion-radio-group>
+                <ion-text lines="none" class="animated fadeInUp" *ngIf="isbookingType">
+                    <p class="error"> Please Select Booking Type
+                    </p>
+                </ion-text>
+            </ion-col>
+        </ion-row>
 
-          <ion-row *ngIf="isEndDateTime">
-              <ion-col  (click)="openToCalender('end_date')" size="6">
-                  <ion-item  class="look-input-item">
-                      <ion-label position="stacked"> End Date <small class="error">*</small></ion-label>
-                      <div class="look-input">
-                          {{lbl_formatedEndDate | date: 'EEE  dd MMM yyyy'}}
-                      </div>
-                  </ion-item>
-                  
-                  <ion-text class="animated fadeInUp error"
-                      *ngIf="jobPostingForm.get('end_date').hasError('required') && jobPostingForm.get('end_date').touched">
-                      Select start time.</ion-text>
-              </ion-col>
+        <ion-row>
+            <ion-col (click)="openFromDateCalender('from_date')" size="6">
+                <ion-item class="look-input-item">
+                    <ion-label position="stacked">Start Date<small class="error">*</small></ion-label>
+                    <div class="look-input">
+                        {{lbl_formatedStartDate | date: 'EEE dd MMM yyyy'}}
+                    </div>
+                </ion-item>
+                <ion-text class="animated fadeInUp error"
+                    *ngIf="jobPostingForm.get('start_date').hasError('required') && jobPostingForm.get('start_date').touched">
+                    Select start date.
+                </ion-text>
+            </ion-col>
+            <ion-col size="6">
+                <ion-item>
+                    <ion-label position="stacked">Start Time <small class="error">*</small></ion-label>
+                    <ion-datetime #startFromTimePicker display-format="h:mm A" [value]="startMinTime"
+                        placeholder="9:15 AM" picker-format="h:mm A" [min]="startMinTime" formControlName="start_time"
+                        value="startMinTime" (ionChange)="fromTimeChange(startFromTimePicker)"
+                        minuteValues="0,15,30,45">
+                    </ion-datetime>
+                </ion-item>
+                <ion-text class="animated fadeInUp error"
+                    *ngIf="jobPostingForm.get('start_time').hasError('required') && jobPostingForm.get('start_time').touched">
+                    Select start time.
+                </ion-text>
+            </ion-col>
+        </ion-row>
 
-              <ion-col size="6">
-                  <ion-item >
-                      <ion-label position="stacked"> End Time<small class="error">*</small></ion-label>
-                      <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A"
-                          formControlName="end_time" [value]="startTotime" minuteValues="0,15,30,45"></ion-datetime>
-                  </ion-item>
+        <ion-row *ngIf="isEndDateTime">
+            <ion-col (click)="openToCalender('end_date')" size="6">
+                <ion-item class="look-input-item">
+                    <ion-label position="stacked"> End Date <small class="error">*</small></ion-label>
+                    <div class="look-input">
+                        {{lbl_formatedEndDate | date: 'EEE dd MMM yyyy'}}
+                    </div>
+                </ion-item>
 
-                  <ion-text class="animated fadeInUp error"
-                      *ngIf="jobPostingForm.get('end_time').hasError('required') && jobPostingForm.get('end_time').touched">
-                      Select end time.</ion-text>
-              </ion-col>
-          </ion-row>
+                <ion-text class="animated fadeInUp error"
+                    *ngIf="jobPostingForm.get('end_date').hasError('required') && jobPostingForm.get('end_date').touched">
+                    Select start time.</ion-text>
+            </ion-col>
 
-   
-         
-          <div *ngIf="ServiceChargeType != '0'">
-             
-              <ion-row *ngIf="selectedMode == 0">
-                  <ion-col>
-                      <ion-item>
-                          <ion-label position="stacked">Select Days <small class="error">*</small></ion-label>
-                          <ion-select color="theme" 
-                          
-                          formControlName="recurring_type" (ionChange)="selectDays($event)"
-                              placeholder="Select Days" interface="action-sheet">
-                              <ion-select-option class="fs-14" *ngFor="let recurring of recurringOptions?.oneoff"
-                                  [value]="recurring?.shortName">{{recurring?.LongName}}
-                              </ion-select-option>
-                          </ion-select>
-                      </ion-item>
-                  </ion-col>
-              </ion-row>
-              <ion-row *ngIf="selectedMode == 1">
-                  <ion-col>
-                      <ion-item>
-                          <ion-label position="stacked">Select Days <small class="error">*</small></ion-label>
-                          <ion-select color="theme" formControlName="recurring_type" (ionChange)="selectDays($event)"
-                              placeholder="Select Days" interface="action-sheet">
-                              <ion-select-option class="fs-14" *ngFor="let recurring of recurringOptions?.recurring_type"
-                                  [value]="recurring?.shortName">{{recurring?.LongName}}
-                              </ion-select-option>
-                          </ion-select>
-                      </ion-item>
-                  </ion-col>
-              </ion-row>
-              <ion-text lines="none" class="animated fadeInUp" *ngIf="is_recurringType==true">
-                  <p class="error"> Please Select Booking Days</p>
-              </ion-text>
+            <ion-col size="6">
+                <ion-item>
+                    <ion-label position="stacked"> End Time<small class="error">*</small></ion-label>
+                    <ion-datetime display-format="h:mm A" placeholder="9:15 AM" picker-format="h:mm A"
+                        formControlName="end_time" [value]="startTotime" minuteValues="0,15,30,45"></ion-datetime>
+                </ion-item>
 
-              <ion-row *ngIf="isCustomDays">
-                  <ion-col>
-                      <ion-item>
-                          <ion-label position="stacked">Custom Days</ion-label>
-                          <ion-select interface="action-sheet" color="theme" [multiple]="isMultipleDays == true ? true :
+                <ion-text class="animated fadeInUp error"
+                    *ngIf="jobPostingForm.get('end_time').hasError('required') && jobPostingForm.get('end_time').touched">
+                    Select end time.</ion-text>
+            </ion-col>
+        </ion-row>
+
+
+
+        <div *ngIf="ServiceChargeType != '0'">
+
+            <ion-row *ngIf="selectedMode == 0">
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="stacked">Select Days <small class="error">*</small></ion-label>
+                        <ion-select color="theme" formControlName="recurring_type" (ionChange)="selectDays($event)"
+                            placeholder="Select Days" interface="action-sheet">
+                            <ion-select-option class="fs-14" *ngFor="let recurring of recurringOptions?.oneoff"
+                                [value]="recurring?.shortName">{{recurring?.LongName}}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-row *ngIf="selectedMode == 1">
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="stacked">Select Days <small class="error">*</small></ion-label>
+                        <ion-select color="theme" formControlName="recurring_type" (ionChange)="selectDays($event)"
+                            placeholder="Select Days" interface="action-sheet">
+                            <ion-select-option class="fs-14" *ngFor="let recurring of recurringOptions?.recurring_type"
+                                [value]="recurring?.shortName">{{recurring?.LongName}}
+                            </ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-text lines="none" class="animated fadeInUp" *ngIf="is_recurringType==true">
+                <p class="error"> Please Select Booking Days</p>
+            </ion-text>
+
+            <ion-row *ngIf="isCustomDays">
+                <ion-col>
+                    <ion-item>
+                        <ion-label position="stacked">Custom Days</ion-label>
+                        <ion-select interface="action-sheet" color="theme" [multiple]="isMultipleDays == true ? true :
                               false" formControlName="booking_days" (ionChange)="customDays($event)"
-                              placeholder="Custom Days">
-                              <ion-select-option value="0">Sunday</ion-select-option>
-                              <ion-select-option value="1">Monday</ion-select-option>
-                              <ion-select-option value="2">Tuesday</ion-select-option>
-                              <ion-select-option value="3">Wednesday</ion-select-option>
-                              <ion-select-option value="4">Thursday</ion-select-option>
-                              <ion-select-option value="5">Friday</ion-select-option>
-                              <ion-select-option value="6">Saturday</ion-select-option>
-                          </ion-select>
-                      </ion-item>
-                  </ion-col>
-              </ion-row>
-              <ion-text lines="none" class="animated fadeInUp" *ngIf="is_booking_days">
-                  <p class="error"> Please Select Days</p>
-              </ion-text>
-          </div>
-        
-          <ion-row>
-              <ion-col>
-                  <ion-item>
-                      <ion-label>Pets <small class="error">*</small></ion-label>
-                  </ion-item>
+                            placeholder="Custom Days">
+                            <ion-select-option value="0">Sunday</ion-select-option>
+                            <ion-select-option value="1">Monday</ion-select-option>
+                            <ion-select-option value="2">Tuesday</ion-select-option>
+                            <ion-select-option value="3">Wednesday</ion-select-option>
+                            <ion-select-option value="4">Thursday</ion-select-option>
+                            <ion-select-option value="5">Friday</ion-select-option>
+                            <ion-select-option value="6">Saturday</ion-select-option>
+                        </ion-select>
+                    </ion-item>
+                </ion-col>
+            </ion-row>
+            <ion-text lines="none" class="animated fadeInUp" *ngIf="is_booking_days">
+                <p class="error"> Please Select Days</p>
+            </ion-text>
+        </div>
 
-                  <div  [hidden]="!isNoPets" >
-                      <ion-text class="error" routerLink="/pet-add">No Pets Added. Please Add Pet <span  class="link-contrast"> (Click Here)*</span></ion-text>
-                  </div>
-                  <div class="petList">
-                      <ion-item lines="none" *ngFor="let pet of petList" class="petItem">
-                          <ion-thumbnail slot="start" class="petProfile">
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <ion-label>Pets <small class="error">*</small></ion-label>
+                </ion-item>
 
-                              <ion-img
-                              [src]="pet.imagename == '' || pet.imagename == null  ? 
+                <div [hidden]="!isNoPets">
+                    <ion-text class="error" routerLink="/pet-add">No Pets Added. Please Add Pet <span
+                            class="link-contrast"> (Click Here)*</span></ion-text>
+                </div>
+                <div class="petList">
+                    <ion-item lines="none" *ngFor="let pet of petList" class="petItem">
+                        <ion-thumbnail slot="start" class="petProfile">
+
+                            <ion-img [src]="pet.imagename == '' || pet.imagename == null  ? 
                               'https://dev.petcloud.com.au/img/pet_placeholder.png' 
                               : pet?.imagename"></ion-img>
 
-                          </ion-thumbnail>
-                          <ion-label>{{pet?.name}}</ion-label>
-                          <ion-checkbox slot="end" checked color="theme" (ionChange)="onPetSelectChange($event,pet)">
-                          </ion-checkbox>
-                      </ion-item>
-                      <ion-text [hidden]="selectedPetIds.length > 0" lines="none" class="animated fadeInUp">
-                          <p    class="error">Please select Pets </p>
-                      </ion-text>
-                  </div>
-              </ion-col>
-          </ion-row>
-      
-          <ion-row>
-              <ion-col>
-                  <ion-item>
-                      <ion-label position="stacked">Any Special Requirements</ion-label>
-                      <ion-textarea rows="3" formControlName="description" placeholder="enter description">
-                      </ion-textarea>
-                  </ion-item>
-              </ion-col>
-          </ion-row>
-          <ion-row>
-              <ion-col>
-                  <div *ngIf="hideCosts && is_booking_days == false">
-                      <ng-container *ngIf="selectedPetIds.length > 0">
-                          <p *ngIf="isrecurringSelected"> Weekly Estimate : $ {{weeklyEstimatedCost}} </p>
-                          <p  *ngIf="!isrecurringSelected">Total Estimated Cost : $ {{totalEstimatedCost}}</p>
-                      </ng-container>
-                     
-                  </div>
-              </ion-col>
-          </ion-row>
-      </ion-grid>
-  </form>
+                        </ion-thumbnail>
+                        <ion-label>{{pet?.name}}</ion-label>
+                        <ion-checkbox slot="end" checked color="theme" (ionChange)="onPetSelectChange($event,pet)">
+                        </ion-checkbox>
+                    </ion-item>
+                    <ion-text [hidden]="selectedPetIds.length > 0" lines="none" class="animated fadeInUp">
+                        <p class="error">Please select Pets </p>
+                    </ion-text>
+                </div>
+            </ion-col>
+        </ion-row>
+
+        <ion-row>
+            <ion-col>
+                <ion-item>
+                    <ion-label position="stacked">Any Special Requirements</ion-label>
+                    <ion-textarea rows="3" formControlName="description" placeholder="Enter description">
+                    </ion-textarea>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <div *ngIf="hideCosts && is_booking_days == false">
+                    <ng-container *ngIf="selectedPetIds.length > 0">
+                        <p *ngIf="isrecurringSelected"> Weekly Estimate : $ {{weeklyEstimatedCost}} </p>
+                        <p *ngIf="!isrecurringSelected">Total Estimated Cost : $ {{totalEstimatedCost}}</p>
+                    </ng-container>
+
+                </div>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</form>
 
 <ion-footer class="ion-no-padding">
 
-  <ion-toolbar class="ion-no-padding">
-      <ion-button 
-      class="text-capitalize fls-0 fs-18 footer-btn"
-      expand="full"
-      color="theme"
-      [disabled]="!isFormValid"
-      (click)="createJob()"
-    >
-      Create
-    </ion-button>
-  </ion-toolbar>
+    <ion-toolbar class="ion-no-padding">
+        <ion-button class="text-capitalize fls-0 fs-18 footer-btn" expand="full" color="theme" [disabled]="!isFormValid"
+            (click)="createJob()">
+            Create
+        </ion-button>
+    </ion-toolbar>
 </ion-footer>

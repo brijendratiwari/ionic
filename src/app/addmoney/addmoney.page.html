@@ -128,7 +128,7 @@
             <h3>There is no payment card exist</h3>
           </div>
         </div>
-        <div class="add-card-btn-2">
+        <div class="add-card-btn-2" *ngIf="cards.length<2">
           <ion-button (click)="addCardModel()">Add Card</ion-button>
           <!-- <ion-button (click)="goToVerification('add_card')">Add Card</ion-button> -->
 
