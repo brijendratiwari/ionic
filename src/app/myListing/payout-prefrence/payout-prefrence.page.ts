@@ -4,7 +4,7 @@ import { PetcloudApiService } from '../../api/petcloud-api.service';
 import { Validators, FormBuilder, FormGroup, } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
-import { Camera, CameraOptions} from "@ionic-native/camera/ngx";
+import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
 
 
 // importing model files
@@ -60,19 +60,19 @@ export class PayoutPrefrencePage implements OnInit {
         this.storage.get(PetcloudApiService.USER)
             .then(async (userData: User) => {
                 if (userData != null) {
-                   await this.checkVerificationPending(userData)
-                    if(userData.account){    
+                    await this.checkVerificationPending(userData)
+                    if (userData.account) {
                         this.isStripeAccountAdded = true;
-                       this.stripeFrm.patchValue({
-                            accountName:  userData.account.data[0].account_holder_name,
-                            bsb:  userData.account.data[0].routing_number,
-                            accountNumber: "xxxxx "+userData.account.data[0].last4
+                        this.stripeFrm.patchValue({
+                            accountName: userData.account.data[0].account_holder_name,
+                            bsb: userData.account.data[0].routing_number,
+                            accountNumber: "xxxxx " + userData.account.data[0].last4
                         })
-                    }else{
+                    } else {
                         this.isStripeAccountAdded = false;
                     }
-                    userData.stripe_connect_update != null ? this.documentContainer = true :  this.documentContainer = false;
-                    
+                    userData.stripe_connect_update != null ? this.documentContainer = true : this.documentContainer = false;
+
                     this.paypalFrm.setValue({
                         paypal_email: userData.paypal_email
                     });
@@ -83,69 +83,76 @@ export class PayoutPrefrencePage implements OnInit {
 
     async checkVerificationPending(userData) {
         if (userData.user_type == 2 || userData.user_type == 3) {
-                    await this.api.isVerificationPendingModel();
+            await this.api.isVerificationPendingModel();
         } else if (userData.user_type == 1) {
             if (userData.verified == 0 || userData.verify_phoneflag == "N") {
-                await  this.api.isVerificationPendingModel();
+                await this.api.isVerificationPendingModel();
             }
         }
     }
 
+    isReadonly(val) {
+        if (val != undefined && val.length > 0) {
+            return true
+        } else {
+            return false
+        }
+    }
     async stripeDocumentUpload(pageSide) {
         const actionSheet = await this.actionSheetCtrl.create({
             header: 'Select Photo From',
             buttons: [{
                 text: 'Camera',
                 handler: () => {
-               
-                    this.photoOption(this.camera.PictureSourceType.CAMERA,pageSide);
+
+                    this.photoOption(this.camera.PictureSourceType.CAMERA, pageSide);
                 }
             }, {
                 text: 'Gallery',
                 handler: async () => {
                     const status = await this.CameraAPI.checkPhotoLibraryPermission();
-                    if(status) {
-                        this.photoOption(this.camera.PictureSourceType.PHOTOLIBRARY,pageSide);
+                    if (status) {
+                        this.photoOption(this.camera.PictureSourceType.PHOTOLIBRARY, pageSide);
                     }
                 }
             }, {
                 text: 'Cancel',
-             
+
             }]
         });
         await actionSheet.present();
     }
 
-    photoOption(params,pageSide) {
-        
-        this.CameraAPI.getPicture(params).then((base64String:any)=>{
-            this.imageUpload('data:image/jpeg;base64,' + base64String,pageSide);
-        },err=>{
-            
+    photoOption(params, pageSide) {
+
+        this.CameraAPI.getPicture(params).then((base64String: any) => {
+            this.imageUpload('data:image/jpeg;base64,' + base64String, pageSide);
+        }, err => {
+
         })
-        
+
     }
 
-   
-    imageUpload(base64String,pageSide) {
-            const fileParams = { image: base64String, file_name: "Imagename.jpg",pageside:pageSide};
-                this.api.showLoader();
-                this.api.uploadDocumentForBank(fileParams).pipe(
-                    finalize(() => {
-                        this.api.hideLoader();
-                    }))
-                    .subscribe((res: any) => {
-                        if (res.success) {
-                            this.navCntl.navigateRoot('/home/tabs/profile-menu')
-                            this.api.showToast('Document Uploaded.', 2000, 'bottom');
-                           
-                        } else {
-                            this.api.showToast('Filed to add document.', 2000, 'bottom');
-                        }
-                    }, (err: any) => {
-                        this.api.autoLogout(err,fileParams)
-                    });
-        }
+
+    imageUpload(base64String, pageSide) {
+        const fileParams = { image: base64String, file_name: "Imagename.jpg", pageside: pageSide };
+        this.api.showLoader();
+        this.api.uploadDocumentForBank(fileParams).pipe(
+            finalize(() => {
+                this.api.hideLoader();
+            }))
+            .subscribe((res: any) => {
+                if (res.success) {
+                    this.navCntl.navigateRoot('/home/tabs/profile-menu')
+                    this.api.showToast('Document Uploaded.', 2000, 'bottom');
+
+                } else {
+                    this.api.showToast('Filed to add document.', 2000, 'bottom');
+                }
+            }, (err: any) => {
+                this.api.autoLogout(err, fileParams)
+            });
+    }
 
     /**
      * Update Paypal email
@@ -187,7 +194,7 @@ export class PayoutPrefrencePage implements OnInit {
                 }
             }, (err: any) => {
                 this.api.showToast(err, 3000, 'bottom');
-                this.api.autoLogout(err,user)
+                this.api.autoLogout(err, user)
             });
     }
 
@@ -200,7 +207,7 @@ export class PayoutPrefrencePage implements OnInit {
             'BankForm': this.stripeFrm.value
         };
 
-   
+
         this.api.showLoader();
         this.api.updateStripeDetails(bankFrm)
             .pipe(finalize(() => {
@@ -218,7 +225,7 @@ export class PayoutPrefrencePage implements OnInit {
                 }
             }, (err: any) => {
                 this.api.showToast(err, 3000, 'bottom');
-                this.api.autoLogout(err,bankFrm)
+                this.api.autoLogout(err, bankFrm)
             });
     }
 

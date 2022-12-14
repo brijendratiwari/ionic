@@ -74,7 +74,7 @@ export class OtpVerificationPage implements OnInit {
     })).subscribe(async (res: any) => {
       if (res.success) {
         this.api.showToast('Verification completed successfully!', 2000, 'bottom');
-        this.redirection();
+        this.redirection(this.OTP);
       } else {
         this.api.showToast(res.error, 2000, 'bottom');
         this.otp6.setFocus();
@@ -83,11 +83,16 @@ export class OtpVerificationPage implements OnInit {
       this.api.autoLogout(err, "");
     })
   }
-  redirection() {
-    if (this.type != 'add_money') {
-      this.navCtrl.navigateForward(['/withdrawal']);
+  redirection(otpVal) {
+    console.log(otpVal)
+    // if (this.type != 'add_money') {
+    //   this.navCtrl.navigateForward(['/withdrawal']);
+    // }
+    var data = {
+      type: this.type,
+      code: otpVal
     }
-    this.modalController.dismiss(this.type);
+    this.modalController.dismiss(data);
   }
 
   StartTimer() {

@@ -15,6 +15,7 @@ import { OtpVerificationPage } from '../otp-verification/otp-verification.page';
 
 export class WithdrawalPage implements OnInit {
   public withdraw: FormGroup;
+  verify_code: any = '';
   constructor(private formBuilder: FormBuilder,
     public api: PetcloudApiService,
     public router: Router,
@@ -44,7 +45,7 @@ export class WithdrawalPage implements OnInit {
           component: AddBankDetailPayoutComponent,
           animated: true,
           componentProps: {
-            amount: this.withdraw.value.amount
+            amount: this.withdraw.value.amount,
           },
         });
         modal.onDidDismiss().then((data: any) => {
@@ -56,7 +57,8 @@ export class WithdrawalPage implements OnInit {
         const formData = {
           WalletTransaction: {
             payout_source: this.withdraw.value.payout_source,
-            amount: this.withdraw.value.amount
+            amount: this.withdraw.value.amount,
+            verify_code: this.verify_code
           }
         }
         this.api.showLoader();
@@ -97,10 +99,10 @@ export class WithdrawalPage implements OnInit {
       modal.onDidDismiss()
         .then((data: any) => {
           console.log(data);
-          if (data.data == 'withdrawal') {
+          this.verify_code = data.data.code;
+          if (data.data.type == 'withdrawal') {
             this.sendMoney();
           }
-
         });
       return await modal.present();
     }, err => {

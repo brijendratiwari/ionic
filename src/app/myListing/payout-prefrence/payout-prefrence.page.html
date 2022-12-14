@@ -22,19 +22,24 @@
             <ion-row class="ion-no-margin custom-list">
                 <ion-col>
                     <h4>Stripe</h4>
-                    <p class="fs-12 ion-text-justify">We use Stripe payment gateway to securely process payments for bookings by credit cards.</p>
-                    <p class="fs-12 ion-text-justify"> Your first payout may take 2-3 days. (We hate delays as much as you do, but this is out of our hands!). This allows Stripe to mitigate some of the risks inherent in providing credit services.</p>
+                    <p class="fs-12 ion-text-justify">We use Stripe payment gateway to securely process payments for
+                        bookings by credit cards.</p>
+                    <p class="fs-12 ion-text-justify"> Your first payout may take 2-3 days. (We hate delays as much as
+                        you do, but this is out of our hands!). This allows Stripe to mitigate some of the risks
+                        inherent in providing credit services.</p>
                     <p class="fs-12 ion-text-justify">
-                        
-                         Stripe requires us to ask you to upload Government-issued Photo ID, such as a Driver's License or Passport for Verification to comply with regulation. Please upload both Front and Back for Identity verification.
-                         Please note we can only accept JPG, JPEG or PNG. Our provider does not accept PDF's 
+
+                        Stripe requires us to ask you to upload Government-issued Photo ID, such as a Driver's License
+                        or Passport for Verification to comply with regulation. Please upload both Front and Back for
+                        Identity verification.
+                        Please note we can only accept JPG, JPEG or PNG. Our provider does not accept PDF's
                     </p>
                 </ion-col>
             </ion-row>
 
             <ng-container *ngIf="documentContainer">
                 <ion-card class="info-card" color="note">
-                    <ion-card-header >Step 2. Upload your Identity document.
+                    <ion-card-header>Step 2. Upload your Identity document.
                     </ion-card-header>
                 </ion-card>
                 <div class="input-form doc-card">
@@ -43,28 +48,26 @@
                         <ion-col size="12">
                             <p class="fs-14 ion-text-justify">Identity document Front <span class="error">*</span></p>
                             <ion-button class="text-capitalize fls-0 fs-18" color="theme"
-                                (click)="stripeDocumentUpload('front')"
-                            >
+                                (click)="stripeDocumentUpload('front')">
                                 Upload
                             </ion-button>
                         </ion-col>
-    
+
                         <ion-col size="12">
                             <p class="fs-14 ion-text-justify">Identity document Back</p>
                             <ion-button class="text-capitalize fls-0 fs-18" color="theme"
-                                (click)="stripeDocumentUpload('back')"
-                            >
+                                (click)="stripeDocumentUpload('back')">
                                 Upload
                             </ion-button>
                         </ion-col>
                     </ion-row>
-                </div>                
+                </div>
             </ng-container>
 
 
-            <ng-container>    
+            <ng-container>
                 <ion-card class="info-card" *ngIf="isStripeAccountAdded == false" color="note">
-                    <ion-card-header >Step 1. Please Provide your Bank Details.
+                    <ion-card-header>Step 1. Please Provide your Bank Details.
                     </ion-card-header>
                 </ion-card>
                 <div class="input-form">
@@ -72,7 +75,8 @@
                     <form [formGroup]="stripeFrm">
                         <ion-item>
                             <ion-label position="stacked">Account Name</ion-label>
-                            <ion-input type="text" formControlName="accountName"></ion-input>
+                            <ion-input type="text" formControlName="accountName"
+                                [readonly]="isReadonly(stripeFrm.value.accountName)"></ion-input>
                         </ion-item>
                         <ion-text lines="none" class="animated fadeInUp error"
                             *ngIf="stripeFrm.get('accountName').hasError('required') && stripeFrm.get('accountName').touched">
@@ -80,7 +84,8 @@
                         </ion-text>
                         <ion-item>
                             <ion-label position="stacked">BSB</ion-label>
-                            <ion-input type="text" formControlName="bsb"></ion-input>
+                            <ion-input type="text" formControlName="bsb"
+                                [readonly]="isReadonly(stripeFrm.value.bsb)"></ion-input>
                         </ion-item>
                         <ion-text lines="none" class="animated fadeInUp error"
                             *ngIf="stripeFrm.get('bsb').hasError('required') && stripeFrm.get('bsb').touched">
@@ -88,7 +93,8 @@
                         </ion-text>
                         <ion-item>
                             <ion-label position="stacked">Account Number</ion-label>
-                            <ion-input type="text" formControlName="accountNumber"></ion-input>
+                            <ion-input type="text" formControlName="accountNumber"
+                                [readonly]="isReadonly(stripeFrm.value.accountNumber)"></ion-input>
                         </ion-item>
                         <ion-text lines="none" class="animated fadeInUp error"
                             *ngIf="stripeFrm.get('accountNumber').hasError('required') && stripeFrm.get('accountNumber').touched">
@@ -125,13 +131,14 @@
                         money into your bank account.</p>
                 </ion-col>
             </ion-row>
-            
+
             <div class="input-form">
                 <form [formGroup]="paypalFrm">
                     <h4>Paypal Details</h4>
                     <ion-item>
                         <ion-label position="stacked">Paypal Email</ion-label>
-                        <ion-input type="email" formControlName="paypal_email"></ion-input>
+                        <ion-input type="email" formControlName="paypal_email"
+                            [readonly]="isReadonly(paypalFrm.value.paypal_email)"></ion-input>
                     </ion-item>
                     <ion-text lines="none" class="animated fadeInUp error"
                         *ngIf="paypalFrm.get('paypal_email').hasError('required') && paypalFrm.get('paypal_email').touched">
@@ -144,7 +151,7 @@
                     <ion-button class="text-capitalize fls-0 fs-18 footer-btn" color="theme"
                         [disabled]="!paypalFrm.valid" (click)="updatePaypal()">Save
                     </ion-button>
-                </form>               
+                </form>
             </div>
         </ion-grid>
     </div>
