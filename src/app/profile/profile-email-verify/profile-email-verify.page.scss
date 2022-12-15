@@ -1,3 +1,7 @@
+ion-header ion-icon {
+    font-size: 27px;
+    margin-right: 12px;
+}
 ion-card {
     box-shadow: none;
 }
@@ -13,11 +17,11 @@ ion-list {
         margin: 0px;
     }
 }
-.verification-card{
-    border: 1px solid #CCCCCC;
+.verification-card {
+    border: 1px solid #cccccc;
     margin: 10px 5px;
     // box-shadow: 0 2px 4px 0 rgba(136,136,136,0.30);
-    ion-card-header{
+    ion-card-header {
         display: flex;
         flex-direction: row;
         padding: 10px;
@@ -36,7 +40,7 @@ ion-list {
         // }
         ion-card-title {
             font-size: 14px;
-            color: #4A4A4A;
+            color: #4a4a4a;
             letter-spacing: 0;
             margin-bottom: 8px;
         }
@@ -45,17 +49,17 @@ ion-list {
             color: #888888;
             letter-spacing: 0;
         }
-        ion-button{
+        ion-button {
             font-size: 12px;
             letter-spacing: 0;
-            --box-shadow:none;
+            --box-shadow: none;
         }
     }
-    ion-card-content{
+    ion-card-content {
         padding: 10px;
-        .verify-icon{
+        .verify-icon {
             width: 3em;
-            margin-bottom: .5em;
+            margin-bottom: 0.5em;
         }
     }
     .img-content {
@@ -71,7 +75,7 @@ ion-button {
     font-size: 15px;
     width: 100%;
 }
-.icon{
+.icon {
     height: 40px;
     width: 40px;
     background-color: rgba(254, 65, 100, 0.2);
@@ -87,23 +91,22 @@ ion-button {
     }
 }
 
-
-.verify-check{
+.verify-check {
     display: flex;
-    .theme-icon{
+    .theme-icon {
         width: 25px;
     }
-    ion-img{
+    ion-img {
         margin-right: 10px;
     }
-    .content{
+    .content {
         width: calc(100% - 35px);
     }
 }
 
-.underline{
-    text-decoration: underline; 
-    color: #FE4164;
+.underline {
+    text-decoration: underline;
+    color: #fe4164;
 }
 .doc-col {
     display: flex;

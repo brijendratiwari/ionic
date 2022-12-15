@@ -1,4 +1,4 @@
- import { Component, OnInit, NgZone } from "@angular/core";
+import { Component, OnInit, NgZone } from "@angular/core";
 import { PetcloudApiService } from "./../../api/petcloud-api.service";
 import { Validators, FormBuilder, FormGroup } from "@angular/forms";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -8,7 +8,7 @@ import { ApiResponse } from "../../model/api-response";
 import { User } from "../../model/user";
 import { finalize } from "rxjs/operators";
 import {
-  NavController,ActionSheetController,Platform,
+  NavController, ActionSheetController, Platform,
   LoadingController,
   ModalController,
   AlertController,
@@ -19,7 +19,7 @@ import { BackgroundMode } from "@ionic-native/background-mode/ngx";
 import { Subscription } from "rxjs/Subscription";
 import { SocialSharing } from '@ionic-native/social-sharing/ngx'
 import { CameraService } from "../../camera-service.service";
-import { Camera} from "@ionic-native/camera/ngx";
+import { Camera } from "@ionic-native/camera/ngx";
 @Component({
   selector: "app-profile-email-verify",
   templateUrl: "./profile-email-verify.page.html",
@@ -33,7 +33,7 @@ export class ProfileEmailVerifyPage implements OnInit {
   shownBackGroundGroup = null;
   shownNurseCertGroup = null;
   shownYellowCardGroup = null;
-  shownAnimalCare= null;
+  shownAnimalCare = null;
   showTaxiGroup = null;
   shownRightToWork = null;
   shownNDISGroup: null;
@@ -43,7 +43,7 @@ export class ProfileEmailVerifyPage implements OnInit {
   myImageUrl: any;
   documentType: any;
   public righttowork: any;
-  public licenseImage = {front:"", back:""};
+  public licenseImage = { front: "", back: "" };
 
   private onResumeSubscription: Subscription;
 
@@ -81,14 +81,14 @@ export class ProfileEmailVerifyPage implements OnInit {
     public socialSharing: SocialSharing,
     public alertController: AlertController,
     public platform: Platform,
-    public cameraAPI:CameraService,
+    public cameraAPI: CameraService,
     public camera: Camera,
-    public model:ModalController
+    public model: ModalController
   ) {
 
     this.backButtonEvent();
     this.backButton = this.route.snapshot.paramMap.get("backBtn");
-    
+
   }
 
 
@@ -105,9 +105,9 @@ export class ProfileEmailVerifyPage implements OnInit {
         verifyCode: "",
       });
     });
-    
 
- 
+
+
     this.checkVerification();
     this.onResumeSubscription = this.plt.resume.subscribe(() => {
       // do something meaningful when the app is put in the foreground
@@ -120,7 +120,7 @@ export class ProfileEmailVerifyPage implements OnInit {
   ionViewWillEnter() {
   }
 
-  ionViewWillLeave() {    
+  ionViewWillLeave() {
   }
 
   ionViewWillUnload() {
@@ -128,7 +128,7 @@ export class ProfileEmailVerifyPage implements OnInit {
       this.sub1$.unsubscribe();
     }
   }
-  
+
   backButtonNavigate() {
     this.router.navigateByUrl("/home/tabs/sitter-listing");
   }
@@ -143,6 +143,7 @@ export class ProfileEmailVerifyPage implements OnInit {
     this.api.showLoader();
     this.storage.get(PetcloudApiService.USER).then(
       (userData: User) => {
+        console.log(userData, "sendVerificationCodeToEmail")
         this.api
           .sendVerificationCodeToEmail(userData.email)
           .pipe(
@@ -156,7 +157,7 @@ export class ProfileEmailVerifyPage implements OnInit {
               this.api.showAlert(
                 "Verify Email",
                 "Your verification email has been " +
-                  "sent successfully. Please check your inbox for instructions to verify your email address",
+                "sent successfully. Please check your inbox for instructions to verify your email address",
                 [
                   {
                     text: "Ok",
@@ -175,7 +176,7 @@ export class ProfileEmailVerifyPage implements OnInit {
           });
       },
       (err: any) => {
-        this.api.autoLogout(err,"");
+        // this.api.autoLogout(err, "");
       }
     );
   }
@@ -184,7 +185,7 @@ export class ProfileEmailVerifyPage implements OnInit {
    * Send Verification code for mobile number verification
    */
   public async sendVerificationCodeForMobile() {
-   
+
     const hashCode = {
       hashCode: this.appHashString
     }
@@ -192,7 +193,7 @@ export class ProfileEmailVerifyPage implements OnInit {
     let phone = btoa(this.verifyForm.value.mobileNumber);
     this.api.showLoader();
     this.api
-      .sendVerificationCodeForMobile(phone,hashCode)
+      .sendVerificationCodeForMobile(phone, hashCode)
       .subscribe(
         (res: ApiResponse) => {
           this.api.hideLoader();
@@ -203,7 +204,7 @@ export class ProfileEmailVerifyPage implements OnInit {
               [
                 {
                   text: "Ok",
-                  handler: () => {},
+                  handler: () => { },
                 },
               ]
             );
@@ -278,7 +279,7 @@ export class ProfileEmailVerifyPage implements OnInit {
           }
         },
         (err: any) => {
-          this.api.autoLogout(err,"");
+          this.api.autoLogout(err, "");
           this.api.showToast(
             "Your Mobile number is not verified! Try again.",
             2000,
@@ -326,7 +327,7 @@ export class ProfileEmailVerifyPage implements OnInit {
     }
   }
 
- 
+
   toggleNIDSCard(group) {
     if (this.isNDISGroupShown(group)) {
       this.shownNDISCardGroup = null;
@@ -335,7 +336,7 @@ export class ProfileEmailVerifyPage implements OnInit {
     }
   }
 
-  
+
   isNDISGroupShown(group) {
     return this.shownNDISCardGroup === group;
   }
@@ -366,14 +367,14 @@ export class ProfileEmailVerifyPage implements OnInit {
         this.checkVerification();
       },
       (err) => {
-        
+
       }
     );
   }
 
   // Check Verification
   async checkVerification() {
-     this.api.showLoader();
+    this.api.showLoader();
     this.api
       .checkVerification()
       .pipe(
@@ -389,46 +390,46 @@ export class ProfileEmailVerifyPage implements OnInit {
           this.isEmailVerified = res.emailVerify.status == "1" ? true : false;
           this.isPhoneVerified = res.phoneVerify.verify_phoneflag == "Y" ? true : false;
           this.isBackgroundcheck = res.BackgroundCheck.is_verified == "Verified" ? true : false;
-          this.righttowork =res.righttowork.is_verified == "Verified" ? true : false;
+          this.righttowork = res.righttowork.is_verified == "Verified" ? true : false;
           this.isanimalCare = res.animalcare.is_verified == "Verified" ? true : false;
           this.licenseImage.front = res.DriversLicence.document_image;
           this.licenseImage.back = res.DriversLicence.document_image_back;
-          
+
           this.storage.get(PetcloudApiService.USER).then((user: User) => {
             let background: any = user.BackgroundCheck;
             let righttowork: any = user.righttowork
-            let animalcare:any = user.animalcare;
-            
-            if(this.isPhoneVerified){
+            let animalcare: any = user.animalcare;
+
+            if (this.isPhoneVerified) {
               user.verify_phoneflag = "Y"
             }
-        
-           if(this.isEmailVerified){
-            user.verified = 1
-           
-          }
-          
-           if(this.isBackgroundcheck == true){
-            background.is_verified = "Verified"; 
-            user.backgroundCheckDocument = true;
-           }
 
-           if(this.righttowork){
-            user.isRightToWorkChecked = true;
-            righttowork.is_verified = "Verified";
-           }
+            if (this.isEmailVerified) {
+              user.verified = 1
 
-           if(this.isanimalCare){
-            user.isAnimalCareChecked = true;
-            animalcare.is_verified = "Verified";
-           }
-           
+            }
+
+            if (this.isBackgroundcheck == true) {
+              background.is_verified = "Verified";
+              user.backgroundCheckDocument = true;
+            }
+
+            if (this.righttowork) {
+              user.isRightToWorkChecked = true;
+              righttowork.is_verified = "Verified";
+            }
+
+            if (this.isanimalCare) {
+              user.isAnimalCareChecked = true;
+              animalcare.is_verified = "Verified";
+            }
+
             this.storage.set(PetcloudApiService.USER, user);
           });
         },
         (err) => {
           this.api.hideLoader();
-          this.api.autoLogout(err,"");
+          this.api.autoLogout(err, "");
         }
       );
   }
@@ -455,13 +456,15 @@ export class ProfileEmailVerifyPage implements OnInit {
           }
         },
         (err) => {
-          this.api.autoLogout(err,"");
+          this.api.autoLogout(err, "");
         }
       );
   }
 
-  openBrowswer() {}
-
+  openBrowswer() { }
+  goTo() {
+    this.navCtrl.navigateBack(['/home/tabs/profile-menu'])
+  }
   public facebookVerify() {
     this.fb
       .login(["email", "public_profile"])
@@ -479,7 +482,7 @@ export class ProfileEmailVerifyPage implements OnInit {
               picture: profile["picture_large"]["data"]["url"],
               username: profile["name"],
             };
-        
+
             let fbParams: any = { access_token: this.userData.id };
             this.api.showLoader();
             this.api
@@ -511,14 +514,14 @@ export class ProfileEmailVerifyPage implements OnInit {
                   }
                 },
                 (err: any) => {
-                  this.api.autoLogout(err,"");
+                  this.api.autoLogout(err, "");
                 }
               );
           });
       });
   }
 
-  async showActionSheet(docType,pageSide) {
+  async showActionSheet(docType, pageSide) {
     this.documentType = docType;
     const actionSheet = await this.actionSheetCtrl.create({
       header: "Select Document Photo From",
@@ -526,15 +529,15 @@ export class ProfileEmailVerifyPage implements OnInit {
         {
           text: "Camera",
           handler: () => {
-            this.photoOption(this.camera.PictureSourceType.CAMERA,pageSide);
+            this.photoOption(this.camera.PictureSourceType.CAMERA, pageSide);
           },
         },
         {
           text: "Gallery",
           handler: async () => {
             const status = await this.cameraAPI.checkPhotoLibraryPermission();
-            if(status) {
-              this.photoOption(this.camera.PictureSourceType.PHOTOLIBRARY,pageSide);
+            if (status) {
+              this.photoOption(this.camera.PictureSourceType.PHOTOLIBRARY, pageSide);
             }
           },
         },
@@ -546,21 +549,21 @@ export class ProfileEmailVerifyPage implements OnInit {
     await actionSheet.present();
   }
 
-  photoOption(params,pageType) {
-      this.cameraAPI.getPicture(params).then((base64String:any)=>{
-        this.myImageUrl = "data:image/jpeg;base64," + base64String;
-        this.ImageUpload(base64String,pageType);
-      },err=>{
-        
-      })
+  photoOption(params, pageType) {
+    this.cameraAPI.getPicture(params).then((base64String: any) => {
+      this.myImageUrl = "data:image/jpeg;base64," + base64String;
+      this.ImageUpload(base64String, pageType);
+    }, err => {
+
+    })
   }
 
-  ImageUpload(imageData,pageSide) {
+  ImageUpload(imageData, pageSide) {
     const fileParams = {
       image: this.myImageUrl,
       file_name: "image.jpg",
       docType: this.documentType,
-      pageside:this.documentType == "licence" ? pageSide : ""
+      pageside: this.documentType == "licence" ? pageSide : ""
     };
     this.api.showLoader();
     this.api
@@ -568,22 +571,22 @@ export class ProfileEmailVerifyPage implements OnInit {
       .pipe(
         finalize(() => {
           this.api.hideLoader();
-    })
+        })
       )
       .subscribe(
         async (res: any) => {
           if (res.success) {
             this.api.showToast("File Uploaded.", 2000, "bottom");
-           await this.checkVerification();
+            await this.checkVerification();
             this.api.hideLoader();
-            
-            if(this.documentType !="animalcare"){
+
+            if (this.documentType != "animalcare") {
               if (this.isPhoneVerified && this.isEmailVerified) {
                 this.navCtrl.navigateRoot("home/tabs/profile-menu", {
                   skipLocationChange: true,
                 });
               }
-            }else if(this.documentType == "animalcare"){
+            } else if (this.documentType == "animalcare") {
               const alert = await this.alertController.create({
                 message: 'Certificate uploaded. Waiting Verification by PetCloud Team". Follow up?',
                 buttons: [
@@ -602,47 +605,47 @@ export class ProfileEmailVerifyPage implements OnInit {
                     text: 'Follow Up',
                     handler: async () => {
 
-                      this.api.sendEmailtoAccounts("service@petcloud.com.au","","Follow up for verifications.","")
-                  }
+                      this.api.sendEmailtoAccounts("service@petcloud.com.au", "", "Follow up for verifications.", "")
+                    }
                   }
                 ]
               });
-          
+
               await alert.present();
             }
-          
+
           } else {
             this.api.showToast("Error: Image upload failed.", 2000, "bottom");
           }
         },
         (err: any) => {
-          this.api.autoLogout(err,"");
+          this.api.autoLogout(err, "");
         }
       );
   }
 
-  viewLicenseDoc(imageLink){
+  viewLicenseDoc(imageLink) {
     this.api.openExteralLinks(imageLink);
   }
 
   openBrowser(link) {
     if (link == "yellowcard") {
-      this.api.openExteralLinks( "https://workerscreening.dsdsatsip.qld.gov.au/workers/you-start")
-    } else if("accreditedanimalcare"){
+      this.api.openExteralLinks("https://workerscreening.dsdsatsip.qld.gov.au/workers/you-start")
+    } else if ("accreditedanimalcare") {
       this.api.openExteralLinks("https://www.petcloud.com.au/petsittercourse")
-    }else {
-      this.api.openExteralLinks( "https://www.ndiscommission.gov.au/workers/training-course")
+    } else {
+      this.api.openExteralLinks("https://www.ndiscommission.gov.au/workers/training-course")
     }
   }
 
-   // active hardware back button
-   backButtonEvent() {
+  // active hardware back button
+  backButtonEvent() {
 
     this.platform.backButton.subscribe(async () => {
       this.api.dismissModelorAlert();
-        if (this.router.url == "/profile-email-verify" ) {
-            this.navCtrl.navigateRoot("/home/tabs/sitter-listing")
-        }
+      if (this.router.url == "/profile-email-verify") {
+        this.navCtrl.navigateRoot("/home/tabs/sitter-listing")
+      }
     });
-}
+  }
 }

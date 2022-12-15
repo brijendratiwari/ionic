@@ -1,9 +1,10 @@
 <ion-header>
     <ion-toolbar>
-        <ion-buttons  slot="start">
+        <ion-buttons slot="start">
             <ion-back-button defaultHref="/home/tabs/sitter-listing"></ion-back-button>
         </ion-buttons>
         <ion-title>Verify Email</ion-title>
+        <ion-icon slot="end" (click)="goTo()" name="menu-outline"></ion-icon>
     </ion-toolbar>
 </ion-header>
 
@@ -117,8 +118,8 @@
         </ion-row>
 
 
-         <!-- phone Verified -->
-         <ion-row *ngIf="isPhoneVerified == true">
+        <!-- phone Verified -->
+        <ion-row *ngIf="isPhoneVerified == true">
             <ion-col>
                 <ion-list>
                     <div class="verify-check">
@@ -135,7 +136,7 @@
         </ion-row>
 
         <!-- Facebook Verification Pending -->
-       <ion-row *ngIf="verificationResponse?.facebook?.is_verified == 'Pending'">
+        <ion-row *ngIf="verificationResponse?.facebook?.is_verified == 'Pending'">
             <ion-col>
                 <ion-list>
                     <h5>Facebook Verification</h5>
@@ -147,7 +148,7 @@
             </ion-col>
         </ion-row>
 
-  <!-- Facebook Verification Verified -->
+        <!-- Facebook Verification Verified -->
         <ion-row *ngIf="verificationResponse?.facebook?.is_verified == 'Verified'">
             <ion-col>
                 <ion-list>
@@ -165,17 +166,17 @@
         </ion-row>
 
 
-         <!-- Background -->
-         <ion-card class="verification-card ion-text-wrap">
-            <ion-card-header (click)="toggleVerification('1')" text-left
-                style=" color: black">
+        <!-- Background -->
+        <ion-card class="verification-card ion-text-wrap">
+            <ion-card-header (click)="toggleVerification('1')" text-left style=" color: black">
                 <ion-row>
                     <ion-col size="11">
                         <ion-text class="fs-14 fw-600">Verification all Sitters & Dog Walkers must have
                         </ion-text>
                     </ion-col>
                     <ion-col size="1">
-                        <ion-icon [name]="isVerificationGroupShown('1')? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                        <ion-icon
+                            [name]="isVerificationGroupShown('1')? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
                     </ion-col>
                 </ion-row>
             </ion-card-header>
@@ -188,8 +189,8 @@
                         </ion-text>
                     </ion-col>
                 </ion-row>
-                
-               
+
+
                 <!--Background Upload and Pending -->
                 <ion-row *ngIf="verificationResponse?.BackgroundCheck?.document == '' 
                 && verificationResponse?.BackgroundCheck?.is_verified != 'Verified'  ">
@@ -201,7 +202,7 @@
                             Once you have provided all your details and paid for the check we will review it and update
                             your profile in 48 hours.</ion-text>
 
-                            <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
+                        <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
                             (click)="backgroundCheck()">Background Check</ion-button>
                         <div>
                             <ion-text>
@@ -213,15 +214,16 @@
                                 using the button below so that we can cross-check and apply the Background Check badge
                                 to your
                                 profile.
-                                <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0" (click)="showActionSheet('background','')">Upload BackGround Check</ion-button>
+                                <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
+                                    (click)="showActionSheet('background','')">Upload BackGround Check</ion-button>
                             </ion-text>
                         </div>
                     </ion-col>
                 </ion-row>
-       
+
                 <!-- Background Document is Uploaded and Pending -->
                 <ion-row *ngIf="verificationResponse?.BackgroundCheck?.document != '' 
-                && verificationResponse?.BackgroundCheck?.is_verified != 'Verified'" >
+                && verificationResponse?.BackgroundCheck?.is_verified != 'Verified'">
                     <ion-col class="img-content">
                         <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
                         <ion-text> {{verificationResponse?.BackgroundCheck?.message}}</ion-text>
@@ -242,60 +244,61 @@
 
                 <!-- ------------------------------------------------ -->
 
-                  <!-- Accredited Animal Care -->
-                  <ion-row  (click)="openBrowser('accreditedanimalcare')">
-                    <ion-col class="animal-care-label"> 
+                <!-- Accredited Animal Care -->
+                <ion-row (click)="openBrowser('accreditedanimalcare')">
+                    <ion-col class="animal-care-label">
                         <ion-text class="fs-14 fw-600">Accredited Animal Care
                         </ion-text>
                     </ion-col>
-                 </ion-row>
+                </ion-row>
 
-                  <!--Animal Care Upload and Pending -->
-                  <ion-row *ngIf="verificationResponse?.animalcare?.document == '' 
+                <!--Animal Care Upload and Pending -->
+                <ion-row *ngIf="verificationResponse?.animalcare?.document == '' 
                   && verificationResponse?.animalcare?.is_verified != 'Verified'  ">
-                      <ion-col class="img-content">
-                          <ion-img type="image/svg+xml" src="assets/icon/error.svg" class="verify-icon"></ion-img>
-                          <ion-text>Please upload your Certificate of Completion of the PetCloud Pet Care Course.
-                          </ion-text>
-  
-                          <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
-                              (click)="showActionSheet('animalcare','')">Browse</ion-button>
-                      </ion-col>
-                  </ion-row>
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/error.svg" class="verify-icon"></ion-img>
+                        <ion-text>Please upload your Certificate of Completion of the PetCloud Pet Care Course.
+                        </ion-text>
 
-                
-                  <!--Animal Care Document is Uploaded and Pending -->
-                  <ion-row *ngIf="verificationResponse?.animalcare?.document != '' &&
+                        <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
+                            (click)="showActionSheet('animalcare','')">Browse</ion-button>
+                    </ion-col>
+                </ion-row>
+
+
+                <!--Animal Care Document is Uploaded and Pending -->
+                <ion-row *ngIf="verificationResponse?.animalcare?.document != '' &&
                   verificationResponse?.animalcare?.is_verified != 'Verified' ">
-                      <ion-col class="img-content">
-                          <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
-                          <ion-text>  {{verificationResponse?.animalcare?.message}} 
-                          </ion-text>
-                      </ion-col>
-                  </ion-row>
-  
-                  <!--Animal Care Document Uploaded -->
-                  <ion-row *ngIf="verificationResponse?.animalcare?.is_verified == 'Verified'">
-                      <ion-col class="img-content">
-                          <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
-                          <ion-text> {{verificationResponse?.animalcare?.message}} </ion-text>
-                      </ion-col>
-                  </ion-row>
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text> {{verificationResponse?.animalcare?.message}}
+                        </ion-text>
+                    </ion-col>
+                </ion-row>
+
+                <!--Animal Care Document Uploaded -->
+                <ion-row *ngIf="verificationResponse?.animalcare?.is_verified == 'Verified'">
+                    <ion-col class="img-content">
+                        <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
+                        <ion-text> {{verificationResponse?.animalcare?.message}} </ion-text>
+                    </ion-col>
+                </ion-row>
 
             </ion-card-content>
         </ion-card>
 
 
-          <!-- NDIS MODULE Document -->
-          <ion-card class="verification-card ion-text-wrap">
-            <ion-card-header (click)="toggleNIDSCard('1')" text-left
-                style=" color: black">
+        <!-- NDIS MODULE Document -->
+        <ion-card class="verification-card ion-text-wrap">
+            <ion-card-header (click)="toggleNIDSCard('1')" text-left style=" color: black">
                 <ion-row>
                     <ion-col size="11">
-                        <ion-text class="fs-14 fw-600">Verification for Sitters & Walkers who want NDIS Status</ion-text>
+                        <ion-text class="fs-14 fw-600">Verification for Sitters & Walkers who want NDIS
+                            Status</ion-text>
                     </ion-col>
                     <ion-col size="1">
-                        <ion-icon [name]="isNDISGroupShown('1')? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                        <ion-icon
+                            [name]="isNDISGroupShown('1')? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
                     </ion-col>
                 </ion-row>
             </ion-card-header>
@@ -316,17 +319,17 @@
                         <ion-text> Please upload evidence that you have the right to work in Australia.
                         </ion-text>
                         <b> Acceptable documents are one of the following:</b>
-                            <ion-text>
-                              
-                                <ul>Evidence of permanent resident status.</ul>
-                                <ul>Temporary visa with entitlement to work.</ul>
-                                <ul>Temporary visa with entitlement to work.</ul>
-                                <ul>Evidence of permanent resident status.</ul>
-                                <ul> Certificate of Australian citizenship.</ul>
-                                <ul>Australian birth certificate</ul>
+                        <ion-text>
 
-                            
-                            </ion-text>   
+                            <ul>Evidence of permanent resident status.</ul>
+                            <ul>Temporary visa with entitlement to work.</ul>
+                            <ul>Temporary visa with entitlement to work.</ul>
+                            <ul>Evidence of permanent resident status.</ul>
+                            <ul> Certificate of Australian citizenship.</ul>
+                            <ul>Australian birth certificate</ul>
+
+
+                        </ion-text>
 
                         <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
                             (click)="showActionSheet('righttowork','')">Browse</ion-button>
@@ -338,7 +341,7 @@
                 verificationResponse?.righttowork?.is_verified =='Pending' ">
                     <ion-col class="img-content">
                         <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
-                        <ion-text>  {{verificationResponse?.righttowork?.message}} 
+                        <ion-text> {{verificationResponse?.righttowork?.message}}
                         </ion-text>
                     </ion-col>
                 </ion-row>
@@ -367,7 +370,9 @@
                 <ion-row>
                     <ion-col class="img-content">
                         <ion-img type="image/svg+xml" src="assets/icon/error.svg" class="verify-icon"></ion-img>
-                        <ion-text> Please upload a scan of your clearance for working with vulnerable people. If you don't have one, <span class="underline" (click)="openBrowser('yellowcard')"> you can apply for one here</span>.
+                        <ion-text> Please upload a scan of your clearance for working with vulnerable people. If you
+                            don't have one, <span class="underline" (click)="openBrowser('yellowcard')"> you can apply
+                                for one here</span>.
                         </ion-text>
 
                         <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
@@ -380,7 +385,7 @@
                 verificationResponse?.yellowcard?.is_verified=='Pending' ">
                     <ion-col class="img-content">
                         <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
-                        <ion-text>  {{verificationResponse?.yellowcard?.message}} 
+                        <ion-text> {{verificationResponse?.yellowcard?.message}}
                         </ion-text>
                     </ion-col>
                 </ion-row>
@@ -409,7 +414,7 @@
                     <ion-col class="img-content">
                         <ion-img type="image/svg+xml" src="assets/icon/error.svg" class="verify-icon"></ion-img>
                         <ion-text> Please upload your certificate of Completion. If you don't have one.
-                            <span class="underline" (click)="openBrowser('ndis')" >You can apply for one here.</span>
+                            <span class="underline" (click)="openBrowser('ndis')">You can apply for one here.</span>
                         </ion-text>
                         <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
                             (click)="showActionSheet('ndistraining','')">Browse</ion-button>
@@ -421,7 +426,7 @@
                 verificationResponse?.ndistraining?.is_verified == 'Pending' ">
                     <ion-col class="img-content">
                         <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
-                        <ion-text>   {{verificationResponse?.ndistraining?.message}}   
+                        <ion-text> {{verificationResponse?.ndistraining?.message}}
                         </ion-text>
                     </ion-col>
                 </ion-row>
@@ -430,7 +435,7 @@
                 <ion-row *ngIf="verificationResponse?.ndistraining?.is_verified=='Verified'">
                     <ion-col class="img-content">
                         <ion-img type="image/svg+xml" src="assets/icon/check-mark.svg" class="verify-icon"></ion-img>
-                        <ion-text>  {{verificationResponse?.ndistraining?.message}}    </ion-text>
+                        <ion-text> {{verificationResponse?.ndistraining?.message}} </ion-text>
                     </ion-col>
                 </ion-row>
             </ion-card-content>
@@ -438,14 +443,14 @@
 
         <!-- Nurse Document -->
         <ion-card class="verification-card ion-text-wrap">
-            <ion-card-header (click)="togleNurseCert('1')" text-left
-                style=" color: black">
+            <ion-card-header (click)="togleNurseCert('1')" text-left style=" color: black">
                 <ion-row>
                     <ion-col size="11">
                         <ion-text class="fs-14 fw-600">Accredited Vet Nurse Cert IV</ion-text>
                     </ion-col>
                     <ion-col size="1">
-                        <ion-icon [name]="isNurseCertGroupShown('1')? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                        <ion-icon
+                            [name]="isNurseCertGroupShown('1')? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
                     </ion-col>
                 </ion-row>
             </ion-card-header>
@@ -489,15 +494,15 @@
 
         <!-- Licence -->
         <ion-card class="verification-card ion-text-wrap">
-            <ion-card-header (click)="togglePetTaxi('1')" text-left
-                style=" color: black">
+            <ion-card-header (click)="togglePetTaxi('1')" text-left style=" color: black">
                 <ion-row>
                     <ion-col size="11">
                         <ion-text class="fs-14 fw-600">Verification for Pet Sitters offering Pet Taxi Services
                         </ion-text>
                     </ion-col>
                     <ion-col size="1">
-                        <ion-icon [name]="isPetTaxiGroupShow('1')? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
+                        <ion-icon
+                            [name]="isPetTaxiGroupShow('1')? 'chevron-up-outline' : 'chevron-down-outline'"></ion-icon>
                     </ion-col>
                 </ion-row>
             </ion-card-header>
@@ -533,10 +538,11 @@
                         <ion-text class="fs-14 fw-600"> Licence document Front <span class="error">*</span> </ion-text>
                         <ion-col [size]='licenseImage.front != "" ? 10 : 12 '>
                             <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
-                            (click)="showActionSheet('licence','front')">Browse</ion-button> 
+                                (click)="showActionSheet('licence','front')">Browse</ion-button>
                         </ion-col>
 
-                        <ion-col class="doc-col" (click)="viewLicenseDoc(licenseImage.front)" *ngIf="licenseImage.front != ''" [size]='licenseImage.front != "" ? 2 : 0 '>
+                        <ion-col class="doc-col" (click)="viewLicenseDoc(licenseImage.front)"
+                            *ngIf="licenseImage.front != ''" [size]='licenseImage.front != "" ? 2 : 0 '>
                             <div class="icon">
                                 <ion-icon name="document"></ion-icon>
                             </div>
@@ -548,15 +554,16 @@
 
                         <ion-col [size]='licenseImage.back != "" ? 10 : 12 '>
                             <ion-button color="theme-sec" class="text-capitalize fls-0 fs-18 fls-0"
-                            (click)="showActionSheet('licence','back')">Browse</ion-button> 
+                                (click)="showActionSheet('licence','back')">Browse</ion-button>
                         </ion-col>
 
-                        <ion-col class="doc-col" (click)="viewLicenseDoc(licenseImage.back)" *ngIf="licenseImage.back != ''" [size]='licenseImage.back != "" ? 2 : 0 '>
+                        <ion-col class="doc-col" (click)="viewLicenseDoc(licenseImage.back)"
+                            *ngIf="licenseImage.back != ''" [size]='licenseImage.back != "" ? 2 : 0 '>
                             <div class="icon">
                                 <ion-icon name="document"></ion-icon>
                             </div>
                         </ion-col>
-                    </ion-row>           
+                    </ion-row>
                 </div>
             </ion-card-content>
         </ion-card>
