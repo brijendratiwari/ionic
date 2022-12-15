@@ -4,6 +4,7 @@ import { finalize } from 'rxjs/operators';
 import { ModalController, NavParams } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { OtpVerificationPage } from '../otp-verification/otp-verification.page';
 
 
 @Component({
@@ -46,10 +47,38 @@ export class AddBankDetailPayoutComponent implements OnInit {
     this.addBankSubscription.unsubscribe();
     this.modelCntl.dismiss();
   }
-
-  addBankDetails() {
+  async goToVerification() {
+    this.api.showLoader();
+    this.api.getOtp().pipe(finalize(() => {
+      this.api.hideLoader();
+    })).subscribe(async (res: any) => {
+      console.log(res);
+      const modal = await this.modelCntl.create({
+        component: OtpVerificationPage,
+        animated: true,
+        backdropDismiss: false,
+        componentProps: {
+          phone_number: res.phone_number,
+          'type': 'add_bank'
+        }
+      });
+      modal.onDidDismiss()
+        .then((data: any) => {
+          console.log(data);
+          if (data.data.type == 'add_bank') {
+            this.addBankDetails(data.data.code);
+          }
+        });
+      return await modal.present();
+    }, err => {
+      this.api.autoLogout(err, "");
+    })
+    // this.nav.navigateForward(['/otp-verification'])
+  }
+  addBankDetails(code) {
     const addBankForm = {
       amount: this.addBank.value.amount,
+      verify_code: code,
       BankForm: {
         accountName: this.addBank.value.accountName,
         bsb: this.addBank.value.bsb,

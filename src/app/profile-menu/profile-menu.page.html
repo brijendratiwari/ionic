@@ -1,36 +1,36 @@
 <ion-content class="ion-padding">
     <ion-grid>
         <ion-header no-shadow class="ion-no-border">
-        <ion-toolbar>
-            <ion-row class="ion-justify-content-start ion-align-items-center">
-                <ion-col>
-                    <div class="profile">
-                        <div routerLink="/profile-photo-upload" class="pic">
-                            <ion-avatar>
-                                <ion-img [src]="userImage == null ||userImage == '' ? 
+            <ion-toolbar>
+                <ion-row class="ion-justify-content-start ion-align-items-center">
+                    <ion-col>
+                        <div class="profile">
+                            <div routerLink="/profile-photo-upload" class="pic">
+                                <ion-avatar>
+                                    <ion-img [src]="userImage == null ||userImage == '' ? 
                             '../../assets/icon/user.png' 
                             : userImage"></ion-img>
-                            </ion-avatar>
+                                </ion-avatar>
+                            </div>
+                            <div class="caption">
+                                <h2>{{userData?.first_name}}</h2>
+                                <p>{{ (userData?.user_type == '3') ? 'Both' : (userData?.user_type == '2') ? ' Offer Pet
+                                    Care
+                                    Services' : (userData?.user_type == '1') ? ' Find Pet Care Services' : '' }}
+                                </p>
+                            </div>
                         </div>
-                        <div class="caption">
-                            <h2>{{userData?.first_name}}</h2>
-                            <p>{{ (userData?.user_type == '3') ? 'Both' : (userData?.user_type == '2') ? ' Offer Pet
-                                Care
-                                Services' : (userData?.user_type == '1') ? ' Find Pet Care Services' : '' }}
-                            </p>
+                    </ion-col>
+                    <ion-col class="ion-text-end">
+                        <div class="editprofile">
+                            <a routerLink="/basic-info">
+                                <ion-img type="image/svg+xml" src="assets/icon/edit.svg" class="theme-icon"></ion-img>
+                            </a>
                         </div>
-                    </div>
-                </ion-col>
-                <ion-col class="ion-text-end">
-                    <div class="editprofile">
-                        <a routerLink="/basic-info">
-                            <ion-img type="image/svg+xml" src="assets/icon/edit.svg" class="theme-icon"></ion-img>
-                        </a>
-                    </div>
-                </ion-col>
-            </ion-row>
-        </ion-toolbar>
-    </ion-header>
+                    </ion-col>
+                </ion-row>
+            </ion-toolbar>
+        </ion-header>
 
         <ng-container *ngIf="userData?.user_type == '1'">
             <ion-row *ngIf="completedProfileStep >= 0 && 
@@ -44,7 +44,8 @@
                             <div [class]="(idx + 1) <= completedProfileStep ? 'block active' : 'block'"
                                 *ngFor="let ps of steps; let idx = index"></div>
                         </div>
-                        <ion-text routerLink="/profile-setup" style="text-decoration:underline;">Show me what's left?</ion-text>
+                        <ion-text routerLink="/profile-setup" style="text-decoration:underline;">Show me what's
+                            left?</ion-text>
                     </div>
                 </ion-col>
             </ion-row>
@@ -64,7 +65,7 @@
                             <div [class]="(idx + 1) <= completedProfileStep ? 'block active' : 'block'"
                                 *ngFor="let ps of steps; let idx = index"></div>
                         </div>
-                        <ion-text routerLink="/profile-setup">  Show my what's left?</ion-text>
+                        <ion-text routerLink="/profile-setup"> Show my what's left?</ion-text>
                     </div>
                 </ion-col>
             </ion-row>
@@ -75,13 +76,9 @@
             <ion-col>
                 <ion-list class="links">
 
-                    <ion-button 
-                        class="account-switch-btn"
-                        *ngIf="userData?.user_type === '3'"
-                        (click)="switchMenu(menuType)"
-                        fill="outline"
-                        [color]="menuType == 'owner' ? 'theme':'note-alt'"
-                    >
+                    <ion-button class="account-switch-btn" *ngIf="userData?.user_type === '3'"
+                        (click)="switchMenu(menuType)" fill="outline"
+                        [color]="menuType == 'owner' ? 'theme':'note-alt'">
                         Switch To Pet {{ (menuType == 'owner') ? 'Sitter' : 'Owner' }}
                     </ion-button>
 
@@ -90,13 +87,13 @@
                                 Pet {{ (menuType == 'owner') ? 'Sitter' : 'Owner' }}</b></ion-label>
                         <ion-img type="image/svg+xml" src="assets/icon/switch.svg" class="theme-icon"></ion-img>
                     </ion-item> -->
-                    
+
                     <ion-item *ngIf="adminEmail" (click)="switchToPreviousAccount()" lines="none">
                         <ion-label color="note-alt"> <b>Switch To Previous Account</b></ion-label>
                         <ion-img type="image/svg+xml" src="assets/icon/switch.svg" class="theme-icon"></ion-img>
                     </ion-item>
 
-                
+
 
                     <!-- <ion-item *ngIf="role == 'admin' && !adminEmail" lines="inset" (click)="shadowLogin()">
                         <ion-label>Shadow Login</ion-label>
@@ -184,7 +181,7 @@
                             <ion-label>My Listing</ion-label>
                             <ion-img type="image/svg+xml" src="assets/icon/mylist.svg" class="theme-icon"></ion-img>
                         </ion-item>
-                        
+
 
                         <ion-item lines="inset" routerLink="/sitter-performace">
                             <ion-label>Performance Score</ion-label>
@@ -215,7 +212,7 @@
                             </ion-img>
                         </ion-item>
 
-                        
+
 
                         <ion-item lines="inset" routerLink="/about-us" *ngIf="completedProfileStep == 5">
                             <ion-label>About Us</ion-label>
@@ -224,14 +221,18 @@
                     </div>
 
                     <!-- Pet Sitters & Walkers end -->
-                    
 
-                    <ion-item *ngIf="menuType == 'sitter' && (userData?.user_type === '1' || userData?.user_type === '3')" lines="inset"
-                    (click)="openWebpage('https://community.petcloud.com.au/portal/en/kb/pet-carers')">
+
+                    <ion-item
+                        *ngIf="menuType == 'sitter' && (userData?.user_type === '1' || userData?.user_type === '3')"
+                        lines="inset"
+                        (click)="openWebpage('https://community.petcloud.com.au/portal/en/kb/pet-carers')">
                         <ion-label>Pet Sitter FAQs</ion-label>
                         <ion-img type="image/svg+xml" src="assets/icon/info.svg" class="theme-icon"></ion-img>
                     </ion-item>
-                    <ion-item *ngIf="menuType == 'owner' && (userData?.user_type === '1' || userData?.user_type === '3')" lines="inset"
+                    <ion-item
+                        *ngIf="menuType == 'owner' && (userData?.user_type === '1' || userData?.user_type === '3')"
+                        lines="inset"
                         (click)="openWebpage('https://community.petcloud.com.au/portal/en/kb/pet-owners')">
                         <ion-label>Pet Owner FAQs</ion-label>
                         <ion-img type="image/svg+xml" src="assets/icon/info.svg" class="theme-icon"></ion-img>

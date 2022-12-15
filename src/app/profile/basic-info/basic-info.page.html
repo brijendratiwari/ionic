@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar>
         <ion-buttons defaultHref="/get-started" slot="start">
-            <ion-back-button >
+            <ion-back-button>
             </ion-back-button>
         </ion-buttons>
         <ion-title>Basic Profile</ion-title>
@@ -28,8 +28,7 @@
                     <ion-radio value="3" color="theme"></ion-radio>
                 </ion-item>
             </ion-radio-group>
-            <ion-text lines="none" class="animated fadeInUp"
-                        *ngIf="profileForm.get('user_type').hasError('required')">
+            <ion-text lines="none" class="animated fadeInUp" *ngIf="profileForm.get('user_type').hasError('required')">
                 <p class="error" *ngIf="profileForm.get('first_name').hasError('required')">
                     Select why you joined Petcloud!
                 </p>
@@ -39,48 +38,50 @@
         <ion-list>
             <ion-item>
                 <ion-label>Are you an NDIS participant?</ion-label>
-                <ion-checkbox formControlName="ndis_participant" (ionChange)="onChangeNDISParticipant($event)" slot="end"></ion-checkbox>
+                <ion-checkbox formControlName="ndis_participant" (ionChange)="onChangeNDISParticipant($event)"
+                    slot="end"></ion-checkbox>
             </ion-item>
         </ion-list>
 
         <ng-container *ngIf="isNDISParticant">
-        <ion-list>
-            <ion-item lines="none">
-                <ion-text>How is your plan managed?</ion-text>
-            </ion-item>
-            <ion-radio-group (ionChange)="planType($event)" formControlName="plan_managed">
-                <ion-item>
-                    <ion-label>Self Managed</ion-label>
-                    <ion-radio value="1" color="theme"></ion-radio>
+            <ion-list>
+                <ion-item lines="none">
+                    <ion-text>How is your plan managed?</ion-text>
                 </ion-item>
-                <ion-item>
-                    <ion-label>By a Plan Manager</ion-label>
-                    <ion-radio value="2" color="theme"></ion-radio>
-                </ion-item>
-                <ion-item>
-                    <ion-label>NDIA-managed</ion-label>
-                    <ion-radio value="3" color="theme"></ion-radio>
-                </ion-item>
-            </ion-radio-group>
-        </ion-list>
+                <ion-radio-group (ionChange)="planType($event)" formControlName="plan_managed">
+                    <ion-item>
+                        <ion-label>Self Managed</ion-label>
+                        <ion-radio value="1" color="theme"></ion-radio>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>By a Plan Manager</ion-label>
+                        <ion-radio value="2" color="theme"></ion-radio>
+                    </ion-item>
+                    <ion-item>
+                        <ion-label>NDIA-managed</ion-label>
+                        <ion-radio value="3" color="theme"></ion-radio>
+                    </ion-item>
+                </ion-radio-group>
+            </ion-list>
 
-        <ion-list *ngIf="showManagerEmail">
-            <ion-item>
-                <ion-label position="stacked">Enter Plan Manager Email Address
-                    <small class="error">*</small>
-                </ion-label>
-                <ion-input placeholder="Enter Plan Manager Email Id" formControlName="plan_manager_email"></ion-input>
-            </ion-item>
-            <ion-text lines="none" class="animated fadeInUp"
-                        *ngIf="profileForm.get('plan_managed').value == '2' && (profileForm.get('plan_manager_email').hasError('required') && profileForm.get('plan_manager_email').touched)">
-                <p class="error"
-                    *ngIf="profileForm.get('plan_managed').value == '2' &&  (profileForm.get('first_name').hasError('plan_manager_email') && profileForm.get('plan_manager_email').touched)">
-                    Please enter your plan manager email
-                </p>
-            </ion-text>
+            <ion-list *ngIf="showManagerEmail">
+                <ion-item>
+                    <ion-label position="stacked">Enter Plan Manager Email Address
+                        <small class="error">*</small>
+                    </ion-label>
+                    <ion-input placeholder="Enter Plan Manager Email Id"
+                        formControlName="plan_manager_email"></ion-input>
+                </ion-item>
+                <ion-text lines="none" class="animated fadeInUp"
+                    *ngIf="profileForm.get('plan_managed').value == '2' && (profileForm.get('plan_manager_email').hasError('required') && profileForm.get('plan_manager_email').touched)">
+                    <p class="error"
+                        *ngIf="profileForm.get('plan_managed').value == '2' &&  (profileForm.get('first_name').hasError('plan_manager_email') && profileForm.get('plan_manager_email').touched)">
+                        Please enter your plan manager email
+                    </p>
+                </ion-text>
             </ion-list>
         </ng-container>
-        
+
         <ion-list>
             <ion-item>
                 <ion-label position="stacked">First name
@@ -89,7 +90,7 @@
                 <ion-input placeholder="Enter First Name" formControlName="first_name"></ion-input>
             </ion-item>
             <ion-text lines="none" class="animated fadeInUp"
-                        *ngIf="(profileForm.get('first_name').hasError('required') && profileForm.get('first_name').touched)">
+                *ngIf="(profileForm.get('first_name').hasError('required') && profileForm.get('first_name').touched)">
                 <p class="error"
                     *ngIf="(profileForm.get('first_name').hasError('required') && profileForm.get('first_name').touched)">
                     Enter first name.
@@ -102,7 +103,7 @@
                 <ion-input placeholder="Enter Last Name" formControlName="last_name"></ion-input>
             </ion-item>
             <ion-text lines="none" class="animated fadeInUp"
-                        *ngIf="(profileForm.get('last_name').hasError('required') && profileForm.get('last_name').touched)">
+                *ngIf="(profileForm.get('last_name').hasError('required') && profileForm.get('last_name').touched)">
                 <p class="error"
                     *ngIf="(profileForm.get('last_name').hasError('required') && profileForm.get('last_name').touched)">
                     Enter last name.
@@ -118,7 +119,7 @@
                 </ion-select>
             </ion-item>
             <ion-text lines="none" class="animated fadeInUp"
-                        *ngIf="(profileForm.get('gender').hasError('required') && profileForm.get('gender').touched)">
+                *ngIf="(profileForm.get('gender').hasError('required') && profileForm.get('gender').touched)">
                 <p class="error"
                     *ngIf="(profileForm.get('gender').hasError('required') && profileForm.get('gender').touched)">
                     Select gender.
@@ -126,7 +127,7 @@
             </ion-text>
 
             <ion-text class="link-contrast fs-12" (click)="infoModel('gender')" lines="none">
-                <p >Why do I need to provide this?
+                <p>Why do I need to provide this?
                     <ion-icon name="information-circle" slot="end"></ion-icon>
                 </p>
             </ion-text>
@@ -136,20 +137,19 @@
                 <ion-label position="stacked">DOB
                     <small class="error">*</small>
                 </ion-label>
-                <ion-datetime display-format="DD/MM/YYYY" picker-format="DD/MM/YYYY"
-                                placeholder="e.g 13/12/1989"
-                                formControlName="dob">
+                <ion-datetime display-format="DD/MM/YYYY" picker-format="DD/MM/YYYY" placeholder="e.g 13/12/1989"
+                    formControlName="dob">
                 </ion-datetime>
             </ion-item>
 
             <ion-text class="link-contrast fs-12" (click)="infoModel('dob')" lines="none">
-                <p >Why do I need to provide this?
+                <p>Why do I need to provide this?
                     <ion-icon name="information-circle" slot="end"></ion-icon>
                 </p>
             </ion-text>
-            
+
             <ion-text lines="none" class="animated fadeInUp"
-                        *ngIf="(profileForm.get('dob').hasError('required') && profileForm.get('dob').touched)">
+                *ngIf="(profileForm.get('dob').hasError('required') && profileForm.get('dob').touched)">
                 <p class="error"
                     *ngIf="(profileForm.get('dob').hasError('required') && profileForm.get('dob').touched)">
                     Select date of birth.
@@ -160,17 +160,17 @@
                     <small class="error">*</small>
                 </ion-label>
                 <ion-input type="text" id="street_address" placeholder="Enter Street Address"
-                            formControlName="street_address"></ion-input>
+                    formControlName="street_address"></ion-input>
             </ion-item>
 
             <ion-text class="link-contrast fs-12" (click)="infoModel('address')" lines="none">
-                <p >My address privacy
+                <p>My address privacy
                     <ion-icon name="information-circle" slot="end"></ion-icon>
                 </p>
             </ion-text>
 
             <ion-text lines="none" class="animated fadeInUp"
-                        *ngIf="(profileForm.get('street_address').hasError('required') && profileForm.get('street_address').touched)">
+                *ngIf="(profileForm.get('street_address').hasError('required') && profileForm.get('street_address').touched)">
                 <p class="error"
                     *ngIf="(profileForm.get('street_address').hasError('required') && profileForm.get('street_address').touched)">
                     Enter street address.
@@ -180,16 +180,14 @@
                 <ion-label position="stacked">Suburb
                     <small class="error">*</small>
                 </ion-label>
-                <input class="native-input sc-ion-input-md google-input" 
-                [options]='options'
-                type="text" ngx-google-places-autocomplete
-                        #placesRef="ngx-places"
-                        (onAddressChange)="handleAddressChange($event)" id="suburb"
-                        placeholder="Enter keywords" formControlName="address"/>
+                <input class="native-input sc-ion-input-md google-input" [options]='options' type="text"
+                    ngx-google-places-autocomplete #placesRef="ngx-places"
+                    (onAddressChange)="handleAddressChange($event)" id="suburb" placeholder="Enter keywords"
+                    formControlName="address" />
                 <!-- <ion-input type="text" id="suburb" [(ngModel)]="googleAddress" (setAddress)="getAddress($event)" placeholder="Enter keywords" [ngModelOptions]="{standalone: true}"> -->
             </ion-item>
             <ion-text lines="none" class="animated fadeInUp"
-                        *ngIf="(profileForm.get('address').hasError('required') && profileForm.get('address').touched)">
+                *ngIf="(profileForm.get('address').hasError('required') && profileForm.get('address').touched)">
                 <p class="error"
                     *ngIf="(profileForm.get('address').hasError('required') && profileForm.get('address').touched)">
                     Enter suburb.
@@ -210,7 +208,7 @@
                 </ion-select>
             </ion-item>
             <ion-text lines="none" class="animated fadeInUp"
-                        *ngIf="(profileForm.get('state').hasError('required') && profileForm.get('state').touched)">
+                *ngIf="(profileForm.get('state').hasError('required') && profileForm.get('state').touched)">
                 <p class="error"
                     *ngIf="(profileForm.get('state').hasError('required') && profileForm.get('state').touched)">
                     Select state.
@@ -223,7 +221,7 @@
                 <ion-input placeholder="Enter Postcode" formControlName="zipcode"></ion-input>
             </ion-item>
             <ion-text lines="none" class="animated fadeInUp"
-                        *ngIf="(profileForm.get('zipcode').hasError('required') && profileForm.get('zipcode').touched)">
+                *ngIf="(profileForm.get('zipcode').hasError('required') && profileForm.get('zipcode').touched)">
                 <p class="error"
                     *ngIf="(profileForm.get('zipcode').hasError('required') && profileForm.get('zipcode').touched)">
                     Enter correct postalcode.
@@ -233,11 +231,10 @@
                 <ion-label position="stacked">Email
                     <small class="error">*</small>
                 </ion-label>
-                <ion-input type="email" placeholder="Enter Email Address"
-                            formControlName="email"></ion-input>
+                <ion-input type="email" placeholder="Enter Email Address" formControlName="email"></ion-input>
             </ion-item>
             <ion-text lines="none" class="animated fadeInUp"
-                        *ngIf="(profileForm.get('email').hasError('required') && profileForm.get('email').touched)">
+                *ngIf="(profileForm.get('email').hasError('required') && profileForm.get('email').touched)">
                 <p class="error"
                     *ngIf="(profileForm.get('email').hasError('required') && profileForm.get('email').touched)">
                     Enter proper email address format.
@@ -251,19 +248,18 @@
                 <ion-label position="stacked">Mobile Number in International Format
                     <small class="error">*</small>
                 </ion-label>
-                <ion-input placeholder="+61400111222"
-                type="tel"
-                formControlName="mobile"></ion-input>
+                <ion-input placeholder="+61400111222" type="tel" formControlName="mobile"
+                    [readonly]="isReadonly(profileForm.value.mobile)"></ion-input>
             </ion-item>
             <ion-text lines="none" class="animated fadeInUp"
-                        *ngIf="(profileForm.get('mobile').hasError('required') && profileForm.get('mobile').touched)">
+                *ngIf="(profileForm.get('mobile').hasError('required') && profileForm.get('mobile').touched)">
                 <p class="error">
                     Enter mobile phone number.
                 </p>
             </ion-text>
             <ion-text lines="none" class="animated fadeInUp"
-                        *ngIf="(profileForm.get('mobile').hasError('pattern') && profileForm.get('mobile').touched)">
-                <p class="error" >
+                *ngIf="(profileForm.get('mobile').hasError('pattern') && profileForm.get('mobile').touched)">
+                <p class="error">
                     Enter proper mobile phone number start with +61.
                 </p>
             </ion-text>
@@ -271,13 +267,8 @@
     </form>
 </ion-content>
 <ion-footer class="ion-no-border">
-        <ion-button 
-            class="text-capitalize fls-0 fs-18 footer-btn"
-            expand="full"
-            [disabled]="!profileForm.valid"
-            color="theme"
-            (click)="saveBasicProfile()"
-        >
-            Save & Next
-        </ion-button>
+    <ion-button class="text-capitalize fls-0 fs-18 footer-btn" expand="full" [disabled]="!profileForm.valid"
+        color="theme" (click)="goToVerification()">
+        Save & Next
+    </ion-button>
 </ion-footer>

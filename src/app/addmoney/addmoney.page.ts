@@ -65,7 +65,7 @@ export class AddmoneyPage implements OnInit {
   billingAddressRequirement: any = ["name", "email", "phone"];
   shippingAddressRequirement: any = "none";
   shippingType: string = "shipping";
-
+  verify_code: any = '';
   public isGiftCodeInput: boolean = false
   public promoType: any;
   constructor(
@@ -189,7 +189,8 @@ export class AddmoneyPage implements OnInit {
       deposit_source: source,
       giftvoucher: this.isGiftCodeInput ? this.promoCodeForm.value.giftvoucher : "",
       coupon_status: this.isGiftCodeInput ? "valid" : "",
-      card_id: this.addMoney.value.default_card
+      card_id: this.addMoney.value.default_card,
+      verify_code: this.verify_code
       // coupon: this.promoCode
     };
 
@@ -536,7 +537,8 @@ export class AddmoneyPage implements OnInit {
       });
       modal.onDidDismiss()
         .then((data: any) => {
-          if (data.data == 'add_money') {
+          this.verify_code = data.data.code;
+          if (data.data.type == 'add_money') {
             let paymentGateWay = this.addMoney.value.paymentGateway;
             this.addCreditAPI(this.creditAmount, "", "stripe")
           }

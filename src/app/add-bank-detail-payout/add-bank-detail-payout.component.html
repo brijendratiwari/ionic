@@ -7,10 +7,10 @@
     </ion-buttons>
 
     <ion-buttons slot="end">
-      <ion-button  (click)="needSupport()" defaultHref="/home/tabs/profile-menu">
+      <ion-button (click)="needSupport()" defaultHref="/home/tabs/profile-menu">
         <img width="25px" src="./assets/icon/solutions.png" alt="">
       </ion-button>
-  </ion-buttons>
+    </ion-buttons>
 
     <ion-title>Add Bank Detail</ion-title>
   </ion-toolbar>
@@ -33,21 +33,17 @@
     </div>
 
     <div class="update-bank-container">
-      <ion-button 
-      class="ion-no-margin"
-      expand="full"
-      color="theme"
-      (click)="toggleBankAccount()">
-      Update Bank Account
+      <ion-button class="ion-no-margin" expand="full" color="theme" (click)="toggleBankAccount()">
+        Update Bank Account
       </ion-button>
     </div>
-   
-   
+
+
 
   </ng-container>
- 
-  
-  <ng-container  *ngIf="showBankForm">
+
+
+  <ng-container *ngIf="showBankForm">
     <form [formGroup]="addBank">
       <ion-item>
         <ion-label position="stacked">Account Name <small class="error">*</small></ion-label>
@@ -57,8 +53,8 @@
         *ngIf="addBank.get('accountName').hasError('required') && addBank.get('accountName').touched">
         Enter account name
       </ion-text>
-  
-  
+
+
       <ion-item>
         <ion-label position="stacked">BSB Number <small class="error">*</small></ion-label>
         <ion-input placeholder="Enter BSB Code" type="number" name="bsb" formControlName="bsb">
@@ -68,36 +64,30 @@
         *ngIf="addBank.get('bsb').hasError('required') && addBank.get('bsb').touched">
         Enter BSB Number
       </ion-text>
-  
+
       <ion-item>
         <ion-label position="stacked">Enter Account Number <small class="error">*</small></ion-label>
-        <ion-input placeholder="Enter Account Number" type="tel"  formControlName="accountNumber"></ion-input>
+        <ion-input placeholder="Enter Account Number" type="tel" formControlName="accountNumber"></ion-input>
       </ion-item>
       <ion-text lines="none" class="animated fadeInUp error"
         *ngIf="addBank.get('accountNumber').hasError('required') && addBank.get('accountNumber').touched">
         Enter Account Number
       </ion-text>
-  
+
       <ion-item>
         <ion-label position="stacked"> Amount <small class="error">*</small></ion-label>
         <ion-input readonly type="number" name="cvv" formControlName="amount"></ion-input>
       </ion-item>
-    </form>  
+    </form>
   </ng-container>
 </ion-content>
 
 
 <ion-footer *ngIf="showBankForm">
-  <ion-button 
-    class="ion-no-margin footer-btn"
-    expand="full"
-    color="theme"
-    [disabled]="!addBank.valid"
-    (click)="addBankDetails()"
-  >
+  <ion-button class="ion-no-margin footer-btn" expand="full" color="theme" [disabled]="!addBank.valid"
+    (click)="goToVerification()">
     Add Bank
   </ion-button>
 
-
+  <!-- (click)="addBankDetails()" -->
 </ion-footer>
-

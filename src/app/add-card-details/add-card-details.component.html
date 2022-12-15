@@ -11,7 +11,7 @@
         <img width="25px" src="./assets/icon/solutions.png" alt="" />
       </ion-button>
     </ion-buttons>
-    
+
     <ion-title>Add Card Details</ion-title>
   </ion-toolbar>
 </ion-header>
@@ -42,48 +42,37 @@
 
       <!-- <ion-row>
         <ion-col size="12"> -->
-          <ion-item>
-            <ion-label position="stacked">Expiry Date<small class="error">*</small></ion-label>
-            <ion-datetime
-            min="2021" max="2035"
-            display-format="MM YYYY" picker-format="MM/YYYY" placeholder="02/2021"
-              formControlName="expiry_date"></ion-datetime>
-          </ion-item>
-          <ion-text class="animated fadeInUp error"
-            *ngIf="addCard.get('expiry_date').hasError('required') && addCard.get('expiry_date').touched">
-            Select expiry date.
-          </ion-text>
-        <!-- </ion-col>
+      <ion-item>
+        <ion-label position="stacked">Expiry Date<small class="error">*</small></ion-label>
+        <ion-datetime min="2021" max="2035" display-format="MM YYYY" picker-format="MM/YYYY" placeholder="02/2021"
+          formControlName="expiry_date"></ion-datetime>
+      </ion-item>
+      <ion-text class="animated fadeInUp error"
+        *ngIf="addCard.get('expiry_date').hasError('required') && addCard.get('expiry_date').touched">
+        Select expiry date.
+      </ion-text>
+      <!-- </ion-col>
       </ion-row> -->
 
       <ion-item>
         <ion-label position="stacked">CVV Number <small class="error">*</small></ion-label>
-        <ion-input placeholder="123" type="number" name="cvv"
-  
-        formControlName="cvv"></ion-input>
+        <ion-input placeholder="123" type="number" name="cvv" formControlName="cvv"></ion-input>
       </ion-item>
       <ion-text lines="none" class="animated fadeInUp error"
         *ngIf="addCard.get('cvv').hasError('required') && addCard.get('cvv').touched">
         Enter CVV Number
       </ion-text>
       <div class="custom-checkBox">
-        <ion-checkbox
-        formControlName="stripeDefault"  
-        slot="start"
-        (ionChange)="defaultCardChange($event)"
-        ></ion-checkbox>
+        <ion-checkbox formControlName="stripeDefault" slot="start"
+          (ionChange)="defaultCardChange($event)"></ion-checkbox>
         <ion-label>Set Default Card</ion-label>
-        
+
       </div>
-      <ion-button 
-      class="text-capitalize fls-0 fs-18 footer-btn"
-      expand="full"
-      color="theme"
-      [disabled]="!addCard.valid"
-      (click)="addCardDetails()">
-      Add Card
+      <ion-button class="text-capitalize fls-0 fs-18 footer-btn" expand="full" color="theme" [disabled]="!addCard.valid"
+        (click)="goToVerification()">
+        Add Card
       </ion-button>
-    </form>      
+    </form>
   </div>
 
 </ion-content>

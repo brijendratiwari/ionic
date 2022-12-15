@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar>
         <ion-buttons slot="start">
-            <ion-back-button (click)="backButtonNavigate()" defaultHref="/home/tabs/sitter-listing"   ></ion-back-button>
+            <ion-back-button (click)="backButtonNavigate()" defaultHref="/home/tabs/sitter-listing"></ion-back-button>
         </ion-buttons>
         <ion-title>Payment Method</ion-title>
     </ion-toolbar>
@@ -19,7 +19,8 @@
     </ion-item>
     <ion-item>
         <ion-label>Default Payment Method</ion-label>
-        <ion-checkbox color="theme" [(ngModel)]="stripeDefaultCheck" (ionChange)="setDefaultMethod($event)"></ion-checkbox>
+        <ion-checkbox color="theme" [(ngModel)]="stripeDefaultCheck"
+            (ionChange)="setDefaultMethod($event)"></ion-checkbox>
     </ion-item>
     <form [formGroup]="creditCardFrm" padding>
         <ion-item>
@@ -27,16 +28,15 @@
             <ion-input placeholder="name on card" formControlName="cardName"></ion-input>
         </ion-item>
         <ion-text class="error animated fadeInUp" lines="none"
-                  *ngIf="creditCardFrm.get('cardName').hasError('required') && creditCardFrm.get('cardName').touched">
+            *ngIf="creditCardFrm.get('cardName').hasError('required') && creditCardFrm.get('cardName').touched">
             Enter name on card
         </ion-text>
         <ion-item>
             <ion-label position="stacked">Card Number</ion-label>
             <ion-input type="text" maxlength="16" formControlName="cardNumber"
-                       placeholder="Exp. 1234123412341234"></ion-input>
+                placeholder="Exp. 1234123412341234"></ion-input>
         </ion-item>
-        <ion-text class="error animated fadeInUp" lines="none"
-                  *ngIf="creditCardFrm.get('cardNumber').hasError('required') && creditCardFrm.get('cardNumber').touched
+        <ion-text class="error animated fadeInUp" lines="none" *ngIf="creditCardFrm.get('cardNumber').hasError('required') && creditCardFrm.get('cardNumber').touched
     || creditCardFrm.get('cardNumber').hasError('maxlength') || creditCardFrm.get('cardNumber').hasError('pattern')">
             Enter proper card number.
         </ion-text>
@@ -58,7 +58,7 @@
             </ion-select>
         </ion-item>
         <ion-text class="error animated fadeInUp" lines="none"
-                  *ngIf="creditCardFrm.get('cardMonth').hasError('required') && creditCardFrm.get('cardMonth').touched">
+            *ngIf="creditCardFrm.get('cardMonth').hasError('required') && creditCardFrm.get('cardMonth').touched">
             Select month
         </ion-text>
         <ion-item>
@@ -68,7 +68,7 @@
             </ion-select>
         </ion-item>
         <ion-text class="error animated fadeInUp" lines="none"
-                  *ngIf="creditCardFrm.get('cardYear').hasError('required') && creditCardFrm.get('cardYear').touched">
+            *ngIf="creditCardFrm.get('cardYear').hasError('required') && creditCardFrm.get('cardYear').touched">
             Select year
         </ion-text>
         <ion-item>
@@ -76,7 +76,7 @@
             <ion-input type="text" placeholder="ccv number" formControlName="cardCcv" maxlength="4"></ion-input>
         </ion-item>
         <ion-text class="error animated fadeInUp" lines="none"
-                  *ngIf="creditCardFrm.get('cardCcv').hasError('required') && creditCardFrm.get('cardCcv').touched
+            *ngIf="creditCardFrm.get('cardCcv').hasError('required') && creditCardFrm.get('cardCcv').touched
                   || creditCardFrm.get('cardCcv').hasError('maxlength') || creditCardFrm.get('cardCcv').hasError('pattern')">
             Enter proper ccv
         </ion-text>
@@ -88,7 +88,8 @@
     </form>
     <ion-card class="paypal-card">
         <ion-card-content>
-            <ion-button shape="round" size="default" fill="outline" expand="full" color="theme" (click)="connectPaypal()">
+            <ion-button shape="round" size="default" fill="outline" expand="full" color="theme"
+                (click)="connectPaypal()">
                 connect with
                 <ion-icon class="theme-icon" src="/assets/img/paypal.svg"></ion-icon>
             </ion-button>
@@ -99,13 +100,8 @@
     </ion-card>
 </ion-content>
 <ion-footer>
-    <ion-button
-        class="text-capitalize fls-0 fs-18 footer-btn"
-        expand="block"
-        color="theme"
-        [disabled]="!creditCardFrm.valid"
-        (click)="saveCardInStripe()"
-    >
+    <ion-button class="text-capitalize fls-0 fs-18 footer-btn" expand="block" color="theme"
+        [disabled]="!creditCardFrm.valid" (click)="saveCardInStripe()">
         save payment method
     </ion-button>
 </ion-footer>

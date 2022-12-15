@@ -1,10 +1,10 @@
-import {Component, OnInit} from '@angular/core';
-import {Storage} from '@ionic/storage';
-import {User} from '../model/user';
-import {PetcloudApiService} from '../api/petcloud-api.service';
-import {Stripe} from '@ionic-native/stripe/ngx';
-import {FormGroup, FormBuilder, Validators} from '@angular/forms';
-import {finalize} from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { Storage } from '@ionic/storage';
+import { User } from '../model/user';
+import { PetcloudApiService } from '../api/petcloud-api.service';
+import { Stripe } from '@ionic-native/stripe/ngx';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { finalize } from 'rxjs/operators';
 // import {PayPal, PayPalConfiguration} from '@ionic-native/paypal/ngx';
 import { NavController, Platform } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -22,15 +22,15 @@ export class PaymentMethodPage implements OnInit {
     public backButton: any = "";
 
     constructor(protected storage: Storage, public api: PetcloudApiService, private stripe: Stripe,
-        public navCntl:NavController,public router: Router,
-        public plt:Platform,public route: ActivatedRoute,
-    private formBuilder: FormBuilder, 
-    // private paypal: PayPal
+        public navCntl: NavController, public router: Router,
+        public plt: Platform, public route: ActivatedRoute,
+        private formBuilder: FormBuilder,
+        // private paypal: PayPal
     ) {
 
-       
+
         // this.backButtonEvent();
-        
+
     }
 
     ngOnInit() {
@@ -48,10 +48,10 @@ export class PaymentMethodPage implements OnInit {
         });
     }
 
-    backButtonNavigate(){
-        if(this.backButton){
+    backButtonNavigate() {
+        if (this.backButton) {
             this.router.navigateByUrl('/home/tabs/sitter-listing')
-        }else{
+        } else {
             this.navCntl.pop();
         }
     }
@@ -59,47 +59,47 @@ export class PaymentMethodPage implements OnInit {
     ionViewDidEnter() {
 
         this.backButton = this.route.snapshot.paramMap.get("backBtn");
-  
-        this.storage.get(PetcloudApiService.USER)
-        .then(async (res: User) => {
 
-            let stripeData: any = res.stripe;
-            let public_key = await stripeData.public_key;
-            this.stripe.setPublishableKey(public_key);
-        
-         
-            this.getCard();
-         
-            if (res.user_type == 2 ||res.user_type == 3) {
-               
-                if (res.verified == 0 || res.verify_phoneflag == "N"  ||  !res.isBackgroundChecked ||
-                !res.isRightToWorkChecked || !res.isAnimalCareChecked) {
-                    await this.api.isVerificationPendingModel();
-                  
-                }
-              } else if (res.user_type == 1) {
-                if (res.verified == 0 ||res.verify_phoneflag == "N") {
-                    await  this.api.isVerificationPendingModel();
-               
-                }
-              }
-           
-            else{
+        this.storage.get(PetcloudApiService.USER)
+            .then(async (res: User) => {
+
+                let stripeData: any = res.stripe;
+                let public_key = await stripeData.public_key;
+                this.stripe.setPublishableKey(public_key);
+
+
                 this.getCard();
-        
-            }
-        })
+
+                if (res.user_type == 2 || res.user_type == 3) {
+
+                    if (res.verified == 0 || res.verify_phoneflag == "N" || !res.isBackgroundChecked ||
+                        !res.isRightToWorkChecked || !res.isAnimalCareChecked) {
+                        await this.api.isVerificationPendingModel();
+
+                    }
+                } else if (res.user_type == 1) {
+                    if (res.verified == 0 || res.verify_phoneflag == "N") {
+                        await this.api.isVerificationPendingModel();
+
+                    }
+                }
+
+                else {
+                    this.getCard();
+
+                }
+            })
     }
 
-    getCard(){
+    getCard() {
         this.storage.get(PetcloudApiService.STRIPECARD)
             .then((cardData: any) => {
-                if (cardData != null && cardData !== '') {    
+                if (cardData != null && cardData !== '') {
                     this.creditCardFrm.setValue({
                         cardName: cardData.name,
                         cardNumber: 'xxxxxxxxxxxx' + cardData.last4,
-                        cardMonth: cardData.exp_month < 9 ? 0 + cardData.exp_month.toString() : 
-                        cardData.exp_month.toString(),
+                        cardMonth: cardData.exp_month < 9 ? 0 + cardData.exp_month.toString() :
+                            cardData.exp_month.toString(),
                         cardYear: cardData.exp_year,
                         cardCcv: ''
                     });
@@ -131,7 +131,7 @@ export class PaymentMethodPage implements OnInit {
             cvc: this.creditCardFrm.value.cardCcv
         };
 
-        
+
         this.api.showLoader();
         this.stripe.createCardToken(card)
             .then((token: any) => {
@@ -144,7 +144,7 @@ export class PaymentMethodPage implements OnInit {
                         'stripeToken': token.id
                     };
 
-                    console.log('cardFrm..............',cardFrm)
+                    console.log('cardFrm..............', cardFrm)
                     this.creditCardFrm.setValue({
                         cardName: token.card.name,
                         cardNumber: 'xxxxxxxxxxxx' + token.card.last4,
@@ -158,7 +158,7 @@ export class PaymentMethodPage implements OnInit {
                         }))
                         .subscribe((res: any) => {
                             if (res.success) {
-                             
+
                                 this.storage.set(PetcloudApiService.STRIPECARD, token.card);
                                 this.api.showToast('card details updated in stripe', 2000, 'bottom');
                                 this.navCntl.navigateRoot('/home/tabs/profile-menu')
@@ -166,7 +166,7 @@ export class PaymentMethodPage implements OnInit {
                                 this.api.showToast(res.error, 2000, 'bottom');
                             }
                         }, (err: any) => {
-                            this.api.autoLogout(err,cardFrm)
+                            this.api.autoLogout(err, cardFrm)
                         });
                 } else {
                     this.navCntl.navigateRoot('/home/tabs/profile-menu')
@@ -176,7 +176,7 @@ export class PaymentMethodPage implements OnInit {
             .catch((error: any) => {
                 this.api.hideLoader();
                 this.api.showToast(error, 3000, 'bottom');
-              
+
             });
     }
 
@@ -196,14 +196,14 @@ export class PaymentMethodPage implements OnInit {
     }
 
     public connectPaypal() {
-        this.api.showToast("We will release paypal payments in next version of App","3000","bottom");
+        this.api.showToast("We will release paypal payments in next version of App", "3000", "bottom");
     }
 
-    getInfo(){
-        this.storage.get(PetcloudApiService.USER).then((user: User)=>{
+    getInfo() {
+        this.storage.get(PetcloudApiService.USER).then((user: User) => {
             console.log(user.stripe_card);
 
-            if(user.stripe_card != false ){
+            if (user.stripe_card != false) {
 
                 this.creditCardFrm.patchValue({
                     cardName: user.stripe_card.name,
@@ -211,7 +211,7 @@ export class PaymentMethodPage implements OnInit {
                     cardMonth: user.stripe_card.exp_month < 9 ? 0 + user.stripe_card.exp_month.toString() : user.stripe_card.exp_month.toString(),
                     cardYear: user.stripe_card.exp_year,
                     cardCcv: ''
-                }) 
+                })
             }
         })
     }

@@ -15,6 +15,7 @@ import { Diagnostic } from '@ionic-native/diagnostic/ngx';
 import { InfomodelComponent } from '../../components/infomodel/infomodel.component';
 import { AppsFlyerService } from '../../../app/apps-flyer.service';
 import { Events } from 'src/app/events';
+import { OtpVerificationPage } from '../../otp-verification/otp-verification.page';
 
 
 @Component({
@@ -23,7 +24,7 @@ import { Events } from 'src/app/events';
     styleUrls: ['./basic-info.page.scss'],
 })
 export class BasicInfoPage implements OnInit {
-
+    public verify_code: any;
     public profileForm: FormGroup;
     public gender: any;
     public imageSrc: String = '';
@@ -135,12 +136,39 @@ export class BasicInfoPage implements OnInit {
             })
         });
     }
-
+    async goToVerification() {
+        this.api.showLoader();
+        this.api.getOtp().pipe(finalize(() => {
+            this.api.hideLoader();
+        })).subscribe(async (res: any) => {
+            console.log(res);
+            const modal = await this.modalCtrl.create({
+                component: OtpVerificationPage,
+                animated: true,
+                backdropDismiss: false,
+                componentProps: {
+                    phone_number: res.phone_number,
+                    'type': 'basic-info'
+                }
+            });
+            modal.onDidDismiss()
+                .then((data: any) => {
+                    console.log(data);
+                    this.verify_code = data.data.code;
+                    if (data.data.type == 'basic-info') {
+                        this.saveBasicProfile();
+                    }
+                });
+            return await modal.present();
+        }, err => {
+            this.api.autoLogout(err, "");
+        })
+        // this.nav.navigateForward(['/otp-verification'])
+    }
     public saveBasicProfile() {
-
         this.profileForm.value.lat = this.lat;
         this.profileForm.value.lng = this.lng;
-
+        this.profileForm.value.verify_code = this.verify_code
         if (!this.profileForm.value.ndis_participant) {
             this.profileForm.value.ndis_participant = 0
             this.profileForm.value.plan_managed = ""
@@ -171,16 +199,16 @@ export class BasicInfoPage implements OnInit {
                     if (user_type == 3 || user_type == 2) {
                         this.storage.set("menuType", "sitter").then((res) => {
                             localStorage.setItem("menuType", "sitter")
-                            this.EPEvent.publish("menuName", {menuType:"sitter", time: Date.now()})
+                            this.EPEvent.publish("menuName", { menuType: "sitter", time: Date.now() })
                         })
                     } else if (user_type == 1) {
                         localStorage.setItem("menuType", "owner")
                         this.storage.set("menuType", "owner").then((res) => {
-                            this.EPEvent.publish("menuName",{ menuType:"owner", time:Date.now()})
+                            this.EPEvent.publish("menuName", { menuType: "owner", time: Date.now() })
                         })
                     }
 
-                    this.EPEvent.publish("isProfileUpdated", {status: true, time: Date.now()});
+                    this.EPEvent.publish("isProfileUpdated", { status: true, time: Date.now() });
 
                     this.storage.set(PetcloudApiService.USER, res.user);
                     this.api.showToast('Your profile has been saved successfully', 2000, 'bottom');
@@ -223,17 +251,17 @@ export class BasicInfoPage implements OnInit {
                     mobile: userData.mobile,
                     phone: userData.phone,
                     ndis_participant: ndisProfile && ndisProfile.ndis_participant == "1" ? true : false,
-                    plan_managed : ndisProfile != null ? ndisProfile.plan_managed : "",
-                    plan_manager_email: ndisProfile != null ? ndisProfile.plan_manager_email  : "",
+                    plan_managed: ndisProfile != null ? ndisProfile.plan_managed : "",
+                    plan_manager_email: ndisProfile != null ? ndisProfile.plan_manager_email : "",
                 });
 
                 if (ndisProfile != null) {
-                    if(ndisProfile.plan_managed == "2" && this.isNDISParticant){
+                    if (ndisProfile.plan_managed == "2" && this.isNDISParticant) {
                         this.showManagerEmail = true
-                    }else{
+                    } else {
                         this.showManagerEmail = false
                     }
-                    
+
                 } else {
                     this.showManagerEmail = false
                 }
@@ -273,7 +301,13 @@ export class BasicInfoPage implements OnInit {
         this.lat = address.geometry.location.lat();
     }
 
-
+    isReadonly(val) {
+        if (val != undefined && val.length > 0) {
+            return true
+        } else {
+            return false
+        }
+    }
     private getState(stateName: string): any {
         switch (stateName) {
             case 'ACT':
