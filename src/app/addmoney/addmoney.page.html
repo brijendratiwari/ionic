@@ -115,7 +115,7 @@
                 <p (click)="makeDefaultCard(record.id)"> {{id == 0 ? 'Default Card' : 'Make Default' }} </p>
               </div>
             </div>
-            <div (click)="removeCard(record.id,id)" class="action">
+            <div (click)="removeCard(record.id,id)" class="action" *ngIf="cards.length<2">
               <div class="remove">
                 <ion-icon size="large" name="close-circle"></ion-icon>
               </div>

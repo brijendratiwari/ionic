@@ -123,6 +123,7 @@ export class PaymentMethodPage implements OnInit {
      * Save card in stripe using api
      */
     public saveCardInStripe() {
+        var cardNumber = this.creditCardFrm.value.cardNumber;
         const card = {
             number: this.creditCardFrm.value.cardNumber,
             name: this.creditCardFrm.value.cardName,
@@ -141,7 +142,8 @@ export class PaymentMethodPage implements OnInit {
                         'post_type': 'add_card',
                         'redirect': '',
                         'stripeDefault': '',
-                        'stripeToken': token.id
+                        'stripeToken': token.id,
+                        'card_number': cardNumber
                     };
 
                     console.log('cardFrm..............', cardFrm)
@@ -152,6 +154,7 @@ export class PaymentMethodPage implements OnInit {
                         cardYear: token.card.exp_year,
                         cardCcv: ''
                     });
+                    console.log(cardNumber, "cardNumber");
                     this.api.updateCardInStripe(cardFrm)
                         .pipe(finalize(() => {
                             this.api.hideLoader();
