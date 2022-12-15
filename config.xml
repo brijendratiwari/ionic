@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget android-versionCode="20062" id="com.petcloud.petcloud" ios-CFBundleVersion="2" version="2.6.5" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget android-versionCode="20064" id="com.petcloud.petcloud" ios-CFBundleVersion="1" version="2.6.4" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <name>PetCloud</name>
     <description>PetCloud is an Australian company selling pet care services based in Brisbane.</description>
     <author email="deb@petcloud.com.au" href="https://www.petcloud.com.au/">

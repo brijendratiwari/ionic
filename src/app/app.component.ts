@@ -392,7 +392,6 @@ Instabug.start(
 
         let alertButtons:any = [{
           text: "Upgrade",
-          cssClass: "update-btn",
           handler: () => {
             if (this.plt.is("ios")) {
               this.market.open("id1539909889");
@@ -416,9 +415,10 @@ Instabug.start(
         if( serverVersion[0] > appVersion[0] || serverVersion[1] > appVersion[1] || serverVersion[2] > appVersion[2]){
           var alert = await this.alertController.create({
             header: "Exciting News!",
+            cssClass: 'custom-alert-upgrade',
             message: "There’s a much better version of the PetCloud App",
-            cssClass: "open1",
             buttons: alertButtons,
+            mode: "ios",
             backdropDismiss: false
           });
           alert.present();
