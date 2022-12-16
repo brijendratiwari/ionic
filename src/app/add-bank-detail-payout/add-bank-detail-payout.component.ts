@@ -47,7 +47,7 @@ export class AddBankDetailPayoutComponent implements OnInit {
     this.addBankSubscription.unsubscribe();
     this.modelCntl.dismiss();
   }
-  async goToVerification() {
+  async goToVerification(val) {
     this.api.showLoader();
     this.api.getOtp().pipe(finalize(() => {
       this.api.hideLoader();
@@ -59,7 +59,7 @@ export class AddBankDetailPayoutComponent implements OnInit {
         backdropDismiss: false,
         componentProps: {
           phone_number: res.phone_number,
-          'type': 'add_bank'
+          'type': val
         }
       });
       modal.onDidDismiss()
@@ -67,6 +67,9 @@ export class AddBankDetailPayoutComponent implements OnInit {
           console.log(data);
           if (data.data.type == 'add_bank') {
             this.addBankDetails(data.data.code);
+          }
+          if (data.data.type == 'direct_bank_payout') {
+            this.transferNow(data.data.code);
           }
         });
       return await modal.present();
@@ -111,9 +114,10 @@ export class AddBankDetailPayoutComponent implements OnInit {
     this.showBankForm == true ? this.showBankForm = false : this.showBankForm = true;
   }
 
-  transferNow() {
+  transferNow(code) {
     const transferData = {
       amount: this.amt,
+      verify_code: code,
     }
     this.api.showLoader();
     this.api.directBankPayout(transferData).pipe(finalize(() => {

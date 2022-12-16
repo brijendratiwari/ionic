@@ -26,17 +26,18 @@
           <h4 class="description">{{accountNo}}</h4>
           <h4 class="description">{{bankName}}</h4>
         </div>
-        <div class="card-data">
+        <!-- <div class="card-data">
           <h4 (click)="transferNow()" class="card-no">Transfer Now</h4>
-        </div>
+        </div> -->
       </div>
+      <ion-button (click)="goToVerification('direct_bank_payout')">Withdraw now</ion-button>
     </div>
 
-    <div class="update-bank-container">
+    <!-- <div class="update-bank-container">
       <ion-button class="ion-no-margin" expand="full" color="theme" (click)="toggleBankAccount()">
         Update Bank Account
       </ion-button>
-    </div>
+    </div> -->
 
 
 
@@ -85,7 +86,7 @@
 
 <ion-footer *ngIf="showBankForm">
   <ion-button class="ion-no-margin footer-btn" expand="full" color="theme" [disabled]="!addBank.valid"
-    (click)="goToVerification()">
+    (click)="goToVerification('add_bank')">
     Add Bank
   </ion-button>
 
