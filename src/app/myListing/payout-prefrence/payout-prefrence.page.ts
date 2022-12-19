@@ -154,7 +154,9 @@ export class PayoutPrefrencePage implements OnInit {
             }))
             .subscribe((res: any) => {
                 if (res.success) {
-                    this.navCntl.navigateRoot('/home/tabs/profile-menu')
+                    if (pageSide == 'back') {
+                        this.navCntl.navigateRoot('/home/tabs/profile-menu')
+                    }
                     this.api.showToast('Document Uploaded.', 2000, 'bottom');
 
                 } else {
@@ -234,9 +236,7 @@ export class PayoutPrefrencePage implements OnInit {
                     if (data.data.type == 'update_paypal') {
                         this.updatePaypal(data.data.code);
                     }
-                    if (data.data.type == 'front' || data.data.type == 'back') {
-                        this.stripeDocumentUpload(data.data.type);
-                    }
+
                 });
             return await modal.present();
         }, err => {

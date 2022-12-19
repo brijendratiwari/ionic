@@ -73,7 +73,24 @@ export class OtpVerificationPage implements OnInit {
       this.api.hideLoader();
     })).subscribe(async (res: any) => {
       if (res.success) {
-        this.api.showToast('Verification completed successfully!', 2000, 'bottom');
+        console.log(this.type, "this.type");
+        if (this.type == 'withdrawal' || this.type == 'direct_bank_payout') {
+          this.api.showToast('Withdrawal Authorised!', 2000, 'bottom');
+        } else if (this.type == 'add_money') {
+          this.api.showToast('Top Up Authorised!', 2000, 'bottom');
+        } else if (this.type == 'add_card') {
+          this.api.showToast('Card Authorised!', 2000, 'bottom');
+        } else if (this.type == 'basic-info') {
+          this.api.showToast('Profile Authorised!', 2000, 'bottom');
+        } else if (this.type == 'update_paypal') {
+          this.api.showToast('Paypal details Authorised!', 2000, 'bottom');
+        } else if (this.type == 'update_stripe') {
+          this.api.showToast('Stripe details Authorised!', 2000, 'bottom');
+        } else if (this.type == 'add_bank') {
+          this.api.showToast('Bank Authorised!', 2000, 'bottom');
+        } else {
+          this.api.showToast('Top Up Authorised!', 2000, 'bottom');
+        }
         this.redirection(this.OTP);
       } else {
         this.api.showToast(res.error, 2000, 'bottom');

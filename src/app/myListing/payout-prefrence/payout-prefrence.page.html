@@ -36,7 +36,7 @@
                     </p>
                 </ion-col>
             </ion-row>
-            <!-- *ngIf="documentContainer" -->
+            <!--  -->
             <ng-container *ngIf="documentContainer">
                 <ion-card class="info-card" color="note">
                     <ion-card-header>Step 2. Upload your Identity document.
@@ -48,7 +48,7 @@
                         <ion-col size="12">
                             <p class="fs-14 ion-text-justify">Identity document Front <span class="error">*</span></p>
                             <ion-button class="text-capitalize fls-0 fs-18" color="theme"
-                                (click)="goToVerification('front')">
+                                (click)="stripeDocumentUpload('front')">
                                 Upload
                             </ion-button>
                         </ion-col>
@@ -56,7 +56,7 @@
                         <ion-col size="12">
                             <p class="fs-14 ion-text-justify">Identity document Back</p>
                             <ion-button class="text-capitalize fls-0 fs-18" color="theme"
-                                (click)="goToVerification('back')">
+                                (click)="stripeDocumentUpload('back')">
                                 Upload
                             </ion-button>
                         </ion-col>

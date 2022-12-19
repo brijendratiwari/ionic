@@ -70,7 +70,7 @@ export class WithdrawalPage implements OnInit {
               this.api.showToast(res.message, '2000', 'bottom');
               this.router.navigateByUrl('/home/tabs/profile-menu')
             } else {
-              this.api.showToast(res.message, '2000', 'bottom');
+              this.api.showToast(res.error, '2000', 'bottom');
             }
           }, (err: any) => {
             this.api.autoLogout(err, formData)

@@ -88,7 +88,7 @@ export class AddBankDetailPayoutComponent implements OnInit {
         accountNumber: this.addBank.value.accountNumber
       }
     }
-
+    console.log(addBankForm, "addBankForm")
     this.api.showLoader();
     this.addBankSubscription.add(
       this.api.sendBankPayout(addBankForm).pipe(finalize(() => {
@@ -127,7 +127,7 @@ export class AddBankDetailPayoutComponent implements OnInit {
         this.api.showToast(resp.message, "3000", "bottom");
         this.closeModal();
       } else {
-        this.api.showToast(resp.message, "3000", "bottom");
+        this.api.showToast(resp.error, "3000", "bottom");
       }
     }, err => {
       this.api.autoLogout(err, transferData);
