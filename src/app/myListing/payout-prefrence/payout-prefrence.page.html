@@ -15,7 +15,7 @@
     </ion-card>
     <ion-segment color="segment-theme" class="custom-segment" [(ngModel)]="selectedSegment">
         <ion-segment-button value="stripe">Stripe</ion-segment-button>
-        <ion-segment-button value="paypal">Paypal</ion-segment-button>
+        <!-- <ion-segment-button value="paypal">Paypal</ion-segment-button> -->
     </ion-segment>
     <div class="data-div" [ngSwitch]="selectedSegment">
         <ion-grid *ngSwitchCase="'stripe'">
@@ -110,7 +110,7 @@
                 </div>
             </ng-container>
         </ion-grid>
-        <ion-grid *ngSwitchCase="'paypal'">
+        <!-- <ion-grid *ngSwitchCase="'paypal'">
             <ion-row>
                 <ion-col>
                     <h4>Paypal</h4>
@@ -155,6 +155,6 @@
                     </ion-button>
                 </form>
             </div>
-        </ion-grid>
+        </ion-grid> -->
     </div>
 </ion-content>
