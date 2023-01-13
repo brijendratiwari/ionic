@@ -28,7 +28,7 @@ import { Events } from './events';
 import { RemoteChatScreenComponent } from './remote-chat-screen/remote-chat-screen.component';
 import { ChatServiceService } from './chat-service.service';
 import { AppVersion } from "@ionic-native/app-version/ngx";
-
+import { Instabug, BugReporting } from "instabug-cordova";
 
 declare let cordova: any;
 
@@ -94,7 +94,7 @@ export class AppComponent {
       if(this.platform.is("cordova")){
         await this.notificationSetup();
         await this.initAppsFlyer();
-        //await this.instaBug();
+        await this.instaBug();
         this.idfaTracking();
       }
 
@@ -173,21 +173,16 @@ export class AppComponent {
 
   async instaBug() {
 
-    var Instabug = cordova.require('instabug-cordova.Instabug');
-
-Instabug.start(
-    'ae03d4e68ddf78d119de941cd1ae0287',
-    'shake',
-    function () {
-        console.log('Instabug initialized.');
-    },
-    function (error) {
-        console.log('Instabug could not be initialized - ' + error);
-    }
-);
-    
-
-    
+    Instabug.start(
+      'ae03d4e68ddf78d119de941cd1ae0287',
+      [BugReporting.invocationEvents.shake],
+      function () {
+          console.log('Instabug initialized.');
+      },
+      function (error) {
+          console.log('Instabug could not be initialized - ' + error);
+      }
+    );
   }
 
   async getUserDetails() {
