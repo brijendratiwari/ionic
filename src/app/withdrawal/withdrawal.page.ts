@@ -25,7 +25,7 @@ export class WithdrawalPage implements OnInit {
 
   ngOnInit() {
     this.withdraw = this.formBuilder.group({
-      payout_source: ['paypal', [Validators.required]],
+      payout_source: ['bank', [Validators.required]],
       amount: ['', [Validators.required]]
     });
   }
