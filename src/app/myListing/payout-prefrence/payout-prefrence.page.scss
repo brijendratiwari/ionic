@@ -20,13 +20,19 @@
     margin-top: 14px;
     --box-shadow: none;
 }
+.footer-btn.verify {
+    --ion-color-base: #ccf1e7;
+    --spinner-color: #ccf1e7;
+    --border-radius: 0px;
+    --ion-color-contrast: #52c4be;
+}
 .info-card {
     box-shadow: none;
 }
 
 .doc-card {
     padding: 16px;
-    h4 { 
+    h4 {
         margin: 0px;
     }
     ion-button {

@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
 import { OtpVerificationPage } from '../../otp-verification/otp-verification.page';
-
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 
 // importing model files
 import { ApiResponse } from '../../model/api-response';
@@ -31,7 +31,27 @@ export class PayoutPrefrencePage implements OnInit {
     public documentContainer: boolean = false;
     public isEdit: boolean = true;
     public verify_code: any;
-    constructor(public api: PetcloudApiService,
+    public options: InAppBrowserOptions = {
+        location: 'yes',
+        hidden: 'no',
+        clearcache: 'yes',
+        clearsessioncache: 'yes',
+        zoom: 'yes',//Android only
+        hardwareback: 'yes',
+        mediaPlaybackRequiresUserAction: 'no',
+        shouldPauseOnSuspend: 'no', //Android only
+        closebuttoncaption: 'Close', //iOS only
+        disallowoverscroll: 'no', //iOS only
+        toolbar: 'yes', //iOS only
+        enableViewportScale: 'no', //iOS only
+        allowInlineMediaPlayback: 'no',//iOS only
+        presentationstyle: 'pagesheet',//iOS only
+        fullscreen: 'yes',//Windows only
+    };
+
+    constructor(
+        public iab: InAppBrowser,
+        public api: PetcloudApiService,
         private formBuilder: FormBuilder,
         protected router: Router,
         public navCntl: NavController,
@@ -299,4 +319,16 @@ export class PayoutPrefrencePage implements OnInit {
         });
     }
 
+    goToStripe() {
+        if (this.isStripeAccountAdded) {
+            var url = 'https://dashboard.stripe.com/settings/connect/custom'
+            const browser = this.iab.create(url, "_system", this.options);
+            browser.show()
+        } else {
+            this.api.showToast('Please add your bank account above first', 2000, "bottom");
+        }
+        // var url = 'https://dashboard.stripe.com/test/settings/connect';
+
+
+    }
 }

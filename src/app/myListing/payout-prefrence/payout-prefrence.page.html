@@ -3,23 +3,23 @@
         <ion-buttons slot="start">
             <ion-back-button (click)="backButtonNavigate()" defaultHref="home"></ion-back-button>
         </ion-buttons>
-        <ion-title>Payout Preferences</ion-title>
+        <ion-title>Payout Preference</ion-title>
     </ion-toolbar>
 </ion-header>
 <ion-content>
-    <ion-card class="info-card" color="theme-sec">
+    <!-- <ion-card class="info-card" color="theme-sec">
         <ion-card-content class="ion-text-justify fs-12">
             This screen is for Pet Sitters to provide their preferred bank account or Paypal account they want to
             receive PetCloud payments to at the end of the stay.
         </ion-card-content>
-    </ion-card>
-    <ion-segment color="segment-theme" class="custom-segment" [(ngModel)]="selectedSegment">
-        <ion-segment-button value="stripe">Stripe</ion-segment-button>
-        <!-- <ion-segment-button value="paypal">Paypal</ion-segment-button> -->
-    </ion-segment>
-    <div class="data-div" [ngSwitch]="selectedSegment">
-        <ion-grid *ngSwitchCase="'stripe'">
-            <ion-row class="ion-no-margin custom-list">
+    </ion-card> -->
+    <div class="data-div">
+        <ion-grid>
+            <ion-card class="info-card" color="note">
+                <ion-card-header>Submit your bank details and then verify your Identity.
+                </ion-card-header>
+            </ion-card>
+            <!-- <ion-row class="ion-no-margin custom-list">
                 <ion-col>
                     <h4>Stripe</h4>
                     <p class="fs-12 ion-text-justify">We use Stripe payment gateway to securely process payments for
@@ -35,9 +35,9 @@
                         Please note we can only accept JPG, JPEG or PNG. Our provider does not accept PDF's
                     </p>
                 </ion-col>
-            </ion-row>
+            </ion-row> -->
             <!--  -->
-            <ng-container *ngIf="documentContainer">
+            <!-- <ng-container *ngIf="documentContainer">
                 <ion-card class="info-card" color="note">
                     <ion-card-header>Step 2. Upload your Identity document.
                     </ion-card-header>
@@ -62,9 +62,7 @@
                         </ion-col>
                     </ion-row>
                 </div>
-            </ng-container>
-
-
+            </ng-container> -->
             <ng-container>
                 <ion-card class="info-card" *ngIf="isStripeAccountAdded == false" color="note">
                     <ion-card-header>Step 1. Please Provide your Bank Details.
@@ -100,14 +98,17 @@
                             *ngIf="stripeFrm.get('accountNumber').hasError('required') && stripeFrm.get('accountNumber').touched">
                             Enter account number!
                         </ion-text>
-                        <!-- <ion-button class="text-capitalize fls-0 fs-18 footer-btn" color="theme"
-                            [disabled]="!stripeFrm.valid" (click)="updateStripe()"> -->
                         <ion-button class="text-capitalize fls-0 fs-18 footer-btn" color="theme"
                             [disabled]="!stripeFrm.valid || !isEdit" (click)="goToVerification('update_stripe')">
                             Submit
                         </ion-button>
                     </form>
                 </div>
+
+                <ion-button class="text-capitalize fls-0 fs-18 footer-btn verify" color="theme"
+                    (click)="goToStripe()">Verify
+                    Identity
+                </ion-button>
             </ng-container>
         </ion-grid>
         <!-- <ion-grid *ngSwitchCase="'paypal'">

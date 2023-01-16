@@ -40,7 +40,7 @@ export class AppComponent {
   public isConnected: Observable<boolean>;
   public lastTimeBackPress = 0;
   public timePeriodToExit = 2000;
-
+  public isVerified: boolean;
   public isEmailVerified: boolean = false;
   public isPhoneVerified: boolean = false;
   public isBackgroundcheck: boolean = false;
@@ -91,7 +91,7 @@ export class AppComponent {
 
       //Called only on resume
       await this.getUserDetails();
-      if(this.platform.is("cordova")){
+      if (this.platform.is("cordova")) {
         await this.notificationSetup();
         await this.initAppsFlyer();
         await this.instaBug();
@@ -139,9 +139,9 @@ export class AppComponent {
             let campaign = conversionData.data.campaign;
             console.log(
               'This is a Non-Organic install. Media source: ' +
-                media_source +
-                ' Campaign: ' +
-                campaign
+              media_source +
+              ' Campaign: ' +
+              campaign
             );
           } else if (conversionData.data.af_status === '≈≈') {
             console.log('Organic Install');
@@ -177,16 +177,17 @@ export class AppComponent {
       'ae03d4e68ddf78d119de941cd1ae0287',
       [BugReporting.invocationEvents.shake],
       function () {
-          console.log('Instabug initialized.');
+        console.log('Instabug initialized.');
       },
       function (error) {
-          console.log('Instabug could not be initialized - ' + error);
+        console.log('Instabug could not be initialized - ' + error);
       }
     );
   }
 
   async getUserDetails() {
     console.log('get user details function');
+    this.getUsers();
     this.usersEvent.subscribe('user', async (data: any) => {
       console.log('usersEvent data', data);
       if (data != null) {
@@ -202,7 +203,15 @@ export class AppComponent {
     console.log('get user function!!!');
     await this.storage.get(PetcloudApiService.USER).then((userData: User) => {
       this.userData = userData;
-
+      console.log(this.userData, "this.userData")
+      if (this.userData.account) {
+        this.isVerified = true;
+      } else {
+        this.isVerified = false;
+      }
+      if (this.isVerified) {
+        this.showConfirm();
+      }
       const analytics = {
         user_id: userData?.id != null ? userData.id : '',
         user_status: userData?.id != null ? '' : '',
@@ -256,15 +265,15 @@ export class AppComponent {
   async notificationTapHandlers(data) {
     if (data.type == 'booking') {
       try {
-        if(!this.chatsService.activeChatInfo.isActive || this.chatsService.activeChatInfo.bookingId != data.id) {
+        if (!this.chatsService.activeChatInfo.isActive || this.chatsService.activeChatInfo.bookingId != data.id) {
           let userData: User = await this.storage.get(PetcloudApiService.USER);
           this.userData = userData;
-          if(this.userData) {
+          if (this.userData) {
             this.gotoMessageDetails(data.id);
           }
-        } 
+        }
       } catch (error) {
-        
+
       }
       // this.router.navigate(['/message-detail'], {
       //   queryParams: { id: data.id },
@@ -283,13 +292,13 @@ export class AppComponent {
   public async gotoMessageDetails(messageId) {
     this.api.showLoader();
     this.api.getMessageDetails(messageId)
-    .pipe(take(1) , finalize(() => {
+      .pipe(take(1), finalize(() => {
         this.api.hideLoader();
-    })).subscribe(async (res: any) => {
+      })).subscribe(async (res: any) => {
         if (res.success) {
           this.api.dismissModelorAlert();
           const messageDetails = await res.booking;
-          if(messageDetails.messageView==2 || messageDetails.messageView=='2') {
+          if (messageDetails.messageView == 2 || messageDetails.messageView == '2') {
             let otherUserImage;
             let toName = messageDetails.minder.first_name == this.userData.first_name ? messageDetails.owner.first_name : messageDetails.minder.first_name;
             let sendPush = messageDetails.minder.first_name == this.userData.first_name ? messageDetails.owner.sendMePush : messageDetails.minder.sendMePush;
@@ -299,7 +308,7 @@ export class AppComponent {
               component: RemoteChatScreenComponent,
               animated: true,
               componentProps: {
-                id : messageDetails.id,
+                id: messageDetails.id,
                 minderId: messageDetails.minderId,
                 ownerId: messageDetails.ownerid,
                 userId: this.userData.id,
@@ -309,7 +318,7 @@ export class AppComponent {
                 toName,
                 sendPush,
                 dropOff: messageDetails.startDate,
-                pickUp: messageDetails.endDate,                
+                pickUp: messageDetails.endDate,
                 serviceName: messageDetails.service.serviceType.serviceName,
                 amount: messageDetails.service.total,
                 bookingStatus: messageDetails.booking_status
@@ -323,13 +332,13 @@ export class AppComponent {
           }
 
         } else {
-          let msg = res.message? res.message: res.error? res.error : 'Something went wrong to get booking details.';
+          let msg = res.message ? res.message : res.error ? res.error : 'Something went wrong to get booking details.';
           this.api.showToast(msg, 2000, 'bottom');
         }
 
-    }, (err: any) => {
-    })
-    
+      }, (err: any) => {
+      })
+
   }
 
   async jobDetailModel(jobId) {
@@ -344,7 +353,7 @@ export class AppComponent {
           isModalClick: true,
         },
       });
-      modal.onDidDismiss().then((data: any) => {});
+      modal.onDidDismiss().then((data: any) => { });
       return await modal.present();
     }
   }
@@ -352,78 +361,104 @@ export class AppComponent {
   idfaTracking() {
     const idfaPlugin = cordova.plugins.idfa;
     idfaPlugin.getInfo()
-    .then(info => {
-      console.log("idfaPlugin.getInfo 1", info)
+      .then(info => {
+        console.log("idfaPlugin.getInfo 1", info)
         if (!info.trackingLimited) {
-            return info.idfa || info.aaid;
+          return info.idfa || info.aaid;
         } else if (info.trackingPermission === idfaPlugin.TRACKING_PERMISSION_NOT_DETERMINED) {
-            return idfaPlugin.requestPermission().then(result => {
-                if (result === idfaPlugin.TRACKING_PERMISSION_AUTHORIZED) {
-                    return idfaPlugin.getInfo().then(info => {
-                      console.log("idfaPlugin.getInfo", info)
-                        return info.idfa || info.aaid;
-                    });
-                }
-            });
+          return idfaPlugin.requestPermission().then(result => {
+            if (result === idfaPlugin.TRACKING_PERMISSION_AUTHORIZED) {
+              return idfaPlugin.getInfo().then(info => {
+                console.log("idfaPlugin.getInfo", info)
+                return info.idfa || info.aaid;
+              });
+            }
+          });
         }
-    })
-    .then(idfaOrAaid => {
+      })
+      .then(idfaOrAaid => {
         if (idfaOrAaid) {
-            console.log("idfaOrAaid", idfaOrAaid);
+          console.log("idfaOrAaid", idfaOrAaid);
         }
-    });
+      });
   }
 
   async checkAppUpdates() {
-    
+
     this.api.checkAPPVersion().subscribe((res: any) => {
-      
-          console.log(res)
+
+      console.log(res)
 
       this.appVersion.getVersionNumber()
-      .then( async (version) => {
-        
-        console.log('checkAppUpdatesres',res,version)
+        .then(async (version) => {
 
-        let alertButtons:any = [{
-          text: "Upgrade",
-          handler: () => {
-            if (this.plt.is("ios")) {
-              this.market.open("id1539909889");
-            } else {
-              this.market.open("com.petcloud.petcloud");
-            }
-            return false;
-          },
-        }];
+          console.log('checkAppUpdatesres', res, version)
 
-        
+          let alertButtons: any = [{
+            text: "Upgrade",
+            handler: () => {
+              if (this.plt.is("ios")) {
+                this.market.open("id1539909889");
+              } else {
+                this.market.open("com.petcloud.petcloud");
+              }
+              return false;
+            },
+          }];
 
-        let serverVersion = res["ios_ver_name"].split('.').map(x => parseInt(x))
-        if( this.plt.is("android")) {
-          serverVersion = res["android_ver_name"].split('.').map(x => parseInt(x))
-        }
-        
-        const appVersion = version.split('.').map(x => parseInt(x))
-        console.log(serverVersion, appVersion)
 
-        if( serverVersion[0] > appVersion[0] || serverVersion[1] > appVersion[1] || serverVersion[2] > appVersion[2]){
-          var alert = await this.alertController.create({
-            header: "Exciting News!",
-            cssClass: 'custom-alert-upgrade',
-            message: "There’s a much better version of the PetCloud App",
-            buttons: alertButtons,
-            mode: "ios",
-            backdropDismiss: false
-          });
-          alert.present();
-        }
-      })
-      .catch((err) => {
-    
-      });
-      
+
+          let serverVersion = res["ios_ver_name"].split('.').map(x => parseInt(x))
+          if (this.plt.is("android")) {
+            serverVersion = res["android_ver_name"].split('.').map(x => parseInt(x))
+          }
+
+          const appVersion = version.split('.').map(x => parseInt(x))
+          console.log(serverVersion, appVersion)
+
+          if (serverVersion[0] > appVersion[0] || serverVersion[1] > appVersion[1] || serverVersion[2] > appVersion[2]) {
+            var alert = await this.alertController.create({
+              header: "Exciting News!",
+              cssClass: 'custom-alert-upgrade',
+              message: "There’s a much better version of the PetCloud App",
+              buttons: alertButtons,
+              mode: "ios",
+              backdropDismiss: false
+            });
+            alert.present();
+          }
+        })
+        .catch((err) => {
+
+        });
+
     })
-    
+
+  }
+  showConfirm() {
+    this.alertController.create({
+      header: 'Update Payout Information',
+      backdropDismiss: false,
+      cssClass: 'verify-Btn',
+      // subHeader: 'Beware lets confirm',
+      message: 'Valid and up to date bank account information is required so you can be paid for your bookings.<br> For increased account security, you may be required to re-verify your identity.',
+      buttons: [
+        {
+          text: 'Update my payout information',
+          handler: () => {
+            this.navCtrl.navigateForward(['/payout-prefrence'])
+          }
+        },
+        {
+          text: 'Find out more',
+          handler: () => {
+            // this.showConfirm();
+            console.log('Let me think');
+          }
+        }
+      ]
+    }).then(res => {
+      res.present();
+    });
   }
 }
