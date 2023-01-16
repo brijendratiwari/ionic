@@ -209,7 +209,7 @@ export class AppComponent {
       } else {
         this.isVerified = false;
       }
-      if (this.isVerified) {
+      if (!this.isVerified) {
         this.showConfirm();
       }
       const analytics = {
