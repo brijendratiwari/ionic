@@ -75,7 +75,7 @@ import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { RemoteChatScreenComponent } from './remote-chat-screen/remote-chat-screen.component';
 import { PreAcceptBookingComponent } from './components/pre-accept-booking/pre-accept-booking.component';
-
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
 
 @NgModule({
@@ -154,6 +154,7 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
   ],
   providers: [
     StatusBar,
+    Deeplinks,
     // SmsRetriever,
     RlTagInputModule,
     IonicRatingModule,

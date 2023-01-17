@@ -187,6 +187,7 @@ export class PayoutPrefrencePage implements OnInit {
             });
     }
 
+
     /**
      * Update Paypal email
      */
@@ -198,6 +199,8 @@ export class PayoutPrefrencePage implements OnInit {
                 verify_code: code
             }
         };
+        //   public getConnectionStripe() {
+
         this.api.updatePaypal(user)
             .subscribe((res: any) => {
                 if (res.success) {
@@ -318,12 +321,30 @@ export class PayoutPrefrencePage implements OnInit {
             }
         });
     }
+    connectStripe() {
+        this.api.showLoader();
+        this.api.getConnectionStripe()
+            .pipe(finalize(() => {
+                this.api.hideLoader();
+            }))
+            .subscribe(async (apiRes: any) => {
+                console.log(apiRes, "Conenction api")
+                if (apiRes.success) {
+                    const browser = this.iab.create(apiRes.url, "_system", this.options);
+                    browser.show()
+                } else {
+                    this.api.showToast('Please Try again to update!',
+                        3000, 'bottom');
+                }
+            }, (err: any) => {
+                this.api.showToast('Please Try again to update!',
+                    3000, 'bottom');
 
+            });
+    }
     goToStripe() {
         if (this.isStripeAccountAdded) {
-            var url = 'https://dashboard.stripe.com/settings/connect/custom'
-            const browser = this.iab.create(url, "_system", this.options);
-            browser.show()
+            this.connectStripe();
         } else {
             this.api.showToast('Please add your bank account above first', 2000, "bottom");
         }

@@ -29,6 +29,9 @@ import { RemoteChatScreenComponent } from './remote-chat-screen/remote-chat-scre
 import { ChatServiceService } from './chat-service.service';
 import { AppVersion } from "@ionic-native/app-version/ngx";
 import { Instabug, BugReporting } from "instabug-cordova";
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
+import { Deeplinks } from '@ionic-native/deeplinks/ngx';
+import { PayoutPrefrencePage } from './myListing/payout-prefrence/payout-prefrence.page';
 
 declare let cordova: any;
 
@@ -48,9 +51,26 @@ export class AppComponent {
   public isAmimalCare: boolean = false;
   public VERIFIED = 'Verified';
   userData: User;
-
+  public options: InAppBrowserOptions = {
+    location: 'yes',
+    hidden: 'no',
+    clearcache: 'yes',
+    clearsessioncache: 'yes',
+    zoom: 'yes',//Android only
+    hardwareback: 'yes',
+    mediaPlaybackRequiresUserAction: 'no',
+    shouldPauseOnSuspend: 'no', //Android only
+    closebuttoncaption: 'Close', //iOS only
+    disallowoverscroll: 'no', //iOS only
+    toolbar: 'yes', //iOS only
+    enableViewportScale: 'no', //iOS only
+    allowInlineMediaPlayback: 'no',//iOS only
+    presentationstyle: 'pagesheet',//iOS only
+    fullscreen: 'yes',//Windows only
+  };
   // @ViewChild(Nav) navChild: Nav;
   constructor(
+    public iab: InAppBrowser,
     private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
@@ -74,10 +94,14 @@ export class AppComponent {
     public appVersion: AppVersion,
     public firebase: FirebaseX,
     private chatsService: ChatServiceService,
+    public deeplinks: Deeplinks
   ) {
     this.initializeApp();
     this.router.events.subscribe((event: Event) => {
       this.api.hideLoader();
+    });
+    this.usersEvent.subscribe('stripe', async (data: any) => {
+      this.getStripeVerifiedData();
     });
   }
 
@@ -88,7 +112,8 @@ export class AppComponent {
       this.statusBar.styleLightContent();
       this.statusBar.backgroundColorByHexString('#fe4164');
       this.splashScreen.hide();
-
+      this.setupDeeplinks();
+      // this.getStripeVerifiedData();
       //Called only on resume
       await this.getUserDetails();
       if (this.platform.is("cordova")) {
@@ -172,7 +197,6 @@ export class AppComponent {
   }
 
   async instaBug() {
-
     Instabug.start(
       'ae03d4e68ddf78d119de941cd1ae0287',
       [BugReporting.invocationEvents.shake],
@@ -184,10 +208,44 @@ export class AppComponent {
       }
     );
   }
+  setupDeeplinks() {
+    this.deeplinks.route({
+      '/login': PayoutPrefrencePage,
+      '/payout-prefrence': PayoutPrefrencePage,
+    }).subscribe((match) => {
+      console.log("match", match)
+      if (match.$link.path.match('/login') || match.$link.path.match('/payout-prefrence')) {
+        // var str = match.$link.queryString.split("*");
+        // var post_id = str[0].split("=").pop();
+        // var post_type = str[1].split("=").pop();
+        this.zone.run(() => {
+          console.log("enter")
+          // this.navCtrl.navigateForward(['/singlepost', post_id]);
+        });
+      }
 
+    });
+    // this.deeplinks.route({ '/:slug': 'posts' }).subscribe(
+    //   match => {
+    //     console.log('Successfully matched route', match);
+
+    //     // Create our internal Router path by hand
+    //     const internalPath = `/${match.$route}/${match.$args['slug']}`;
+
+    //     // Run the navigation in the Angular zone
+    //     this.zone.run(() => {
+    //       this.router.navigateByUrl(internalPath);
+    //     });
+    //   },
+    //   nomatch => {
+    //     // nomatch.$link - the full link data
+    //     console.error("Got a deeplink that didn't match", nomatch);
+    //   }
+    // );
+  }
   async getUserDetails() {
     console.log('get user details function');
-    this.getUsers();
+
     this.usersEvent.subscribe('user', async (data: any) => {
       console.log('usersEvent data', data);
       if (data != null) {
@@ -198,20 +256,29 @@ export class AppComponent {
       }
     });
   }
+  getStripeVerifiedData() {
+    this.api.getUserBasicProfile()
+      .pipe(finalize(() => {
+        this.api.hideLoader();
+      }))
+      .subscribe(async (apiRes: any) => {
+        console.log(apiRes)
+        if (apiRes.verification_flag == "verified" && apiRes.user.account) {
+          this.isVerified = true
+        } else {
+          this.isVerified = false
+        }
+        if (!this.isVerified) {
+          this.showConfirm();
+        }
+      }, (err: any) => {
 
+      });
+  }
   async getUsers() {
     console.log('get user function!!!');
     await this.storage.get(PetcloudApiService.USER).then((userData: User) => {
       this.userData = userData;
-      console.log(this.userData, "this.userData")
-      if (this.userData.account) {
-        this.isVerified = true;
-      } else {
-        this.isVerified = false;
-      }
-      if (!this.isVerified) {
-        this.showConfirm();
-      }
       const analytics = {
         user_id: userData?.id != null ? userData.id : '',
         user_status: userData?.id != null ? '' : '',
@@ -452,7 +519,9 @@ export class AppComponent {
         {
           text: 'Find out more',
           handler: () => {
-            // this.showConfirm();
+            var url = 'https://community.petcloud.com.au/portal/en/kb/articles/what-is-stripe-connect'
+            const browser = this.iab.create(url, "_system", this.options);
+            browser.show()
             console.log('Let me think');
           }
         }

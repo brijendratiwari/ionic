@@ -634,6 +634,14 @@ export class PetcloudApiService {
   }
 
   /**
+ * connect user with stripe account
+ * @returns Promise Promise of received response
+ */
+  public getConnectionStripe() {
+    return this.http.post(this.BASE_URL + "account/connected_account", {}, this.header);
+  }
+
+  /**
    * Send Verification code for mobile number verification
    */
   public sendVerificationCodeForMobile(mobileNumber: any, hashCode: any) {
