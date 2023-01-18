@@ -220,7 +220,7 @@ export class AppComponent {
         // var post_type = str[1].split("=").pop();
         this.zone.run(() => {
           console.log("enter")
-          // this.navCtrl.navigateForward(['/singlepost', post_id]);
+          this.navCtrl.navigateForward(['/home/tabs/sitter-listing']);
         });
       }
 
@@ -272,7 +272,6 @@ export class AppComponent {
           this.showConfirm();
         }
       }, (err: any) => {
-
       });
   }
   async getUsers() {
@@ -513,6 +512,7 @@ export class AppComponent {
         {
           text: 'Update my payout information',
           handler: () => {
+            this.alertController.dismiss()
             this.navCtrl.navigateForward(['/payout-prefrence'])
           }
         },
@@ -521,7 +521,9 @@ export class AppComponent {
           handler: () => {
             var url = 'https://community.petcloud.com.au/portal/en/kb/articles/what-is-stripe-connect'
             const browser = this.iab.create(url, "_system", this.options);
-            browser.show()
+            browser.show();
+            // this.showConfirm()
+            return false;
             console.log('Let me think');
           }
         }

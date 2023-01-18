@@ -3468,6 +3468,7 @@ export class PetcloudApiService {
 
             this.storage.set(PetcloudApiService.USER, user);
             this.storage.get("menuType").then(async (menuType) => {
+              // console.log("+++++++++++++++++++++++++++++++")
               if (menuType != null) {
                 if (menuType == "sitter") {
                   if (res.emailVerify.status == 0 || res.phoneVerify.verify_phoneflag == "N"

@@ -68,7 +68,7 @@ export class HomePage implements OnInit {
     }
 
     ngOnInit(): void {
-        this.PMEvents.publish("stripe", 'ghjghj')
+        // this.PMEvents.publish("stripe", Date.now())
     }
 
     ngOnDestroy() {
@@ -81,7 +81,7 @@ export class HomePage implements OnInit {
     };
 
     getSelectedTab(event) {
-
+        this.PMEvents.publish("stripe", Date.now())
         this.api.isHomeTabsChanged = true;
         console.log("Selected Tab Name", event.tab);
         event.tab == "get-started" ? this.tabSelected.isMessageNullTab = true : this.tabSelected.isMessageNullTab = false

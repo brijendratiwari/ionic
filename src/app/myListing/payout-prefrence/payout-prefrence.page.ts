@@ -21,7 +21,7 @@ import { CameraService } from '../../../app/camera-service.service';
     styleUrls: ['./payout-prefrence.page.scss'],
 })
 export class PayoutPrefrencePage implements OnInit {
-
+    public isVerified: boolean
     public stripeFrm: FormGroup;
     public paypalFrm: FormGroup;
     public selectedSegment = '';
@@ -31,6 +31,7 @@ export class PayoutPrefrencePage implements OnInit {
     public documentContainer: boolean = false;
     public isEdit: boolean = true;
     public verify_code: any;
+    userAccount: any = '';
     public options: InAppBrowserOptions = {
         location: 'yes',
         hidden: 'no',
@@ -69,6 +70,7 @@ export class PayoutPrefrencePage implements OnInit {
     }
 
     ngOnInit() {
+        this.getUserDetails();
         this.stripeFrm = this.formBuilder.group({
             accountNumber: ['', [Validators.required]],
             accountName: ['', [Validators.required]],
@@ -123,11 +125,16 @@ export class PayoutPrefrencePage implements OnInit {
     }
 
     isReadonly(val) {
-        if (val != undefined && val.length > 0) {
+        if (this.userAccount != '' && this.userAccount != undefined) {
             return true
         } else {
-            return false
+            return false;
         }
+        // if (val != undefined && val.length > 0) {
+        //     return true
+        // } else {
+        //     return false
+        // }
     }
     async stripeDocumentUpload(pageSide) {
         const actionSheet = await this.actionSheetCtrl.create({
@@ -240,7 +247,6 @@ export class PayoutPrefrencePage implements OnInit {
         this.api.getOtp().pipe(finalize(() => {
             this.api.hideLoader();
         })).subscribe(async (res: any) => {
-            console.log(res);
             const modal = await this.modalCtrl.create({
                 component: OtpVerificationPage,
                 animated: true,
@@ -255,6 +261,7 @@ export class PayoutPrefrencePage implements OnInit {
                     this.verify_code = data.data.code;
                     if (data.data.type == 'update_stripe') {
                         this.updateStripe(data.data.code);
+
                     }
                     if (data.data.type == 'update_paypal') {
                         this.updatePaypal(data.data.code);
@@ -283,6 +290,7 @@ export class PayoutPrefrencePage implements OnInit {
             .subscribe((apiRes: ApiResponse) => {
                 if (apiRes.success) {
                     this.storage.set(PetcloudApiService.USER, apiRes.user);
+                    this.userAccount = apiRes.user.account;
                     this.documentContainer = true;
                     this.isStripeAccountAdded = true;
                     this.api.showToast('Details updated', 2000, 'bottom');
@@ -351,5 +359,25 @@ export class PayoutPrefrencePage implements OnInit {
         // var url = 'https://dashboard.stripe.com/test/settings/connect';
 
 
+    }
+    getUserDetails() {
+        this.api.getUserBasicProfile()
+            .pipe(finalize(() => {
+                this.api.hideLoader();
+            }))
+            .subscribe(async (apiRes: any) => {
+                this.userAccount = apiRes.user.account;
+                if (apiRes.verification_flag == "verified" && apiRes.user.account) {
+                    this.isVerified = true
+                } else {
+                    this.isVerified = false
+                }
+            }, (err: any) => {
+
+                this.api.showToast('User Payment details not updated in application, Please Try again to update!',
+                    3000, 'bottom');
+                this.navCntl.navigateRoot('/home/tabs/profile-menu')
+
+            });
     }
 }
