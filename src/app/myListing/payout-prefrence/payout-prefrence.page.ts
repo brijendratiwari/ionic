@@ -70,6 +70,7 @@ export class PayoutPrefrencePage implements OnInit {
     }
 
     ngOnInit() {
+        console.log(this.isVerified)
         this.getUserDetails();
         this.stripeFrm = this.formBuilder.group({
             accountNumber: ['', [Validators.required]],
@@ -242,6 +243,13 @@ export class PayoutPrefrencePage implements OnInit {
             });
     }
 
+    isAccountAdded(val) {
+        if (this.userAccount != '' && this.userAccount != undefined) {
+            this.goToVerification(val)
+        } else {
+            this.updateStripe();
+        }
+    }
     async goToVerification(val) {
         this.api.showLoader();
         this.api.getOtp().pipe(finalize(() => {
@@ -260,7 +268,7 @@ export class PayoutPrefrencePage implements OnInit {
                 .then((data: any) => {
                     this.verify_code = data.data.code;
                     if (data.data.type == 'update_stripe') {
-                        this.updateStripe(data.data.code);
+                        // this.updateStripe(data.data.code);
 
                     }
                     if (data.data.type == 'update_paypal') {
@@ -277,8 +285,8 @@ export class PayoutPrefrencePage implements OnInit {
     /**
      * Update Stripe Details
      */
-    public updateStripe(code) {
-        this.stripeFrm.value['verify_code'] = code
+    public updateStripe() {
+        // this.stripeFrm.value['verify_code'] = code
         const bankFrm = {
             'BankForm': this.stripeFrm.value
         };
@@ -288,6 +296,7 @@ export class PayoutPrefrencePage implements OnInit {
                 this.api.hideLoader();
             }))
             .subscribe((apiRes: ApiResponse) => {
+                console.log(apiRes)
                 if (apiRes.success) {
                     this.storage.set(PetcloudApiService.USER, apiRes.user);
                     this.userAccount = apiRes.user.account;

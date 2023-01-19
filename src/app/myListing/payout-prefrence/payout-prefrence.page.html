@@ -99,7 +99,7 @@
                             Enter account number!
                         </ion-text>
                         <ion-button class="text-capitalize fls-0 fs-18 footer-btn" color="theme"
-                            [disabled]="!stripeFrm.valid || !isEdit" (click)="goToVerification('update_stripe')">
+                            [disabled]="!stripeFrm.valid || !isEdit" (click)="updateStripe()">
                             Submit
                         </ion-button>
                         <!-- <ion-button class="text-capitalize fls-0 fs-18 footer-btn" color="theme"
@@ -109,8 +109,8 @@
                     </form>
                 </div>
 
-                <ion-button class="text-capitalize fls-0 fs-18 footer-btn verify" color="theme" (click)="goToStripe()"
-                    *ngIf="!isVerified">Verify
+                <ion-button class="text-capitalize fls-0 fs-18 footer-btn verify" color="theme"
+                    (click)="goToStripe()">Verify
                     Identity
                 </ion-button>
             </ng-container>
