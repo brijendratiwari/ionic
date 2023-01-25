@@ -32,6 +32,8 @@ import { Instabug, BugReporting } from "instabug-cordova";
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { PayoutPrefrencePage } from './myListing/payout-prefrence/payout-prefrence.page';
+import { LaunchReview } from '@ionic-native/launch-review/ngx';
+import { app } from 'firebase';
 
 declare let cordova: any;
 
@@ -94,7 +96,8 @@ export class AppComponent {
     public appVersion: AppVersion,
     public firebase: FirebaseX,
     private chatsService: ChatServiceService,
-    public deeplinks: Deeplinks
+    public deeplinks: Deeplinks,
+    public launchReview: LaunchReview
   ) {
     this.initializeApp();
     this.router.events.subscribe((event: Event) => {
@@ -112,6 +115,7 @@ export class AppComponent {
       this.statusBar.styleLightContent();
       this.statusBar.backgroundColorByHexString('#fe4164');
       this.splashScreen.hide();
+      // this.appRating();
       this.setupDeeplinks();
       // this.getStripeVerifiedData();
       //Called only on resume
@@ -531,5 +535,68 @@ export class AppComponent {
     }).then(res => {
       res.present();
     });
+  }
+  async appRating() {
+    const alert = await this.alertController.create({
+      header: 'Booking Request Sent!',
+      cssClass: 'booking-request-sent',
+      subHeader: 'What do you think of the PetCloud App?',
+      buttons: [
+        {
+          text: 'I love it!',
+          handler: async (data) => {
+
+            this.api.showLoader();
+            const appRate = {
+              status: 1
+            }
+
+            this.api.showLoader();
+            this.api.rateAPP(appRate).subscribe(async (res: any) => {
+              this.api.hideLoader();
+
+              await this.storage.get(PetcloudApiService.USER).then(async (user: User) => {
+                user.app_review = 1
+                await this.storage.set(PetcloudApiService.USER, user);
+              })
+
+              if (this.platform.is("android")) {
+                this.router.navigateByUrl('/home/tabs/messages');
+                this.appRatingPopup('com.VillusionStudios.PCCApp')
+                // this.market.open('com.petcloud.petcloud');
+              } else {
+                this.appRatingPopup('id1539909889')
+                this.router.navigateByUrl('/home/tabs/messages');
+                // this.market.open('id1539909889');
+              }
+            }, err => {
+              this.api.autoLogout(err, appRate);
+            })
+          }
+        }, {
+          text: 'Could improve',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            // this.appSuggestionAlert();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  appRatingPopup(appId) {
+    console.log(appId)
+    this.launchReview.launch(appId).then(() => {
+      console.log('Successfully launched store app');
+    });
+    console.log("this.launchReview.isRatingSupported()", this.launchReview.isRatingSupported())
+    if (this.launchReview.isRatingSupported()) {
+      this.launchReview.rating().subscribe((res) => {
+        console.log(res, "res app poouop")
+      });
+
+    }
   }
 }

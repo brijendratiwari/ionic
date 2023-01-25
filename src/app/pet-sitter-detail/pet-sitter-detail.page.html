@@ -26,8 +26,8 @@
             <ion-grid class="ion-no-padding">
                 <ion-row class="ion-no-padding">
                     <ion-col class="ion-no-padding">
-                        <ion-slides *ngIf="sitterData?.spaceImages.length > 0" (ionSlideDidChange)="slideChanged()" #slides pager="false" [options]="slideOpts"
-                            class="slider">
+                        <ion-slides *ngIf="sitterData?.spaceImages.length > 0" (ionSlideDidChange)="slideChanged()"
+                            #slides pager="false" [options]="slideOpts" class="slider">
                             <ion-slide *ngFor="let sp of sitterData?.spaceImages">
                                 <div class="slider-image">
                                     <ion-img alt="slideimage" [src]="sp.imagename == null || sp.imagename == '' ? 
@@ -36,16 +36,12 @@
                                 </div>
                             </ion-slide>
                         </ion-slides>
-                        <button *ngIf="sitterData?.spaceImages.length > 1 && currentIndex>0"
-                            type="submit" ion-button color="light"
-                            class="swiper-button-prev swiper-button-black"
-                            (click)="prevSlide()"
-                        ></button>
-                        <button *ngIf="sitterData?.spaceImages.length > 1 && currentIndex < sitterData?.spaceImages.length-1"
-                            type="submit" ion-button color="light"
-                            class="swiper-button-next swiper-button-black"
-                            (click)="nextSlide()"
-                        ></button>
+                        <button *ngIf="sitterData?.spaceImages.length > 1 && currentIndex>0" type="submit" ion-button
+                            color="light" class="swiper-button-prev swiper-button-black" (click)="prevSlide()"></button>
+                        <button
+                            *ngIf="sitterData?.spaceImages.length > 1 && currentIndex < sitterData?.spaceImages.length-1"
+                            type="submit" ion-button color="light" class="swiper-button-next swiper-button-black"
+                            (click)="nextSlide()"></button>
                         <div *ngIf="sitterData?.spaceImages.length <= 0" class="slider-image">
                             <ion-img alt="slideimage" [src]="'../../assets/img/default-listing-hero.jpg'"></ion-img>
                         </div>
@@ -60,21 +56,21 @@
                 </div>
                 <div class="user-info">
                     <h5 class="user">{{sitterData?.first_name}}</h5>
-                  
+
                     <ng-container *ngIf="sitterData?.listing?.occupation != '' ||
                     sitterData?.listing?.occupation != null ">
-                        <h6  class="profion">
+                        <h6 class="profion">
                             {{ sitterData?.listing?.occupation }}
                         </h6>
                     </ng-container>
-                   
+
                     <p class="radings-custom">
-                        <ion-img *ngFor="let s of convertNumberToArray(5); let i = index" 
-                        [src]="(i <= sitterData?.rating?.rating - 1) ?
-                       '../../assets/icon/star-rating.svg': '../../assets/icon/star-rating-blank.svg'" > </ion-img>
-                      </p>
-    
-                    
+                        <ion-img *ngFor="let s of convertNumberToArray(5); let i = index" [src]="(i <= sitterData?.rating?.rating - 1) ?
+                       '../../assets/icon/star-rating.svg': '../../assets/icon/star-rating-blank.svg'"> </ion-img>
+                    </p>
+
+                    <p class="reviews" *ngIf="sitterData?.rating?.reviewCount>0">{{sitterData?.rating?.reviewCount}}
+                        Reviews</p>
                     <p class="area">{{sitterData?.address}}</p>
                     <h2 class="title">
                         {{ sitterData?.listing?.title }}
@@ -83,8 +79,7 @@
                 <div *ngIf="sitterData?.badges.length > 0" class="item-list rounded">
                     <div class="item" *ngFor="let aminities of sitterData?.badges">
                         <div (click)="badgeInfo(aminities.imageName,aminities.name)" class="label-image">
-                            <ion-thumbnail slot="center"><img
-                                    src="https://cdn.petcloud.com.au{{aminities?.imageName}}">
+                            <ion-thumbnail slot="center"><img src="https://cdn.petcloud.com.au{{aminities?.imageName}}">
                             </ion-thumbnail>
                         </div>
                         <!-- <p class="title">{{aminities?.name}}</p> -->
@@ -99,7 +94,8 @@
                 <ion-col>
                     <p>Response Rate: <span class="counts">{{this.repeat_rate}}%</span></p>
                     <p>Cancellations: <span class="counts"> {{ cancelledBookings <= 2 ? '0' : cancelledBookings }}
-                        </span></p>
+                                </span>
+                    </p>
 
 
                 </ion-col>
@@ -107,13 +103,13 @@
 
             <ion-row class="user-feature ion-justify-content-start">
                 <ion-col>
-                    <p>Repeat Booking <span class="counts"> 
-                        <span *ngIf="totalBookings == 0">{{repeat_client}}</span>
-                        <span *ngIf="totalBookings > 0 && totalBookings < 5">Medium</span>
-                        <span  *ngIf="totalBookings > 0 && totalBookings >= 5">High</span> </span></p>
+                    <p>Repeat Booking <span class="counts">
+                            <span *ngIf="totalBookings == 0">{{repeat_client}}</span>
+                            <span *ngIf="totalBookings > 0 && totalBookings < 5">Medium</span>
+                            <span *ngIf="totalBookings > 0 && totalBookings >= 5">High</span> </span></p>
                 </ion-col>
-                <ion-col  *ngIf="totalBookings >= 10">
-                    <p><span  class="counts">Super Host</span></p>
+                <ion-col *ngIf="totalBookings >= 10">
+                    <p><span class="counts">Super Host</span></p>
                 </ion-col>
             </ion-row>
 
@@ -121,7 +117,8 @@
             <ion-grid>
                 <ion-row>
                     <ion-col class="ion-no-padding">
-                        <ion-segment scrollable [(ngModel)]="selectedSegment" color="segment-theme" class="custom-segment">
+                        <ion-segment scrollable [(ngModel)]="selectedSegment" color="segment-theme"
+                            class="custom-segment">
                             <ion-segment-button value="info">Info</ion-segment-button>
                             <ion-segment-button value="review">Reviews</ion-segment-button>
                             <ion-segment-button value="availa">Availability</ion-segment-button>
@@ -134,7 +131,8 @@
                     <div *ngSwitchCase="'info'">
                         <ion-row class="ion-justify-content-start">
                             <ion-col>
-                                <p (click)="reportListing(sitterData)" class="desc"  style="text-align: end;">Report this listing </p>
+                                <p (click)="reportListing(sitterData)" class="desc" style="text-align: end;">Report this
+                                    listing </p>
                                 <h4 class="sub-heading">About</h4>
                                 <p class="desc">
                                     {{sitterData?.space?.description}}
@@ -142,69 +140,75 @@
                             </ion-col>
                         </ion-row>
                         <hr class="height-10">
-                        <ion-row  class="ion-justify-content-start">
+                        <ion-row class="ion-justify-content-start">
                             <ion-col>
                                 <h4 class="sub-heading">Recurring Service Plans</h4>
 
                                 <ion-card class="note-card" color="note">
-                
-                                    <ion-card-content >
-                                        Prices are itemised per session below. Note: We don’t offer Once-off Day Care or Walking bookings to guarantee placement for pets who need weekly service.
+
+                                    <ion-card-content>
+                                        Prices are itemised per session below. Note: We don’t offer Once-off Day Care or
+                                        Walking bookings to guarantee placement for pets who need weekly service.
                                     </ion-card-content>
                                 </ion-card>
-                                    <ion-row class="ion-justify-content-start" *ngFor="let servs of sitterProfile?.new_services.group_services">
-                                        <ion-col>
-                                            <h4 class="sub-heading">{{servs.name}}</h4>
-                                            
-                                            <ul class="service-list">
-                                                <ng-container *ngFor="let prRule of servs.data">
-                                                    <li >
-                                                        <p>{{prRule?.serviceType?.serviceName}}</p>
-                                                        <p><strong>${{prRule?.petPrice[0].price}}</strong></p>
-                                                    </li>
-                                                </ng-container>
-                
-                                            </ul>
-                                        </ion-col>
-                                    </ion-row>
-                                    <ion-row class="ion-justify-content-start" *ngFor="let servs of sitterProfile?.new_services.normal_services">
-                                        <ion-col>
-                                            <h4 class="sub-heading">{{servs?.serviceType?.serviceName}}</h4>
-                                            
-                                            <ul class="service-list">
-                                                <ng-container *ngFor="let prRule of servs?.petPrice">
-                                                    <li *ngIf="prRule?.price > 0">
-                                                        <p>{{prRule?.petName}}</p>
-                                                        <p><strong>${{prRule?.price}}</strong></p>
-                                                    </li>
-                                                </ng-container>
-                
-                                            </ul>
-                                        </ion-col>
-                                    </ion-row>
-                                    <ion-row class="ion-justify-content-start">
+                                <ion-row class="ion-justify-content-start"
+                                    *ngFor="let servs of sitterProfile?.new_services.group_services">
+                                    <ion-col>
+                                        <h4 class="sub-heading">{{servs.name}}</h4>
+
+                                        <ul class="service-list">
+                                            <ng-container *ngFor="let prRule of servs.data">
+                                                <li>
+                                                    <p>{{prRule?.serviceType?.serviceName}}</p>
+                                                    <p><strong>${{prRule?.petPrice[0].price}}</strong></p>
+                                                </li>
+                                            </ng-container>
+
+                                        </ul>
+                                    </ion-col>
                                 </ion-row>
-                                    <ion-row class="ion-justify-content-start" *ngFor="let servs of sitterProfile?.new_services.secondary_services">
-                                        <ion-col>
-                                            <h4 class="sub-heading">Pet Sitting Extras</h4>
-                                            <ul class="service-list">
-                                                
-                                                    <li >
-                                                        <p>{{servs?.serviceType?.serviceName}}</p>
-                                                        <p><strong>${{servs.petPrice[0].price}}</strong></p>
-                                                    </li>
-                                            </ul>
-                                        </ion-col>
-                                    </ion-row>
+                                <ion-row class="ion-justify-content-start"
+                                    *ngFor="let servs of sitterProfile?.new_services.normal_services">
+                                    <ion-col>
+                                        <h4 class="sub-heading">{{servs?.serviceType?.serviceName}}</h4>
+
+                                        <ul class="service-list">
+                                            <ng-container *ngFor="let prRule of servs?.petPrice">
+                                                <li *ngIf="prRule?.price > 0">
+                                                    <p>{{prRule?.petName}}</p>
+                                                    <p><strong>${{prRule?.price}}</strong></p>
+                                                </li>
+                                            </ng-container>
+
+                                        </ul>
+                                    </ion-col>
+                                </ion-row>
+                                <ion-row class="ion-justify-content-start">
+                                </ion-row>
+                                <ion-row class="ion-justify-content-start"
+                                    *ngFor="let servs of sitterProfile?.new_services.secondary_services">
+                                    <ion-col>
+                                        <h4 class="sub-heading">Pet Sitting Extras</h4>
+                                        <ul class="service-list">
+
+                                            <li>
+                                                <p>{{servs?.serviceType?.serviceName}}</p>
+                                                <p><strong>${{servs.petPrice[0].price}}</strong></p>
+                                            </li>
+                                        </ul>
+                                    </ion-col>
+                                </ion-row>
                             </ion-col>
                         </ion-row>
                         <hr class="height-10">
-    
-                        <ion-row *ngIf="listing?.sits_dogs != '0'  || listing?.sits_cats != '0' || listing?.sits_horses != '0' || listing?.sits_horses != '0'" class="ion-justify-content-start">
+
+                        <ion-row
+                            *ngIf="listing?.sits_dogs != '0'  || listing?.sits_cats != '0' || listing?.sits_horses != '0' || listing?.sits_horses != '0'"
+                            class="ion-justify-content-start">
                             <ion-col>
                                 <h4 class="sub-heading">Pet Types I mind </h4>
                                 <div class="item-list">
-                                 
+
                                     <div class="item" *ngIf="listing?.sits_dogs == '1'">
                                         <div class="item-inner">
                                             <img src="assets/icon/dog.svg" alt="">
@@ -235,9 +239,9 @@
                                 </div>
                             </ion-col>
                         </ion-row>
-    
+
                         <hr *ngIf="petBreed.length> 0" class="height-10">
-    
+
                         <ion-row *ngIf="petBreed.length> 0" class="ion-justify-content-start bread-type">
                             <ion-col>
                                 <h4 class="sub-heading">Lives with (Breed Type)</h4>
@@ -252,42 +256,42 @@
                         </ion-row>
                         <hr class="height-10">
 
-                        <ion-row  class="ion-justify-content-start">
+                        <ion-row class="ion-justify-content-start">
                             <ion-col>
                                 <h4 class="sub-heading">Preferences</h4>
                                 <div class="item-list preferences-list">
-                                    <div class="item"  *ngFor="let hostingPref of sitterProfile?.hosting_preferences" >
+                                    <div class="item" *ngFor="let hostingPref of sitterProfile?.hosting_preferences">
                                         <div class="item-inner">
-                                            <img  *ngIf="hostingPref?.label == 'Small Dog (0-10kg)'" 
-                                            [ngStyle]="hostingPref?.value == '0' && {'opacity': '0.5'}"
-                                            src="../../assets/icon/sml_dogs.svg" alt="">
+                                            <img *ngIf="hostingPref?.label == 'Small Dog (0-10kg)'"
+                                                [ngStyle]="hostingPref?.value == '0' && {'opacity': '0.5'}"
+                                                src="../../assets/icon/sml_dogs.svg" alt="">
                                             <img *ngIf="hostingPref?.label == 'Medium Dog (11-29kg)'"
-                                            [ngStyle]="hostingPref?.value == '0' && {'opacity': '0.5'}"
-                                            src="../../assets/icon/med_dogs.svg" alt="">
+                                                [ngStyle]="hostingPref?.value == '0' && {'opacity': '0.5'}"
+                                                src="../../assets/icon/med_dogs.svg" alt="">
                                             <img *ngIf="hostingPref?.label == 'LargeDog (21-40kg)'"
-                                            [ngStyle]="hostingPref?.value == '0' && {'opacity': '0.5'}"
-                                            src="../../assets/icon/lrg_dogs.svg" alt="">
-                                            <img *ngIf="hostingPref?.label == 'Giant Dog (41+kg)'" 
-                                            [ngStyle]="hostingPref?.value == '0' && {'opacity': '0.5'}"
-                                            src="../../assets/icon/gnt_dogs.svg" alt="">
-                                            <p > {{hostingPref?.label}}</p>
+                                                [ngStyle]="hostingPref?.value == '0' && {'opacity': '0.5'}"
+                                                src="../../assets/icon/lrg_dogs.svg" alt="">
+                                            <img *ngIf="hostingPref?.label == 'Giant Dog (41+kg)'"
+                                                [ngStyle]="hostingPref?.value == '0' && {'opacity': '0.5'}"
+                                                src="../../assets/icon/gnt_dogs.svg" alt="">
+                                            <p> {{hostingPref?.label}}</p>
                                         </div>
                                     </div>
                                 </div>
                             </ion-col>
-                    </ion-row>
+                        </ion-row>
                         <ion-row class="ion-justify-content-between">
                             <ion-col>
-                                <div  class="detail-list">
-                                  
-                                    
+                                <div class="detail-list">
+
+
 
 
                                     <div *ngIf="sitterProfile?.additional_preferences?.label != ''" class="detail-item">
                                         <div class="detail-label">Additional Preferences</div>
                                         <div class="content">{{sitterProfile?.additional_preferences?.label}}</div>
                                     </div>
-                            
+
                                 </div>
                             </ion-col>
                         </ion-row>
@@ -301,13 +305,14 @@
                                         <div class="detail-label">Experience Looking After Pets</div>
                                         <div class="content">{{sitterData?.experienceYears}} Years</div>
                                     </div>
-                                  
+
                                     <div *ngIf="sitterData?.qualifications != ''" class="detail-item">
                                         <div class="detail-label">Qualifications</div>
                                         <div class="content">{{sitterData?.qualifications}}</div>
                                     </div>
 
-                                    <div *ngIf="sitterProfile?.petsBreed.length > 0" class="detail-item icon-details czMargin">
+                                    <div *ngIf="sitterProfile?.petsBreed.length > 0"
+                                        class="detail-item icon-details czMargin">
                                         <h4 class="detail-label">Specific Breeds</h4>
                                         <div class="big-content">
                                             <div class="item" *ngFor="let petBreed of sitterProfile?.petsBreed">
@@ -317,16 +322,14 @@
                                         </div>
                                     </div>
 
-                                    <div *ngIf="sitterProfile?.specialskills.length > 0" class="detail-item icon-details">
+                                    <div *ngIf="sitterProfile?.specialskills.length > 0"
+                                        class="detail-item icon-details">
                                         <h4 class="detail-label">Special Skills</h4>
                                         <div class="big-content">
                                             <div class="item" *ngFor="let splSkill of sitterProfile?.specialskills">
-                                                <ion-img 
-                                                style="height: 24px;
+                                                <ion-img style="height: 24px;
                                                 width: 24px;
-                                                margin-right: 10px;"
-                                                type="image/svg+xml"
-                                                        [src]="splSkill?.image">
+                                                margin-right: 10px;" type="image/svg+xml" [src]="splSkill?.image">
                                                 </ion-img>
                                                 <!-- <img src="splSkill?.image" alt=""> -->
                                                 <h5>{{splSkill?.name}}</h5>
@@ -342,7 +345,7 @@
                                 </div>
                             </ion-col>
                         </ion-row>
-                       
+
                         <hr class="height-10">
                         <ion-row class="ion-justify-content-start">
                             <ion-col>
@@ -366,7 +369,8 @@
                                     </div>
                                     <div class="detail-item">
                                         <div class="detail-label">Children at Location</div>
-                                        <div class="content">{{sitterData?.space?.children_location == 'Y' ? 'Yes' : 'No'}}
+                                        <div class="content">{{sitterData?.space?.children_location == 'Y' ? 'Yes' :
+                                            'No'}}
                                         </div>
                                     </div>
 
@@ -394,7 +398,8 @@
                                     </div>
                                     <div class="detail-item">
                                         <div class="detail-label">Access to Car in Emergency</div>
-                                        <div class="content">{{sitterData?.listing?.emergency_car == '1' ? 'Yes' : 'No'}}
+                                        <div class="content">{{sitterData?.listing?.emergency_car == '1' ? 'Yes' :
+                                            'No'}}
                                         </div>
                                     </div>
                                 </div>
@@ -402,20 +407,22 @@
                         </ion-row>
 
                         <hr class="height-10">
-    
+
                         <ion-row class="ion-justify-content-start">
                             <ion-col>
-                                <h4 class="sub-heading ion-text-nowrap"><span class="labelPinkH4">PetCloud</span>Cover</h4>
+                                <h4 class="sub-heading ion-text-nowrap"><span class="labelPinkH4">PetCloud</span>Cover
+                                </h4>
                             </ion-col>
                         </ion-row>
                         <ion-row>
                             <ion-col class="desc">
-                                Every booking includes protection from large Emergency Vet bills in the event of a Pet Accident or Illness. <a (click)="displayPetCoverDetail()">Learn more</a>
+                                Every booking includes protection from large Emergency Vet bills in the event of a Pet
+                                Accident or Illness. <a (click)="displayPetCoverDetail()">Learn more</a>
                             </ion-col>
                         </ion-row>
 
                         <hr class="height-10">
-    
+
                         <ion-row class="ion-justify-content-start">
                             <ion-col>
                                 <h4 class="sub-heading ion-text-nowrap">Sitter's Refund Policy</h4>
@@ -423,7 +430,9 @@
                             <ion-col class="ion-text-end">
                                 <a (click)="displayPolicyDetail((sitterData?.listing?.cancellation_policy == '0') ? 'Strict' : (sitterData?.listing?.cancellation_policy == '1') ? 'Flexible' : 'Moderate' )"
                                     class="link-contrast text-underline">
-                                    <small>{{ (sitterData?.listing?.cancellation_policy == '0') ? 'Strict' : (sitterData?.listing?.cancellation_policy == '1') ? 'Flexible' : 'Moderate' }}</small>
+                                    <small>{{ (sitterData?.listing?.cancellation_policy == '0') ? 'Strict' :
+                                        (sitterData?.listing?.cancellation_policy == '1') ? 'Flexible' : 'Moderate'
+                                        }}</small>
                                 </a>
                             </ion-col>
                         </ion-row>
@@ -432,29 +441,32 @@
                         <ion-row class="ion-justify-content-start">
                             <ion-col>
                                 <h4 class="sub-heading">Review</h4>
-     
+
                                 <p *ngIf="reviews.length == 0"> No Reviews yet</p>
-                                
+
                                 <ion-list>
                                     <ion-item *ngFor="let review of reviews" no-padding>
                                         <div class="review-item">
                                             <div class="review-profile">
-                                                <img src="{{review?.owner?.imagename}}" alt="{{review?.owner?.first_name}}">
+                                                <img src="{{review?.owner?.imagename}}"
+                                                    alt="{{review?.owner?.first_name}}">
                                                 <h4 class="review-user">{{review?.owner?.first_name}}</h4>
                                             </div>
                                             <div class="review-info">
                                                 <span class="date">{{review?.createdate}} {{review?.references}} </span>
                                                 <div class="review-count">
-                                                   
+
                                                     <span class="radings-custom">
                                                         <ng-container *ngIf="review?.references != 'References'">
-                                                                <ion-img *ngFor="let s of convertNumberToArray(5); let i = index" 
+                                                            <ion-img
+                                                                *ngFor="let s of convertNumberToArray(5); let i = index"
                                                                 [src]="(i <= review?.rate - 1) ?
-                                                            '../../assets/icon/star-rating.svg': '../../assets/icon/star-rating-blank.svg'" > </ion-img>
+                                                            '../../assets/icon/star-rating.svg': '../../assets/icon/star-rating-blank.svg'">
+                                                            </ion-img>
                                                         </ng-container>
-                                                      </span>
-                                                    </div>
-                                                <div  class="review-content">
+                                                    </span>
+                                                </div>
+                                                <div class="review-content">
                                                     <span class="fs-12">{{review?.message}}</span>
                                                 </div>
                                             </div>
@@ -464,7 +476,7 @@
                             </ion-col>
                         </ion-row>
                     </div>
-    
+
                     <div *ngSwitchCase="'pastClients'">
                         <ion-row class="ion-justify-content-start">
                             <ion-col>
@@ -485,7 +497,7 @@
                             </ion-col>
                         </ion-row>
                     </div>
-    
+
                     <div *ngSwitchCase="'myPets'">
 
                         <ion-row *ngIf="petList.length == 0" class="ion-justify-content-start">
@@ -501,7 +513,7 @@
                                     <ion-item *ngFor="let pl of petList" no-padding>
                                         <div class="review-item">
                                             <div class="review-profile">
-    
+
                                                 <ion-img [src]="pl.imagename == null || pl.imagename == '' ? 
                                 'https://dev.petcloud.com.au/img/pet_placeholder.png' 
                                 : pl.imagename"></ion-img>
@@ -513,26 +525,27 @@
                             </ion-col>
                         </ion-row>
                     </div>
-    
-    
+
+
                     <div *ngSwitchCase="'services'">
-                        <ng-container *ngIf="sitterData?.primaryServices?.length <= 0 && sitterData?.secondaryServices?.length <= 0">
-                            <ion-row  class="ion-justify-content-start">
+                        <ng-container
+                            *ngIf="sitterData?.primaryServices?.length <= 0 && sitterData?.secondaryServices?.length <= 0">
+                            <ion-row class="ion-justify-content-start">
                                 <ion-col>
                                     <h6 class="ion-text-capitalize">No Services Available</h6>
                                 </ion-col>
                             </ion-row>
                         </ng-container>
 
-                        <ng-container *ngIf="sitterData?.primaryServices?.length > 0 || sitterData?.secondaryServices?.length > 0">
-                            <ion-row class="ion-justify-content-start" *ngFor="let servs of sitterData?.primaryServices">
+                        <ng-container
+                            *ngIf="sitterData?.primaryServices?.length > 0 || sitterData?.secondaryServices?.length > 0">
+                            <ion-row class="ion-justify-content-start"
+                                *ngFor="let servs of sitterData?.primaryServices">
                                 <ion-col>
                                     <h4 class="sub-heading">{{servs?.serviceType?.serviceName}}</h4>
                                     <ng-container *ngIf="servs?.serviceType?.label != ''">
-                                        <p
-                                        style="font-size: 12px;
-                                        text-transform: capitalize;"
-                                        >{{servs?.serviceType?.label}}</p>
+                                        <p style="font-size: 12px;
+                                        text-transform: capitalize;">{{servs?.serviceType?.label}}</p>
                                     </ng-container>
                                     <ul class="service-list">
                                         <ng-container *ngFor="let prRule of servs?.petPrice">
@@ -541,11 +554,12 @@
                                                 <p><strong>${{prRule?.price}}</strong></p>
                                             </li>
                                         </ng-container>
-        
+
                                     </ul>
                                 </ion-col>
                             </ion-row>
-                            <ion-row class="ion-justify-content-start" *ngFor="let servs of sitterData?.secondaryServices">
+                            <ion-row class="ion-justify-content-start"
+                                *ngFor="let servs of sitterData?.secondaryServices">
                                 <ion-col>
                                     <h4 class="sub-heading">{{servs?.serviceType?.serviceName}}</h4>
                                     <ul class="service-list">
@@ -559,36 +573,36 @@
                                 </ion-col>
                             </ion-row>
                         </ng-container>
-                      
+
                     </div>
                     <div *ngSwitchCase="'availa'">
                         <ion-calendar [(ngModel)]="selectedDays" [options]="calendarOption" [type]="type"
                             [format]="'YYYY-MM-DD'" disabled>
-    
+
                         </ion-calendar>
                         <div class="calendar-info">
                             <div class="symbol"></div>
                             <div class="msg">Today</div>
                         </div>
-    
+
                         <div class="calendar-info">
                             <div class="symbol-available"></div>
                             <div class="msg">Available</div>
                         </div>
-    
+
                         <div class="calendar-info">
                             <div class="symbol-limited"></div>
                             <div class="msg">Limited</div>
                         </div>
-    
+
                         <div class="calendar-info">
                             <div class="symbol-unavailable"></div>
                             <div class="msg">Unavailable</div>
                         </div>
-    
+
                     </div>
-    
-    
+
+
                 </div>
             </ion-grid>
         </div>
@@ -596,12 +610,8 @@
 </ion-content>
 
 <ion-footer class="ion-no-border" *ngIf="isAPILoaded && isCurrentUser == false">
-    <ion-button 
-        class="text-capitalize fls-0 fs-18 footer-btn"
-        expand="full"
-        color="theme"
-        (click)="checkAvailability()"
-    >
+    <ion-button class="text-capitalize fls-0 fs-18 footer-btn" expand="full" color="theme"
+        (click)="checkAvailability()">
         Send an Instant Message
     </ion-button>
 </ion-footer>

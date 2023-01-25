@@ -77,71 +77,71 @@ export class BookingCostComponent implements OnInit {
 
         if (this.shareNumber && this.termsAccpted) {
             this.storage.get('BookingRequestForm')
-            .then((bookingForm: any) => {
+                .then((bookingForm: any) => {
 
-                let endDate = bookingForm['end_date'];
-                endDate == "" || null || undefined ? "" : this.datepipe.transform(new Date(Date.parse(bookingForm['end_date'])), 'EEE d MMM y')
-                bookingForm['start_date'] = this.datepipe.transform(new Date(Date.parse(bookingForm['start_date'])), 'EEE d MMM y');
-                bookingForm['end_date'] = endDate;
-                bookingForm['couponCode'] = this.coupneCode;
-                bookingForm['donationagree'] = this.isRSPCADonationChecked ? 1 : 0;
-                bookingForm['donationamount'] = this.isRSPCADonationChecked ?  1 : "";
-               
-                const BookingForm = {
-                    'BookingRequestForm': bookingForm,
-                    'share-number': 1,
-                };
-                this.sendBookingInquiryButton = true
-                // send booking request
+                    let endDate = bookingForm['end_date'];
+                    endDate == "" || null || undefined ? "" : this.datepipe.transform(new Date(Date.parse(bookingForm['end_date'])), 'EEE d MMM y')
+                    bookingForm['start_date'] = this.datepipe.transform(new Date(Date.parse(bookingForm['start_date'])), 'EEE d MMM y');
+                    bookingForm['end_date'] = endDate;
+                    bookingForm['couponCode'] = this.coupneCode;
+                    bookingForm['donationagree'] = this.isRSPCADonationChecked ? 1 : 0;
+                    bookingForm['donationamount'] = this.isRSPCADonationChecked ? 1 : "";
 
-                this.api.showLoader();
-                this.api.sendBookingRequestForm(BookingForm).pipe(finalize(() => {
-                    // hide loader in success
-                    this.api.hideLoader();
-                })).subscribe(async (res: any) => {
-                    if (res.success) {
-                      
-                          const booking = {
-                            af_booking_status:"P",
-                            af_booking_id:res.bookingId,
-                            af_minder_id:bookingForm.minderid,
-                            af_owner_id: this.appsFlyerAnalytics.userid,
-                            af_potentional_revenue:"",
-                            af_actual_revenue:"",
-                          }
+                    const BookingForm = {
+                        'BookingRequestForm': bookingForm,
+                        'share-number': 1,
+                    };
+                    this.sendBookingInquiryButton = true
+                    // send booking request
 
-                          this.appsFlyerAnalytics.bookingEvent(booking);
-                        
-                        await this.storage.get(PetcloudApiService.USER).then(async (user: User) => {
-                            this.analytics.logEvent(PetcloudApiService.direct_inquiry, { userId: user.id });
-                        })
+                    this.api.showLoader();
+                    this.api.sendBookingRequestForm(BookingForm).pipe(finalize(() => {
+                        // hide loader in success
+                        this.api.hideLoader();
+                    })).subscribe(async (res: any) => {
+                        if (res.success) {
 
-                        this.api.showToast('Request sent successfully', 2000, 'bottom');
-                        this.storage.set('bookingId', res.bookingId);
-                        console.log('response from', res);
+                            const booking = {
+                                af_booking_status: "P",
+                                af_booking_id: res.bookingId,
+                                af_minder_id: bookingForm.minderid,
+                                af_owner_id: this.appsFlyerAnalytics.userid,
+                                af_potentional_revenue: "",
+                                af_actual_revenue: "",
+                            }
 
-                        if (this.userData.app_review == 0) {
-                            this.appRating();
+                            this.appsFlyerAnalytics.bookingEvent(booking);
+
+                            await this.storage.get(PetcloudApiService.USER).then(async (user: User) => {
+                                this.analytics.logEvent(PetcloudApiService.direct_inquiry, { userId: user.id });
+                            })
+
+                            this.api.showToast('Request sent successfully', 2000, 'bottom');
+                            this.storage.set('bookingId', res.bookingId);
+                            console.log('response from', res);
+
+                            if (this.userData.app_review == 0) {
+                                this.appRating();
+                            } else {
+                                this.router.navigateByUrl('/home/tabs/messages');
+                            }
+
                         } else {
-                            this.router.navigateByUrl('/home/tabs/messages');
+                            this.sendBookingInquiryButton = false;
+                            this.api.showToast('Request Booking Failed', 2000, 'bottom');
                         }
 
-                    } else {
-                        this.sendBookingInquiryButton = false;
-                        this.api.showToast('Request Booking Failed', 2000, 'bottom');
-                    }
 
-
-                }, (err: any) => {
-                    this.sendBookingInquiryButton = false
-                    this.api.showToast(err.message, 2000, 'bottom');
-                    this.api.autoLogout(err, BookingForm);
-                });
-            })
-        }else{
+                    }, (err: any) => {
+                        this.sendBookingInquiryButton = false
+                        this.api.showToast(err.message, 2000, 'bottom');
+                        this.api.autoLogout(err, BookingForm);
+                    });
+                })
+        } else {
             this.api.showToast('please select Share number and terms', 2000, 'bottom');
         }
-      
+
     }
 
     async appRating() {
@@ -179,7 +179,7 @@ export class BookingCostComponent implements OnInit {
                             this.api.autoLogout(err, appRate);
                         })
                     }
-                },{
+                }, {
                     text: 'Could improve',
                     role: 'cancel',
                     cssClass: 'secondary',
@@ -226,7 +226,7 @@ export class BookingCostComponent implements OnInit {
         this.api.sendEmailtoAccounts("support@petcloud.com.au", ["kirtan.p@shaligraminfotech.com"], "Pet Cloud app review", "")
     }
 
-    closeBottomDrawer(){
-       this.sendBookingRequestClick = false;
+    closeBottomDrawer() {
+        this.sendBookingRequestClick = false;
     }
 }

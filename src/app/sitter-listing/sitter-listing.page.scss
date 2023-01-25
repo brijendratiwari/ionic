@@ -450,3 +450,22 @@ back-arrow {
   padding: 10px;
   border-radius: 4px;
 }
+.reviews {
+  margin-left: 4px;
+  font-weight: 400;
+  font-size: 12px;
+  color: #888;
+}
+.client-updated {
+  p {
+    color: #52c4be;
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+  span.repeat-client {
+    background: #f1f4f9;
+    padding: 3px 10px;
+    font-size: 12px;
+    width: 100%;
+  }
+}
