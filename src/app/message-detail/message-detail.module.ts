@@ -13,7 +13,6 @@ import { AlterBookingCostComponent } from '../alter-booking-cost/alter-booking-c
 import { MeetngreetNotSoGreatComponent } from '../meetngreet-not-so-great/meetngreet-not-so-great.component';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { AngularFireStorage } from '@angular/fire/storage';
-import { AppRate } from '@ionic-native/app-rate/ngx';
 import { WalletBookingCheckoutComponent } from '../wallet-booking-checkout/wallet-booking-checkout.component';
 import { BookingSuccessComponentComponent } from '../booking-success-component/booking-success-component.component';
 import { ModifyBookingComponent } from '../modify-booking/modify-booking.component';
@@ -60,7 +59,6 @@ const routes: Routes = [
     DatePicker,
     InAppBrowser,
     AngularFireStorage,
-    AppRate
   ],
   declarations: [
     MessageDetailPage,
@@ -76,6 +74,6 @@ const routes: Routes = [
     OwnerDeclineBookingComponent,
     AlterBookingCostComponent,
   ],
-  schemas:[NO_ERRORS_SCHEMA]
+  schemas: [NO_ERRORS_SCHEMA]
 })
-export class MessageDetailPageModule {}
+export class MessageDetailPageModule { }
