@@ -76,7 +76,7 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { RemoteChatScreenComponent } from './remote-chat-screen/remote-chat-screen.component';
 import { PreAcceptBookingComponent } from './components/pre-accept-booking/pre-accept-booking.component';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
-import { LaunchReview } from '@ionic-native/launch-review/ngx';
+// import { LaunchReview } from '@ionic-native/launch-review/ngx';
 const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
 
 @NgModule({
@@ -157,7 +157,7 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
     StatusBar,
     Deeplinks,
     // SmsRetriever,
-    LaunchReview,
+    // LaunchReview,
     RlTagInputModule,
     IonicRatingModule,
     SplashScreen,
