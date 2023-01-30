@@ -46,6 +46,7 @@
     "@ionic-native/google-plus": "^5.36.0",
     "@ionic-native/in-app-browser": "^5.36.0",
     "@ionic-native/ionic-webview": "^5.36.0",
+    "@ionic-native/launch-review": "^5.36.0",
     "@ionic-native/location-accuracy": "^5.36.0",
     "@ionic-native/market": "^5.36.0",
     "@ionic-native/media-capture": "^5.36.0",
@@ -104,11 +105,11 @@
     "call-number": "^1.0.1",
     "cordova-clipboard": "^1.3.0",
     "cordova-ios": "^6.2.0",
+    "cordova-launch-review": "^4.0.1",
     "cordova-plugin-actionsheet": "^2.3.3",
     "cordova-plugin-android-permissions": "^1.1.3",
     "cordova-plugin-androidx": "^3.0.0",
     "cordova-plugin-androidx-adapter": "^1.1.3",
-    "cordova-plugin-app-review": "^3.1.0",
     "cordova-plugin-app-version": "^0.1.14",
     "cordova-plugin-applepay": "^5.0.0",
     "cordova-plugin-appsflyer-sdk": "^6.5.2",
@@ -288,8 +289,8 @@
       "cordova-plugin-apprate": {
         "PLAY_CORE_VERSION": "1.+"
       },
-      "cordova-plugin-app-review": {
-        "ANDROID_PLAY_REVIEW_VERSION": "2.0.+"
+      "cordova-launch-review": {
+        "ANDROID_PLAY_SERVICES_CORE_VERSION": "1.8.0"
       }
     },
     "platforms": [
