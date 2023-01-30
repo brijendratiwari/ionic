@@ -117,7 +117,7 @@ export class AppComponent {
       this.statusBar.styleLightContent();
       this.statusBar.backgroundColorByHexString('#fe4164');
       this.splashScreen.hide();
-      this.appRating();
+      // this.appRating();
       this.setupDeeplinks();
       // this.getStripeVerifiedData();
       //Called only on resume
@@ -252,7 +252,8 @@ export class AppComponent {
   requestRating() {
     var packageurl;
     if (this.plt.is("ios")) {
-      packageurl = "id1539909889"
+      // packageurl = "id1539909889"
+      packageurl ='1539909889'
     } else {
       packageurl = "com.petcloud.petcloud"
     }
@@ -299,7 +300,6 @@ export class AppComponent {
 
   async getUserDetails() {
     console.log('get user details function');
-
     this.usersEvent.subscribe('user', async (data: any) => {
       console.log('usersEvent data', data);
       if (data != null) {
