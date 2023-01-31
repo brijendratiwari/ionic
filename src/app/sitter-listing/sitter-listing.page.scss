@@ -101,6 +101,10 @@ ion-header {
         color: #fe4164;
         text-transform: capitalize;
         font-weight: 600;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 110px;
+        overflow: hidden;
       }
       .amount {
         font-size: 12px;
@@ -457,15 +461,35 @@ back-arrow {
   color: #888;
 }
 .client-updated {
-  p {
+  .repeat {
     color: #52c4be;
     font-size: 12px;
-    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+    ion-img {
+      width: 15px;
+      display: inline-block;
+      margin-right: 4px;
+    }
+    @media screen and (max-width: 370px) {
+      font-size: 10px;
+    }
+  }
+  p.job-completed {
+    font-size: 12px;
+    margin-bottom: 5px;
+    & + .repeat-client {
+      margin-top: 0px;
+    }
   }
   span.repeat-client {
-    background: #f1f4f9;
     padding: 3px 10px;
     font-size: 12px;
-    width: 100%;
+    margin-top: 8px;
+    display: inline-block;
+    border: 1px solid #52c4bf;
+    color: #52c4be;
+    border-radius: 3px;
   }
 }

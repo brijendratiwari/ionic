@@ -88,26 +88,15 @@
                 </div>
 
 
-                <div class="action">
+                <!-- <div class="action">
                     <p class="clients">Repeat Bookings:
                         <span *ngIf="sitter?.totalBookings == 0 ">{{sitter?.totalBookings}}</span>
                         <span *ngIf="sitter?.totalBookings > 0 &&  sitter?.totalBookings <= 4">Medium</span>
                         <span *ngIf="sitter?.totalBookings >= 5">High</span>
 
                     </p>
-                    <!-- <div class="action-btn">
-                                <div (click)="socialShare(sitter.socialListingLink)" class="liked share">
-                                    <ion-img type="image/png" src="../../assets/icon/network.png" class="custom-icon">
-                                    </ion-img>
-                                </div>
-                                <div (click)="sitter?.isFavourite == true ? updateFaviourateUnfaviourate(sitter) : updateFaviourateUnfaviourate(sitter)"
-                                    class="liked">
-                                    <ion-img type="image/svg+xml"
-                                        [src]="sitter?.isFavourite == true ? '../../assets/icon/heartfill.svg': '../../assets/icon/heartpinkbold.svg'"
-                                        class="custom-icon"></ion-img>
-                                </div>
-                            </div> -->
-                </div>
+             
+                </div> -->
                 <div class="stats">
                     <p [routerLink]="['/pet-sitter-detail',sitter.id]" class="radings-custom">
                         <ion-img *ngFor="let s of convertNumberToArray(5); let i = index" [src]="(i <= sitter?.rating - 1) ?
@@ -121,7 +110,9 @@
 
                 </div>
                 <div class="client-updated">
-                    <p *ngIf="sitter?.calender_updated == 1">Calendar Recently Updated</p>
+                    <p class="repeat"> <ion-img src="assets/icon/calendar-repeat.svg"></ion-img>Calendar Recently
+                        Updated</p>
+                    <p class="job-completed">41 Jobs Completed</p>
                     <span class="repeat-client" *ngIf="sitter?.repeatClient>0">{{sitter?.repeatClient}} repeat
                         clients</span>
                 </div>
