@@ -110,11 +110,18 @@
 
                 </div>
                 <div class="client-updated">
-                    <p class="repeat"> <ion-img src="assets/icon/calendar-repeat.svg"></ion-img>Calendar Recently
+                    <p class="repeat" *ngIf="sitter?.calender_updated == 1"> <ion-img
+                            src="assets/icon/calendar-repeat.svg"></ion-img>Calendar Recently
                         Updated</p>
-                    <p class="job-completed">41 Jobs Completed</p>
-                    <span class="repeat-client" *ngIf="sitter?.repeatClient>0">{{sitter?.repeatClient}} repeat
+                    <p class="job-completed" *ngIf="sitter?.completedBookings>0 && sitter?.completedBookings!= null">
+                        {{sitter?.completedBookings}}
+                        Jobs
+                        Completed</p>
+                    <span class="repeat-client" *ngIf="sitter?.repeatClient>1">{{sitter?.repeatClient}} repeat
                         clients</span>
+                    <span class="repeat-client"
+                        *ngIf="sitter?.repeatClient>0 && sitter?.repeatClient == 1">{{sitter?.repeatClient}} repeat
+                        client</span>
                 </div>
             </ion-card-content>
         </ion-card>

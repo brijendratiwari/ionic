@@ -456,9 +456,11 @@ back-arrow {
 }
 .reviews {
   margin-left: 4px;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 12px;
   color: #888;
+  position: relative;
+  top: 3px;
 }
 .client-updated {
   .repeat {
