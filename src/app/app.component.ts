@@ -115,7 +115,7 @@ export class AppComponent {
       this.statusBar.styleLightContent();
       this.statusBar.backgroundColorByHexString('#fe4164');
       this.splashScreen.hide();
-      this.appRating();
+      // this.appRating();
       this.setupDeeplinks();
       // this.getStripeVerifiedData();
       //Called only on resume
@@ -276,7 +276,7 @@ export class AppComponent {
             this.isVerified = false
           }
         }
-        if (this.isVerified) {
+        if (!this.isVerified) {
           this.showConfirm();
         }
       }, (err: any) => {
