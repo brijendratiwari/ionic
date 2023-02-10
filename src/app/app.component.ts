@@ -511,14 +511,14 @@ export class AppComponent {
   }
   showConfirm() {
     this.alertController.create({
-      header: 'Update Payout Information',
+      header: 'UPLOAD PHOTO ID',
       backdropDismiss: false,
       cssClass: 'verify-Btn',
       // subHeader: 'Beware lets confirm',
-      message: 'Valid and up to date bank account information is required so you can be paid for your bookings.<br> For increased account security, you may be required to re-verify your identity.',
+      message: 'Stripe requires you to take a photo of your Drivers License or Passport from your device and upload it onto their site as part of your approval to use their platform.',
       buttons: [
         {
-          text: 'Update my payout information',
+          text: 'Upload ID',
           handler: () => {
             this.alertController.dismiss()
             this.navCtrl.navigateForward(['/payout-prefrence'])
