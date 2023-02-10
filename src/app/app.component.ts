@@ -115,7 +115,7 @@ export class AppComponent {
       this.statusBar.styleLightContent();
       this.statusBar.backgroundColorByHexString('#fe4164');
       this.splashScreen.hide();
-      // this.appRating();
+      this.appRating();
       this.setupDeeplinks();
       // this.getStripeVerifiedData();
       //Called only on resume
@@ -540,5 +540,72 @@ export class AppComponent {
       res.present();
     });
   }
+  async appRating() {
+    const alert = await this.alertController.create({
+        header: 'Booking Request Sent!',
+        cssClass: 'booking-request-sent',
+        subHeader: 'What do you think of the PetCloud App?',
+        buttons: [
+            {
+                text: 'I love it!',
+                handler: async (data) => {
+                    this.confirmationRatingPopup()      
+                }
+            }, {
+                text: 'Could improve',
+                role: 'cancel',
+                cssClass: 'secondary',
+                handler: () => {
+                    // this.appSuggestionAlert();
+                }
+            }
+        ]
+    });
+    await alert.present();
+}
+async confirmationRatingPopup() {
+    const alert = await this.alertController.create({
+        subHeader: 'Could you please leave us a Rating on the Store?',
+        cssClass: 'booking-request-sent',
+        buttons: [
+            {
+                text: 'Ok!',
+                handler: (data) => {
+                    this.api.showLoader();
+                    const appRate = {
+                        status: 1
+                    }
 
+                    this.api.showLoader();
+                    this.api.rateAPP(appRate).subscribe(async (res: any) => {
+                        this.api.hideLoader();
+
+                        await this.storage.get(PetcloudApiService.USER).then(async (user: User) => {
+                            user.app_review = 1
+                            await this.storage.set(PetcloudApiService.USER, user);
+                        })
+
+                        if (this.platform.is("android")) {
+                            this.router.navigateByUrl('/home/tabs/messages');
+                            this.market.open('com.petcloud.petcloud');
+                        } else {
+                            this.router.navigateByUrl('/home/tabs/messages');
+                            this.market.open('id1539909889');
+                        }
+                    }, err => {
+                        this.api.autoLogout(err, appRate);
+                    })
+                }
+            }, {
+                text: 'Maybe Later',
+                role: 'cancel',
+                cssClass: 'secondary',
+                handler: () => {
+                    // this.router.navigateByUrl('/home/tabs/messages');
+                }
+            },
+        ]
+    });
+    await alert.present();
+}
 }

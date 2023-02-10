@@ -1749,39 +1749,60 @@ export class PostEnquiryComponent implements OnInit {
             }, {
                 text: 'I love it!',
                 handler: async (data) => {
-
-                    this.api.showLoader();
-                    const appRate = {
-                        status: 1
-                    }
-
-                    this.api.showLoader();
-                    this.api.rateAPP(appRate).subscribe(async (res: any) => {
-                        this.api.hideLoader();
-
-                        await this.storage.get(PetcloudApiService.USER).then(async (user: User) => {
-                            user.app_review = 1
-                            await this.storage.set(PetcloudApiService.USER, user);
-                        })
-
-                        if (this.platform.is("android")) {
-                          this.model.dismiss();
-                          this.router.navigateByUrl('/home/tabs/messages');
-                          this.market.open('com.petcloud.petcloud');
-                        } else {
-                          this.model.dismiss();
-                          this.router.navigateByUrl('/home/tabs/messages');
-                          this.market.open('id1539909889');
-                        }
-                    }, err => {
-                        this.api.autoLogout(err, appRate);
-                    })
+                  this.confirmationRatingPopup()     
                 }
             }
         ]
     });
     await alert.present();
   }
+  async confirmationRatingPopup() {
+    const alert = await this.alertController.create({
+        subHeader: 'Could you please leave us a Rating on the Store?',
+        cssClass: 'booking-request-sent',
+        buttons: [
+            {
+                text: 'Ok!',
+                handler: (data) => {
+                  this.api.showLoader();
+                  const appRate = {
+                      status: 1
+                  }
+
+                  this.api.showLoader();
+                  this.api.rateAPP(appRate).subscribe(async (res: any) => {
+                      this.api.hideLoader();
+
+                      await this.storage.get(PetcloudApiService.USER).then(async (user: User) => {
+                          user.app_review = 1
+                          await this.storage.set(PetcloudApiService.USER, user);
+                      })
+
+                      if (this.platform.is("android")) {
+                        this.model.dismiss();
+                        this.router.navigateByUrl('/home/tabs/messages');
+                        this.market.open('com.petcloud.petcloud');
+                      } else {
+                        this.model.dismiss();
+                        this.router.navigateByUrl('/home/tabs/messages');
+                        this.market.open('id1539909889');
+                      }
+                  }, err => {
+                      this.api.autoLogout(err, appRate);
+                  })
+                }
+            }, {
+                text: 'Maybe Later',
+                role: 'cancel',
+                cssClass: 'secondary',
+                handler: () => {
+                    // this.router.navigateByUrl('/home/tabs/messages');
+                }
+            },
+        ]
+    });
+    await alert.present();
+}
   async appSuggestionAlert() {
     const alert = await this.alertController.create({
         subHeader: 'Sorry, what can we do to improve?',

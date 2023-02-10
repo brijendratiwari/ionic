@@ -153,7 +153,28 @@ export class BookingCostComponent implements OnInit {
                 {
                     text: 'I love it!',
                     handler: async (data) => {
-
+                        this.confirmationRatingPopup()      
+                    }
+                }, {
+                    text: 'Could improve',
+                    role: 'cancel',
+                    cssClass: 'secondary',
+                    handler: () => {
+                        this.appSuggestionAlert();
+                    }
+                }
+            ]
+        });
+        await alert.present();
+    }
+    async confirmationRatingPopup() {
+        const alert = await this.alertController.create({
+            subHeader: 'Could you please leave us a Rating on the Store?',
+            cssClass: 'booking-request-sent',
+            buttons: [
+                {
+                    text: 'Ok!',
+                    handler: (data) => {
                         this.api.showLoader();
                         const appRate = {
                             status: 1
@@ -180,13 +201,13 @@ export class BookingCostComponent implements OnInit {
                         })
                     }
                 }, {
-                    text: 'Could improve',
+                    text: 'Maybe Later',
                     role: 'cancel',
                     cssClass: 'secondary',
                     handler: () => {
-                        this.appSuggestionAlert();
+                        // this.router.navigateByUrl('/home/tabs/messages');
                     }
-                }
+                },
             ]
         });
         await alert.present();
