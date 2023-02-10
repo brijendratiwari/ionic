@@ -45,6 +45,15 @@
           
         </array>
       </dict>
+      <dict>
+    <key>aps-environment</key>
+    <string>development</string>
+    <key>com.apple.developer.associated-domains</key>
+    <array>
+        <string>webcredentials:petcloud.com</string>
+           <string>applinks:petcloud.com</string>
+    </array>
+</dict>
     </array>
     <key>CFBundleVersion</key>
     <string>1</string>
