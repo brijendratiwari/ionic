@@ -266,11 +266,15 @@ export class AppComponent {
         this.api.hideLoader();
       }))
       .subscribe(async (apiRes: any) => {
-        console.log(apiRes)
-        if (apiRes.verification_flag == "verified" && apiRes.user.account) {
+        console.log(apiRes);
+        if (apiRes.user.user_type != 3 && apiRes.user.user_type != 2) {
           this.isVerified = true
         } else {
-          this.isVerified = false
+          if ((apiRes.verification_flag == "verified" && apiRes.user.account)) {
+            this.isVerified = true
+          } else {
+            this.isVerified = false
+          }
         }
         if (!this.isVerified) {
           this.showConfirm();
