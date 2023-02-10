@@ -276,7 +276,7 @@ export class AppComponent {
             this.isVerified = false
           }
         }
-        if (!this.isVerified) {
+        if (this.isVerified) {
           this.showConfirm();
         }
       }, (err: any) => {
