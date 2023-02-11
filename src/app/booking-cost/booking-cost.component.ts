@@ -168,8 +168,14 @@ export class BookingCostComponent implements OnInit {
         await alert.present();
     }
     async confirmationRatingPopup() {
+        var header;
+        if (this.platform.is("android")) {
+          header = 'Could you please leave us a Rating on the Play Store?'
+          } else {
+            header = 'Could you please leave us a Rating on the App Store?' 
+          }
         const alert = await this.alertController.create({
-            subHeader: 'Could you please leave us a Rating on the Store?',
+            subHeader: header,
             cssClass: 'booking-request-sent',
             buttons: [
                 {
