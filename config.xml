@@ -15,6 +15,7 @@
     <allow-intent href="geo:*" />
     <allow-navigation href="*" />
     <allow-navigation href="https://petcloud.com/*" />
+    <allow-navigation href="petcloud://petcloud.com/*" />
     <preference name="ScrollEnabled" value="false" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
@@ -145,9 +146,4 @@
         <splash height="828" src="resources/ios/splash/Default-Landscape-1792h~iphone.png" width="1792" />
     </platform>
     <plugin name="cordova-plugin-device" spec="2.0.2" />
-    <plugin name="ionic-plugin-deeplinks" spec="^1.0.24">
-        <variable name="URL_SCHEME" value="petcloud" />
-        <variable name="DEEPLINK_SCHEME" value="https" />
-        <variable name="DEEPLINK_HOST" value="petcloud.com" />
-    </plugin>
 </widget>

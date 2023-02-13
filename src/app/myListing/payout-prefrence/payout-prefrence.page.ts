@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { PetcloudApiService } from '../../api/petcloud-api.service';
-import { ModalController, NavParams } from '@ionic/angular';
+import { ModalController, NavParams, } from '@ionic/angular';
 import { Validators, FormBuilder, FormGroup, } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
@@ -339,8 +339,11 @@ export class PayoutPrefrencePage implements OnInit {
         });
     }
     connectStripe() {
+        var data = {
+            'platform': this.plt.is("ios") ? 'ios' : 'android'
+        }
         this.api.showLoader();
-        this.api.getConnectionStripe()
+        this.api.getConnectionStripe(data)
             .pipe(finalize(() => {
                 this.api.hideLoader();
             }))
