@@ -61,8 +61,6 @@
     <platform name="ios">
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
-        <preference name="scheme" value="app" />
-        <preference name="hostname" value="localhost" />
         <config-file parent="com.apple.developer.associated-domains" target="*-Debug.plist">
             <array>
                 <string>applinks:petcloud.com</string>
