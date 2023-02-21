@@ -1,0 +1,120 @@
+.checkout-heading {
+    font-size: 14px;
+    text-align: center;
+    color: var(--ion-color-step-600, #666666);
+    margin-bottom: 60px;
+}
+
+.info-list {
+    .info-item {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        padding: 10px 0px;
+        margin: 0px;
+        border-bottom: 1px solid #eeeeee;
+        .info-label {
+            h4 {
+                font-size: 12px;
+                color: #4a4a4a;
+                letter-spacing: 0;
+                line-height: 16px;
+                margin: 5px auto;
+            }
+            .days {
+                font-size: 14px;
+                color: #4a4a4a;
+                letter-spacing: 0;
+                font-style: italic;
+                line-height: 16px;
+            }
+        }
+        .service-label {
+            h4 {
+                font-size: 14px;
+                font-weight: 600;
+                color: #4a4a4a;
+                letter-spacing: 0;
+                line-height: 16px;
+                margin: 0px 0px 5px;
+            }
+            p {
+                font-size: 12px;
+                color: #4a4a4a;
+                letter-spacing: 0;
+                line-height: 16px;
+                margin: 0;
+            }
+        }
+        .info-desc p {
+            font-weight: 600;
+            font-size: 14px;
+            color: #4a4a4a;
+            letter-spacing: 0;
+            line-height: 16px;
+            margin: 0;
+            padding-left: 20px;
+            text-align: right;
+        }
+        &.info-column {
+            flex-direction: column;
+            justify-content: flex-start;
+        }
+        &.info-row {
+            justify-content: space-between;
+            align-items: center;
+            border: none;
+            padding: 5px 0px;
+        }
+    }
+
+    .elem {
+        position: relative;
+        min-width: 50px;
+    }
+
+    div#footer div.elem:first-child {
+        flex-grow: 1;
+    }
+    div#footer {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+    }
+}
+.table {
+    // padding:16px;
+    border-bottom: 1px solid #e0e0e0;
+    table {
+        width: 100%;
+
+        th,
+        td {
+            font-size: 12px;
+            text-align: left;
+            padding: 5px;
+            white-space: nowrap;
+
+            .total {
+                margin: 0;
+                text-align: right;
+                font-size: 14px;
+            }
+        }
+        tr {
+            th,
+            td {
+                &:last-child {
+                    text-align: right;
+                }
+            }
+            .service-name {
+                white-space: break-spaces;
+            }
+        }
+        th {
+            font-weight: 400;
+            color: #fe4164;
+        }
+    }
+}

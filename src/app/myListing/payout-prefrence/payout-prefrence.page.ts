@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { Storage } from '@ionic/storage';
 import { PetcloudApiService } from '../../api/petcloud-api.service';
 import { ModalController, NavParams, } from '@ionic/angular';
@@ -14,6 +14,7 @@ import { ApiResponse } from '../../model/api-response';
 import { User } from '../../model/user';
 import { ActionSheetController, NavController, Platform } from '@ionic/angular';
 import { CameraService } from '../../../app/camera-service.service';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-payout-prefrence',
@@ -21,6 +22,8 @@ import { CameraService } from '../../../app/camera-service.service';
     styleUrls: ['./payout-prefrence.page.scss'],
 })
 export class PayoutPrefrencePage implements OnInit {
+
+
     public isVerified: boolean
     public stripeFrm: FormGroup;
     public paypalFrm: FormGroup;
@@ -51,6 +54,7 @@ export class PayoutPrefrencePage implements OnInit {
     };
 
     constructor(
+        public http: HttpClient,
         public iab: InAppBrowser,
         public api: PetcloudApiService,
         private formBuilder: FormBuilder,
@@ -63,9 +67,7 @@ export class PayoutPrefrencePage implements OnInit {
         public route: ActivatedRoute,
         protected storage: Storage,
         public modalCtrl: ModalController) {
-
         this.backButton = this.route.snapshot.paramMap.get("backBtn");
-
         this.backButtonEvent();
     }
 

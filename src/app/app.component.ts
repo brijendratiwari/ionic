@@ -32,6 +32,7 @@ import { Instabug, BugReporting } from "instabug-cordova";
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 import { PayoutPrefrencePage } from './myListing/payout-prefrence/payout-prefrence.page';
+import { HttpHeaders } from '@angular/common/http';
 
 
 declare let cordova: any;
@@ -146,6 +147,36 @@ export class AppComponent {
         }
       });
     });
+    this.platform.resume.subscribe(async () => {
+      let paymentInProgress = localStorage.getItem('stripeSessionId');
+      if (paymentInProgress) {
+        let sessionId = paymentInProgress;
+        // Remove key for future launch
+        // Storage.remove({key: "paymentSessionID"});
+        console.log("========== NEED TO CHECK STATUS FOR PAYMENT")
+        const options = {
+          headers: new HttpHeaders({
+            'content-type': 'application/json',
+          })
+        };
+        let params = {
+          "sessionId": sessionId
+        }
+        console.log(params);
+        alert("dfdf,,,,,,,")
+        // this.http.post("https://app-e06ec9e7-b121-44fa-a383-54bbda3f9706.cleverapps.io/paymentCheckStatus/", params, options)
+        //   .subscribe(async res => {
+        //     console.log(res)
+        //     let status = res["status"]
+        //     if (status == "OK") {
+        //       // this.router.navigateByUrl("/payment-ok")
+        //     }
+        //     else {
+        //       // this.router.navigateByUrl("/payment-ko")
+        //     }
+        //   })
+      }
+    });
     this.navCntl.navigateForward('/home/tabs/sitter-listing');
   }
 
@@ -216,6 +247,7 @@ export class AppComponent {
     this.deeplinks.route({
       '/login': PayoutPrefrencePage,
       '/payout-prefrence': PayoutPrefrencePage,
+      '/wallet': PayoutPrefrencePage,
     }).subscribe((match) => {
       console.log("match", match)
       if (match.$link.path.match('/login') || match.$link.path.match('/payout-prefrence')) {
@@ -227,7 +259,28 @@ export class AppComponent {
           this.navCtrl.navigateForward(['/home/tabs/sitter-listing']);
         });
       }
-
+      if (match.$link.path.includes('/wallet')) {
+        var str = match.$link.queryString.split("*");
+        console.log(str, "str");
+        var session_id = str[0].split("=").pop();
+        var booking_id = str[1].split("=").pop();
+        var coupon_status = str[2].split("=").pop();
+        var couponamount = str[3].split("=").pop();
+        var promo_method = str[4].split("=").pop();
+        var amount = str[5].split("=").pop();
+        var coupon_code = str[6].split("=").pop();
+        var coupon_id = str[7].split("=").pop();
+        var coupon_vouche = str[8].split("=").pop();
+        console.log(session_id, "session_id")
+        console.log(booking_id, "booking_id")
+        console.log(amount, "amountamount")
+        console.log(coupon_status, "coupon_status");
+        this.zone.run(() => {
+          this.navCtrl.navigateForward(['/home/tabs/messages/messages-list']);
+        });
+      }
+    }, err => {
+      console.log(err, "erro on tes99999999999999999")
     });
     // this.deeplinks.route({ '/:slug': 'posts' }).subscribe(
     //   match => {

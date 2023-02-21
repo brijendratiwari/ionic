@@ -1555,6 +1555,19 @@ export class PetcloudApiService {
   }
 
   /**
+ * Update user payment details
+ * @param userFrm User form with payment fields
+ */
+  public stripeCheckoutSession(data: any) {
+    return this.http.post(
+      this.BASE_URL + "wallet/checkoutsession",
+      data,
+      this.header
+    );
+  }
+
+
+  /**
    * Update Stripe Details
    * @param bankFrm Bank form with fields
    */

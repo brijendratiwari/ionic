@@ -15,7 +15,7 @@ import { ChatscreenFilesharingPopupComponent } from "../chatscreen-filesharing-p
 import { ViewPetReportComponent } from "../view-pet-report/view-pet-report.component";
 import { Router } from "@angular/router";
 import { AnalyticsService } from "../analytics.service";
-import { MeetandGreetComponentComponent } from "../meetand-greet-component/meetand-greet-component.component";
+import { StripeBookingCheckoutComponent } from "../stripe-booking-checkout/stripe-booking-checkout.component";
 import { WalletBookingCheckoutComponent } from "../wallet-booking-checkout/wallet-booking-checkout.component";
 import { AppsFlyerService } from "../apps-flyer.service";
 import { Socket } from 'ngx-socket-io';
@@ -122,7 +122,7 @@ export class RemoteChatScreenComponent implements OnInit {
     this.bookingStatus = navParams.get("bookingStatus");
     this.service_name = navParams.get("service_name");
     this.bookingStatus == "D" || this.bookingStatus == "CAN" || this.bookingStatus == "E" ? this.isButtonVisible = false : this.isButtonVisible = true;
-    if(this.platform.is("cordova")){
+    if (this.platform.is("cordova")) {
       this.analytics.logEvent(PetcloudApiService.chatscreen, { userId: this.userId });
     }
   }
@@ -133,7 +133,7 @@ export class RemoteChatScreenComponent implements OnInit {
         this.user = user;
       },
       (err) => {
-        
+
       }
     );
     this.api.showLoader();
@@ -142,7 +142,7 @@ export class RemoteChatScreenComponent implements OnInit {
       bookingId: this.bookingId
     }
     this.isFirstCall = true;
-    setTimeout(() => {      
+    setTimeout(() => {
       this.connectSocket();
       setTimeout(() => {
         this.socket.disconnect();
@@ -151,19 +151,19 @@ export class RemoteChatScreenComponent implements OnInit {
     }, 500);
   }
 
-  redirectProfile(){
+  redirectProfile() {
     this.closeModal();
-    if( this.userId == this.ownerId )
+    if (this.userId == this.ownerId)
       this.router.navigate(["/pet-sitter-detail", this.minderId]);
 
-    if( this.userId == this.minderId )
+    if (this.userId == this.minderId)
       this.router.navigate(["/pet-sitter-detail", this.ownerId]);
 
   }
 
   async connectSocket() {
     let repToken: any = await this.api.getIoToken().toPromise();
-    if(repToken && repToken.status && repToken.token) {
+    if (repToken && repToken.status && repToken.token) {
       this.socket.ioSocket.io.opts.query = { token: repToken.token };
       this.socket.connect();
       setTimeout(() => {
@@ -197,35 +197,35 @@ export class RemoteChatScreenComponent implements OnInit {
     });
 
     this.socket.on("new-message", (data) => {
-      if(data.id != this.socketArray.id){
-				return false;
-			}
+      if (data.id != this.socketArray.id) {
+        return false;
+      }
       this.socket.emit('initial-messages', this.socketArray);
     });
 
     this.socket.on("new-image", (data) => {
-      if(data.id != this.socketArray.id){
-				return false;
-			}
+      if (data.id != this.socketArray.id) {
+        return false;
+      }
       this.socket.emit('initial-messages', this.socketArray);
     });
-    this.socket.on('typing' , function (data) {
+    this.socket.on('typing', function (data) {
       console.log("typing data", data);
     });
-    
-    this.socket.on('initial-message' , (data) => {
+
+    this.socket.on('initial-message', (data) => {
       let initial = 0;
-      if(!this.isFirstCall){        
+      if (!this.isFirstCall) {
         this.api.hideLoader();
       }
       this.isFirstCall = false;
-			if(data.id != this.socketArray.id){
-				return false;
-			}
-      if(initial === 0 && data.msg) {
-        var arr =JSON.parse(data.msg);
+      if (data.id != this.socketArray.id) {
+        return false;
+      }
+      if (initial === 0 && data.msg) {
+        var arr = JSON.parse(data.msg);
         this.chats = arr;
-        if(this.chats?.length>0) {
+        if (this.chats?.length > 0) {
           setTimeout(() => {
             this.removeAnchorEventListner();
             this.generateAnchorEventListner();
@@ -274,9 +274,9 @@ export class RemoteChatScreenComponent implements OnInit {
   async pickImage(params) {
     params == 1 ? params = this.camera.PictureSourceType.CAMERA : params = this.camera.PictureSourceType.PHOTOLIBRARY;
 
-    if(params == this.camera.PictureSourceType.PHOTOLIBRARY) {
+    if (params == this.camera.PictureSourceType.PHOTOLIBRARY) {
       const status = await this.CameraAPI.checkPhotoLibraryPermission();
-      if(!status) {
+      if (!status) {
         return;
       }
     }
@@ -298,18 +298,18 @@ export class RemoteChatScreenComponent implements OnInit {
         type: 'image/jpeg',
         buf: base64Data
       };
-      this.socket.emit('uploadImage',data);
+      this.socket.emit('uploadImage', data);
 
     }, err => { })
   }
 
   getLocalTime(utcTime) {
-    return moment(moment.utc(moment.utc(utcTime,timestampformat)).toDate()).local().format(timestampformatto);
+    return moment(moment.utc(moment.utc(utcTime, timestampformat)).toDate()).local().format(timestampformatto);
   }
 
   inArray(chat) {
     const userArray = chat.threadIdent.split(',');
-    return userArray && userArray.findIndex((d) => d== this.userId)>-1
+    return userArray && userArray.findIndex((d) => d == this.userId) > -1
   }
 
   closeModal() {
@@ -318,13 +318,13 @@ export class RemoteChatScreenComponent implements OnInit {
 
   generateAnchorEventListner() {
     const anchorElements: any = document.querySelectorAll('a[href^="http://"], a[href^="https://"]');
-    if(anchorElements?.length>0) {
-      anchorElements.forEach((elem)=>{
-        if(this.platform.is('cordova') && elem?.target!= "_system") {
+    if (anchorElements?.length > 0) {
+      anchorElements.forEach((elem) => {
+        if (this.platform.is('cordova') && elem?.target != "_system") {
           elem.setAttribute('target', '_system');
         }
-        elem.addEventListener('click', (e) => { 
-          e.preventDefault(); 
+        elem.addEventListener('click', (e) => {
+          e.preventDefault();
           this.validateAndRedirect(elem.href)
         });
       })
@@ -333,10 +333,10 @@ export class RemoteChatScreenComponent implements OnInit {
 
   removeAnchorEventListner() {
     const anchorElements: any = document.querySelectorAll('a[href^="http://"], a[href^="https://"]');
-    if(anchorElements?.length>0) {
-      anchorElements.forEach((elem)=>{        
-        elem.removeEventListener('click', (e) => { 
-          e.preventDefault(); 
+    if (anchorElements?.length > 0) {
+      anchorElements.forEach((elem) => {
+        elem.removeEventListener('click', (e) => {
+          e.preventDefault();
           this.validateAndRedirect(elem.href)
         });
       })
@@ -344,9 +344,9 @@ export class RemoteChatScreenComponent implements OnInit {
   }
 
   validateAndRedirect(herf) {
-    if(herf) {
+    if (herf) {
       const isValid = this.api.validURL(herf);
-      if(isValid && !this.isOpening && this.platform.is('cordova')) {
+      if (isValid && !this.isOpening && this.platform.is('cordova')) {
         this.isOpening = true;
         this.api.openExteralLinks(herf);
       }
@@ -360,10 +360,10 @@ export class RemoteChatScreenComponent implements OnInit {
       let userModel = {
         isTyping: false
       }
-			this.socket.emit('typing', '');
+      this.socket.emit('typing', '');
     } if (event.value.length == 1) {
-      var user = this.userId ;
-			this.socket.emit('typing', user + ' is typing...');
+      var user = this.userId;
+      this.socket.emit('typing', user + ' is typing...');
     }
   }
 
@@ -375,7 +375,7 @@ export class RemoteChatScreenComponent implements OnInit {
       if (this.petReport != "" || this.chatMessage.replace(/^\s+/, "").replace(/\s+$/, "")) {
         var config = {
           id: this.bookingId,
-          message: this.petReport? "Pet report sent" : this.chatMessage,
+          message: this.petReport ? "Pet report sent" : this.chatMessage,
           user_id: this.userId,
           ownerId: this.ownerId,
           minderId: this.minderId,
@@ -385,11 +385,11 @@ export class RemoteChatScreenComponent implements OnInit {
           action: 'insert',
         };
 
-        if(this.petReport) {
+        if (this.petReport) {
           config['pet_report_card'] = this.petReport;
         }
 
-        this.socket.emit('send-message' , config);
+        this.socket.emit('send-message', config);
         this.pushToken(this.chatMessage, "");
         this.chatMessage = "";
       }
@@ -476,7 +476,7 @@ export class RemoteChatScreenComponent implements OnInit {
       showBackdrop: true,
       componentProps: {
         minderName: this.toName,
-        ownerContact: this.user.mobile? this.user.mobile : this.user.phone,
+        ownerContact: this.user.mobile ? this.user.mobile : this.user.phone,
         socketDetails: this.socketArray
       },
       cssClass: 'pre-accept-component'
@@ -484,105 +484,105 @@ export class RemoteChatScreenComponent implements OnInit {
     await modal.present();
     modal.onDidDismiss()
       .then((data: any) => {
-        this.socket.emit('initial-messages', this.socketArray);           
+        this.socket.emit('initial-messages', this.socketArray);
       });
   }
 
   public meetAndGreet() {
     // first confirm that user want to meet and greet with minders or not.
     this.api.showAlert('Meet and Greet', 'are you sure to Meet and Greet?', [
-        {
-            text: 'Cancel',
-            role: 'cancel',
-            cssClass: 'secondary',
-           
-        }, {
-            text: 'OK',
-            handler: () => {
-                this.api.showLoader();
-                this.api.letsMeet({ id: this.bookingId })
-                    .pipe(finalize(() => {
-                        this.api.hideLoader();
-                    })).subscribe((res: any) => {
-                        if (res.success) {
-                          this.socket.emit('initial-messages', this.socketArray);
-                          this.api.showToast("Success", '2000', 'bottom');
-                        } else {
-                            this.api.showToast("Try Again", '2000', 'bottom')
-                        }
-                    }, (err: any) => {
-                        this.api.autoLogout(err,  { id: this.bookingId })
-                    });
+      {
+        text: 'Cancel',
+        role: 'cancel',
+        cssClass: 'secondary',
 
-            }
+      }, {
+        text: 'OK',
+        handler: () => {
+          this.api.showLoader();
+          this.api.letsMeet({ id: this.bookingId })
+            .pipe(finalize(() => {
+              this.api.hideLoader();
+            })).subscribe((res: any) => {
+              if (res.success) {
+                this.socket.emit('initial-messages', this.socketArray);
+                this.api.showToast("Success", '2000', 'bottom');
+              } else {
+                this.api.showToast("Try Again", '2000', 'bottom')
+              }
+            }, (err: any) => {
+              this.api.autoLogout(err, { id: this.bookingId })
+            });
+
         }
+      }
     ]);
   }
 
   async leaveReview() {
     const modal = await this.modalCtrl.create({
-        component: LeaveaReviewComponent,
-        animated: true,
-        componentProps: {
-            id: this.bookingId, // BookingID
-            messageDetails: this.socketArray
-        }
+      component: LeaveaReviewComponent,
+      animated: true,
+      componentProps: {
+        id: this.bookingId, // BookingID
+        messageDetails: this.socketArray
+      }
 
     });
     modal.onDidDismiss()
-        .then((data: any) => {
-          this.socket.emit('initial-messages', this.socketArray);           
-        });
+      .then((data: any) => {
+        this.socket.emit('initial-messages', this.socketArray);
+      });
     return await modal.present();
   }
 
   async chargeOwner() {
 
     const alert = await this.alertController.create({
-        header: 'CONFIRM BOOKING FOR PET OWNER',
-        subHeader: 'By clicking on OK, you indicate that you have met this Pet Owner' +
-            'and happy to confirm this booking for. ' + this.toName
-            + ' We will now charge the owner and you will be paid after booking end date (They will now pay for 2 weeks if this is a recurring booking). Please be proactive in communicating with your client on this booking.',
-        buttons: [
-            {
-                text: 'Close',
-                role: 'cancel',
-                cssClass: 'secondary',
+      header: 'CONFIRM BOOKING FOR PET OWNER',
+      subHeader: 'By clicking on OK, you indicate that you have met this Pet Owner' +
+        'and happy to confirm this booking for. ' + this.toName
+        + ' We will now charge the owner and you will be paid after booking end date (They will now pay for 2 weeks if this is a recurring booking). Please be proactive in communicating with your client on this booking.',
+      buttons: [
+        {
+          text: 'Close',
+          role: 'cancel',
+          cssClass: 'secondary',
 
-            }, {
-                text: 'Ok',
-                handler: (data) => {
+        }, {
+          text: 'Ok',
+          handler: (data) => {
 
-                    this.api.showLoader();
-                    this.api.chargeownerbooking(this.bookingId)
-                        .subscribe((res: any) => {
-                            this.api.hideLoader();
-                            if (res.success) {
-                                this.appsFlyerAnalytics("MD", this.bookingId,
-                                "",res.actualrevenue, res.minderId, res.ownerid)
-                                this.socket.emit('initial-messages', this.socketArray);   
+            this.api.showLoader();
+            this.api.chargeownerbooking(this.bookingId)
+              .subscribe((res: any) => {
+                this.api.hideLoader();
+                if (res.success) {
+                  this.appsFlyerAnalytics("MD", this.bookingId,
+                    "", res.actualrevenue, res.minderId, res.ownerid)
+                  this.socket.emit('initial-messages', this.socketArray);
 
-                            } else {
-                                this.api.showToast(res.error, "3000", "bottom");
-                                this.socket.emit('initial-messages', this.socketArray);   
-                            }
-                        }, (err: any) => {
-                            this.api.autoLogout(err, this.bookingId);
-                        });
+                } else {
+                  this.api.showToast(res.error, "3000", "bottom");
+                  this.socket.emit('initial-messages', this.socketArray);
                 }
-            }
-        ]
+              }, (err: any) => {
+                this.api.autoLogout(err, this.bookingId);
+              });
+          }
+        }
+      ]
     }); await alert.present();
   }
 
-  appsFlyerAnalytics(bookingStatus, bookingId, potentional_revenue,actual_revenue, minderId, owenerId) {
+  appsFlyerAnalytics(bookingStatus, bookingId, potentional_revenue, actual_revenue, minderId, owenerId) {
     const booking = {
-        af_booking_status: bookingStatus,
-        af_booking_id: bookingId,
-        af_minder_id: minderId,
-        af_owner_id: owenerId,
-        af_potentional_revenue:potentional_revenue,
-        af_actual_revenue:actual_revenue
+      af_booking_status: bookingStatus,
+      af_booking_id: bookingId,
+      af_minder_id: minderId,
+      af_owner_id: owenerId,
+      af_potentional_revenue: potentional_revenue,
+      af_actual_revenue: actual_revenue
     }
     this.appsFlyerService.bookingEvent(booking);
   }
@@ -609,26 +609,27 @@ export class RemoteChatScreenComponent implements OnInit {
                 this.socket.emit('initial-messages', this.socketArray);
               } else {
                 if (res.checkout) {
+                  console.log("heyyy")
                   this.walletBookingCheckOutModel(res.booking_amount, res.wallet_balance, true, "confrimMyRemoteBooking");
-                } else if(res.error) {
-                  this.api.showAlert('Booking Alert', res.error, [{text: 'OK'}]);
+                } else if (res.error) {
+                  this.api.showAlert('Booking Alert', res.error, [{ text: 'OK' }]);
                 } else {
                   this.api.showToast("Something went wrong", "3000", "bottom");
                 }
               }
-              }, err => {
-                this.api.autoLogout(err, param);
-              })
-            }
+            }, err => {
+              this.api.autoLogout(err, param);
+            })
           }
-        ]
-      }); 
-      await alert.present();
+        }
+      ]
+    });
+    await alert.present();
   }
-  
+  // WalletBookingCheckoutComponent
   async walletBookingCheckOutModel(booking_amount, wallet_balance, isBalanceCheck, methodName) {
     const modal = await this.modalCtrl.create({
-      component: WalletBookingCheckoutComponent,
+      component: StripeBookingCheckoutComponent,
       animated: true,
       componentProps: {
         bookingId: this.bookingId,
@@ -639,10 +640,10 @@ export class RemoteChatScreenComponent implements OnInit {
       }
     });
     modal.onDidDismiss().then((data) => {
-        if(data.role == 'socketSuccess') {
-          this.socket.emit('initial-messages', this.socketArray);   
-        }
-      });
+      if (data.role == 'socketSuccess') {
+        this.socket.emit('initial-messages', this.socketArray);
+      }
+    });
     return await modal.present();
   }
 

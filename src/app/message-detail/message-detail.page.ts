@@ -129,7 +129,7 @@ export class MessageDetailPage implements OnInit {
     }
 
     ionViewWillEnter() {
-        if(!this.onlyProfile) {
+        if (!this.onlyProfile) {
             this.activatedRoute.queryParams.subscribe((async res => {
                 this.chatBookingId = await res.id;
                 this.getInfo(res.id); // Message Id
@@ -140,22 +140,22 @@ export class MessageDetailPage implements OnInit {
         }
     }
 
-    closeAll(){
+    closeAll() {
         // adjust selector to fit your needs
         const overlays = document.querySelectorAll('ion-modal');
         const overlaysArr = Array.from(overlays) as HTMLIonOverlayElement[];
         overlaysArr.forEach(o => o.dismiss());
-      };
+    };
 
-    redirectProfile(){
+    redirectProfile() {
         this.closeAll();
-        if( this.userId == this.messageOwnerId )
-          this.router.navigate(["/pet-sitter-detail", this.messageMinderId]);
-    
-        if( this.userId == this.messageMinderId )
-          this.router.navigate(["/pet-sitter-detail", this.messageOwnerId]);
-    
-      }
+        if (this.userId == this.messageOwnerId)
+            this.router.navigate(["/pet-sitter-detail", this.messageMinderId]);
+
+        if (this.userId == this.messageMinderId)
+            this.router.navigate(["/pet-sitter-detail", this.messageOwnerId]);
+
+    }
 
 
     ngOnDestroy() {
@@ -200,7 +200,8 @@ export class MessageDetailPage implements OnInit {
                         this.booking_status = res.booking.booking_status;
                         this.messageOwnerId = res.booking.owner.id
                         this.messageMinderId = res.booking.minder.id;
-
+                        console.log(this.messageOwnerId, " this.messageOwnerId ", this.userId)
+                        console.log(this.messageMinderId, " this.messageMinderId ", this.userId)
                         this.chargeAmount = parseFloat(res.chargeAmount);
                         this.available_balance = parseFloat(res.available_balance);
 
@@ -321,7 +322,7 @@ export class MessageDetailPage implements OnInit {
                             .subscribe((res: any) => {
                                 this.api.hideLoader();
                                 if (res.success) {
-                                    this.appsFlyerAnalytics("D",this.message.id,"","", this.messageDetails.minderId, this.messageDetails.ownerid);
+                                    this.appsFlyerAnalytics("D", this.message.id, "", "", this.messageDetails.minderId, this.messageDetails.ownerid);
 
                                     this.api.showToast('Booking Cancel successful', 2000, 'bottom');
                                     this.goToMessages()
@@ -367,9 +368,9 @@ export class MessageDetailPage implements OnInit {
                                 this.api.hideLoader();
                                 if (res.success) {
 
-                                   
+
                                     this.appsFlyerAnalytics("D", res.booking.id,
-                                        "","", this.messageDetails.minderId, this.messageDetails.ownerid)
+                                        "", "", this.messageDetails.minderId, this.messageDetails.ownerid)
 
                                     this.api.showToast(res.message, 2000, 'bottom');
                                     this.goToMessages()
@@ -412,9 +413,9 @@ export class MessageDetailPage implements OnInit {
                 this.api.hideLoader();
             })).subscribe(async (res: any) => {
                 if (res.status) {
-                    this.appsFlyerAnalytics("P", this.messageDetails.id,"","",this.messageDetails.minderId,this.messageDetails.ownerid);
+                    this.appsFlyerAnalytics("P", this.messageDetails.id, "", "", this.messageDetails.minderId, this.messageDetails.ownerid);
                     this.api.showToast(res.message, '2000', 'bottom');
-                     this.goToMessages()
+                    this.goToMessages()
                 } else {
                     this.api.showToast(res.error, '2000', 'bottom')
                     this.goToMessages()
@@ -432,9 +433,9 @@ export class MessageDetailPage implements OnInit {
                 this.api.hideLoader();
             })).subscribe((res: any) => {
                 if (res.success) {
-                   
+
                     this.appsFlyerAnalytics(res.booking.booking_status, res.booking.id,
-                        "","", this.messageDetails.minderId, this.messageDetails.ownerid)
+                        "", "", this.messageDetails.minderId, this.messageDetails.ownerid)
 
                     this.api.showToast("Success", '2000', 'bottom');
                     this.goToMessages()
@@ -484,7 +485,7 @@ export class MessageDetailPage implements OnInit {
                                 if (res.success) {
 
                                     this.appsFlyerAnalytics("E", res.booking.id,
-                                        "","", this.messageDetails.minderId, this.messageDetails.ownerid)
+                                        "", "", this.messageDetails.minderId, this.messageDetails.ownerid)
 
                                     this.api.showToast(res.message, 2000, 'bottom');
                                     this.goToMessages()
@@ -515,8 +516,8 @@ export class MessageDetailPage implements OnInit {
                 this.isWalletAuthorizedButtonClicked = false
                 if (res.success) {
                     // potential revenue will be 100 when balance is already available in wallet.
-                     this.appsFlyerAnalytics("A", id,
-                    "100","", this.messageDetails.minderId, this.messageDetails.ownerid)
+                    this.appsFlyerAnalytics("A", id,
+                        "100", "", this.messageDetails.minderId, this.messageDetails.ownerid)
 
                     this.analytics.logEvent(PetcloudApiService.preauthorized, { userId: this.userId });
                     this.api.showToast("Booking Authorized", "3000", "bottom");
@@ -526,8 +527,8 @@ export class MessageDetailPage implements OnInit {
                     if (res.checkout) {
                         this.api.showToast(res.error, "3000", "bottom");
                         this.walletBookingCheckOutModel(res.booking_amount, res.wallet_balance, false, "confrimMyBooking")
-                    } else if(res.error) {
-                        this.api.showAlert('Booking Alert', res.error, [{text: 'OK'}]);
+                    } else if (res.error) {
+                        this.api.showAlert('Booking Alert', res.error, [{ text: 'OK' }]);
                     } else {
                         this.api.showToast("Something went wrong", "3000", "bottom");
                     }
@@ -617,8 +618,8 @@ export class MessageDetailPage implements OnInit {
                     } else if (methodName == "meetGreetAwesome") {
                         this.walletBookingCheckOutModel(res.booking_amount, res.wallet_balance, true, "meetGreetAwesome")
                     }
-                } else if(res.error) {
-                    this.api.showAlert('Booking Alert', res.error, [{text: 'OK'}]);
+                } else if (res.error) {
+                    this.api.showAlert('Booking Alert', res.error, [{ text: 'OK' }]);
                 } else {
                     this.api.showToast("Something went wrong", "3000", "bottom");
                 }
@@ -681,7 +682,7 @@ export class MessageDetailPage implements OnInit {
                                 this.api.hideLoader();
                                 if (res.success) {
                                     this.appsFlyerAnalytics("MD", this.messageDetails.id,
-                                    "",res.actualrevenue, res.minderId, res.ownerid)
+                                        "", res.actualrevenue, res.minderId, res.ownerid)
                                     this.goToMessages()
 
                                 } else {
@@ -719,8 +720,8 @@ export class MessageDetailPage implements OnInit {
                                 if (res.success) {
 
                                     this.appsFlyerAnalytics(
-                                       "MD",this.chatBookingId,"","",this.messageDetails.minderId,
-                                       this.messageDetails.ownerid)
+                                        "MD", this.chatBookingId, "", "", this.messageDetails.minderId,
+                                        this.messageDetails.ownerid)
 
                                     this.api.showToast(res.message, 2000, 'bottom');
                                     this.goToMessages()
@@ -736,7 +737,7 @@ export class MessageDetailPage implements OnInit {
             ]
         }); await alert.present();
     }
-    
+
     async meetandGreetAwesome(bookingId) {
         const alert = await this.alertController.create({
             header: 'Great! Thanks for letting us know your Meet & Greet went well!',
@@ -757,11 +758,11 @@ export class MessageDetailPage implements OnInit {
                                 if (res.success) {
                                     this.analytics.logEvent(PetcloudApiService.meetgreetwell, { userId: this.userId });
                                     this.api.showToast(res.message, 2000, 'bottom');
-                                    this.appsFlyerAnalytics("MD", bookingId, "",res.actualrevenue, this.messageDetails.minderId, this.messageDetails.ownerid) 
+                                    this.appsFlyerAnalytics("MD", bookingId, "", res.actualrevenue, this.messageDetails.minderId, this.messageDetails.ownerid)
                                     this.bookingSuccessModel();
                                 } else {
                                     this.api.showToast(res.message, 2000, 'bottom');
-                                   
+
                                 }
                             }, (err: any) => {
                                 this.api.autoLogout(err, bookingId);
@@ -774,32 +775,32 @@ export class MessageDetailPage implements OnInit {
 
     async bookingSuccessModel() {
         const modal = await this.model.create({
-          component: BookingSuccessComponentComponent,
-          animated: true,
-          componentProps: {
-            bookingId: this.messageDetails.id,
-          },
+            component: BookingSuccessComponentComponent,
+            animated: true,
+            componentProps: {
+                bookingId: this.messageDetails.id,
+            },
         });
         modal.onDidDismiss().then((data: any) => {
-          this.model.dismiss("modelCloseWithRefresh");
+            this.model.dismiss("modelCloseWithRefresh");
         });
         return await modal.present();
-      }
+    }
 
-    async declineBooking(bookingID,messageDetail) {
+    async declineBooking(bookingID, messageDetail) {
         const modal = await this.modalCtrl.create({
             component: OwnerDeclineBookingComponent,
             animated: true,
             componentProps: {
                 id: bookingID,
-                messageDetails:messageDetail
+                messageDetails: messageDetail
             }
 
         });
         modal.onDidDismiss()
             .then((data) => {
-                if(data.role == 'success') {
-                    if(this.onlyProfile) {
+                if (data.role == 'success') {
+                    if (this.onlyProfile) {
                         this.getInfo(this.chatBookingId);
                     } else {
                         this.goToMessages();
@@ -823,7 +824,7 @@ export class MessageDetailPage implements OnInit {
         modal.onDidDismiss()
             .then((data: any) => {
                 if (data.data == 'yes') {
-                    if(this.onlyProfile) {
+                    if (this.onlyProfile) {
                         this.getInfo(this.chatBookingId);
                     } else {
                         this.goToMessages();
@@ -846,8 +847,8 @@ export class MessageDetailPage implements OnInit {
         });
         modal.onDidDismiss()
             .then((data) => {
-                if(data.role == 'success') {
-                    if(this.onlyProfile) {
+                if (data.role == 'success') {
+                    if (this.onlyProfile) {
                         this.getInfo(this.chatBookingId);
                     } else {
                         this.goToMessages();
@@ -944,7 +945,7 @@ export class MessageDetailPage implements OnInit {
             animated: true,
             componentProps: {
                 id: this.message.id, // BookingID
-                messageDetails:this.messageDetails
+                messageDetails: this.messageDetails
             }
 
         });
@@ -1096,7 +1097,7 @@ export class MessageDetailPage implements OnInit {
             animated: true,
             componentProps: {
                 id: this.message.id,
-                messageDetails:this.messageDetails,
+                messageDetails: this.messageDetails,
             }
         });
         modal.onDidDismiss()
@@ -1183,8 +1184,8 @@ export class MessageDetailPage implements OnInit {
     }
 
     goToMessages() {
-        if(this.onlyProfile) {
-           this.model.dismiss(); 
+        if (this.onlyProfile) {
+            this.model.dismiss();
         } else {
             this.navcntl.navigateRoot("home/tabs/messages");
         }
@@ -1194,14 +1195,14 @@ export class MessageDetailPage implements OnInit {
         this.api.openExteralLinks(url);
     }
 
-    appsFlyerAnalytics(bookingStatus, bookingId, potentional_revenue,actual_revenue, minderId, owenerId) {
+    appsFlyerAnalytics(bookingStatus, bookingId, potentional_revenue, actual_revenue, minderId, owenerId) {
         const booking = {
             af_booking_status: bookingStatus,
             af_booking_id: bookingId,
             af_minder_id: minderId,
             af_owner_id: owenerId,
-            af_potentional_revenue:potentional_revenue,
-            af_actual_revenue:actual_revenue
+            af_potentional_revenue: potentional_revenue,
+            af_actual_revenue: actual_revenue
         }
         this.appsFlyerService.bookingEvent(booking);
     }

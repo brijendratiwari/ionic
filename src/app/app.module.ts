@@ -75,6 +75,8 @@ import { MediaCapture } from '@ionic-native/media-capture/ngx';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { RemoteChatScreenComponent } from './remote-chat-screen/remote-chat-screen.component';
 import { PreAcceptBookingComponent } from './components/pre-accept-booking/pre-accept-booking.component';
+import { StripeBookingCheckoutComponent } from './stripe-booking-checkout/stripe-booking-checkout.component';
+
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
 
@@ -105,6 +107,7 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
     ChatscreenComponent,
     RemoteChatScreenComponent,
     PreAcceptBookingComponent,
+    StripeBookingCheckoutComponent
   ],
   entryComponents: [
     PetDetailsComponent,
@@ -127,6 +130,7 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
     ChatscreenComponent,
     RemoteChatScreenComponent,
     PreAcceptBookingComponent,
+    StripeBookingCheckoutComponent
   ],
   imports: [
     BrowserModule,

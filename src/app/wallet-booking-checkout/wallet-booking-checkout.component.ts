@@ -1,5 +1,5 @@
 
-import {  Component, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ModalController, NavParams } from "@ionic/angular";
 import { Storage } from "@ionic/storage";
@@ -20,10 +20,10 @@ import { AppsFlyerService } from "../apps-flyer.service";
 })
 export class WalletBookingCheckoutComponent implements OnInit {
   public addCredit = [
-    { amount: "$20",css: false, },
-    { amount: "$100",css: true, },
-    { amount: "$150",css: false, },
-    { amount: "$200",css: false,},
+    { amount: "$20", css: false, },
+    { amount: "$100", css: true, },
+    { amount: "$150", css: false, },
+    { amount: "$200", css: false, },
   ];
 
 
@@ -64,7 +64,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
     public navParams: NavParams,
     public router: Router,
     public storage: Storage,
-    public analytics:AnalyticsService,
+    public analytics: AnalyticsService,
     public appsFlyerAnalytics: AppsFlyerService,
   ) {
   }
@@ -94,11 +94,11 @@ export class WalletBookingCheckoutComponent implements OnInit {
         const availableBal: any = parseFloat(this.navParam.availableWalletBalance).toFixed(2);
         this.minimumRequiredBalance = 100 - availableBal;
         this.onOtherAmount(this.minimumRequiredBalance.toFixed(2));
-         this.addMoney.patchValue({otherAmount: this.minimumRequiredBalance.toFixed(2)});
+        this.addMoney.patchValue({ otherAmount: this.minimumRequiredBalance.toFixed(2) });
         this.promoCodeForm.patchValue({
           amount: this.minimumRequiredBalance,
         });
-      } else {      
+      } else {
         this.minimumRequiredBalance = parseFloat(this.navParam.amount) - parseFloat(this.navParam.availableWalletBalance);
         this.minimumRequiredBalance = this.minimumRequiredBalance.toFixed(2);
         this.onOtherAmount(this.minimumRequiredBalance);
@@ -111,7 +111,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
       }
     } else {
       this.addCredit[1].css = false;
-      
+
       this.minimumRequiredBalance =
         parseFloat(this.navParam.amount) -
         parseFloat(this.navParam.availableWalletBalance);
@@ -134,13 +134,13 @@ export class WalletBookingCheckoutComponent implements OnInit {
         let client_key: any = paypalData.ClientID;
         let enviroment: any = paypalData.mode;
         this.paypalSandboxKey = enviroment == "sandbox" ? client_key : "";
-        this.paypalProductionKey = enviroment == "live" ? client_key: "";
+        this.paypalProductionKey = enviroment == "live" ? client_key : "";
         this.userId = user.id;
         user.auto_recharge == 1 ? (this.auto_recharge = true) : (this.auto_recharge = false);
         this.getCardsList();
       },
       (err) => {
-        
+
       }
     );
   }
@@ -166,14 +166,14 @@ export class WalletBookingCheckoutComponent implements OnInit {
                   });
                   if (this.cards.length) {
                     this.selectedCard(this.cards[0]);
-                  } 
+                  }
                 }
-              } 
+              }
             }
           }
         },
         (err: any) => {
-          this.api.autoLogout(err,"");
+          this.api.autoLogout(err, "");
         }
       );
   }
@@ -186,7 +186,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
           text: "Cancel",
           role: "cancel",
           cssClass: "secondary",
-         
+
         },
         {
           text: "Okay",
@@ -216,13 +216,13 @@ export class WalletBookingCheckoutComponent implements OnInit {
           {
             if (res.status == true) {
               this.getCardsList();
-            }else{
-              this.api.showToast(res.message,"3000","bottom")
+            } else {
+              this.api.showToast(res.message, "3000", "bottom")
             }
           }
         },
         (err: any) => {
-          this.api.autoLogout(err,cardParam);
+          this.api.autoLogout(err, cardParam);
         }
       );
   }
@@ -235,7 +235,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
           text: "Cancel",
           role: "cancel",
           cssClass: "secondary",
-         
+
         },
         {
           text: "Okay",
@@ -281,7 +281,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
           }
         },
         (err: any) => {
-          this.api.autoLogout(err,cardParam);
+          this.api.autoLogout(err, cardParam);
         }
       );
   }
@@ -338,13 +338,13 @@ export class WalletBookingCheckoutComponent implements OnInit {
                 await this.storage
                   .set(PetcloudApiService.USER, userData)
                   .then((respons) => {
-     
+
                   });
               });
           }
         },
         (err: any) => {
-          this.api.autoLogout(err,event.detail.checked === true ? 1 : "");
+          this.api.autoLogout(err, event.detail.checked === true ? 1 : "");
         }
       );
   }
@@ -374,7 +374,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
     });
 
     if (this.addMoney.value.otherAmount != "") {
-  
+
       let creditAmount = credit.amount.replace("$", "");
       this.tempAmount = parseFloat(creditAmount) + parseFloat(this.tempAmount.toString());
 
@@ -392,7 +392,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
       let creditAmount = credit.amount.replace("$", "");
       this.tempAmount = parseInt(creditAmount) + this.tempAmount;
 
-  
+
       this.creditAmount = this.tempAmount;
       this.promoCodeForm.patchValue({
         amount: credit.amount.replace("$", ""),
@@ -450,7 +450,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
                     parseFloat(this.payableAmount.toString()) -
                     parseFloat(this.couponAmount.toString());
                 }
-                this.analytics.logEvent(PetcloudApiService.usedcoupon,{userId:this.userId});
+                this.analytics.logEvent(PetcloudApiService.usedcoupon, { userId: this.userId });
                 this.api.showToast("Coupon added", "5000", "bottom");
               } else {
                 this.isGiftCodeInput = false;
@@ -462,7 +462,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
           (err: any) => {
             this.isGiftCodeInput = false;
             this.promoCode = "";
-            this.api.autoLogout(err,data);
+            this.api.autoLogout(err, data);
           }
         );
     }
@@ -470,7 +470,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
 
   addFunds() {
     let paymentGateWay = this.addMoney.value.paymentGateway;
-      this.addCreditAPI(this.creditAmount, "", "stripe"); 
+    this.addCreditAPI(this.creditAmount, "", "stripe");
   }
 
   goToAddMoney() {
@@ -493,10 +493,10 @@ export class WalletBookingCheckoutComponent implements OnInit {
         async (res: any) => {
           if (res.success) {
 
-             this.appsFlyerBookingAnalytics("A", this.navParam.bookingId,
-             potential_revenue,"", res.minderId, res.ownerid)
-            
-            this.analytics.logEvent(PetcloudApiService.preauthorized,{userId:this.userId});
+            this.appsFlyerBookingAnalytics("A", this.navParam.bookingId,
+              potential_revenue, "", res.minderId, res.ownerid)
+
+            this.analytics.logEvent(PetcloudApiService.preauthorized, { userId: this.userId });
             this.api.showToast("Booking Authorized", "3000", "bottom");
             this.model.dismiss("modelCloseWithRefresh");
           } else {
@@ -508,7 +508,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
           }
         },
         (err) => {
-          this.api.autoLogout(err,param);
+          this.api.autoLogout(err, param);
         }
       );
   }
@@ -518,7 +518,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
       if (parseFloat(this.navParam.amount) >= this.minimumRequiredBalance) {
         if (this.creditAmount < this.minimumRequiredBalance) {
           this.api.showToast(
-            "Minimum required Amount is $ " + this.minimumRequiredBalance.toFixed(2), "3000","bottom");
+            "Minimum required Amount is $ " + this.minimumRequiredBalance.toFixed(2), "3000", "bottom");
         } else {
           this.saveCreditDataAPI(amount, paymentId, source);
         }
@@ -538,7 +538,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
 
   saveCreditDataAPI(amount, paymentId, source) {
 
-   
+
     let addCreditParams = {
       amount,
       transaction_id: source == "paypal" ? paymentId : "",
@@ -551,79 +551,79 @@ export class WalletBookingCheckoutComponent implements OnInit {
       booking_id: this.navParam.bookingId,
     };
     this.api.showLoader();
-    if (this.callMethodName == "confrimMyRemoteBooking" ) {
+    if (this.callMethodName == "confrimMyRemoteBooking") {
       this.api.walletCheckOutSocket(addCreditParams).pipe(finalize(() => {
-          this.api.hideLoader();
+        this.api.hideLoader();
       })).subscribe(async (res: any) => {
-          if (res.status) {
-            this.model.dismiss('', 'socketSuccess');
-          } else {
-            let msg = res.error? res.error : res.message? res.message: 'Something went wrong';
-            this.api.showToast(msg, 2000, 'bottom');
-          }
+        if (res.status) {
+          this.model.dismiss('', 'socketSuccess');
+        } else {
+          let msg = res.error ? res.error : res.message ? res.message : 'Something went wrong';
+          this.api.showToast(msg, 2000, 'bottom');
+        }
       }, err => {
-          this.api.autoLogout(err, addCreditParams);
+        this.api.autoLogout(err, addCreditParams);
       });
     } else {
       this.api
-      .addCredits(addCreditParams)
-      .pipe(
-        finalize(() => {
-          this.api.hideLoader();
-        })
-      )
-      .subscribe(
-        (res: any) => {
-          {
-            if (res.success) {
-              this.api.showToast(res.message, 2000, "bottom");
+        .addCredits(addCreditParams)
+        .pipe(
+          finalize(() => {
+            this.api.hideLoader();
+          })
+        )
+        .subscribe(
+          (res: any) => {
+            {
+              if (res.success) {
+                this.api.showToast(res.message, 2000, "bottom");
 
-              if (
-                this.callMethodName == "confrimMyBooking" &&
-                this.isBalanceCheck == false
-              ) {
-                this.authorizeBookingViaWallet(addCreditParams.amount);
-              } else if (
-                this.callMethodName == "confrimMyBooking" &&
-                this.isBalanceCheck == true
-              ) {
-                this.walletBalanceAPICheck();
-              } else if (this.callMethodName == "meetGreetAwesome") {
-                this.meetandGreetAwesome(amount);
+                if (
+                  this.callMethodName == "confrimMyBooking" &&
+                  this.isBalanceCheck == false
+                ) {
+                  this.authorizeBookingViaWallet(addCreditParams.amount);
+                } else if (
+                  this.callMethodName == "confrimMyBooking" &&
+                  this.isBalanceCheck == true
+                ) {
+                  this.walletBalanceAPICheck();
+                } else if (this.callMethodName == "meetGreetAwesome") {
+                  this.meetandGreetAwesome(amount);
+                }
+              } else {
+                this.api.showToast(res.error, 2000, "bottom");
               }
-            } else {
-              this.api.showToast(res.error, 2000, "bottom");
             }
+          },
+          (err: any) => {
+            this.api.autoLogout(err, addCreditParams);
           }
-        },
-        (err: any) => {
-          this.api.autoLogout(err,addCreditParams);
-        }
-      );
+        );
     }
-    
+
   }
 
 
   walletBalanceAPICheck() {
-    const param = {id: this.navParam.bookingId};
+    const param = { id: this.navParam.bookingId };
     this.api.showLoader();
     this.api.walletCheckBalance(param).pipe(finalize(() => {
-        this.api.hideLoader();
+      this.api.hideLoader();
     })).subscribe(async (res: any) => {
-        if (res.status) {
-                this.ownerConfrimBooking();
+      if (res.status) {
+        this.ownerConfrimBooking();
+      } else {
+        if (res.checkout) {
+
         } else {
-            if (res.checkout) {
-              
-            } else {
-                this.api.showToast("Something went wrong", "3000", "bottom");
-            }
+          this.api.showToast("Something went wrong", "3000", "bottom");
         }
+      }
     }, err => {
-        this.api.autoLogout(err, param);
+      this.api.autoLogout(err, param);
     })
-}
+  }
 
 
 
@@ -636,8 +636,8 @@ export class WalletBookingCheckoutComponent implements OnInit {
         if (res.success) {
           this.api.showToast(res.message, 2000, "bottom");
           this.appsFlyerBookingAnalytics("MD", this.navParam.bookingId,
-             "",res.actualrevenue, res.minderId, res.ownerid)
-          if (this.callMethodName == "confrimMyRemoteBooking" ) {
+            "", res.actualrevenue, res.minderId, res.ownerid)
+          if (this.callMethodName == "confrimMyRemoteBooking") {
             this.model.dismiss('', 'socketSuccess');
           } else {
             this.bookingSuccessModel();
@@ -648,7 +648,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
         }
       },
       (err: any) => {
-        this.api.autoLogout(err,"");
+        this.api.autoLogout(err, "");
       }
     );
   }
@@ -673,7 +673,7 @@ export class WalletBookingCheckoutComponent implements OnInit {
       (res: any) => {
         this.api.hideLoader();
         if (res.success) {
-          this.appsFlyerBookingAnalytics("MD", this.navParam.bookingId, "",res.actualrevenue, res.minderId, res.ownerid) 
+          this.appsFlyerBookingAnalytics("MD", this.navParam.bookingId, "", res.actualrevenue, res.minderId, res.ownerid)
           this.bookingSuccessModel();
           this.api.showToast(res.message, 2000, "bottom");
           this.model.dismiss("modelCloseWithRefresh");
@@ -682,36 +682,36 @@ export class WalletBookingCheckoutComponent implements OnInit {
         }
       },
       (err: any) => {
-        this.api.autoLogout(err,"");
+        this.api.autoLogout(err, "");
       }
     );
   }
 
-  appsFlyerBookingAnalytics(bookingStatus, bookingId, af_potentional_revenue,af_actual_revenue, minderId, owenerId) {
+  appsFlyerBookingAnalytics(bookingStatus, bookingId, af_potentional_revenue, af_actual_revenue, minderId, owenerId) {
     const booking = {
-        af_booking_status: bookingStatus,
-        af_booking_id: bookingId,
-        af_potentional_revenue:af_potentional_revenue,
-        af_actual_revenue:af_actual_revenue,
-        af_minder_id: minderId,
-        af_owner_id: owenerId
+      af_booking_status: bookingStatus,
+      af_booking_id: bookingId,
+      af_potentional_revenue: af_potentional_revenue,
+      af_actual_revenue: af_actual_revenue,
+      af_minder_id: minderId,
+      af_owner_id: owenerId
     }
     this.appsFlyerAnalytics.bookingEvent(booking);
   }
-//   walletCheckOutSocket(addCreditParams) {
-//     // const param = {id: this.navParam.bookingId};
-//     this.api.showLoader();
-//     this.api.walletCheckOutSocket(addCreditParams).pipe(finalize(() => {
-//         this.api.hideLoader();
-//     })).subscribe(async (res: any) => {
-//         if (res.status) {
-//           this.model.dismiss('', 'socketSuccess');
-//         } else {
-//           let msg = res.error? res.error : res.message? res.message: 'Something went wrong';
-//           this.api.showToast(msg, 2000, 'bottom');
-//         }
-//     }, err => {
-//         this.api.autoLogout(err, addCreditParams);
-//     })
-// }
+  //   walletCheckOutSocket(addCreditParams) {
+  //     // const param = {id: this.navParam.bookingId};
+  //     this.api.showLoader();
+  //     this.api.walletCheckOutSocket(addCreditParams).pipe(finalize(() => {
+  //         this.api.hideLoader();
+  //     })).subscribe(async (res: any) => {
+  //         if (res.status) {
+  //           this.model.dismiss('', 'socketSuccess');
+  //         } else {
+  //           let msg = res.error? res.error : res.message? res.message: 'Something went wrong';
+  //           this.api.showToast(msg, 2000, 'bottom');
+  //         }
+  //     }, err => {
+  //         this.api.autoLogout(err, addCreditParams);
+  //     })
+  // }
 }

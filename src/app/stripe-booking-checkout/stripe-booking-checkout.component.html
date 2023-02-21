@@ -1,0 +1,133 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="closeModal()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Booking Summary</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding animated fadeIn">
+  <h4 class="checkout-heading">Payment helps to secure the Sitter's availability for the dates you need. If the Sitter
+    immediately declines, the
+    full amount will be refunded.</h4>
+  <div class="table">
+    <table>
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th>Unit Price</th>
+          <th>Qty Pets</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let serviceDetail of messageDetails?.service?.servicecost">
+          <td class="service-name">{{serviceDetail?.name}}</td>
+          <td>${{serviceDetail?.price | number:'1.2-2'}}</td>
+          <td>{{serviceDetail?.quantity}} &nbsp;</td>
+          <td>${{serviceDetail?.cost | number:'1.2-2'}}</td>
+        </tr>
+
+        <tr *ngIf="messageDetails?.booking_fee">
+          <td>Booking Fees </td>
+          <td colspan="6">
+            ${{messageDetails?.booking_fee | number:'1.2-2'}}
+          </td>
+        </tr>
+
+        <tr *ngIf="messageDetails?.donation?.amount">
+          <td>
+            RSPCA<br> Donation
+          </td>
+          <!-- <td> <ion-checkbox color="primary" checked={{isRSPCADonationChecked}} (ionChange)="isRSPCADonation($event)"
+              slot="end"></ion-checkbox></td> -->
+          <td colspan="6">${{messageDetails?.donation?.amount | number:'1.2-2'}}</td>
+        </tr>
+
+
+
+        <tr *ngIf="messageDetails?.service?.total">
+          <td colspan="5">
+            <h5 class="total">Total: $ {{messageDetails?.service?.total | number:'1.2-2'}}</h5>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+    <table>
+      <tbody>
+        <tr>
+          <td>Stripe Transaction Fee</td>
+          <td colspan="6">
+            1.75 % +.30 cents</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- <div class="table">
+    <table>
+      <thead>
+        <tr>
+          <th>Service</th>
+          <th>Unit Price</th>
+          <th>Qty Pets</th>
+          <th>Freq</th>
+          <th>Total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cost of costData?.primary">
+          <td class="service-name">{{cost?.name}}</td>
+          <td>${{ cost?.price }}</td>
+          <td>{{cost?.petQuantity}} &nbsp;
+            {{cost?.petType == '1' ? "Dog" : cost?.petType == '2' ? "Cat" :
+            cost?.petType == '3' ? "Horse" : "Other"}}</td>
+          <td>{{cost?.quantity}}</td>
+          <td>${{ cost?.cost }}</td>
+        </tr>
+        <tr *ngFor="let cost of costData?.secondary">
+          <td class="service-name">{{cost?.name}}</td>
+          <td>${{ cost?.price }}</td>
+          <td>{{cost?.petQuantity}} &nbsp;
+            {{cost?.petType == '1' ? "Dog" : cost?.petType == '2' ? "Cat" :
+            cost?.petType == '3' ? "Horse" : "Other"}}</td>
+          <td>{{cost?.quantity}}</td>
+          <td>${{ cost?.cost }}</td>
+        </tr>
+
+        <tr>
+          <td>Booking Fees </td>
+          <td colspan="6">
+            ${{bookingCost | number:'1.2-2'}}
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            RSPCA<br> Donation
+          </td>
+          <td> <ion-checkbox color="primary" checked={{isRSPCADonationChecked}} (ionChange)="isRSPCADonation($event)"
+              slot="end"></ion-checkbox></td>
+          <td colspan="6">$ 1</td>
+        </tr>
+
+
+
+        <tr>
+          <td colspan="5">
+            <h5 class="total">Total: $ {{totalCost | number:'1.2-2'}}</h5>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div> -->
+</ion-content>
+<ion-footer class="ion-no-border">
+  <ion-button #stripeButton class="text-capitalize fls-0 fs-18 footer-btn" expand="full" color="theme">
+    Pay Now
+  </ion-button>
+</ion-footer>

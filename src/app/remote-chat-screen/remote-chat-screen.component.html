@@ -1,21 +1,22 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-        <div class="title-div" (click)="redirectProfile()">
-          <ion-avatar>
-            <img [src]="otherUserImage">
-          </ion-avatar>
-          {{toName}}
-        </div>
-        
+      <div class="title-div" (click)="redirectProfile()">
+        <ion-avatar>
+          <img [src]="otherUserImage">
+        </ion-avatar>
+        {{toName}}
+      </div>
+
     </ion-title>
     <ion-buttons slot="end">
       <ion-button fill="clear" color="medium" (click)="closeModal()">
         <ion-icon slot="icon-only" name="close"></ion-icon>
       </ion-button>
-    </ion-buttons>    
+    </ion-buttons>
   </ion-toolbar>
   <div class="view-details">
+
     <ion-text (click)="goToMessageDetails()">
       View Booking Details
     </ion-text>
@@ -23,11 +24,9 @@
   </div>
 </ion-header>
 
-<ion-content
-[scrollEvents]="true"
-#content class="animated fadeIn">  
+<ion-content [scrollEvents]="true" #content class="animated fadeIn">
   <div class="chat-container">
-    <div class="chat-list" #content>      
+    <div class="chat-list" #content>
       <ul *ngFor="let chat of chats; let i = index;let last = last">
         <li *ngIf="chat.systemGenerated == 1 && inArray(chat)">
           <ion-item class="company-item" lines="none">
@@ -36,49 +35,57 @@
             </ion-avatar>
             <ion-label>
               <h3>{{serviceName}} {{service_name != '' ? '-' : ''}} {{service_name}}</h3>
-              <p class="company-msg-time">{{dropOff | date : 'EEE dd MMM'}} {{pickUp != '' ? '-' : ''}} {{pickUp | date : 'EEE dd MMM'}}</p>
+              <p class="company-msg-time">{{dropOff | date : 'EEE dd MMM'}} {{pickUp != '' ? '-' : ''}} {{pickUp | date
+                : 'EEE dd MMM'}}</p>
               <p>Booking ID: {{bookingId}}</p>
             </ion-label>
           </ion-item>
           <div class="company-msg">
             <div class="company-msg-body" [innerHtml]="chat.message"></div>
             <div class='company-msg-btn' *ngIf="isButtonVisible">
-              <ion-button fill="outline" (click)="preApprove()" *ngIf="chat.booking_user == 'minder_approve'">Pre-Approve</ion-button>
-              <ion-button fill="outline" (click)="meetAndGreet()" *ngIf="chat.booking_user == 'owner_approve'">Let's Meet</ion-button>
-              <ion-button fill="outline" (click)="walletBalanceAPICheck()" *ngIf="chat.booking_user == 'owner_payment'">Make Payment</ion-button>
-              <ion-button fill="outline" (click)="chargeOwner()" *ngIf="chat.booking_user == 'ndis_owner_confirm'">Confirm Now</ion-button>
+              <ion-button fill="outline" (click)="preApprove()"
+                *ngIf="chat.booking_user == 'minder_approve'">Pre-Approve</ion-button>
+              <ion-button fill="outline" (click)="meetAndGreet()" *ngIf="chat.booking_user == 'owner_approve'">Let's
+                Meet</ion-button>
+              <ion-button fill="outline" (click)="walletBalanceAPICheck()"
+                *ngIf="chat.booking_user == 'owner_payment'">Make Payment</ion-button>
+              <ion-button fill="outline" (click)="chargeOwner()"
+                *ngIf="chat.booking_user == 'ndis_owner_confirm'">Confirm Now</ion-button>
               <ion-button fill="outline" *ngIf="chat.booking_user == 'ndis_owner_confirmed'">Confirmed</ion-button>
               <ion-button fill="outline" *ngIf="chat.booking_user == 'approved'">Approved</ion-button>
-              <ion-button fill="outline" *ngIf="chat.booking_user == 'owner_modified_booking'">Booking Modified</ion-button>
+              <ion-button fill="outline" *ngIf="chat.booking_user == 'owner_modified_booking'">Booking
+                Modified</ion-button>
               <ion-button fill="outline" *ngIf="chat.booking_user == 'accepted'">Accepted</ion-button>
               <ion-button fill="outline" *ngIf="chat.booking_user == 'owner_payment_done'">Payment Complete</ion-button>
-              <ion-button fill="outline" (click)="leaveReview()" *ngIf="chat.booking_user == 'booking_review'">Leave a Review & Release Payment</ion-button>
-              <ion-button fill="outline" *ngIf="chat.booking_user == 'booking_review_complete'">Booking Review Complete</ion-button>
+              <ion-button fill="outline" (click)="leaveReview()" *ngIf="chat.booking_user == 'booking_review'">Leave a
+                Review & Release Payment</ion-button>
+              <ion-button fill="outline" *ngIf="chat.booking_user == 'booking_review_complete'">Booking Review
+                Complete</ion-button>
             </div>
             <div class="mess-divider-date">
               {{getLocalTime(chat.createdate)}}
             </div>
           </div>
         </li>
-       
+
         <li *ngIf="chat.systemGenerated != 1 && (chat.message != '' || chat.image != '')" [id]="i"
           [class.client]="chat.toUser == userId && (chat?.message != '' || chat?.image != '')"
           [class.user]="chat.fromUser == userId && (chat?.message != '' || chat?.image != '')">
           <div class="chat-item">
             <div class="chat-icon">
-              <ion-img *ngIf="chat.toUser == userId" [src]="otherUserImage == null ||otherUserImage == '' ? '' : otherUserImage">
+              <ion-img *ngIf="chat.toUser == userId"
+                [src]="otherUserImage == null ||otherUserImage == '' ? '' : otherUserImage">
               </ion-img>
-              <ion-img *ngIf="chat.fromUser == userId" [src]="currentUserImage == null ||currentUserImage == '' ? '' :  currentUserImage">
+              <ion-img *ngIf="chat.fromUser == userId"
+                [src]="currentUserImage == null ||currentUserImage == '' ? '' :  currentUserImage">
               </ion-img>
             </div>
-            <div *ngIf="chat?.message"  class="chat-content">
+            <div *ngIf="chat?.message" class="chat-content">
               {{chat?.message}}
             </div>
 
             <div *ngIf="chat?.image" class="chat-content img-chat">
-              <ion-img
-              alt="https://dev.petcloud.com.au/img/pet_placeholder.png"
-              [src]="chat.image == null ||chat.image == '' ? 
+              <ion-img alt="https://dev.petcloud.com.au/img/pet_placeholder.png" [src]="chat.image == null ||chat.image == '' ? 
               'https://dev.petcloud.com.au/img/pet_placeholder.png' 
               : chat?.image"></ion-img>
             </div>
@@ -88,15 +95,17 @@
               <ion-label color="theme">View Report</ion-label>
             </ion-chip>
 
-            <div class="time-stamp">              
+            <div class="time-stamp">
               {{getLocalTime(chat.createdate)}}
-              <span *ngIf="chat?.isMessageScene == true  && chat.fromUser ==  userId"><img src="assets/icon/read-g.svg" alt=""><img src="assets/icon/read-g.svg" alt=""> </span>
-              <span *ngIf="chat?.isMessageScene == false && chat.fromUser == userId"><img src="assets/icon/read.svg" alt=""> </span>    
+              <span *ngIf="chat?.isMessageScene == true  && chat.fromUser ==  userId"><img src="assets/icon/read-g.svg"
+                  alt=""><img src="assets/icon/read-g.svg" alt=""> </span>
+              <span *ngIf="chat?.isMessageScene == false && chat.fromUser == userId"><img src="assets/icon/read.svg"
+                  alt=""> </span>
             </div>
           </div>
         </li>
 
-         {{last == true && shouldScroll ? scrollToBottom() : ''}}
+        {{last == true && shouldScroll ? scrollToBottom() : ''}}
       </ul>
       <ul *ngIf="isTyping == true">
         <li [class.client]="isTyping == true">
@@ -104,7 +113,7 @@
             <div class="chat-icon">
               <!-- <ion-img [src]="(clientImage == null ||clientImage == '') ? 
             'https://dev.petcloud.com.au/img/pet_placeholder.png' : clientImage"></ion-img> -->
-            <ion-img [src]="(otherUserImage == null ||otherUserImage == '') ? 
+              <ion-img [src]="(otherUserImage == null ||otherUserImage == '') ? 
             'https://dev.petcloud.com.au/img/pet_placeholder.png' : otherUserImage"></ion-img>
             </div>
             <div class="chat-content typing-content">
@@ -116,27 +125,26 @@
             </div>
           </div>
         </li>
-        
-        
+
+
       </ul>
     </div>
 
-  
+
     <div class="chat-footer">
       <div class="chat-inner">
-          <div class="input-div">
-            <div class="input">
-              <ion-textarea rows="1"
-              (ionInput)="isMessageonChange(myInput)" autosize #myInput id="myInput"
-                [(ngModel)]="chatMessage" placeholder="Your Message" maxLength="500"></ion-textarea>
-            </div>
-            <div class="send-btn">
-              <ion-icon name="send" (click)="sendMessage()"></ion-icon>
-            </div>
-            <div class="send-btn" (click)="fileSharingPopOver($event)">
-              <ion-icon name="attach"></ion-icon>
-            </div>
+        <div class="input-div">
+          <div class="input">
+            <ion-textarea rows="1" (ionInput)="isMessageonChange(myInput)" autosize #myInput id="myInput"
+              [(ngModel)]="chatMessage" placeholder="Your Message" maxLength="500"></ion-textarea>
           </div>
+          <div class="send-btn">
+            <ion-icon name="send" (click)="sendMessage()"></ion-icon>
+          </div>
+          <div class="send-btn" (click)="fileSharingPopOver($event)">
+            <ion-icon name="attach"></ion-icon>
+          </div>
+        </div>
       </div>
     </div>
   </div>

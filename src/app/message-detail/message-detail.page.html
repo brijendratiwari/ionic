@@ -13,7 +13,8 @@
 
     <ng-container *ngIf="isAPILoaded">
         <ion-segment [(ngModel)]="selectedSegment" *ngIf="!onlyProfile" color="theme">
-            <ion-segment-button class="ion-text-capitalize" value="bookingAssistant">Booking Assistant</ion-segment-button>
+            <ion-segment-button class="ion-text-capitalize" value="bookingAssistant">Booking
+                Assistant</ion-segment-button>
             <ion-segment-button class="ion-text-capitalize" value="info">My Booking</ion-segment-button>
         </ion-segment>
 
@@ -41,12 +42,17 @@
                                 : messageDetails?.minder?.imagename"></ion-img>
                             </ion-avatar>
                         </ion-col>
-                        
+
                     </ion-row>
 
                     <ion-row (click)="redirectProfile()">
-                        <ion-col [routerLink]="['/pet-sitter-detail', messageMinderId]">
+                        <ion-col [routerLink]="['/pet-sitter-detail', messageMinderId]"
+                            *ngIf="userId == messageOwnerId">
                             <h4 class="profile-name">{{messageDetails?.minder?.first_name}}</h4>
+                        </ion-col>
+                        <ion-col [routerLink]="['/pet-sitter-detail', messageOwnerId]"
+                            *ngIf="userId == messageMinderId">
+                            <h4 class="profile-name">{{messageDetails?.owner?.first_name}}</h4>
                         </ion-col>
                     </ion-row>
 
@@ -85,7 +91,7 @@
                         </div>
                     </div>
 
-                    
+
 
 
                     <div *ngIf="userId == messageMinderId" class="info-item info-row">
@@ -248,7 +254,8 @@
                             <h4>Destination</h4>
                         </div>
                         <div class="info-desc">
-                            <p>{{messageDetails?.destination_address != null ? messageDetails?.destination_address : ''}}</p>
+                            <p>{{messageDetails?.destination_address != null ? messageDetails?.destination_address :
+                                ''}}</p>
                         </div>
                     </div>
                     <div class="info-item info-row">
@@ -287,8 +294,7 @@
                             <h4 class="sub-heading">Payment Details</h4>
                         </ion-col>
                         <ion-col class="text-right">
-                            <ion-button fill="clear" color="theme" size="small" class="ion-no-padding" 
-                            *ngIf="!onlyProfile && userId == messageMinderId 
+                            <ion-button fill="clear" color="theme" size="small" class="ion-no-padding" *ngIf="!onlyProfile && userId == messageMinderId 
                                 && (booking_status == 'P' || booking_status == 'PP' || booking_status == 'J')"
                                 (click)="alterBookingCost(messageDetails?.orignal_amount)">
                                 <ion-icon name="create"></ion-icon> Edit
@@ -299,7 +305,7 @@
 
                 <div class="info-list">
 
-                    <div class="info-item info-row" *ngFor="let serviceDetail of messageDetails?.service?.servicecost">                        
+                    <div class="info-item info-row" *ngFor="let serviceDetail of messageDetails?.service?.servicecost">
                         <div class="service-label">
                             <h4>{{serviceDetail?.name}}</h4>
                             <p>${{serviceDetail?.price | number:'1.2-2'}} x {{serviceDetail?.quantity}}</p>
@@ -346,19 +352,19 @@
                     </div>
                 </div>
 
-                <div class="button-container" *ngIf= "!onlyProfile">
+                <div class="button-container" *ngIf="!onlyProfile">
                     <div *ngIf="messageDetails?.booking_status == 'CURR' && messageDetails?.cancel_request_from == null || 
                     messageDetails?.booking_status == 'MD'  && messageDetails?.cancel_request_from == null">
-                        <ion-button expand="block" (click)="cancelBooking(messageDetails.id,messageDetails)" color="danger"
-                            class="text-capitalize fls-0">Cancel</ion-button>
+                        <ion-button expand="block" (click)="cancelBooking(messageDetails.id,messageDetails)"
+                            color="danger" class="text-capitalize fls-0">Cancel</ion-button>
                     </div>
-    
+
                     <div *ngIf="messageDetails?.booking_status == 'A'  && messageDetails?.cancel_request_from == null ||
                     messageDetails?.booking_status == 'M' && messageDetails?.cancel_request_from == null">
-                        <ion-button expand="block" (click)="declineBooking(messageDetails.id,messageDetails)" color="danger"
-                            class="text-capitalize fls-0">Decline</ion-button>
+                        <ion-button expand="block" (click)="declineBooking(messageDetails.id,messageDetails)"
+                            color="danger" class="text-capitalize fls-0">Decline</ion-button>
                     </div>
-    
+
                     <div *ngIf="messageDetails?.booking_status == 'A' || 
                     messageDetails?.booking_status == 'M' || 
                     messageDetails?.booking_status == 'MD' || 
@@ -367,22 +373,21 @@
                             class="text-capitalize fls-0">Modify</ion-button>
                     </div>
                 </div>
-                <div class="button-container profile-btn" *ngIf= "onlyProfile">
-                    <div *ngIf="messageDetails?.cancel_request_from == null && (booking_status == 'MD' || booking_status == 'CURR')">
-                        <ion-button expand="block" (click)="cancelBooking(messageDetails.id,messageDetails)" color="danger"
-                            class="text-capitalize fls-0">Cancel</ion-button>
+                <div class="button-container profile-btn" *ngIf="onlyProfile">
+                    <div
+                        *ngIf="messageDetails?.cancel_request_from == null && (booking_status == 'MD' || booking_status == 'CURR')">
+                        <ion-button expand="block" (click)="cancelBooking(messageDetails.id,messageDetails)"
+                            color="danger" class="text-capitalize fls-0">Cancel</ion-button>
                     </div>
-                    <div *ngIf="messageDetails?.cancel_request_from == null && (booking_status == 'P' || booking_status == 'PP' || booking_status == 'J')">
-                        <ion-button expand="block" (click)="declineBooking(messageDetails.id,messageDetails)" color="danger"
-                            class="text-capitalize fls-0">Decline</ion-button>
+                    <div
+                        *ngIf="messageDetails?.cancel_request_from == null && (booking_status == 'P' || booking_status == 'PP' || booking_status == 'J')">
+                        <ion-button expand="block" (click)="declineBooking(messageDetails.id,messageDetails)"
+                            color="danger" class="text-capitalize fls-0">Decline</ion-button>
                     </div>
                     <div *ngIf="userId == messageOwnerId
-                        && (booking_status == 'P' || booking_status == 'PP')"
-                    >
-                        <ion-button expand="block" 
-                            (click)="modifyBooking(messageDetails.id)" color="theme-sec"
-                            class="text-capitalize fls-0"
-                        >Modify</ion-button>
+                        && (booking_status == 'P' || booking_status == 'PP')">
+                        <ion-button expand="block" (click)="modifyBooking(messageDetails.id)" color="theme-sec"
+                            class="text-capitalize fls-0">Modify</ion-button>
                     </div>
                 </div>
             </div>
@@ -639,18 +644,22 @@
                                                     <!-- <p  [hidden]="messageDetails?.jobId" > Congrats! The  {{messageDetails?.minder?.first_name}} has indicated they are available for those dates. </p>  -->
                                                 </div>
 
-                                                <p *ngIf="available_balance < chargeAmount"  >
+                                                <p *ngIf="available_balance < chargeAmount">
                                                     Show the Sitter you’re serious by funding your PetCloud wallet.
                                                     Funds will not be released to the Sitter until after the stay.<br>
                                                     If the Sitter is not a good match, you can cancel the booking.<br>
-                                                    Book faster & top up less often by having plenty of credits in your wallet, <br>
-                                                   Get a refund anytime read <span (click)="openBrowser('https://dev.petcloud.com.au/terms-of-service')" class="highlight"> T&Cs </span>
-                                                </p> 
+                                                    Book faster & top up less often by having plenty of credits in your
+                                                    wallet, <br>
+                                                    Get a refund anytime read <span
+                                                        (click)="openBrowser('https://dev.petcloud.com.au/terms-of-service')"
+                                                        class="highlight"> T&Cs </span>
+                                                </p>
 
                                                 <p *ngIf="available_balance >= chargeAmount">
-                                                    Congrats! {{messageDetails?.minder?.first_name}} is available for the dates you inquired.<br>
-                                                        Arrange a Meet & Greet within the next 7 days.
-                                                </p> 
+                                                    Congrats! {{messageDetails?.minder?.first_name}} is available for
+                                                    the dates you inquired.<br>
+                                                    Arrange a Meet & Greet within the next 7 days.
+                                                </p>
                                             </div>
                                         </div>
 
@@ -700,21 +709,22 @@
                                                 </ion-button>
                                             </ion-col>
 
-                                            <ion-col *ngIf="messageDetails?.messageView == '1' && booking_status == 'PP' ">
+                                            <ion-col
+                                                *ngIf="messageDetails?.messageView == '1' && booking_status == 'PP' ">
 
                                                 <div class="button-container">
 
-                                                    <ng-container *ngIf="available_balance < chargeAmount" >
+                                                    <ng-container *ngIf="available_balance < chargeAmount">
                                                         <ion-button expand="block"
-                                                        class="custom-long-text-button aqua-button" color="theme"
-                                                        [disabled]="isWalletAuthorizedButtonClicked"
-                                                        (click)="authorizeBookingViaWallet(messageDetails?.id)">
-                                                        Add Credits & Enable Live Chat  </ion-button>
+                                                            class="custom-long-text-button aqua-button" color="theme"
+                                                            [disabled]="isWalletAuthorizedButtonClicked"
+                                                            (click)="authorizeBookingViaWallet(messageDetails?.id)">
+                                                            Add Credits & Enable Live Chat </ion-button>
                                                     </ng-container>
 
                                                     <ion-button expand="block"
                                                         class="custom-long-text-button aqua-button" color="danger"
-                                                        (click)="ownerCancelBooking()">Cancel Booking  
+                                                        (click)="ownerCancelBooking()">Cancel Booking
                                                     </ion-button>
                                                 </div>
 
@@ -745,7 +755,8 @@
                                     <li *ngIf="message.callToAction == 'SCA'" [ngClass]="{'green-mark': last == true}">
                                         <div class="content">
                                             <ng-container *ngIf="messageDetails?.wallet_booking == '1'">
-                                            Congrats! {{messageDetails?.minder?.first_name}} is available for the dates you inquired. Arrange a Meet & Greet within the next 7 days.
+                                                Congrats! {{messageDetails?.minder?.first_name}} is available for the
+                                                dates you inquired. Arrange a Meet & Greet within the next 7 days.
                                             </ng-container>
                                             <ng-container *ngIf="messageDetails?.wallet_booking != '1'">
                                                 Success! Card PreAuthorised (not charged).
@@ -1665,7 +1676,8 @@
 
                                                     <!-- Today is the end of the Stay</b> -->
 
-                                                    <p> You are Amazing! Thank you for making an impact by booking through PetCloud.</p>
+                                                    <p> You are Amazing! Thank you for making an impact by booking
+                                                        through PetCloud.</p>
 
                                                     <ion-button
                                                         *ngIf="messageDetails?.paypal_minder_pay == 1  &&  
@@ -1674,9 +1686,8 @@
                                                         messageDetails?.bookingreoccurring?.occurrences < 3
                                                         || messageDetails?.bookingType == '0' &&  messageDetails?.paypal_minder_paid == null"
                                                         expand="block" class="text-capitalize fls-0 fs-12"
-                                                        style="white-space: pre-wrap;"
-                                                        color="success"
-                                                        (click)="leaveReview()"> Leave a Review & Release Payment 
+                                                        style="white-space: pre-wrap;" color="success"
+                                                        (click)="leaveReview()"> Leave a Review & Release Payment
                                                     </ion-button>
                                                 </div>
 
@@ -1689,9 +1700,10 @@
                                                         && messageDetails?.paypal_minder_pay == '0' || 
                                                         messageDetails?.paypal_minder_pay == null 
                                                         ">
-                                                            <ion-button expand="block" class="text-capitalize fls-0 fs-12"
-                                                            style="white-space: pre-wrap;"
-                                                                color="theme" (click)="leaveReview()">Leave a Review & Release Payment
+                                                            <ion-button expand="block"
+                                                                class="text-capitalize fls-0 fs-12"
+                                                                style="white-space: pre-wrap;" color="theme"
+                                                                (click)="leaveReview()">Leave a Review & Release Payment
                                                             </ion-button>
                                                         </ion-col>
 
@@ -1872,7 +1884,8 @@
                                     <li [ngClass]="{'green-mark': last == true}" *ngIf="message.callToAction == 'SCA'">
                                         <div class="content">
                                             <ng-container *ngIf="messageDetails?.wallet_booking == '1'">
-                                                Congrats! {{messageDetails?.minder?.first_name}} is available for the dates you inquired. Arrange a Meet & Greet within the next 7 days.
+                                                Congrats! {{messageDetails?.minder?.first_name}} is available for the
+                                                dates you inquired. Arrange a Meet & Greet within the next 7 days.
                                             </ng-container>
                                             <ng-container *ngIf="messageDetails?.wallet_booking != '1'">
                                                 Success! Card PreAuthorised (not charged).
@@ -1932,7 +1945,7 @@
                                         <ion-grid *ngIf="booking_status== 'A'  &&  message?.noButtons == null">
                                             <ion-row>
                                                 <ion-col size="12">
-                                                  
+
                                                     <ion-button expand="block" class="text-capitalize fls-0"
                                                         color="theme" (click)="meetandGreet(messageDetails?.id,false)">
                                                         Request Meet and
@@ -2731,7 +2744,8 @@
                                                     <span>Pet Cloud</span>
                                                 </div>
                                                 <div class="support-content">
-                                                    <b> You are Amazing! Thank you for helping to take care of this Owner’s Pet.</b>
+                                                    <b> You are Amazing! Thank you for helping to take care of this
+                                                        Owner’s Pet.</b>
                                                 </div>
                                             </div>
                                         </div>
@@ -2862,7 +2876,7 @@
                         </ion-card>
                     </div>
 
-                    
+
                     <div *ngIf="messageDetails?.messageView == null">
                         <!-- Booking Status is E -->
                         <div *ngIf="booking_status == 'E'">
@@ -2898,10 +2912,9 @@
                             <ion-grid>
                                 <ion-row>
                                     <ion-col size="12" *ngIf="userId == messageOwnerId">
-                                        <ion-button expand="block" class="text-capitalize fls-0 fs-10" 
-                                        style="white-space: pre-wrap;"
-                                        color="theme"
-                                            (click)="leaveReview()">Leave a Review & Release Payment</ion-button>
+                                        <ion-button expand="block" class="text-capitalize fls-0 fs-10"
+                                            style="white-space: pre-wrap;" color="theme" (click)="leaveReview()">Leave a
+                                            Review & Release Payment</ion-button>
                                     </ion-col>
                                 </ion-row>
                             </ion-grid>
@@ -3085,16 +3098,17 @@
     || booking_status =='M' && cancel_request == null 
     || booking_status =='M'&& decline_request == null"> -->
 
-        <ion-button class="live-chat" expand="full" (click)="chatScreen()">
-            Live Chat
-        </ion-button>
+    <ion-button class="live-chat" expand="full" (click)="chatScreen()">
+        Live Chat
+    </ion-button>
 
-        <div class="policy">
-            <span>
-              We scan messages to enforce policies. 
-                  Booking through PetCloud protects your wallet from unexpected Vet Bills. Asking the other party to complete a transaction outside of PetCloud is not allowed.
-             </span> 
-          </div>
+    <div class="policy">
+        <span>
+            We scan messages to enforce policies.
+            Booking through PetCloud protects your wallet from unexpected Vet Bills. Asking the other party to complete
+            a transaction outside of PetCloud is not allowed.
+        </span>
+    </div>
 
     <!-- </ng-container> -->
 
