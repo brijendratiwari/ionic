@@ -4,14 +4,13 @@ export const environment = {
   apiBase: "https://www.petcloud.com.au/api/",
   socketUrl: "https://messages-live.petcloud.com.au",
   env: "prod",
-  firebase: {
-    apiKey: "AIzaSyC89vwZN4KjHHoh7oWf1Jzqvm3GNf7x_4Y",
-    authDomain: "petcloud2020.firebaseapp.com",
-    databaseURL: "https://petcloud2020.firebaseio.com",
-    projectId: "petcloud2020",
-    storageBucket: "petcloud2020.appspot.com",
-    messagingSenderId: "689365265587",
-    appId: "1:689365265587:web:d0412411f2698db729d4c6",
-    measurementId: "G-0F3TP4EEPF",
+  firebase:{
+    apiKey: "AIzaSyDoElSXYrk9g17GgHrPxeryBr6VrKvcmFc",
+    authDomain: "petcloudionic.firebaseapp.com",
+    databaseURL: "https://petcloudionic.firebaseio.com",
+    projectId: "petcloudionic",
+    storageBucket: "petcloudionic.appspot.com",
+    messagingSenderId: "132479912039",
+    appId: "1:132479912039:web:01f2da2f63e2510c6c6cc2"
   }
 };

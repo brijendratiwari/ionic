@@ -48,3 +48,20 @@
 .error {
     margin-left: 10px;
 }
+
+.pp-container {
+    text-align: center;
+}
+
+.pp-start-now-btn {
+    margin-top: 40px;
+    width: 40%;
+    --border-radius: 8px;
+}
+
+.pp-info-card {
+    box-shadow: none;
+    width: 70%;
+    margin: 40px auto;
+    font-weight: 700;
+}

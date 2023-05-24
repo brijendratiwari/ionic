@@ -1,25 +1,48 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-buttons slot="start">
-            <ion-back-button (click)="backButtonNavigate()" defaultHref="home"></ion-back-button>
-        </ion-buttons>
-        <ion-title>Payout Preference</ion-title>
-    </ion-toolbar>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button
+        (click)="backButtonNavigate()"
+        defaultHref="home"
+      ></ion-back-button>
+    </ion-buttons>
+    <ion-title>Payout Preference</ion-title>
+  </ion-toolbar>
 </ion-header>
 <ion-content>
-    <!-- <ion-card class="info-card" color="theme-sec">
+  <div class="pp-container">
+    <h4>Receive Secure Payouts</h4>
+    <p>
+      Are you a Pet Professional? Manage bookings, take payments, and run
+      reports. It’s simple, secure, and powerful.
+    </p>
+    <ion-text (click)="openInstruction()"  color="theme-sec" class="text-underline">Step by step instructions & screenshots</ion-text>
+
+    <ion-button
+      (click)="onStartNow()"
+      class="text-capitalize fls-0 fs-18 footer-btn pp-start-now-btn"
+      color="theme"
+      *ngIf="!isVerified"
+    >
+      Start Now
+    </ion-button>
+    <ion-card class="pp-info-card" color="theme-sec" *ngIf="isVerified">
+      <ion-card-header>✔ Stripe Verified Provider </ion-card-header>
+    </ion-card>
+  </div>
+  <!-- <ion-card class="info-card" color="theme-sec">
         <ion-card-content class="ion-text-justify fs-12">
             This screen is for Pet Sitters to provide their preferred bank account or Paypal account they want to
             receive PetCloud payments to at the end of the stay.
         </ion-card-content>
     </ion-card> -->
-    <div class="data-div">
+  <!-- <div class="data-div">
         <ion-grid>
             <ion-card class="info-card" color="note">
                 <ion-card-header>Submit your bank details and then verify your Identity.
                 </ion-card-header>
             </ion-card>
-            <!-- <ion-row class="ion-no-margin custom-list">
+            <ion-row class="ion-no-margin custom-list">
                 <ion-col>
                     <h4>Stripe</h4>
                     <p class="fs-12 ion-text-justify">We use Stripe payment gateway to securely process payments for
@@ -36,8 +59,8 @@
                     </p>
                 </ion-col>
             </ion-row> -->
-            <!--  -->
-            <!-- <ng-container *ngIf="documentContainer">
+  <!--  -->
+  <!-- <ng-container *ngIf="documentContainer">
                 <ion-card class="info-card" color="note">
                     <ion-card-header>Step 2. Upload your Identity document.
                     </ion-card-header>
@@ -62,7 +85,7 @@
                         </ion-col>
                     </ion-row>
                 </div>
-            </ng-container> -->
+            </ng-container> 
             <ng-container>
                 <ion-card class="info-card" *ngIf="isStripeAccountAdded == false" color="note">
                     <ion-card-header>Step 1. Please Provide your Bank Details.
@@ -102,10 +125,10 @@
                             [disabled]="!stripeFrm.valid || !isEdit" (click)="updateStripe()">
                             Submit
                         </ion-button>
-                        <!-- <ion-button class="text-capitalize fls-0 fs-18 footer-btn" color="theme"
+                        <ion-button class="text-capitalize fls-0 fs-18 footer-btn" color="theme"
                             [disabled]="!stripeFrm.valid || !isEdit" (click)="updateStripe('')">
                             Submit
-                        </ion-button> -->
+                        </ion-button> 
                     </form>
                 </div>
 
@@ -115,7 +138,7 @@
                 </ion-button>
             </ng-container>
         </ion-grid>
-        <!-- <ion-grid *ngSwitchCase="'paypal'">
+        <ion-grid *ngSwitchCase="'paypal'">
             <ion-row>
                 <ion-col>
                     <h4>Paypal</h4>
@@ -160,7 +183,7 @@
                     </ion-button>
                 </form>
             </div>
-        </ion-grid> -->
-    </div>
-    <!-- <ion-button #stripeButton color="primary">Pay with Stripe</ion-button> -->
+        </ion-grid>
+    </div> -->
+  <!-- <ion-button #stripeButton color="primary">Pay with Stripe</ion-button> -->
 </ion-content>

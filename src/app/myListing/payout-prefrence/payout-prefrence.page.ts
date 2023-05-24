@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { finalize } from 'rxjs/operators';
 import { Camera, CameraOptions } from "@ionic-native/camera/ngx";
 import { OtpVerificationPage } from '../../otp-verification/otp-verification.page';
-import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser/ngx';
+import { InAppBrowser, InAppBrowserOptions, InAppBrowserEvent } from '@ionic-native/in-app-browser/ngx';
 
 // importing model files
 import { ApiResponse } from '../../model/api-response';
@@ -116,6 +116,28 @@ export class PayoutPrefrencePage implements OnInit {
             });
     }
 
+    onStartNow() {
+        this.api.showLoader()
+        this.api.getConnectionStripe({}).subscribe((res: any) => {
+            this.api.hideLoader()
+            let browser = this.iab.create(res.url, '_blank', 'location=yes');    //This will open link in InAppBrowser
+            var successUrl = res.refresh_url;
+            var closeUrl = res.return_url;
+            browser.on('loadstart').subscribe((event: InAppBrowserEvent) => {
+                if (event.url == closeUrl) {
+                    browser.close();       //This will close InAppBrowser Automatically when closeUrl Started
+                    this.backButtonNavigate();
+                }
+                if (event.url == successUrl) {
+                    browser.close();
+                    this.backButtonNavigate();
+                }
+            })
+        }, err => {
+            this.api.hideLoader()
+            console.log(err);
+        });
+    }
 
     async checkVerificationPending(userData) {
         if (userData.user_type == 2 || userData.user_type == 3) {
@@ -375,6 +397,7 @@ export class PayoutPrefrencePage implements OnInit {
 
     }
     getUserDetails() {
+        this.api.showLoader()
         this.api.getUserBasicProfile()
             .pipe(finalize(() => {
                 this.api.hideLoader();
@@ -393,5 +416,10 @@ export class PayoutPrefrencePage implements OnInit {
                 this.navCntl.navigateRoot('/home/tabs/profile-menu')
 
             });
+    }
+    openInstruction() {
+        var url = 'https://community.petcloud.com.au/portal/en/kb/articles/when-how-do-i-get-paid'
+        const browser = this.iab.create(url, "_system", this.options);
+        browser.show();
     }
 }

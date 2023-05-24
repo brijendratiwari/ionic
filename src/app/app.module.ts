@@ -44,6 +44,7 @@ import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { Badge } from '@ionic-native/badge/ngx';
 import { AuthenticationService } from './services/authentication.service';
 import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
 import { SignInWithApple } from '@ionic-native/sign-in-with-apple/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { CameraService } from './camera-service.service';
@@ -72,6 +73,7 @@ import { File } from "@ionic-native/File/ngx";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';
+import { Stripe } from '@ionic-native/stripe/ngx';
 import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { RemoteChatScreenComponent } from './remote-chat-screen/remote-chat-screen.component';
 import { PreAcceptBookingComponent } from './components/pre-accept-booking/pre-accept-booking.component';
@@ -158,6 +160,7 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
   ],
   providers: [
     StatusBar,
+    Stripe,
     Deeplinks,
     // SmsRetriever,
     RlTagInputModule,
@@ -181,6 +184,7 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
     Device,
     AuthenticationService,
     Diagnostic,
+    OpenNativeSettings,
     SignInWithApple,
     InAppBrowser,
     CameraService,

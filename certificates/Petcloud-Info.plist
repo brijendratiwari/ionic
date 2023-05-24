@@ -128,7 +128,7 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow this app to use your location to find nearby sitters and places</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Allow this app to use your location to find nearby sitters and places</string>
+	<string>Allow this app to use your location for geocoder services</string>
     <key>NSMainNibFile</key>
     <string/>
     <key>NSMainNibFile~ipad</key>

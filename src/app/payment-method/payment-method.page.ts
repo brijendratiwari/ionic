@@ -8,6 +8,7 @@ import { finalize } from 'rxjs/operators';
 // import {PayPal, PayPalConfiguration} from '@ionic-native/paypal/ngx';
 import { NavController, Platform } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
+import { InAppBrowser, InAppBrowserOptions, InAppBrowserEvent } from '@ionic-native/in-app-browser/ngx';
 
 @Component({
     selector: 'app-payment-method',
@@ -21,7 +22,7 @@ export class PaymentMethodPage implements OnInit {
     public creditCardFrm: FormGroup;
     public backButton: any = "";
 
-    constructor(protected storage: Storage, public api: PetcloudApiService, private stripe: Stripe,
+    constructor(protected storage: Storage, public iab: InAppBrowser, public api: PetcloudApiService, private stripe: Stripe,
         public navCntl: NavController, public router: Router,
         public plt: Platform, public route: ActivatedRoute,
         private formBuilder: FormBuilder,
@@ -200,6 +201,12 @@ export class PaymentMethodPage implements OnInit {
 
     public connectPaypal() {
         this.api.showToast("We will release paypal payments in next version of App", "3000", "bottom");
+    }
+
+    openStripeBilling() {
+        let browser = this.iab.create('https://billing.stripe.com/p/login/4gwdS42Sr4FW3qE4gg', '_blank', 'location=yes');    //This will open link in InAppBrowser
+           
+            browser.on('loadstart').subscribe((event: InAppBrowserEvent) => { })
     }
 
     getInfo() {

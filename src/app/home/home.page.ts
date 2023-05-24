@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MenuController } from '@ionic/angular';
+import { MenuController, Platform } from '@ionic/angular';
 import { Storage } from '@ionic/storage';
 import { PetcloudApiService } from '../../app/api/petcloud-api.service';
 import { Router } from '@angular/router';
@@ -7,6 +7,9 @@ import { IonTabs } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 import { User } from '../model/user';
 import { Events } from '../events';
+import { Diagnostic } from '@ionic-native/diagnostic/ngx';
+import { OpenNativeSettings } from '@ionic-native/open-native-settings/ngx';
+
 
 @Component({
     selector: 'app-home',
@@ -19,6 +22,7 @@ export class HomePage implements OnInit {
     userType: any = "";
     private routeSubscrible = new Subscription();
     private events = null;
+    showPushNotification = false
 
     public tabSelected = {
         isPostJobSelected: false,
@@ -33,6 +37,9 @@ export class HomePage implements OnInit {
 
     constructor(public sideMenu: MenuController,
         protected PMEvents: Events,
+        private platform: Platform,
+        private diagnostic: Diagnostic,
+        private nativeSettings: OpenNativeSettings,
         protected storage: Storage,
         private router: Router,
         public api: PetcloudApiService) {
@@ -65,30 +72,59 @@ export class HomePage implements OnInit {
             }
         });
 
+        this.platform.ready().then(async (data) => {
+            this.checkNotification();
+        });
+        this.platform.resume.subscribe(async () => {
+            this.checkNotification();
+        });
+
     }
 
-    ngOnInit(): void {
-        // this.PMEvents.publish("stripe", Date.now())
+    checkNotification(): void {
+        if (this.platform.is("cordova")) {
+            this.diagnostic.isRemoteNotificationsEnabled().then(enabled => {
+                if (!enabled) {
+                    this.showPushNotification = true
+                } else {
+                    this.showPushNotification = false
+                }
+            }).catch (error => { console.log() });
+        }
     }
 
-    ngOnDestroy() {
-        this.events = null;
-        this.routeSubscrible.unsubscribe();
+    openSettings() {
+        this.nativeSettings
+            .open('application_details')
+            .then( res => {
+                console.log(res);
+            })
+            .catch( err => {
+                console.log(err);
+            })
     }
+
+ngOnInit(): void {
+    // this.PMEvents.publish("stripe", Date.now())
+}
+
+ngOnDestroy() {
+    this.events = null;
+    this.routeSubscrible.unsubscribe();
+}
 
     public sliderOpts = {
-        slidesPerView: 2.5
-    };
+    slidesPerView: 2.5
+};
 
-    getSelectedTab(event) {
-        this.PMEvents.publish("stripe", Date.now())
-        this.api.isHomeTabsChanged = true;
-        console.log("Selected Tab Name", event.tab);
-        event.tab == "get-started" ? this.tabSelected.isMessageNullTab = true : this.tabSelected.isMessageNullTab = false
-        event.tab == "explore" ? this.tabSelected.isExploreScreen = true : this.tabSelected.isExploreScreen = false;
-        event.tab == "jobs-tab" ? this.tabSelected.isViewJobSelected = true : this.tabSelected.isViewJobSelected = false
-        event.tab == "sitter-listing" ? this.tabSelected.isSitterScreen = true : this.tabSelected.isSitterScreen = false
-        event.tab == "messages" ? this.tabSelected.isMessageSelected = true : this.tabSelected.isMessageSelected = false
-        event.tab == "profile-menu" ? this.tabSelected.isProfileSelected = true : this.tabSelected.isProfileSelected = false
-    }
+getSelectedTab(event) {
+    this.PMEvents.publish("stripe", Date.now())
+    this.api.isHomeTabsChanged = true
+    event.tab == "get-started" ? this.tabSelected.isMessageNullTab = true : this.tabSelected.isMessageNullTab = false
+    event.tab == "explore" ? this.tabSelected.isExploreScreen = true : this.tabSelected.isExploreScreen = false;
+    event.tab == "jobs-tab" ? this.tabSelected.isViewJobSelected = true : this.tabSelected.isViewJobSelected = false
+    event.tab == "sitter-listing" ? this.tabSelected.isSitterScreen = true : this.tabSelected.isSitterScreen = false
+    event.tab == "messages" ? this.tabSelected.isMessageSelected = true : this.tabSelected.isMessageSelected = false
+    event.tab == "profile-menu" ? this.tabSelected.isProfileSelected = true : this.tabSelected.isProfileSelected = false
+}
 }

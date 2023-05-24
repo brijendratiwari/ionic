@@ -27,3 +27,19 @@ ion-item {
   border: 1px solid #b5b5b5;
   box-shadow: none;
 }
+
+.info-text {
+  font-size: 14px;
+  text-align: center;
+  color: #737373;
+}
+
+.note-card {
+  ion-card-content{
+    padding: 0;
+  }
+}
+
+.update-credit-card {
+  --background: #52c4be;
+}

@@ -8,12 +8,20 @@
 </ion-header>
 
 <ion-content class="ion-padding">
-    <ion-card class="note-card" color="theme-sec">
+    <ion-card class="note-card">
         <ion-card-content class="fs-14">
-            This screen allows Pet Owners to connect their credit card to PetCloud to pay for bookings.
+            We don't store your credit card, or any authentication tokens on PetCloud. PetCloud partners with Stripe to provide secure payments. Stripe forces HTTPS for all services using TLS(SSL) using AES-256-bit encryption technologies & is 100% PCI compliant, which means your details are secure for your peace of mind.
         </ion-card-content>
+       <!--  <ion-card-content class="fs-14">
+            This screen allows Pet Owners to connect their credit card to PetCloud to pay for bookings.
+        </ion-card-content> -->
     </ion-card>
-    <ion-item>
+    <ion-button class="text-capitalize fls-0 fs-18 update-credit-card" expand="block"
+         (click)="openStripeBilling()">
+        Update Credit Card
+    </ion-button>
+    <p class="info-text">click to go to Stripe's secure billing portal</p>
+  <!--   <ion-item>
         <ion-label>Credit card</ion-label>
         <ion-img class="accountCard" src="/assets/img/cards.png" alt="cards"></ion-img>
     </ion-item>
@@ -79,13 +87,13 @@
             *ngIf="creditCardFrm.get('cardCcv').hasError('required') && creditCardFrm.get('cardCcv').touched
                   || creditCardFrm.get('cardCcv').hasError('maxlength') || creditCardFrm.get('cardCcv').hasError('pattern')">
             Enter proper ccv
-        </ion-text>
+        </ion-text> -->
         <!--<ion-item lines="none">
             <ion-button class="text-capitalize fls-0 fs-18" size="large" expand="block" color="theme"
                         [disabled]="!creditCardFrm.valid" (click)="saveCardInStripe()">Save
             </ion-button>
         </ion-item>-->
-    </form>
+    <!-- </form> -->
     <!-- <ion-card class="paypal-card">
         <ion-card-content>
             <ion-button shape="round" size="default" fill="outline" expand="full" color="theme"
@@ -99,9 +107,9 @@
         </ion-card-content>
     </ion-card> -->
 </ion-content>
-<ion-footer>
+<!-- <ion-footer>
     <ion-button class="text-capitalize fls-0 fs-18 footer-btn" expand="block" color="theme"
         [disabled]="!creditCardFrm.valid" (click)="saveCardInStripe()">
         save payment method
     </ion-button>
-</ion-footer>
+</ion-footer> -->

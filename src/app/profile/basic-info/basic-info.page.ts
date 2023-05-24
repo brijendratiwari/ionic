@@ -68,7 +68,7 @@ export class BasicInfoPage implements OnInit {
             last_name: ['', [Validators.required]],
             gender: [''],
             user_type: ['', [Validators.required]],
-            dob: ['', [Validators.required]],
+            dob: [''],
             street_address: ['', [Validators.required]],
             address: ['', [Validators.required]],
             state: ['', [Validators.required]],

@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ModalController, NavParams, NavController } from "@ionic/angular";
 import { Storage } from "@ionic/storage";
@@ -13,6 +13,8 @@ import { BookingSuccessComponentComponent } from "../booking-success-component/b
 import { AnalyticsService } from "../analytics.service";
 import { AppsFlyerService } from "../apps-flyer.service";
 import { Subject, Subscription } from 'rxjs';
+import { InAppBrowser, InAppBrowserOptions, InAppBrowserEvent } from '@ionic-native/in-app-browser/ngx';
+// import { Stripe } from '@ionic-native/stripe/ngx';
 import * as moment from 'moment';
 declare var Stripe;
 @Component({
@@ -21,7 +23,8 @@ declare var Stripe;
   styleUrls: ['./stripe-booking-checkout.component.scss'],
 })
 export class StripeBookingCheckoutComponent implements OnInit {
-  stripe = Stripe("pk_test_zkkFAGZwDD9xy11honnnetBC");
+  // staging key stripe = Stripe("pk_test_zkkFAGZwDD9xy11honnnetBC");
+  stripe = Stripe("pk_live_wNJnTBLokw63fWXuBLcx5v0e");
   @ViewChild('stripeButton', { read: ElementRef }) stripeButton: ElementRef;
   componentDestroyed$: Subject<boolean> = new Subject()
   private _routerSub = new Subscription();
@@ -96,6 +99,26 @@ export class StripeBookingCheckoutComponent implements OnInit {
   public chargeAmount = 0;
   public available_balance = 0;
   public isWalletAuthorizedButtonClicked = false;
+
+  public options: InAppBrowserOptions = {
+    location: 'yes',
+    hidden: 'no',
+    clearcache: 'yes',
+    clearsessioncache: 'yes',
+    zoom: 'yes',//Android only
+    hardwareback: 'yes',
+    mediaPlaybackRequiresUserAction: 'no',
+    shouldPauseOnSuspend: 'no', //Android only
+    closebuttoncaption: 'Close', //iOS only
+    disallowoverscroll: 'no', //iOS only
+    toolbar: 'yes', //iOS only
+    enableViewportScale: 'no', //iOS only
+    allowInlineMediaPlayback: 'no',//iOS only
+    presentationstyle: 'pagesheet',//iOS only
+    fullscreen: 'yes',//Windows only
+  };
+
+
   constructor(
     public model: ModalController,
     private formBuilder: FormBuilder,
@@ -107,7 +130,10 @@ export class StripeBookingCheckoutComponent implements OnInit {
     public analytics: AnalyticsService,
     public appsFlyerAnalytics: AppsFlyerService,
     private datepipe: DatePipe,
-    public navCtrl: NavController
+    public navCtrl: NavController,
+    public iab: InAppBrowser,
+    public zone: NgZone,
+    // public stripe: Stripe
   ) {
   }
   ngAfterViewInit() {
@@ -272,6 +298,95 @@ export class StripeBookingCheckoutComponent implements OnInit {
         : "",
       coupon_status: this.isGiftCodeInput ? "valid" : "",
       booking_id: this.navParam.bookingId,
+      success_url: "https://www.petcloud.com.au/success_checkout?type=sucess",
+      cancel_url: "https://www.petcloud.com.au/cancel_checkout?type=cancel",
+    };
+    this.api.showLoader();
+    this.api.stripeCheckoutSession(params).subscribe((res: any) => {
+
+      if (res.status) {
+        this.api.hideLoader()
+        /* const browser = this.iab.create(res.url, "_self", { location: 'no' });
+        browser.show() */
+        let browser = this.iab.create(res.url, '_blank', 'location=yes');    //This will open link in InAppBrowser
+        browser.on('loadstart').subscribe((event: InAppBrowserEvent) => {
+          var closeUrl = 'https://www.petcloud.com.au/cancel_checkout?type=cancel';
+          var successUrl = 'https://www.petcloud.com.au/success_checkout?type=sucess';
+          if (event.url == closeUrl) {
+            browser.close();       //This will close InAppBrowser Automatically when closeUrl Started
+          }
+          if (event.url == successUrl) {
+            browser.close();       //This will close InAppBrowser Automatically when closeUrl Started
+
+            this.api.showLoader();
+            let totalAmt = parseFloat(this.messageDetails?.service?.total);
+            let amount = totalAmt + (((totalAmt * 1.75 )/ 100) + 0.30);
+            let params = {
+              amount: amount,
+              booking_id: this.navParam.bookingId,
+              session_id: res.session_id
+            }
+            this.api.walletCheckOutSocket(params).subscribe((response: any) => {
+              this.api.hideLoader()
+              this.model.dismiss('', 'socketSuccess');
+
+              const logParams = {
+                currency: 'AUD',
+                transaction_id: 't-'+params.booking_id,
+                items: [{ item_name: 'Home Sitting', item_id: 'SKU_'+params.booking_id}],
+                value: params.amount, // Total Revenue
+              };
+              
+              this.analytics.logEvent(PetcloudApiService.purchase, logParams);
+              // this.api.showToast('', 3000, 'bottom');
+             /*  this.zone.run(() => {
+                console.log("enter")
+                this.navCtrl.navigateForward(['/home/tabs/messages/messages-list']);
+              }); */
+
+            }, error => {
+
+              this.api.hideLoader()
+            })
+          }
+        });
+        /* this.stripe.redirectToCheckout({ sessionId: res.session_id }).then((result) => {
+          console.log('result', result);
+
+        }) */
+      }
+    }, (err: any) => {
+      this.api.hideLoader()
+      console.log(err);
+    });
+    /* let cardDetails = {
+      number: '4242424242424242',
+      expMonth: 12,
+      expYear: 2025,
+      cvc: '220'
+    }
+
+    this.stripe.setPublishableKey("pk_test_zkkFAGZwDD9xy11honnnetBC")
+
+    this.stripe.createCardToken(cardDetails)
+      .then(token => {
+        console.log(token);
+        if (token?.id) {
+          this.api.stripeCheckoutSession({ token: token?.id }).subscribe((res: any) => {
+            console.log(res);
+          }, (err: any) => {
+            console.log(err);
+          });
+        }
+      })
+      .catch(error => console.error(error)); */
+    /* let params = {
+      amount: this.navParam.amount,
+      giftvoucher: this.isGiftCodeInput
+        ? this.promoCodeForm.value.giftvoucher
+        : "",
+      coupon_status: this.isGiftCodeInput ? "valid" : "",
+      booking_id: this.navParam.bookingId,
       success_url: "https://www.petcloud.com.au/wallet"
     };
     this.api.showLoader();
@@ -289,7 +404,7 @@ export class StripeBookingCheckoutComponent implements OnInit {
       }
     }, (err: any) => {
       this.api.showToast(err, 3000, 'bottom');
-    });
+    }); */
   }
   closeModal() {
     this.model.dismiss("donotrefresh");

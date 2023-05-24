@@ -13,7 +13,6 @@ import { NotificationSettingComponent } from "../notification-setting/notificati
 import { AuthenticationService } from "../services/authentication.service";
 import { Subscription } from 'rxjs';
 import { ApiResponse } from '../model/api-response';
-import { ShadowLoginComponent } from "../shadow-login/shadow-login.component";
 import { AppsFlyerService } from "../apps-flyer.service";
 import { Events } from "../events";
 
@@ -137,73 +136,6 @@ export class ProfileMenuPage implements OnInit {
         }
 
         this.api.showLoader();
-        this.api.shadowLogin(emailForm).subscribe(
-            async (res: ApiResponse) => {
-                // hide loader in success
-                this.api.hideLoader();
-                if (res.success === true) {
-
-                    // check token is received or user data received
-                    if (res.user && res.token) {
-                        this.auth.authState.next(true);
-
-                        this.storage.set(PetcloudApiService.USERTOKEN, res.token);
-                        localStorage.setItem("token", res.token);
-                        localStorage.setItem("notificationToken", res.notificationToken);
-                        localStorage.setItem("adminEmail", ""); // switch back to admin 
-
-                        this.PMEvents.publish("user", res.user);
-
-                        let background: any = res.user.BackgroundCheck;
-                        let rightToWork: any = res.user.righttowork;
-                        let animalCare: any = res.user.animalcare;
-
-                        let is_verified = background.is_verified;
-                        let is_workVerified = rightToWork.is_verified;
-                        let is_animalcare = animalCare.is_verified;
-
-                        is_verified == this.api.VERIFIED ? (res.user.isBackgroundChecked = true) : (res.user.isBackgroundChecked = false);
-                        is_workVerified == this.api.VERIFIED ? (res.user.isRightToWorkChecked = true) : (res.user.isRightToWorkChecked = false);
-                        is_animalcare == this.api.VERIFIED ? (res.user.isAnimalCareChecked = true) : (res.user.isAnimalCareChecked = false);
-
-                        await this.storage.set(PetcloudApiService.USER, res.user).then(
-                            (res) => {
-                            },
-                            (err) => {
-                            }
-                        );
-
-                        let user_type = await res.user.user_type;
-
-                        if (user_type == 3 || user_type == 2) {
-                            localStorage.setItem("menuType", "sitter")
-                            this.storage.set("menuType", "sitter").then((res) => {
-                                this.PMEvents.publish("menuName", {menuType:"sitter", time: Date.now()})
-                            })
-                        } else if (user_type == 1) {
-                            localStorage.setItem("menuType", "owner")
-                            this.storage.set("menuType", "owner").then((res) => {
-
-                            })
-                        }
-
-                        await this.api.addTokenInHeader();
-                        localStorage.setItem("adminEmail", "");
-                        this.adminEmail = "";
-                        this.role = "admin"
-                        this.getUserProfileBasicInfo(true); // Call API to update all value.
-
-                    }
-                } else {
-                    this.api.showToast(res.error, '3000', "bottom");
-                }
-            },
-            (err) => {
-                // hide loader in error
-                this.api.hideLoader();
-
-            }
-        );
     }
 
     getInfo() {
@@ -234,26 +166,6 @@ export class ProfileMenuPage implements OnInit {
 
     gotoProfileMenu() {
         this.navCtrl.navigateRoot("/home/tabs/sitter-listing");
-    }
-
-    /**
-     * Shadow Login to Switch User from other user
-     * Only Admin has access for shadow Login
-     */
-    async shadowLogin() {
-        const modal = await this.modalCtrl.create({
-            component: ShadowLoginComponent,
-            animated: true,
-            componentProps: {
-            },
-        });
-        modal.onDidDismiss().then((data: any) => {
-            this.adminEmail = localStorage.getItem("adminEmail");
-            this.getUserProfileBasicInfo(this.isFirstLoad)
-
-
-        });
-        return await modal.present();
     }
 
     /**
@@ -479,6 +391,7 @@ export class ProfileMenuPage implements OnInit {
 
 
                 }
+
                 this.storage.set(PetcloudApiService.USER, this.userData);
                 ;
             } else {

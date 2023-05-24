@@ -5,7 +5,6 @@ import {Routes, RouterModule} from '@angular/router';
 import {IonicModule} from '@ionic/angular';
 import {ProfileMenuPage} from './profile-menu.page';
 import {InAppBrowser} from '@ionic-native/in-app-browser/ngx';
-import { ShadowLoginComponent } from '../shadow-login/shadow-login.component';
 
 
 
@@ -17,7 +16,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    entryComponents:[ShadowLoginComponent],
+    entryComponents:[],
     imports: [
         CommonModule,
         FormsModule,
@@ -26,7 +25,7 @@ const routes: Routes = [
         RouterModule.forChild(routes)
     ],
     providers: [InAppBrowser],
-    declarations: [ProfileMenuPage,ShadowLoginComponent]
+    declarations: [ProfileMenuPage]
 })
 export class ProfileMenuPageModule {
 }

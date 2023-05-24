@@ -118,3 +118,22 @@
         }
     }
 }
+
+ion-footer {
+    .secure-text{
+        text-align: center;
+        font-size: 13px;
+        margin-top: 5px;
+    }
+    .pet-cloud-cover-text{
+        font-size: 14px;
+        padding: 10px;
+        margin-top: 10px;
+        margin-bottom: 20px;
+    }
+    ion-button{
+        height: auto !important;
+        --padding-top: 15px;
+        --padding-bottom: 15px;
+    }
+}

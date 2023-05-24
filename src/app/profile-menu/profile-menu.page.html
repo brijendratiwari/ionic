@@ -88,18 +88,6 @@
                         <ion-img type="image/svg+xml" src="assets/icon/switch.svg" class="theme-icon"></ion-img>
                     </ion-item> -->
 
-                    <ion-item *ngIf="adminEmail" (click)="switchToPreviousAccount()" lines="none">
-                        <ion-label color="note-alt"> <b>Switch To Previous Account</b></ion-label>
-                        <ion-img type="image/svg+xml" src="assets/icon/switch.svg" class="theme-icon"></ion-img>
-                    </ion-item>
-
-
-
-                    <!-- <ion-item *ngIf="role == 'admin' && !adminEmail" lines="inset" (click)="shadowLogin()">
-                        <ion-label>Shadow Login</ion-label>
-                        <ion-img type="image/svg+xml" src="assets/icon/shadow-login.svg" class="theme-icon"></ion-img>
-                    </ion-item> -->
-
 
                     <ion-item lines="inset" routerLink="/profile-email-verify">
                         <ion-label>Verifications</ion-label>
@@ -151,7 +139,8 @@
                             <ion-img type="image/svg+xml" src="assets/icon/mypet.svg" class="theme-icon"></ion-img>
                         </ion-item>
 
-                        <ion-item lines="inset" routerLink="/payment-method" *ngIf="completedProfileStep == 5">
+                        <!-- <ion-item lines="inset" routerLink="/payment-method" *ngIf="completedProfileStep == 5"> -->
+                        <ion-item lines="inset" routerLink="/payment-method">
                             <ion-label>Payment Methods</ion-label>
                             <ion-img type="image/svg+xml" src="assets/icon/payment.svg" class="theme-icon"></ion-img>
                         </ion-item>

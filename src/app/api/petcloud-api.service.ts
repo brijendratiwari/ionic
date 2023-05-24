@@ -116,6 +116,7 @@ export class PetcloudApiService {
   public static usedcoupon = "usedcoupon";//done
   public static chatscreen = "chatscreen"; //done
   public static inapp = "in_app_purchase";
+  public static purchase = "purchase";
   public AGREEMENT_LINK = "https://community.petcloud.com.au/portal/en/kb/articles/pet-professional-subcontractor-agreement";
 
 
@@ -456,14 +457,6 @@ export class PetcloudApiService {
    */
   public loginUser(userData: any) {
     return this.http.post(this.BASE_URL + "login/login", userData, this.header);
-  }
-
-  /**
-   * Login user.
-   * @param token changed for header
-   */
-  public shadowLogin(token) {
-    return this.http.post(this.BASE_URL + "login/masquerade", token, this.header);
   }
 
   /**
@@ -1558,7 +1551,7 @@ export class PetcloudApiService {
  * Update user payment details
  * @param userFrm User form with payment fields
  */
-  public stripeCheckoutSession(data: any) {
+  public stripeCheckoutSession(data) {
     return this.http.post(
       this.BASE_URL + "wallet/checkoutsession",
       data,

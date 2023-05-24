@@ -51,6 +51,7 @@
     "@ionic-native/media-capture": "^5.36.0",
     "@ionic-native/native-storage": "^5.36.0",
     "@ionic-native/network": "^5.36.0",
+    "@ionic-native/open-native-settings": "^5.36.0",
     "@ionic-native/sign-in-with-apple": "^5.36.0",
     "@ionic-native/sms-retriever": "^5.36.0",
     "@ionic-native/social-sharing": "^5.36.0",
@@ -302,10 +303,12 @@
         "DEEPLINK_4_HOST": " ",
         "DEEPLINK_5_SCHEME": " ",
         "DEEPLINK_5_HOST": " "
-      }
+      },
+      "cordova-open-native-settings": {}
     },
     "platforms": [
-      "android"
+      "android",
+      "ios"
     ]
   }
 }

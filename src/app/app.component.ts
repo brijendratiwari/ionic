@@ -229,7 +229,7 @@ export class AppComponent {
         console.log('Err in apps flyer', err);
       }
     );
-  }
+}
 
   async instaBug() {
     Instabug.start(
@@ -248,6 +248,8 @@ export class AppComponent {
       '/login': PayoutPrefrencePage,
       '/payout-prefrence': PayoutPrefrencePage,
       '/wallet': PayoutPrefrencePage,
+      '/success_checkout': PayoutPrefrencePage,
+      '/cancel_checkout': PayoutPrefrencePage,
     }).subscribe((match) => {
       console.log("match", match)
       if (match.$link.path.match('/login') || match.$link.path.match('/payout-prefrence')) {
@@ -564,25 +566,26 @@ export class AppComponent {
   }
   showConfirm() {
     this.alertController.create({
-      header: 'UPLOAD PHOTO ID',
+      header: 'CONNECT TO STRIPE',
       backdropDismiss: false,
       cssClass: 'verify-Btn',
       // subHeader: 'Beware lets confirm',
-      message: 'Stripe requires you to take a photo of your Drivers License or Passport from your device and upload it onto their site as part of your approval to use their platform.',
+      message: 'We\'re We’re making payouts for Pet Carers more transparent than ever. \n\nComplete onboarding with our payment partner, Stripe.',
       buttons: [
         {
-          text: 'Upload ID',
+          text: 'Okay!',
           handler: () => {
             this.alertController.dismiss()
             this.navCtrl.navigateForward(['/payout-prefrence'])
           }
         },
         {
-          text: 'Find out more',
+          text: 'Later',
           handler: () => {
             var url = 'https://community.petcloud.com.au/portal/en/kb/articles/what-is-stripe-connect'
             const browser = this.iab.create(url, "_system", this.options);
             browser.show();
+            this.alertController.dismiss()
             // this.showConfirm()
             return false;
             console.log('Let me think');

@@ -43,3 +43,23 @@ ion-tabs {
   max-width: 30px;
   margin-bottom: 5px;
 }
+
+.home-tabs {
+  margin-top: 75px;
+}
+
+.notification-container {
+  padding: 10px;
+  color: #856404;
+  background-color: #fff3cd;
+
+  .notification-title {
+    margin: 0;
+    font-size: 14px;
+  }
+
+  .notification-desc {
+    margin: 0;
+    font-size: 12px;
+  }
+}
