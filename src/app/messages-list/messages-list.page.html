@@ -46,19 +46,21 @@
         <ion-list class="msg-list ion-no-padding">
             <ion-item *ngFor="let message of listing" class="ion-no-padding">
                 <div class="msg-item">
-                    <div  class="profile" >
-                        <ion-avatar *ngIf="userId == message?.ownerid" class="profile-pic" slot="start" [routerLink]="['/pet-sitter-detail',message.minderId]">
+                    <div class="profile">
+                        <ion-avatar *ngIf="userId == message?.ownerid" class="profile-pic" slot="start"
+                            [routerLink]="['/pet-sitter-detail',message.minderId]">
                             <ion-img type="image/svg+xml" [src]="message?.minder?.imagename">
                             </ion-img>
                         </ion-avatar>
 
-                        <ion-avatar *ngIf="userId == message?.minderId" class="profile-pic" slot="start" [routerLink]="['/pet-sitter-detail',message.ownerid]">
+                        <ion-avatar *ngIf="userId == message?.minderId" class="profile-pic" slot="start"
+                            [routerLink]="['/pet-sitter-detail',message.ownerid]">
                             <ion-img type="image/svg+xml" [src]="message?.owner?.imagename">
                             </ion-img>
                         </ion-avatar>
 
 
-                        <div  *ngIf="userId == message?.ownerid">
+                        <div *ngIf="userId == message?.ownerid">
                             <h4 class="user"> {{message?.minder?.first_name}}</h4>
                         </div>
 
@@ -66,10 +68,8 @@
                             <h4 class="user"> {{message?.owner?.first_name}}</h4>
                         </div>
                     </div>
-                    <div class="info" >
-                        <h4 (click)="messageDetail(message)" 
-                            class="title"
-                        >
+                    <div class="info">
+                        <h4 (click)="messageDetail(message)" class="title">
                             {{message?.service?.serviceType?.serviceName}}
                             <span class="fs-14">
                                 {{message?.startDate != "" ? message?.startDate : "" }} -
@@ -77,41 +77,32 @@
                             </span>
                         </h4>
 
-                        <p (click)="messageDetail(message)" 
-                            class="status" 
-                            [class.pending]="message?.booking_status == 'P'"
-                            [class.active]="message?.booking_status == 'A' || 
+                        <p (click)="messageDetail(message)" class="status"
+                            [class.pending]="message?.booking_status == 'P'" [class.active]="message?.booking_status == 'A' || 
                             message?.booking_status == 'C'  ||
                             message?.booking_status == 'MD' ||
-                            message?.booking_status == 'M'"
-                        >
+                            message?.booking_status == 'M'">
                             {{api.getBookingStatusFullName(message?.booking_status)}}
-                            <ion-icon name="ellipse"
-                            *ngIf="message?.booking_status == 'A' || 
+                            <ion-icon name="ellipse" *ngIf="message?.booking_status == 'A' || 
                             message?.booking_status == 'C'  ||
                             message?.booking_status == 'MD' ||
-                            message?.booking_status == 'M'"
-                            ></ion-icon>
+                            message?.booking_status == 'M'"></ion-icon>
                         </p>
                         <p (click)="messageDetail(message)" class="fs-12 text-theme cancel-msg"
                             *ngIf="message?.cancel_request != null && message?.cancel_request_from != null">(Cancel
                             Request is submitted)</p>
                         <p (click)="messageDetail(message)" class="date">{{ message?.modifydate }}</p>
-                        
-                        <ion-button 
-                            shape="round" fill="outline"
-                            color="theme-sec"
-                            *ngIf="message?.booking_status == 'C' 
+
+                        <ion-button shape="round" fill="outline" color="theme-sec" *ngIf="message?.booking_status == 'C' 
                             && message?.bookingReview==false 
-                            && message?.ownerid == userId"
-                            class="text-capitalize fls-0 fs-12 review-btn" 
-                            (click)="navigateLeaveReview(message.id,message)"
-                        >
-                            Leave A Review
+                            && message?.ownerid == userId" class="text-capitalize fls-0 fs-12 review-btn"
+                            (click)="navigateLeaveReview(message.id,message)">
+                            Release Funds & Review
                         </ion-button>
 
-                            
-                        <p class="fs-12 text-theme" *ngIf="message?.booking_status == 'C' && message?.bookingReview == true">
+
+                        <p class="fs-12 text-theme"
+                            *ngIf="message?.booking_status == 'C' && message?.bookingReview == true">
                             Review Complete</p>
                     </div>
                     <div class="notif">

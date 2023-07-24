@@ -7,13 +7,13 @@
             </ion-buttons>
             <ion-buttons slot="end" class="setting-btn" (click)="availabilitySettingsModal()">
                 Settings
-                
+
             </ion-buttons>
         </ion-toolbar>
     </ion-header>
     <div class="calendar-view">
         <div class="calender-head">
-            <p>To block out dates you are unavailable, select dates on the Calendar & Save.            </p>
+            <p>To block out dates you are unavailable, select dates on the Calendar & Save. </p>
             <div>
                 <ion-button class="save-btn" (click)="updateCalendar()">Calendar is up to date</ion-button>
             </div>
@@ -23,9 +23,7 @@
         </div> -->
         <div class="calendar-container">
             <ion-calendar [(ngModel)]="selectedDays" [options]="calendarOption" [format]="'YYYY-MM-DD'"
-                (monthChange)="onChange($event)" 
-                
-                >
+                (monthChange)="onChange($event)">
             </ion-calendar>
         </div>
     </div>
@@ -100,8 +98,7 @@
 
 
 
-    <ion-infinite-scroll *ngIf="pagination && isMeetingDataShown" threshold="100px"
-        (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll *ngIf="pagination && isMeetingDataShown" threshold="100px" (ionInfinite)="loadData($event)">
         <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="Loading more data...">
         </ion-infinite-scroll-content>
     </ion-infinite-scroll>

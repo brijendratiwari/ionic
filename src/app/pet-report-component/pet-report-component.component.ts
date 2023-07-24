@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionSheetController, NavController, Platform,ModalController } from '@ionic/angular';
+import { ActionSheetController, NavController, Platform, ModalController } from '@ionic/angular';
 import { Camera } from "@ionic-native/camera/ngx";
 import { CameraService } from '../camera-service.service';
 import { PetcloudApiService } from '../api/petcloud-api.service';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage';
-import {petRecord} from '../../assets/JSON/petRecord.js'
+import { petRecord } from '../../assets/JSON/petrecord.js'
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { DatePipe } from '@angular/common';
 
@@ -29,7 +29,7 @@ export class PetReportComponentComponent implements OnInit {
     public cameraAPI: CameraService,
     private formBuilder: FormBuilder,
     public camera: Camera,
-    public model:ModalController,
+    public model: ModalController,
     protected navCtrl: NavController, protected storage: Storage) {
   }
 
@@ -38,29 +38,29 @@ export class PetReportComponentComponent implements OnInit {
     console.log("this.petReport", this.petReport)
     this.petReportForm = this.formBuilder.group({
       foodtime: [],
-      foodToppedUp:[],
-      waterToppedUp:[],
+      foodToppedUp: [],
+      waterToppedUp: [],
       watertime: [],
-      medicines:[],
-      medication:[],
-      medicationTime:[],
-      poo:[],
-      pooChecked:[],
-      pee:[],
-      peeChecked:[],
-      propertySecured:[],
-      kmsOfDogWalk:[],
-      kmsOfDogWalktime:[],
-      dogWalk:[],
-      dogWalktime:[],
-      mood:[],
-      specialCareTime:[],
-      specialCareChecked:[],
-      summary:[]
+      medicines: [],
+      medication: [],
+      medicationTime: [],
+      poo: [],
+      pooChecked: [],
+      pee: [],
+      peeChecked: [],
+      propertySecured: [],
+      kmsOfDogWalk: [],
+      kmsOfDogWalktime: [],
+      dogWalk: [],
+      dogWalktime: [],
+      mood: [],
+      specialCareTime: [],
+      specialCareChecked: [],
+      summary: []
     })
   }
 
-    
+
 
   ionViewWillEnter() {
   }
@@ -77,8 +77,8 @@ export class PetReportComponentComponent implements OnInit {
         text: 'Gallery',
         handler: async () => {
           const status = await this.cameraAPI.checkPhotoLibraryPermission();
-          if(status) {
-              this.photoOption(this.camera.PictureSourceType.PHOTOLIBRARY);
+          if (status) {
+            this.photoOption(this.camera.PictureSourceType.PHOTOLIBRARY);
           }
         }
       }, {
@@ -92,28 +92,28 @@ export class PetReportComponentComponent implements OnInit {
     this.cameraAPI.getPicture(params).then((base64: any) => {
       this.petImageURL = 'data:image/jpeg;base64,' + base64;
     }, err => {
-      
+
     })
   }
 
-  closeModal(){
+  closeModal() {
     this.api.dismissModelorAlert();
   }
 
   async selectedRecord(petRecord) {
     this.isSubmitButtonEnabled = true
-      this.selectedPetRecord = await petRecord;
+    this.selectedPetRecord = await petRecord;
 
     for (const [key, value] of Object.entries(this.petReport)) {
 
-     if(key == this.selectedPetRecord.key){
-      value["isSelected"] = true;
-      this.selectedPetRecord.isSelected  = true;
-     }else{
-      value["isSelected"] = false;
-      this.selectedPetRecord.isSelected  = false;
-     }
-  } 
+      if (key == this.selectedPetRecord.key) {
+        value["isSelected"] = true;
+        this.selectedPetRecord.isSelected = true;
+      } else {
+        value["isSelected"] = false;
+        this.selectedPetRecord.isSelected = false;
+      }
+    }
   }
 
   //Make Unshorted array
@@ -122,10 +122,10 @@ export class PetReportComponentComponent implements OnInit {
   selectedMood(moodData) {
 
     for (const [key, value] of Object.entries(this.petReport)) {
-      if(key == "Mood"){
-       value["iconName"].forEach(element => {
+      if (key == "Mood") {
+        value["iconName"].forEach(element => {
           element.name == moodData.name ? element.isSelected = true : element.isSelected = false;
-       });
+        });
       }
     }
     this.petReportForm.patchValue({
@@ -133,13 +133,13 @@ export class PetReportComponentComponent implements OnInit {
     })
   }
 
-  selectedTimeForDuration(duration){
+  selectedTimeForDuration(duration) {
 
     for (const [key, value] of Object.entries(this.petReport)) {
-      if(key == "Duration"){   
+      if (key == "Duration") {
         value["chips"].forEach(element => {
-          element.duration  == duration.duration ? element.isSelected = true : element.isSelected = false;  
-       });
+          element.duration == duration.duration ? element.isSelected = true : element.isSelected = false;
+        });
       }
     }
     this.petReportForm.patchValue({
@@ -147,62 +147,62 @@ export class PetReportComponentComponent implements OnInit {
     })
   }
 
-  
+
 
   submitPetRecord() {
     const petFormRecord = this.petReportForm.value;
-   
-     const petRecordData = {
-          "water":{
-           waterToppedUp:petFormRecord.waterToppedUp,
-           time:petFormRecord.watertime != null ? new DatePipe('en-US').transform(petFormRecord.watertime, 'hh:mm aaa') : null,
-          },"food":{
-           foodToppedUp:petFormRecord.foodToppedUp,
-           time:petFormRecord.foodtime != null ?  new DatePipe('en-US').transform(petFormRecord.foodtime, 'hh:mm aaa') : null,
-          },"medication":{
-            medication:petFormRecord.medication,
-            medicationTime:  petFormRecord.medicationTime != null ? new DatePipe('en-US').transform(petFormRecord.medicationTime, 'hh:mm aaa') : null,
-          },"poo":{
-            poo:petFormRecord.pooChecked,
-          },"pee":{
-            pee:petFormRecord.peeChecked,
-          },"propertySecured":{
-            propertySecured:petFormRecord.propertySecured,
-          },"dogwalk":{
-            time:petFormRecord.dogWalktime,
-          },"mood":{
-            mood: petFormRecord.mood,
-          },"specialCare":{
-              specialCare:petFormRecord.specialCareChecked,
-              specialCaretime:petFormRecord.specialCareTime =! null ? new DatePipe('en-US').transform(petFormRecord.specialCareTime, 'hh:mm aaa') : null,
-          },"image":{
-            image:this.petImageURL,
-              name: this.petImageURL != "" ? this.api.generateRandomId(5) + ".jpg" : ""
-        },"summary":{
-          summary:petFormRecord.summary
-        }
-   }
 
-   if(!petRecordData.dogwalk.time &&
-    !petRecordData.food.foodToppedUp &&
-    !petRecordData.medication.medication &&
-    !petRecordData.medication.medicationTime &&
-    !petRecordData.mood.mood &&
-    !petRecordData.pee.pee && 
-    !petRecordData.poo.poo && 
-    !petRecordData.propertySecured.propertySecured && 
-    !petRecordData.specialCare.specialCare && !petRecordData.specialCare.specialCaretime &&
-    !petRecordData.summary &&
-    !petRecordData.water.waterToppedUp && !petRecordData.water.time 
-    ){
-      this.api.showToast("Please Enter Records for Reports",3000,"bottom");
-   }else{
-    this.model.dismiss(petRecordData);
-   }
+    const petRecordData = {
+      "water": {
+        waterToppedUp: petFormRecord.waterToppedUp,
+        time: petFormRecord.watertime != null ? new DatePipe('en-US').transform(petFormRecord.watertime, 'hh:mm aaa') : null,
+      }, "food": {
+        foodToppedUp: petFormRecord.foodToppedUp,
+        time: petFormRecord.foodtime != null ? new DatePipe('en-US').transform(petFormRecord.foodtime, 'hh:mm aaa') : null,
+      }, "medication": {
+        medication: petFormRecord.medication,
+        medicationTime: petFormRecord.medicationTime != null ? new DatePipe('en-US').transform(petFormRecord.medicationTime, 'hh:mm aaa') : null,
+      }, "poo": {
+        poo: petFormRecord.pooChecked,
+      }, "pee": {
+        pee: petFormRecord.peeChecked,
+      }, "propertySecured": {
+        propertySecured: petFormRecord.propertySecured,
+      }, "dogwalk": {
+        time: petFormRecord.dogWalktime,
+      }, "mood": {
+        mood: petFormRecord.mood,
+      }, "specialCare": {
+        specialCare: petFormRecord.specialCareChecked,
+        specialCaretime: petFormRecord.specialCareTime = ! null ? new DatePipe('en-US').transform(petFormRecord.specialCareTime, 'hh:mm aaa') : null,
+      }, "image": {
+        image: this.petImageURL,
+        name: this.petImageURL != "" ? this.api.generateRandomId(5) + ".jpg" : ""
+      }, "summary": {
+        summary: petFormRecord.summary
+      }
+    }
 
-   console.log("pet record", petRecordData);
-    
- }
+    if (!petRecordData.dogwalk.time &&
+      !petRecordData.food.foodToppedUp &&
+      !petRecordData.medication.medication &&
+      !petRecordData.medication.medicationTime &&
+      !petRecordData.mood.mood &&
+      !petRecordData.pee.pee &&
+      !petRecordData.poo.poo &&
+      !petRecordData.propertySecured.propertySecured &&
+      !petRecordData.specialCare.specialCare && !petRecordData.specialCare.specialCaretime &&
+      !petRecordData.summary &&
+      !petRecordData.water.waterToppedUp && !petRecordData.water.time
+    ) {
+      this.api.showToast("Please Enter Records for Reports", 3000, "bottom");
+    } else {
+      this.model.dismiss(petRecordData);
+    }
+
+    console.log("pet record", petRecordData);
+
+  }
 
 
 }

@@ -8,7 +8,7 @@ import { RequestCancellationComponent } from '../request-cancellation/request-ca
 import { OwnerDeclineBookingComponent } from '../owner-decline-booking/owner-decline-booking.component';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { DocumentViewer } from '@ionic-native/document-viewer/ngx';
-import { File } from '@ionic-native/File/ngx';
+import { File } from '@ionic-native/file/ngx';
 import { AlterBookingCostComponent } from '../alter-booking-cost/alter-booking-cost.component';
 import { MeetngreetNotSoGreatComponent } from '../meetngreet-not-so-great/meetngreet-not-so-great.component';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';

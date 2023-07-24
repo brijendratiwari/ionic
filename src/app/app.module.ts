@@ -69,7 +69,7 @@ import { FirebaseX } from '@ionic-native/firebase-x/ngx';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { Camera } from '@ionic-native/camera/ngx';
-import { File } from "@ionic-native/File/ngx";
+import { File } from "@ionic-native/file/ngx";
 import { Geolocation } from "@ionic-native/geolocation/ngx";
 import { Clipboard } from '@ionic-native/clipboard/ngx';
 import { MediaCapture } from '@ionic-native/media-capture/ngx';

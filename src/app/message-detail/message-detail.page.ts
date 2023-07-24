@@ -13,7 +13,7 @@ import { RequestCancellationComponent } from '../request-cancellation/request-ca
 import { OwnerDeclineBookingComponent } from '../owner-decline-booking/owner-decline-booking.component';
 import { FileOpener } from '@ionic-native/file-opener/ngx';
 import { DocumentViewer } from '@ionic-native/document-viewer/ngx';
-import { File } from '@ionic-native/File/ngx';
+import { File } from '@ionic-native/file/ngx';
 import { FileTransfer } from '@ionic-native/file-transfer/ngx';
 import { AlterBookingCostComponent } from '../alter-booking-cost/alter-booking-cost.component';
 import { PetDetailsComponent } from '../pet-details/pet-details.component';
