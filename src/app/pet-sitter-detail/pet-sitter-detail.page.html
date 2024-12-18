@@ -135,6 +135,16 @@
                                     listing </p>
                                 <h4 class="sub-heading">About</h4>
                                 <p class="desc">
+                                    {{sitterData?.about_pet}}
+                                </p>
+                            </ion-col>
+                        </ion-row>
+                        <hr class="height-10">
+                        <ion-row class="ion-justify-content-start">
+                            <ion-col>
+                                
+                                <h4 class="sub-heading">Home Description</h4>
+                                <p class="desc">
                                     {{sitterData?.space?.description}}
                                 </p>
                             </ion-col>
@@ -185,17 +195,29 @@
                                 </ion-row>
                                 <ion-row class="ion-justify-content-start">
                                 </ion-row>
+                                <h4 class="sub-heading">Pet Sitting Extras</h4>
                                 <ion-row class="ion-justify-content-start"
                                     *ngFor="let servs of sitterProfile?.new_services.secondary_services">
                                     <ion-col>
-                                        <h4 class="sub-heading">Pet Sitting Extras</h4>
-                                        <ul class="service-list">
 
-                                            <li>
-                                                <p>{{servs?.serviceType?.serviceName}}</p>
+                                        <ul class="service-list" *ngIf="servs?.isNotFlatRate">
+                                            <li >
+                                                <p class="removeParaMargin">{{servs?.serviceType?.serviceName}}</p>
                                                 <p><strong>${{servs.petPrice[0].price}}</strong></p>
-                                            </li>
+                                            </li> 
                                         </ul>
+
+                                        <ul class="service-list" *ngIf="!servs?.isNotFlatRate">
+                                            <p class="removeParaMargin servicePara">{{servs?.serviceType?.serviceName}}</p>
+                                            <ng-container *ngFor="let prRule of servs?.petPrice">
+                                                <li *ngIf="prRule?.price > 0">
+                                                    <p>{{prRule?.petName}}</p>
+                                                    <p><strong>${{prRule?.price}}</strong></p>
+                                                </li>
+                                            </ng-container>
+                                        </ul>
+
+                                        
                                     </ion-col>
                                 </ion-row>
                             </ion-col>
@@ -578,7 +600,6 @@
                     <div *ngSwitchCase="'availa'">
                         <ion-calendar [(ngModel)]="selectedDays" [options]="calendarOption" [type]="type"
                             [format]="'YYYY-MM-DD'" disabled>
-
                         </ion-calendar>
                         <div class="calendar-info">
                             <div class="symbol"></div>

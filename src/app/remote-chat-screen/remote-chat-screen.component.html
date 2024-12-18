@@ -125,9 +125,21 @@
             </div>
           </div>
         </li>
-
-
       </ul>
+
+      <ul *ngIf="isBookingSchedules == true">
+        <ion-card class="company-item" lines="none" *ngFor="let bookingDates of bookingScheduleDate;">
+         <h3>{{bookingDates?.chatMessage}}</h3>
+         <div class="button-action">
+          <ion-button fill="outline" [ngClass]="bookingDates?.status === 'Completed' ? 'bookingButtonPink' : ''" (click)="bookingDates?.status === 'None' && !bookingDates?.futureDate && bookingPopup('complete', bookingDates?.booking_weekly_schedule_id)">
+            {{ bookingDates?.status === 'None' ? 'Complete' : bookingDates?.status === 'Cancelled' ? 'Complete': 'Completed'}}</ion-button>
+          <ion-button fill="outline" [ngClass]="bookingDates?.status === 'Cancelled' ? 'bookingButtonPink' : ''" (click)="bookingDates?.status === 'None' && !bookingDates?.cancelledDisable &&  bookingPopup('cancel', bookingDates?.booking_weekly_schedule_id)">
+            {{ bookingDates?.status === 'None' ? 'Cancel' : bookingDates?.status === 'Completed' ? 'Cancel' : 'Cancelled'}}</ion-button>
+         </div>
+         <p *ngIf="bookingDates?.messages"> {{bookingDates?.messages}}</p>
+       </ion-card>
+      </ul>
+
     </div>
 
 
@@ -142,7 +154,8 @@
             <ion-icon name="send" (click)="sendMessage()"></ion-icon>
           </div>
           <div class="send-btn" (click)="fileSharingPopOver($event)">
-            <ion-icon name="attach"></ion-icon>
+            <!-- <ion-icon name="attach"></ion-icon> -->
+            <img src="../../assets/icon/camera.png">
           </div>
         </div>
       </div>

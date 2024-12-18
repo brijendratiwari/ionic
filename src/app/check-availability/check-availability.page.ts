@@ -13,6 +13,7 @@ import { Subscription } from "rxjs";
 import { DatePicker } from "@ionic-native/date-picker/ngx";
 import { NonAvailabilityAdditionalBookingsComponent } from "../non-availability-additional-bookings/non-availability-additional-bookings.component";
 import { AnalyticsService } from '../analytics.service';
+import { CalendarComponentOptions } from "ion2-calendar";
 @Component({
   selector: "app-check-availability",
   templateUrl: "./check-availability.page.html",
@@ -81,6 +82,21 @@ export class CheckAvailabilityPage implements OnInit {
   public extraServiceData;
   public serviceData;
   public isAppReviewed: any = ""
+
+
+  dateRange: { from: string; to: string; };
+  type: 'string'; // 'string' | 'js-date' | 'moment' | 'time' | 'object'
+  optionsRange: CalendarComponentOptions = {
+    // pickMode: 'range'
+    // monthFormat: 'YYYY 年 MM 月 ',
+    // weekdays: ['天', '一', '二', '三', '四', '五', '六'],
+    // weekStart: 1,
+    // defaultDate: new Date()
+    // weekdays:['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+    // weekStart:1,
+   disableWeeks: [0,2,3,4,5,6]
+  };
+  
 
   days: any = [
     { label: "Mon", value: '1', checked: false, disabled: true },
@@ -158,11 +174,13 @@ export class CheckAvailabilityPage implements OnInit {
         this.firebaseAnalytics.logEvent(PetcloudApiService.check_availability_analytics, { "sitterId": this.sitterId })
 
         this.sitterName = siterData.sitterName;
-        this.primaryService = siterData.primaryServiceNew.filter((res) => res.active == "1");
+        
+        var uniquePrimaryService = siterData.primaryServiceNew.filter((v,i,a)=>a.findIndex(v2=>(v2.serviceTypeId===v.serviceTypeId))===i)
+        this.primaryService = uniquePrimaryService.filter((res) => res.active == "1");
         console.log(this.primaryService,siterData)
-        this.availabilityFrm.patchValue({
-          service: this.primaryService[0],
-        });
+        // this.availabilityFrm.patchValue({
+        //   service: this.primaryService[0],
+        // });
 
         this.selectedServiceId = this.primaryService[0].id;
 
@@ -236,6 +254,9 @@ export class CheckAvailabilityPage implements OnInit {
     this.getInfo();
     this.getRecurringOptions();
     this.selectedMode = 0;
+
+
+    
   }
 
   ionViewWillEnter() {
@@ -860,5 +881,34 @@ export class CheckAvailabilityPage implements OnInit {
         },
       })))
     console.log("extra serv", this.extraServiceData, this.sitterServices.secondary);
+  }
+
+  openMODEL() {
+    // Get DOM Elements
+    const modal =  document.querySelector<HTMLElement>('#my-modal')  ;
+const modalBtn = document.querySelector('#modal-btn');
+const closeBtn = document.querySelector('.close');
+// modal.style.display = 'block';
+// Events
+modalBtn.addEventListener('click', openModal);
+closeBtn.addEventListener('click', closeModal);
+window.addEventListener('click', outsideClick);
+
+// Open
+function openModal() {
+  modal.style.display = 'block';
+}
+
+// Close
+function closeModal() {
+  modal.style.display = 'none';
+}
+
+// Close If Outside Click
+function outsideClick(e) {
+  if (e.target == modal) {
+    modal.style.display = 'none';
+  }
+}
   }
 }

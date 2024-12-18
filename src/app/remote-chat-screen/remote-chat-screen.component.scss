@@ -339,3 +339,33 @@
         font-size: 14px;
     }
 }
+
+ion-card {
+    box-shadow: none;
+    border: solid 1px #ccc;
+    border-radius: 0px;
+    padding: 18px 10px;
+    margin: 0;
+}
+.company-item h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin: 0px 0 10px 0px;
+    color: #000;
+}
+.button-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+.button-action ion-button {
+    min-width: 154px;
+    --border-radius: 9px !important;
+    --border-width: 1px;
+    --border-color: #ccc;
+    color: #ccc;
+}
+.bookingButtonPink {
+    --border-color: #fe4164 !important;
+    color: #fe4164 !important;
+}

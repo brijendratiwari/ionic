@@ -118,6 +118,7 @@ export class PetSitterDetailPage implements OnInit {
   }
 
   ngOnInit() {
+    console.log('getSittersProfileDetails')
       this.firebaseAnalytics.setUser();
       this.firebaseAnalytics.logEvent(PetcloudApiService.pet_sitter_detail_analytics,{"sitterId": this.id})
   }
@@ -232,8 +233,12 @@ export class PetSitterDetailPage implements OnInit {
             }
             if(this.sitterProfile.new_services.secondary_services){
               for (let prcRule of this.sitterProfile.new_services.secondary_services) {
-                
+                prcRule['isNotFlatRate'] = false
                 prcRule.pricingRules = JSON.parse(prcRule.pricingRules);
+                let compireFaltrate:any= 'Flat rate for all Pets from'
+                if( Object.keys(prcRule.pricingRules)[0]  === compireFaltrate){
+                  prcRule['isNotFlatRate'] = true
+                }
                 let prcArr = [];
                 for (const i in prcRule.pricingRules) {
                   prcArr.push({

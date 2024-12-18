@@ -46,7 +46,11 @@
                             (ionChange)="primaryServiceChange($event)"
                             placeholder="Please select a service"
                             interface="action-sheet">
-                        
+                            <!-- <ion-select-option
+                            class="fs-14"
+                            [value]="0">
+                            Please select a service
+                       </ion-select-option> -->
                         <ion-select-option
                             class="fs-14"
                             *ngFor="let selectedService of primaryService,let i = index" 
@@ -63,6 +67,24 @@
                     </ion-col>
                 </ion-row>
             </ion-grid>
+
+            <button id="modal-btn" class="button" (click)="openMODEL()">Click Here</button>
+            <div id="my-modal" class="modal">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <span class="close">&times;</span>
+                  </div>
+                  <div class="modal-body">
+                    <ion-calendar [(ngModel)]="dateRange"
+                    [options]="optionsRange"
+                    [type]="type"
+                    [format]="'YYYY-MM-DD'">
+      </ion-calendar>
+                  </div>
+                </div>
+              </div>
+
+            
 
 
             <ion-row>

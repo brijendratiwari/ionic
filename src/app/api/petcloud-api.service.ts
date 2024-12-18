@@ -59,6 +59,16 @@ export class PetcloudApiService {
     params: new HttpParams(),
   };
 
+  public newHeader = {
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: localStorage.getItem("token") != null ? "Basic " + btoa(localStorage.getItem("token")).slice(0, -1) + "6" : "",
+      source: this.getPlatform(),
+    },
+    params: new HttpParams(),
+  };
+
   private nonAuthHeader = {
     headers: {
       "Content-Type": "application/json",
@@ -162,7 +172,11 @@ export class PetcloudApiService {
     3: "Horse",
     4: "Other(Birds,rats)",
     price: "price",
-    "Flat rate for all Pets from": "Flat rate for all Pets from"
+    "Flat rate for all Pets from": "Flat rate for all Pets from",
+    "Dog":"Dog",
+    "Cat":"Cat",
+    "Horse":"Horse",
+    "Other(Birds,rats)":"Other(Birds,rats)"
   };
 
   public static LISTINGPET = {
@@ -412,10 +426,15 @@ export class PetcloudApiService {
         localStorage.setItem("token", data);
         this.header.headers.Authorization = localStorage.getItem("token") != null ? "Basic " + btoa(localStorage.getItem("token")).slice(0, -1) + "6" : "",
           this.header.headers.source = this.getPlatform();
+           this.newHeader.headers.Authorization = localStorage.getItem("token") != null ? "Basic " + btoa(localStorage.getItem("token")).slice(0, -1) + "6" : "",
+          this.newHeader.headers.source = this.getPlatform();
       } else {
         this.header.headers.Authorization = localStorage.getItem("token") != null ? "Basic " + btoa(localStorage.getItem("token")).slice(0, -1) + "6" : "",
           this.header.headers.source = this.getPlatform();
+          this.newHeader.headers.Authorization = localStorage.getItem("token") != null ? "Basic " + btoa(localStorage.getItem("token")).slice(0, -1) + "6" : "",
+          this.newHeader.headers.source = this.getPlatform();
       }
+      
     })
 
     this.storage.get("isLoggedInKeyPressed").then((isKeyPressed) => {
@@ -1959,6 +1978,41 @@ export class PetcloudApiService {
   public chargeownerbooking(bookingID) {
     return this.http.get(
       this.BASE_URL + "messages/chargeownerbooking/" + bookingID,
+      this.header
+    );
+  }
+
+ /**
+   * get all booking schedule dates
+   * @param bookingID Query Params
+   */
+  public getBookingScheduleDetails(bookingID) {
+    return this.http.get(
+      this.BASE_URL + "messages/getbookingschedule/" + bookingID,
+      this.header
+    );
+  }
+
+  /**
+   * get all booking schedule dates
+   * @param bookingID Query Params
+   */
+  public cancelBookingSchedule(bookingWeeklyScheduleId,  userID) {
+    // this.newHeader.headers['user_id'] = userID
+    return this.http.post(
+      this.BASE_URL + "messages/onedaycancelbooking/" +bookingWeeklyScheduleId ,'',
+      this.header
+    );
+  }
+
+  /**
+   * get all booking schedule dates
+   * @param bookingID Query Params
+   */
+  public completeBookingSchedule(bookingWeeklyScheduleId, userID) {
+    // this.newHeader.headers['user_id'] = userID
+    return this.http.post(
+      this.BASE_URL + "messages/onedaycompletebooking/" + bookingWeeklyScheduleId,'',
       this.header
     );
   }

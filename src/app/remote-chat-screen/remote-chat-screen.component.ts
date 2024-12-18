@@ -25,6 +25,7 @@ import { User } from "../model/user";
 import { finalize } from "rxjs/operators";
 import { LeaveaReviewComponent } from "../messages/leavea-review/leavea-review.component";
 import { MessageDetailPage } from "../message-detail/message-detail.page";
+import { HTTP } from "@ionic-native/http/ngx";
 const timestampformat = "YYYY-MM-DD HH:mm:ss";
 const timestampformatto = "DD/MM/YYYY HH:mm:ss";
 
@@ -80,6 +81,8 @@ export class RemoteChatScreenComponent implements OnInit {
   isFirstCall: boolean = true;
   socketArray: any;
   isOpening: boolean = false;
+  bookingScheduleDate = [];
+  isBookingSchedules = false;
 
   constructor(
     navParams: NavParams,
@@ -102,6 +105,7 @@ export class RemoteChatScreenComponent implements OnInit {
     public appsFlyerService: AppsFlyerService,
     private socket: Socket,
     protected lstorage: Storage,
+    public nativeHTTP: HTTP
   ) {
 
     this.bookingId = navParams.get("id");
@@ -142,11 +146,15 @@ export class RemoteChatScreenComponent implements OnInit {
       bookingId: this.bookingId
     }
     this.isFirstCall = true;
+    
     setTimeout(() => {
       this.connectSocket();
       setTimeout(() => {
         this.socket.disconnect();
         this.connectSocket();
+        setTimeout(() => {
+          this.getBookingScheduleDetails();
+        }, 1100);
       }, 1000);
     }, 500);
   }
@@ -661,4 +669,139 @@ export class RemoteChatScreenComponent implements OnInit {
     });
     return await modal.present();
   }
+
+  getBookingScheduleDetails() {
+    this.api.getBookingScheduleDetails(this.bookingId).pipe(finalize(() => {
+    })).subscribe(async (res: any) => {
+      if (res.week3) {
+        this.isBookingSchedules = true;
+        this.bookingScheduleDate = res.week3
+       console.log(res)
+      } 
+    }, err => {
+      this.api.autoLogout(err, this.bookingId);
+    })
+  }
+
+  public async bookingPopup(bookingType: string, booking_weekly_schedule_id: number) {
+    let meg =`Your one-day booking has been successfully completed. <br/> You can mark a booking as complete and release the funds today.`;
+   if(bookingType === 'cancel') {
+    meg = `Are you sure you want to cancel the booking?  <br/>  If you cancel the booking for a day, you will not be able to modify it again.`
+   }
+     // Marks as complete booking 
+      const alert = await this.alertController.create({
+        message: meg,
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel',
+            cssClass: 'secondary',
+          }, {
+            text: 'Okay',
+            handler: () => {
+              bookingType === 'cancel' ? this.cancelBooking(booking_weekly_schedule_id) : this.completeBooking(booking_weekly_schedule_id);
+            }
+          }
+        ]
+      });
+      await alert.present();
+
+  }
+
+  public completeBooking(booking_weekly_schedule_id) {
+
+
+    // const options = {
+    //   method: 'post',
+    //   data: { id: 12, message: 'test' },
+    //   headers: { Authorization: 'OAuth2: token' }
+    // };
+    // let header:any = this.api.header
+    // header.headers['user_id'] = this.userId
+    // this.nativeHTTP.post(
+    //   'https://dev.petcloud.com.au/api/messages/onedaycompletebooking/'+booking_weekly_schedule_id ,             //URL
+    //   {},         //Data 
+    //    header.headers // Headers
+    //  )
+    //  .then(response => {
+    //     // prints 200
+    //     console.log(response.status);
+    //     try {
+    //       response.data = JSON.parse(response.data);
+    //       // prints test
+    //       console.log(response.data.message);
+    //     } catch(e) {
+    //       console.error('JSON parsing error');
+    //     }
+    //  })
+    //  .catch(response => {
+    //    // prints 403
+    //    console.log(response.status);
+
+    //    // prints Permission denied
+    //    console.log(response.error);
+    //  });
+
+
+    this.api.showLoader();
+
+    this.api.completeBookingSchedule(booking_weekly_schedule_id, this.userId).pipe(finalize(() => {
+        this.api.hideLoader();
+    })).subscribe((res: any) => {
+      let response = JSON.parse(res)
+        if (response.success) {
+            this.api.showToast(response.message, 2000, 'bottom');
+            this.ngOnInit();
+        } else {
+            this.api.showToast('Booking Not Completed!', 2000, 'bottom');
+        }
+    }, (err) => {
+      this.api.autoLogout(err,this.bookingId);
+    });
+  }
+
+  public cancelBooking(booking_weekly_schedule_id) {
+
+    // let header:any = this.api.header
+    // header.headers['user_id'] = this.userId
+    // this.nativeHTTP.post(
+    //   'https://dev.petcloud.com.au/api/messages/onedaycancelbooking/'+booking_weekly_schedule_id ,             //URL
+    //   {},         //Data 
+    //    header.headers // Headers
+    //  )
+    //  .then(response => {
+    //     // prints 200
+    //     console.log(response.status);
+    //     try {
+    //       response.data = JSON.parse(response.data);
+    //       // prints test
+    //       console.log(response.data.message);
+    //     } catch(e) {
+    //       console.error('JSON parsing error');
+    //     }
+    //  })
+    //  .catch(response => {
+    //    // prints 403
+    //    console.log(response.status);
+
+    //    // prints Permission denied
+    //    console.log(response.error);
+    //  });
+
+    this.api.showLoader();
+
+    this.api.cancelBookingSchedule(booking_weekly_schedule_id, this.userId).pipe(finalize(() => {
+        this.api.hideLoader();
+    })).subscribe((res: any) => {
+        if (res.success) {
+            this.api.showToast('Booking Cancelled Successfully', 2000, 'bottom');
+            this.ngOnInit();
+        } else {
+            this.api.showToast('Booking Not Cancelled!', 2000, 'bottom');
+        }
+    }, (err) => {
+      this.api.autoLogout(err,this.bookingId);
+    });
+  }
+
 }

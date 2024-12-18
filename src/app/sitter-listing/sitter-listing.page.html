@@ -76,7 +76,7 @@
                 <div [routerLink]="['/pet-sitter-detail',sitter.id]" class="top">
                     <h4 class="name">{{sitter?.first_name}} {{sitter?.last_name | slice:0:1}} </h4>
                     <p class="amount">
-                        <span>{{sitter?.minPrice | currency : 'USD' : 'symbol' : '1.2-2'}}</span>/night
+                       <em>from</em> <span>{{sitter?.minPrice | currency : 'USD' : 'symbol' : '1.2-2'}}</span>
                     </p>
                 </div>
                 <div [routerLink]="['/pet-sitter-detail',sitter.id]" class="address">

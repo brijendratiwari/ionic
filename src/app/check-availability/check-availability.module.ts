@@ -6,6 +6,7 @@ import {IonicModule} from '@ionic/angular';
 import {CheckAvailabilityPage} from './check-availability.page';
 import { DatePicker } from '@ionic-native/date-picker/ngx';
 import { NonAvailabilityAdditionalBookingsComponent } from '../non-availability-additional-bookings/non-availability-additional-bookings.component';
+import { CalendarModule } from 'ion2-calendar';
 const routes: Routes = [
     {
         path: '',
@@ -20,7 +21,8 @@ imports: [
         FormsModule,
         ReactiveFormsModule,
         IonicModule,
-        RouterModule.forChild(routes)
+        RouterModule.forChild(routes),
+        CalendarModule
     ],
     declarations: [CheckAvailabilityPage,NonAvailabilityAdditionalBookingsComponent],
     entryComponents:[NonAvailabilityAdditionalBookingsComponent],

@@ -78,6 +78,8 @@ import { SocketIoModule, SocketIoConfig } from 'ngx-socket-io';
 import { RemoteChatScreenComponent } from './remote-chat-screen/remote-chat-screen.component';
 import { PreAcceptBookingComponent } from './components/pre-accept-booking/pre-accept-booking.component';
 import { StripeBookingCheckoutComponent } from './stripe-booking-checkout/stripe-booking-checkout.component';
+import { HTTP } from "@ionic-native/http/ngx";
+
 
 import { Deeplinks } from '@ionic-native/deeplinks/ngx';
 const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
@@ -190,6 +192,7 @@ const config: SocketIoConfig = { url: environment.socketUrl, options: {} };
     CameraService,
     Clipboard,
     MediaCapture,
+    HTTP,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     { provide: FirestoreSettingsToken, useValue: {} },
   ],

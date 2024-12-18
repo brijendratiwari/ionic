@@ -1,8 +1,11 @@
 export const environment = {
   production: true,
   // apiBase: "https://api.petcloud.com.au/api/",
-  apiBase: "https://www.petcloud.com.au/api/",
-  socketUrl: "https://messages-live.petcloud.com.au",
+  // apiBase: "https://www.petcloud.com.au/api/",
+  // socketUrl: "https://messages-live.petcloud.com.au",
+  apiBase: "https://dev.petcloud.com.au/api/",
+  // apiBase: "https://qa.petcloud.com.au/api/",
+  socketUrl: "https://messages.petcloud.com.au",
   env: "prod",
   firebase:{
     apiKey: "AIzaSyDoElSXYrk9g17GgHrPxeryBr6VrKvcmFc",
